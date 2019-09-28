@@ -5,9 +5,6 @@
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
         <import type="com.mashup.friendlycoding.MainActivity"/>
         <variable
-            name="main"
-            type="MainActivity" />
-        <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
         <variable

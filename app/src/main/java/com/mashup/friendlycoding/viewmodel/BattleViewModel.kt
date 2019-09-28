@@ -14,17 +14,13 @@ import com.mashup.friendlycoding.adapter.HP
 import com.mashup.friendlycoding.repository.BattleRepository
 import com.mashup.friendlycoding.repository.CodeBlock
 import kotlin.collections.ArrayList
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.widget.RelativeLayout
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.widget.FrameLayout
 
 
-class BattleViewModel(application: Application) : AndroidViewModel(application) {
+class BattleViewModel() {
     private var mCodeBlock: MutableLiveData<ArrayList<CodeBlock>>? = null
     private var monsterHP : MutableLiveData<ArrayList<HP>>? = null
     private var mRepo = BattleRepository()
-    private val context = getApplication<Application>().applicationContext
 
     fun init() {
         if (mCodeBlock != null) {
@@ -46,9 +42,7 @@ class BattleViewModel(application: Application) : AndroidViewModel(application) 
 
     fun monsterAttack (attackType : Int) {
         if (attackType == 0) { // FIRE
-            //TODO : 파이어볼이 나가는 이미지를 생성 ... Layout 을 View로부터 받아야 하는데, 어떻게?
-            val fireball = ImageView(context)
-            fireball.setImageResource(R.drawable.attack_fire)
+            //TODO : 파이어볼이 나가는 이미지를 생성 ... Layout과 Context를 View로부터 받아야 하는데, 어떻게?
         }
 
         else if (attackType == 1) { // EARTH
