@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.main = this
         binding.lifecycleOwner = this
         binding.codeBlockVM = mCodeBlockViewModel
         binding.codeBlock = mCodeBlockViewModel.getBlockButton()

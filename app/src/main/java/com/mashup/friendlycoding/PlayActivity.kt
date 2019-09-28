@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_play.*
 import java.util.*
 
 class PlayActivity : AppCompatActivity() {
-    private var mBattleViewModel = BattleViewModel(this.application)
+    private var mBattleViewModel = BattleViewModel()
     private var mCodeBlockViewModel = CodeBlockViewModel()
     private lateinit var mAdapter: CodeBlockAdapter
 
