@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
         binding.lifecycleOwner = this
-        binding.testSiena = mSienaTestViewModel
+        binding.princessVM = mSienaTestViewModel
         mSienaTestViewModel.setPrincessImage(binding.ivPrinsecess)
 
 
