@@ -13,15 +13,12 @@ class PrincessViewModel : ViewModel() {
     val map = 10
 
     var handler = Handler();
-    fun move() {
-        for (i in move) {
+    fun move(i: Int) {
             when (i) {
                 0 -> go()
                 1 -> rotationLeft()
                 2 -> rotationRigjt()
             }
-
-        }
     }
 
     fun setPrincessImage(view: ImageView) {
@@ -38,7 +35,7 @@ class PrincessViewModel : ViewModel() {
             run {
                 changeXY()
             }
-        }, 1000);  // 2000은 2초를 의미합니다.
+        }, 2000) // 2000은 2초를 의미합니다.
 
     }
 
@@ -49,10 +46,13 @@ class PrincessViewModel : ViewModel() {
     }
 
     fun rotationRigjt() {
+        Thread.sleep(1000)
+
         unit += 1
     }
 
     fun changeXY() {
+
         val one = width / map
         unit %= 4
         when (unit) {
