@@ -34,6 +34,13 @@ class Run {
         return moveView
     }
 
+    fun clearBlock() {
+        moveView.value = -1
+        val block = mCodeBlock.value
+        mCodeBlock.value!!.clear()
+        mCodeBlock.postValue(block)
+    }
+
     fun run() {
         for (i in 0 until mCodeBlock.value!!.size) {
             when (mCodeBlock.value!![i].funcName) {
