@@ -30,13 +30,7 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
             .inflate(R.layout.code_block_list, viewGroup, false)
 
 
-//        binding = DataBindingUtil.inflate<CodeBlockListBinding>(
-//            view,
-//            R.layout.code_block_list,
-//            viewGroup,
-//            false
-//        )
-//        binding.codeBlockVM = mCodeBlockViewModel
+
         return Holder(view)
     }
 
@@ -51,7 +45,7 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
 
         Log.e("button", "누르기전")
         val listener = View.OnLongClickListener {
-
+            Log.e("button", "눌림")
             Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             CodeBlocks.removeAt(position)
             notifyItemRemoved(position)
@@ -75,8 +69,6 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
             //binding.executePendingBindings()
             view.func_name.text = codeBlock.funcName
             view.setOnLongClickListener(listener)
-
-
         }
     }
 

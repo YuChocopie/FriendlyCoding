@@ -35,7 +35,7 @@ class CodeBlockViewModel : ViewModel() {
         mRun.addNewBlock(codeBlock)
     }
 
-    fun deleteBlock(position : Int) {
+    fun deleteBlock(position: Int) {
         Log.e("삭제합니다", "$position")
         mRun.deleteBlock(position)
     }
