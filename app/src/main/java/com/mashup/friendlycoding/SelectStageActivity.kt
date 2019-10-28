@@ -8,7 +8,7 @@ import com.mashup.friendlycoding.databinding.ActivitySelectStageBinding
 import com.mashup.friendlycoding.viewmodel.BattleViewModel
 import com.mashup.friendlycoding.viewmodel.StageViewModel
 
-class SelectStageActivity : AppCompatActivity() {
+class SelectStageActivity : BaseActivity() {
 
     private var mStageViewModel = StageViewModel()
 

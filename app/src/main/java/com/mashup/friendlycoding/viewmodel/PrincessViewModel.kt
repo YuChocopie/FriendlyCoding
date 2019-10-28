@@ -1,20 +1,32 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.os.Handler
+import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 
 class PrincessViewModel : ViewModel() {
-    //0:go 1:left 2:right
-    val move = listOf<Int>(0, 2, 0, 1, 0)
+    val mapList = arrayOf(
+        arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
+        arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
+        arrayOf(1, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 0, 1, 1, 1, 0, 1, 1, 1, 1),
+        arrayOf(1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(1, 0, 0, 0, 0, 1, 1, 1, 1, 0),
+        arrayOf(1, 1, 1, 1, 0, 1, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 1, 0, 1, 0, 0),
+        arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
+    )
+
+    var nowX = 0
+    var nowY = 9
     private var princessImg: ImageView? = null
-    var princessX : Float = 0.0f
-    var princessY : Float = 0.0f
+    var direction = 1
+    var oneBlock = 0f
     var unit = 1
     var width = 0
-    val map = 10
+    val n = 10
 
-    var handler = Handler()
 
     fun move(i: Int) {
         when (i) {
@@ -27,59 +39,77 @@ class PrincessViewModel : ViewModel() {
 
     fun setPrincessImage(view: ImageView) {
         this.princessImg = view
-        this.princessX = princessImg!!.x
-        this.princessY = princessImg!!.y
     }
 
     fun setViewSize(width: Int) {
         this.width = width
+        oneBlock = (width / n + width % n).toFloat()
+        this.princessImg?.height ?: oneBlock.toInt()
+        clear()
     }
+
 
     fun go() {
-//        handler.postDelayed({
-//            run {
-//                changeXY()
-//            }
-//        }, 2000) // 2000은 2초를 의미합니다.
         changeXY()
-        //Thread.sleep(200)
+        check()
     }
 
+    fun check() {
+        Log.e("(nowX", "(nowX  $nowX,,,$nowY")
+        if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1) {
+            if (mapList[nowY][nowX] == 1)
+                clear()
+        } else {
+            clear()
+        }
+
+    }
     fun rotationLeft() {
-        unit -= 1
-        if (unit < 0)
-            unit += 4
+        direction -= 1
+        if (direction < 0)
+            direction += 4
     }
 
     fun rotationRight() {
-        //unit += 1
-        if (unit == 3)
-            unit = 0
+        if (direction == 3)
+            direction = 0
         else
-            unit++
+            direction++
     }
 
     fun changeXY() {
-        val one = width / map
-        unit %= 4
-        when (unit) {
+        val one = oneBlock
+        direction %= 4
+        when (direction) {
             //goint up
-            0 -> princessImg!!.y = (princessImg!!.y - one)
-
+            0 -> {
+                princessImg!!.y = (princessImg!!.y - one)
+                nowY--
+            }
             //going right
-            1 -> princessImg!!.x = (princessImg!!.x + one)
-
+            1 -> {
+                princessImg!!.x = (princessImg!!.x + one)
+                nowX++
+            }
             //going down
-            2 -> princessImg!!.y = (princessImg!!.y + one)
-
+            2 -> {
+                princessImg!!.y = (princessImg!!.y + one)
+                nowY++
+            }
             //going left
-            3 -> princessImg!!.x = (princessImg!!.x - one)
+            3 -> {
+                princessImg!!.x = (princessImg!!.x - one)
+                nowX--
+            }
         }
     }
 
     fun clear() {
         unit = 1
-        princessImg!!.x = princessX
-        princessImg!!.y = princessY
+        nowX = 0
+        nowY = 9
+        direction = 1
+        princessImg!!.x = oneBlock * nowX - oneBlock * 0.1f
+        princessImg!!.y = oneBlock * nowY - oneBlock * 0.23f
     }
 }

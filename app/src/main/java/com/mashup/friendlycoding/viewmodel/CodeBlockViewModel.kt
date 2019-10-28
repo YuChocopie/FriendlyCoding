@@ -39,6 +39,11 @@ class CodeBlockViewModel : ViewModel() {
         mRun.addNewBlock(codeBlock)
     }
 
+    fun deleteBlock(position: Int) {
+        Log.e("삭제합니다", "$position")
+        mRun.deleteBlock(position)
+    }
+
     //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
     fun run(view: View) {
         Log.e("Run", "실행")

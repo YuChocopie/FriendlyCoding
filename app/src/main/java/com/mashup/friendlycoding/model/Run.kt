@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.mashup.friendlycoding.repository.CodeBlock
 
 class Run {
-    var moveView = MutableLiveData<Int>()
-    var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
+    private var moveView = MutableLiveData<Int>()
+    private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
         return mCodeBlock
@@ -24,10 +24,9 @@ class Run {
         mCodeBlock.postValue(block)
     }
 
-    fun clearBlock() {
-        moveView.value = -1
+    fun deleteBlock(position : Int) {
         val block = mCodeBlock.value
-        mCodeBlock.value!!.clear()
+        mCodeBlock.value!!.removeAt(position)
         mCodeBlock.postValue(block)
     }
 
@@ -35,7 +34,14 @@ class Run {
         return moveView
     }
 
-    public inner class RunThead : Thread() {
+    fun clearBlock() {
+        moveView.value = -1
+        val block = mCodeBlock.value
+        mCodeBlock.value!!.clear()
+        mCodeBlock.postValue(block)
+    }
+
+    inner class RunThead : Thread() {
         override fun run() {
             try {
                 for (i in 0 until mCodeBlock.value!!.size) {
