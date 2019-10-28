@@ -3,23 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.mashup.friendlycoding.repository.CodeBlock" />
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-
         <import type="com.mashup.friendlycoding.MainActivity" />
-
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
 
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
-
         <variable
             name="princessVM"
             type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-
         <variable
             name="codeBlock"
             type="java.util.ArrayList&lt;CodeBlock&gt;" />
@@ -80,6 +74,7 @@
             tools:layout_editor_absoluteX="0dp" />
 
         <Button
+            android:id="@+id/run"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -88,6 +83,16 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/rc_code_block_list"
             app:layout_constraintTop_toTopOf="@+id/rc_code_block_list" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity = "end"
+            android:text="@string/clear"
+            android:textSize="20sp"
+            android:onClick="@{()->codeBlockVM.clearBlock()}"
+            app:layout_constraintEnd_toEndOf="@+id/rc_code_block_list"
+            app:layout_constraintTop_toBottomOf="@+id/run" />
 
         <LinearLayout
             android:id="@+id/ll1"

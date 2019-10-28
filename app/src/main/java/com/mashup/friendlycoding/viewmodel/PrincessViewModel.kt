@@ -23,12 +23,27 @@ class PrincessViewModel : ViewModel() {
     private var princessImg: ImageView? = null
     var direction = 1
     var oneBlock = 0f
+    var princessX : Float = 0.0f
+    var princessY : Float = 0.0f
+    var unit = 1
     var width = 0
     val n = 10
 
+    var handler = Handler()
+
+    fun move(i: Int) {
+        when (i) {
+            -1 -> clear()
+            0 -> go()
+            1 -> rotationLeft()
+            2 -> rotationRight()
+        }
+    }
 
     fun setPrincessImage(view: ImageView) {
         this.princessImg = view
+        this.princessX = princessImg!!.x
+        this.princessY = princessImg!!.y
     }
 
     fun setViewSize(width: Int) {
@@ -70,8 +85,6 @@ class PrincessViewModel : ViewModel() {
     }
 
     fun rotationRight() {
-        //Thread.sleep(1000)
-        //direction += 1
         if (direction == 3)
             direction = 0
         else
@@ -103,5 +116,11 @@ class PrincessViewModel : ViewModel() {
                 nowX--
             }
         }
+    }
+
+    fun clear() {
+        unit = 1
+        princessImg!!.x = princessX
+        princessImg!!.y = princessY
     }
 }

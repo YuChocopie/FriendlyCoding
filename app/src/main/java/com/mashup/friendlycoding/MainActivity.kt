@@ -39,41 +39,19 @@ class MainActivity : AppCompatActivity() {
         mRun.init()
 
         //recycler view connects
-        //input code block
-
-
-
-
-        //recycler view connects
-        //codeList=mRun.getCodeBlock().value!!
         mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
 
-        mRun.getCodeBlock().observe(this,
-            Observer<List<CodeBlock>> {
+        mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
                 Log.e("추가됨", " ")
                 mAdapter.notifyDataSetChanged()
             })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
-            when (t) {
-                0 -> {
-                    //Thread.sleep(1000)
-                    mPrincessViewModel.go()
-                }
-
-                1 -> {
-                    mPrincessViewModel.rotationLeft()
-                }
-
-                2 -> {
-                    //Thread.sleep(1000)
-                    mPrincessViewModel.rotationRight()
-                }
-            }
-        })
+                mPrincessViewModel.move(t)
+           })
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

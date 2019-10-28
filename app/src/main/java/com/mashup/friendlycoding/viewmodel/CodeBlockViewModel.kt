@@ -30,14 +30,13 @@ class CodeBlockViewModel : ViewModel() {
         return blockButton
     }
 
+    fun clearBlock() {
+        mRun.clearBlock()
+    }
+
     fun addNewBlock(codeBlock: CodeBlock) {
         Log.e("${codeBlock.funcName} ", "")
         mRun.addNewBlock(codeBlock)
-    }
-
-    fun deleteBlock(position : Int) {
-        Log.e("삭제합니다", "$position")
-        mRun.deleteBlock(position)
     }
 
     //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
