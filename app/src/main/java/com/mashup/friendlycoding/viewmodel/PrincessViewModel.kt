@@ -12,13 +12,13 @@ class PrincessViewModel : ViewModel() {
     var width = 0
     val map = 10
 
-    var handler = Handler();
+    var handler = Handler()
     fun move(i: Int) {
-            when (i) {
-                0 -> go()
-                1 -> rotationLeft()
-                2 -> rotationRigjt()
-            }
+        when (i) {
+            0 -> go()
+            1 -> rotationLeft()
+            2 -> rotationRight()
+        }
     }
 
     fun setPrincessImage(view: ImageView) {
@@ -29,14 +29,14 @@ class PrincessViewModel : ViewModel() {
         this.width = width
     }
 
-
     fun go() {
-        handler.postDelayed({
-            run {
-                changeXY()
-            }
-        }, 2000) // 2000은 2초를 의미합니다.
-
+//        handler.postDelayed({
+//            run {
+//                changeXY()
+//            }
+//        }, 2000) // 2000은 2초를 의미합니다.
+        changeXY()
+        //Thread.sleep(200)
     }
 
     fun rotationLeft() {
@@ -45,22 +45,31 @@ class PrincessViewModel : ViewModel() {
             unit += 4
     }
 
-    fun rotationRigjt() {
-        Thread.sleep(1000)
-
-        unit += 1
+    fun rotationRight() {
+        //Thread.sleep(1000)
+        //unit += 1
+        if (unit == 3)
+            unit = 0
+        else
+            unit++
     }
 
     fun changeXY() {
-
         val one = width / map
         unit %= 4
         when (unit) {
+            //goint up
             0 -> princessImg!!.y = (princessImg!!.y - one)
+
+            //going right
             1 -> princessImg!!.x = (princessImg!!.x + one)
+
+            //going down
             2 -> princessImg!!.y = (princessImg!!.y + one)
+
+            //going left
             3 -> princessImg!!.x = (princessImg!!.x - one)
         }
-        Thread.sleep(100)
+        //Thread.sleep(100)
     }
 }
