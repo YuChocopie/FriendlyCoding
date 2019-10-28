@@ -52,26 +52,27 @@ class MainActivity : AppCompatActivity() {
             Observer<List<CodeBlock>> { mAdapter.notifyDataSetChanged() })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
-            when (t) {
-                0 -> {
-                    Thread.sleep(1000)
-                    mPrincessViewModel.go()
-                }
-
-                1 -> {
-                    mPrincessViewModel.rotationLeft()
-                }
-                2 -> {
-                    Thread.sleep(1000)
-                    mPrincessViewModel.rotationRigjt()
-                }
-            }
+            //when (t) {
+//                0 -> {
+//                    mPrincessViewModel.go()
+//                    Thread.sleep(1000)
+//                }
+//
+//                1 -> {
+//                    mPrincessViewModel.rotationLeft()
+//                }
+//
+//                2 -> {
+//                    Thread.sleep(1000)
+//                    mPrincessViewModel.rotationRight()
+//                }
+                mPrincessViewModel.move(t)
+           //}
         })
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
-
     }
 }
