@@ -57,9 +57,6 @@ class MainActivity : AppCompatActivity() {
         rc_input_code.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         )
-
-
-        mRun.getCodeBlock().observe(this,Observer<List<CodeBlock>> {
         mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
                 Log.e("추가됨", " ")
                 mAdapter.notifyDataSetChanged()
@@ -68,8 +65,8 @@ class MainActivity : AppCompatActivity() {
         mRun.getMoving().observe(this, Observer<Int> { t ->
                 mPrincessViewModel.move(t)
            })
-    }
 
+    }
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
