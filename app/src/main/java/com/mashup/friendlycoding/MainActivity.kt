@@ -3,6 +3,7 @@ package com.mashup.friendlycoding
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,9 +16,11 @@ import com.mashup.friendlycoding.repository.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import android.os.Build
+import android.graphics.Color.WHITE
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
     lateinit var layoutMainView: View
     private val mCodeBlockViewModel = CodeBlockViewModel()
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
+
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
 

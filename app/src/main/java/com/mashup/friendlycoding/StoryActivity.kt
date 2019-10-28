@@ -8,7 +8,7 @@ import com.mashup.friendlycoding.databinding.ActivityStoryBinding
 import com.mashup.friendlycoding.viewmodel.StageViewModel
 import com.mashup.friendlycoding.viewmodel.StoryViewModel
 
-class StoryActivity : AppCompatActivity() {
+class StoryActivity : BaseActivity() {
     private var mStoryViewModel = StoryViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

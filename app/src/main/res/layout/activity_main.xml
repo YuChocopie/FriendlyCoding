@@ -50,7 +50,6 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:src="@{codeBlockVM.monsterImage}"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -103,56 +102,5 @@
             app:layout_constraintStart_toStartOf="parent">
 
         </androidx.recyclerview.widget.RecyclerView>
-<!--        <LinearLayout-->
-<!--            android:id="@+id/ll1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_weight="0.5"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-
-<!--            app:layout_constraintStart_toStartOf="parent">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/bt_move"-->
-<!--                style="?android:attr/buttonBarButtonStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> codeBlockVM.addNewBlock(codeBlock[0])}"-->
-<!--                android:text="@{codeBlock[0].funcName}"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/Black" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/bt_turnLeft"-->
-<!--                style="?android:attr/buttonBarButtonStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> codeBlockVM.addNewBlock(codeBlock[1])}"-->
-<!--                android:text="@{codeBlock[1].funcName}"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/Black" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/bt_turnRight"-->
-<!--                style="?android:attr/buttonBarButtonStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> codeBlockVM.addNewBlock(codeBlock[2])}"-->
-<!--                android:text="@{codeBlock[2].funcName}"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/Black" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/bt_pickAxe"-->
-<!--                style="?android:attr/buttonBarButtonStyle"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> codeBlockVM.addNewBlock(codeBlock[3])}"-->
-<!--                android:text="@{codeBlock[3].funcName}"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/Black" />-->
-
-<!--        </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

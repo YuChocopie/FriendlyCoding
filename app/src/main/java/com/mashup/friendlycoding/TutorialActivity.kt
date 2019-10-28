@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.mashup.friendlycoding.databinding.ActivityTutorialBinding
 import com.mashup.friendlycoding.viewmodel.TutorialViewModel
 
-class TutorialActivity : AppCompatActivity() {
+class TutorialActivity : BaseActivity() {
     private var mTutorialViewModel = TutorialViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

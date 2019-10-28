@@ -41,22 +41,39 @@ class Run {
         mCodeBlock.postValue(block)
     }
 
-    fun run() {
-        for (i in 0 until mCodeBlock.value!!.size) {
-            when (mCodeBlock.value!![i].funcName) {
-                "move();" -> {
-                    moveView.value = 0
-                    Log.e("갑니다", "0")
+    inner class RunThead : Thread() {
+        override fun run() {
+            try {
+                for (i in 0 until mCodeBlock.value!!.size) {
+                    when (mCodeBlock.value!![i].funcName) {
+                        "move();" -> {
+                            moveView.postValue(0)
+                            Log.e("갑니다", "0")
+                            sleep(1000)
+                        }
+                        "turnLeft();" -> {
+                            //    moveView.value = 1
+                            moveView.postValue(1)
+                            Log.e("갑니다", "1")
+                            sleep(1000)
+                        }
+                        "turnRight();" -> {
+                            //  moveView.value = 2
+                            moveView.postValue(2)
+                            Log.e("갑니다", "2")
+                            sleep(1000)
+                        }
+                    }
                 }
-                "turnLeft();" -> {
-                    moveView.value = 1
-                    Log.e("갑니다", "1")
-                }
-                "turnRight();" -> {
-                    moveView.value = 2
-                    Log.e("갑니다", "2")
-                }
+            } catch (e : IndexOutOfBoundsException) {
+                return
             }
+
         }
+    }
+
+    fun run() {
+        val run = RunThead()
+        run.start()
     }
 }
