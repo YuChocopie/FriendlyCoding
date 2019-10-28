@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private val mRun = mCodeBlockViewModel.getRunModel()
 
     lateinit var mAdapter: CodeBlockAdapter
-    var codeList = ArrayList<CodeBlock>()//////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
