@@ -12,12 +12,9 @@ import com.mashup.friendlycoding.repository.CodeBlock
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
     val princessImage: Int = R.drawable.princess
-    val gridImage: Int = R.drawable.grid
+    val gridImage: Int = R.drawable.grid2
 
-    private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
-    //private var mRepo = CodeBlocksRepository()
     private var mRun = Run()
-    private var mIsUpdating = MutableLiveData<Boolean>(false)
     private val blockButton = arrayListOf(
         CodeBlock("move();"),
         CodeBlock("turnLeft();"),
@@ -33,28 +30,19 @@ class CodeBlockViewModel : ViewModel() {
         return blockButton
     }
 
-    fun init() {
-        val codeBlock = ArrayList<CodeBlock>()
-        mCodeBlock.value = codeBlock
-    }
-
-    fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
-        return mCodeBlock
-    }
-
     fun addNewBlock(codeBlock: CodeBlock) {
-        mIsUpdating.value = true
         Log.e("${codeBlock.funcName} ", "")
-        val block: ArrayList<CodeBlock> = mCodeBlock.value!!
-        mCodeBlock.value!!.add(codeBlock)
-        mCodeBlock.postValue(block)
-        mIsUpdating.postValue(false)
+        mRun.addNewBlock(codeBlock)
+    }
+
+    fun deleteBlock(position : Int) {
+        Log.e("삭제합니다", "$position")
+        mRun.deleteBlock(position)
     }
 
     //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
     fun run(view: View) {
         Log.e("Run", "실행")
-        mRun.setCodeBlock(mCodeBlock.value!!)
         mRun.run()
     }
 }

@@ -16,54 +16,62 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-
     private var mPrincessViewModel = PrincessViewModel()
     lateinit var layoutMainView: View
     private val mCodeBlockViewModel = CodeBlockViewModel()
     private val mRun = mCodeBlockViewModel.getRunModel()
 
     lateinit var mAdapter: CodeBlockAdapter
-
+    var codeList = ArrayList<CodeBlock>()//////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
-        binding.lifecycleOwner = this
+
+        // bind Princess View Model
         binding.princessVM = mPrincessViewModel
         mPrincessViewModel.setPrincessImage(binding.ivPrinsecess)
-
 
         // bind Code Block View Model
         binding.codeBlockVM = mCodeBlockViewModel
         binding.codeBlock = mCodeBlockViewModel.getBlockButton()
-
-        mCodeBlockViewModel.init()
+        mRun.init()
 
         //recycler view connects
-        mAdapter = CodeBlockAdapter(this, mCodeBlockViewModel.getCodeBlock().value!!)
+        //input code block
+
+
+
+
+        //recycler view connects
+        //codeList=mRun.getCodeBlock().value!!
+        mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
 
-        mCodeBlockViewModel.getCodeBlock().observe(this,
-            Observer<List<CodeBlock>> { mAdapter.notifyDataSetChanged() })
+        mRun.getCodeBlock().observe(this,
+            Observer<List<CodeBlock>> {
+                Log.e("추가됨", " ")
+                mAdapter.notifyDataSetChanged()
+            })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
             when (t) {
                 0 -> {
-                    Thread.sleep(1000)
+                    //Thread.sleep(1000)
                     mPrincessViewModel.go()
                 }
 
                 1 -> {
                     mPrincessViewModel.rotationLeft()
                 }
+
                 2 -> {
-                    Thread.sleep(1000)
-                    mPrincessViewModel.rotationRigjt()
+                    //Thread.sleep(1000)
+                    mPrincessViewModel.rotationRight()
                 }
             }
         })
@@ -72,6 +80,5 @@ class MainActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
-
     }
 }

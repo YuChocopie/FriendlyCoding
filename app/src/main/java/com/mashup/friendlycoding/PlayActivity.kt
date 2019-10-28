@@ -30,8 +30,6 @@ class PlayActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.battleVM = mBattleViewModel
         binding.codeBlockVM = mCodeBlockViewModel
-
-        mCodeBlockViewModel.init()
         mBattleViewModel.init()
 
         //recycler view connects
