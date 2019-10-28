@@ -1,6 +1,6 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 
@@ -23,13 +23,10 @@ class PrincessViewModel : ViewModel() {
     private var princessImg: ImageView? = null
     var direction = 1
     var oneBlock = 0f
-    var princessX : Float = 0.0f
-    var princessY : Float = 0.0f
     var unit = 1
     var width = 0
     val n = 10
 
-    var handler = Handler()
 
     fun move(i: Int) {
         when (i) {
@@ -42,39 +39,28 @@ class PrincessViewModel : ViewModel() {
 
     fun setPrincessImage(view: ImageView) {
         this.princessImg = view
-        this.princessX = princessImg!!.x
-        this.princessY = princessImg!!.y
     }
 
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
         this.princessImg?.height ?: oneBlock.toInt()
-        setOnePoint()
-
-
+        clear()
     }
 
-    private fun setOnePoint() {
-        nowX = 0
-        nowY = 9
-        direction = 1
-        princessImg!!.x = oneBlock * nowX - oneBlock * 0.1f
-        princessImg!!.y = oneBlock * nowY - oneBlock * 0.23f
-    }
 
     fun go() {
-
         changeXY()
         check()
     }
 
-    @SuppressLint("LongLogTag")
     fun check() {
-        if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1 && mapList[nowY][nowX] == 1) {
-            setOnePoint()
+        Log.e("(nowX", "(nowX  $nowX,,,$nowY")
+        if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1) {
+            if (mapList[nowY][nowX] == 1)
+                clear()
         } else {
-            setOnePoint()
+            clear()
         }
 
     }
@@ -120,7 +106,10 @@ class PrincessViewModel : ViewModel() {
 
     fun clear() {
         unit = 1
-        princessImg!!.x = princessX
-        princessImg!!.y = princessY
+        nowX = 0
+        nowY = 9
+        direction = 1
+        princessImg!!.x = oneBlock * nowX - oneBlock * 0.1f
+        princessImg!!.y = oneBlock * nowY - oneBlock * 0.23f
     }
 }
