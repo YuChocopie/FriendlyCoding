@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.repository.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
-import kotlinx.android.synthetic.main.input_code_list.view.*
+import kotlinx.android.synthetic.main.item_input_code_list.view.*
 
 class InputCodeBlockAdapter(
     val mCodeBlockViewModel: CodeBlockViewModel,
@@ -19,7 +19,7 @@ class InputCodeBlockAdapter(
             ViewHolder {
         //보여줄 아이템 개수만큼 View를 생성
         val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.input_code_list, parent, false)
+            .inflate(R.layout.item_input_code_list, parent, false)
         return ViewHolder(inflatedView)
 
     }

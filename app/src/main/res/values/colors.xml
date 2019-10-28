@@ -7,4 +7,7 @@
     <color name="White">#fff</color>
     <color name="Red">#F00</color>
     <color name="Invisible">#00FFFFFF</color>
+    <color name="Gray">#ededed</color>
+    <color name="icon_color">#564B96</color>
+    <color name="ic_replay_red">#B15E5E</color>
 </resources>
