@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding.codeBlock = mCodeBlockViewModel.getBlockButton()
         mRun.init()
 
+        //recycler view connects
         mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
@@ -58,14 +59,13 @@ class MainActivity : AppCompatActivity() {
         )
 
 
-        mRun.getCodeBlock().observe(this,
-            Observer<List<CodeBlock>> {
+        mRun.getCodeBlock().observe(this,Observer<List<CodeBlock>> {
+        mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
                 Log.e("추가됨", " ")
                 mAdapter.notifyDataSetChanged()
             })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
-
                 mPrincessViewModel.move(t)
            })
     }

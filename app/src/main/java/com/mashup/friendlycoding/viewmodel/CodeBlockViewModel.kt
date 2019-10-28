@@ -30,6 +30,10 @@ class CodeBlockViewModel : ViewModel() {
         return blockButton
     }
 
+    fun clearBlock() {
+        mRun.clearBlock()
+    }
+
     fun addNewBlock(codeBlock: CodeBlock) {
         Log.e("${codeBlock.funcName} ", "")
         mRun.addNewBlock(codeBlock)

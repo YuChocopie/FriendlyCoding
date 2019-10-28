@@ -11,11 +11,9 @@
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
-
         <variable
             name="princessVM"
             type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-
         <variable
             name="codeBlock"
             type="java.util.ArrayList&lt;CodeBlock&gt;" />
@@ -26,17 +24,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@string/boss"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
@@ -45,8 +32,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title">
-
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -103,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity = "end"
-
             android:text="@string/clear"
             android:textSize="20sp"
+            android:onClick="@{()->codeBlockVM.clearBlock()}"
             app:layout_constraintEnd_toEndOf="@+id/rc_code_block_list"
             app:layout_constraintTop_toBottomOf="@+id/run" />
         <androidx.recyclerview.widget.RecyclerView
