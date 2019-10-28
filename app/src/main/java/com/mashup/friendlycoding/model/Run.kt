@@ -68,7 +68,6 @@ class Run {
             } catch (e : IndexOutOfBoundsException) {
                 return
             }
-
         }
     }
 
