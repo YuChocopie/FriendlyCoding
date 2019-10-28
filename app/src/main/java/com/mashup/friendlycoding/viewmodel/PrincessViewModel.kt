@@ -36,6 +36,7 @@ class PrincessViewModel : ViewModel() {
 //            }
 //        }, 2000) // 2000은 2초를 의미합니다.
         changeXY()
+        Thread.sleep(200)
         //Thread.sleep(200)
     }
 

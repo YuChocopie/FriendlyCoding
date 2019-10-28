@@ -3,4 +3,5 @@
     <string name="move">move();</string>
     <string name="run">실행</string>
     <string name="boss">보스를 물리쳐야 해요!</string>
+    <string name="clear">Clear</string>
 </resources>
