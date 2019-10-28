@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
                 Log.e("추가됨", " ")
                 mAdapter.notifyDataSetChanged()
+                if (mRun.getCodeBlock().value!!.size > 1) {
+                    rc_code_block_list.smoothScrollToPosition(mRun.getCodeBlock().value!!.size - 1)
+                }
             })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
