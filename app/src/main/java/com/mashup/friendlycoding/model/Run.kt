@@ -24,9 +24,9 @@ class Run {
         mCodeBlock.postValue(block)
     }
 
-    fun deleteBlock(position : Int) {
+    fun clearBlock() {
         val block = mCodeBlock.value
-        mCodeBlock.value!!.removeAt(position)
+        mCodeBlock.value!!.clear()
         mCodeBlock.postValue(block)
     }
 
