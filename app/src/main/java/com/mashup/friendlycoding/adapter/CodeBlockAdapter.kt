@@ -22,7 +22,7 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
         val view = LayoutInflater.from(mContext)
             .inflate(R.layout.item_code_block_list, viewGroup, false)
-
+//
         return Holder(view)
     }
 
