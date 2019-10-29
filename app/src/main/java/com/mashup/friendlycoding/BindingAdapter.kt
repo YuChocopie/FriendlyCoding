@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding
 
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -40,6 +41,11 @@ fun ImageView.moveObjects(maxHeight : Int) {
             })
         }
     }, 0, 500)
+}
+
+@BindingAdapter("imageDrawable")
+fun bindImageFromRes(view: ImageView, drawable: Drawable?) {
+    view.setImageDrawable(drawable)
 }
 
 fun ignoreBlanks(code: String): String {
