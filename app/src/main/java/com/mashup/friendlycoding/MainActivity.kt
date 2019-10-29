@@ -18,6 +18,13 @@ import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Build
 import android.graphics.Color.WHITE
+import androidx.recyclerview.widget.RecyclerView
+import android.view.MotionEvent
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 class MainActivity : BaseActivity() {
@@ -72,20 +79,54 @@ class MainActivity : BaseActivity() {
         })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
-            mPrincessViewModel.move(t)
+            if (t == -2) {
+                rc_code_block_list.smoothScrollToPosition(0)
+                Log.e("실행 중", "위로")
+                mAdapter.clickable = false
+                mInputdapter.clickable = false
+            }
+
+            else if (t == -3) {
+                Log.e("실행 끝", "위로")
+                mAdapter.clickable = true
+                mInputdapter.clickable = true
+            }
+            else
+                mPrincessViewModel.move(t)
         })
 
         mRun.getNowProcessing().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
+            if (t > 8)
+                rc_code_block_list.smoothScrollToPosition(mAdapter.itemCount - 1)
         })
 
         mRun.getNowTerminated().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(t))
+        })
+
+        mPrincessViewModel.isLost.observe(this, Observer<Boolean> {t ->
+            if (t) {
+                mCodeBlockViewModel.clearBlock()
+                mPrincessViewModel.clear()
+                mPrincessViewModel.isLost.value = false
+            }
         })
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
+    }
+
+    fun disableRecyclerView (rcView : RecyclerView, enable : Boolean) {
+        rcView.addOnItemTouchListener(object :
+            RecyclerView.SimpleOnItemTouchListener() {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                // true: consume touch event
+                // false: dispatch touch event
+                return !enable
+            }
+        })
     }
 }

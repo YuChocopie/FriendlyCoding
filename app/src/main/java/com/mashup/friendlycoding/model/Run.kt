@@ -54,6 +54,9 @@ class Run {
     inner class RunThead : Thread() {
         override fun run() {
             try {
+                moveView.postValue(-2)
+                sleep(500)
+
                 for (i in 0 until mCodeBlock.value!!.size) {
                     nowProcessing.postValue(i)
                     Log.e("실행 중 : ", "$i")
@@ -80,6 +83,7 @@ class Run {
 
                     nowTerminated.postValue(i)
                 }
+                moveView.postValue(-3)
             } catch (e : IndexOutOfBoundsException) {
                 return
             }

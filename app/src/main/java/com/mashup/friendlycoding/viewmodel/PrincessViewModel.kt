@@ -2,6 +2,7 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.widget.ImageView
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class PrincessViewModel : ViewModel() {
@@ -26,7 +27,7 @@ class PrincessViewModel : ViewModel() {
     var unit = 1
     var width = 0
     val n = 10
-
+    var isLost = MutableLiveData<Boolean>()
 
     fun move(i: Int) {
         when (i) {
@@ -45,9 +46,9 @@ class PrincessViewModel : ViewModel() {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
         this.princessImg?.height ?: oneBlock.toInt()
+        isLost.value = false
         clear()
     }
-
 
     fun go() {
         changeXY()
@@ -58,12 +59,12 @@ class PrincessViewModel : ViewModel() {
         Log.e("(nowX", "(nowX  $nowX,,,$nowY")
         if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1) {
             if (mapList[nowY][nowX] == 1)
-                clear()
+                isLost.value = true
         } else {
-            clear()
+            isLost.value = true
         }
-
     }
+
     fun rotationLeft() {
         direction -= 1
         if (direction < 0)
@@ -86,16 +87,19 @@ class PrincessViewModel : ViewModel() {
                 princessImg!!.y = (princessImg!!.y - one)
                 nowY--
             }
+
             //going right
             1 -> {
                 princessImg!!.x = (princessImg!!.x + one)
                 nowX++
             }
+
             //going down
             2 -> {
                 princessImg!!.y = (princessImg!!.y + one)
                 nowY++
             }
+
             //going left
             3 -> {
                 princessImg!!.x = (princessImg!!.x - one)

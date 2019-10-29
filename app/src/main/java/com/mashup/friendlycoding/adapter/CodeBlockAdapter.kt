@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.item_code_block_list.view.*
 class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     private val mCodeBlockViewModel = CodeBlockViewModel()
+    var clickable = true
     lateinit var binding: ItemCodeBlockListBinding
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
@@ -33,14 +34,15 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
         val item = CodeBlocks[position]
         //길게 눌렀을 때
-
         Log.e("button", "누르기전")
         val listener = View.OnLongClickListener {
-            Log.e("button", "눌림")
-            Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-            CodeBlocks.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, CodeBlocks.size)
+            if (clickable) {
+                Log.e("button", "눌림")
+                Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                CodeBlocks.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, CodeBlocks.size)
+            }
             true
         }
         Log.e("button", "누르고")
