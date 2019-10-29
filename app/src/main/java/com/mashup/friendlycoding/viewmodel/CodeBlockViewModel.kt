@@ -11,6 +11,7 @@ import com.mashup.friendlycoding.repository.CodeBlock
 
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
+    val sunnyImage: Int = R.drawable.ic_sunny
     val princessImage: Int = R.drawable.princess
     val gridImage: Int = R.drawable.grid2
 
