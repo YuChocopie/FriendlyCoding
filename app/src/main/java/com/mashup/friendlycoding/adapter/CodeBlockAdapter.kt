@@ -13,17 +13,14 @@ import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
-class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBlock>) :
+class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     private val mCodeBlockViewModel = CodeBlockViewModel()
     lateinit var binding: ItemCodeBlockListBinding
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
         val view = LayoutInflater.from(mContext)
             .inflate(R.layout.item_code_block_list, viewGroup, false)
-
-
 
         return Holder(view)
     }
@@ -53,7 +50,6 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
         }
         Log.e("button", "적용")
     }
-
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //val func_name = itemView.findViewById<TextView>(R.id.func_name)
