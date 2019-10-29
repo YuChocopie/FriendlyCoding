@@ -1,9 +1,12 @@
 package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
+import android.view.View.VISIBLE
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
 
 class PrincessViewModel : ViewModel() {
     val mapList = arrayOf(
@@ -22,10 +25,12 @@ class PrincessViewModel : ViewModel() {
     var nowX = 0
     var nowY = 9
     private var princessImg: ImageView? = null
+    private var win: TextView? = null
     var direction = 1
     var oneBlock = 0f
     var unit = 1
     var width = 0
+    var sale = true
     val n = 10
     var isLost = MutableLiveData<Boolean>()
 
@@ -38,8 +43,9 @@ class PrincessViewModel : ViewModel() {
         }
     }
 
-    fun setPrincessImage(view: ImageView) {
+    fun setPrincessImage(view: ImageView, win: TextView) {
         this.princessImg = view
+        this.win = win
     }
 
     fun setViewSize(width: Int) {
@@ -58,10 +64,13 @@ class PrincessViewModel : ViewModel() {
     fun check() {
         Log.e("(nowX", "(nowX  $nowX,,,$nowY")
         if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1) {
-            if (mapList[nowY][nowX] == 1)
+            if (mapList[nowY][nowX] == 1) {
                 isLost.value = true
+            } else if (nowY == 9 && nowX == 9) {
+                win!!.visibility = VISIBLE
+            }
         } else {
-            isLost.value = true
+            isLost.value = false
         }
     }
 

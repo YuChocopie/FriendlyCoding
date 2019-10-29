@@ -47,7 +47,7 @@ class MainActivity : BaseActivity() {
 
         // bind Princess View Model
         binding.princessVM = mPrincessViewModel
-        mPrincessViewModel.setPrincessImage(binding.ivPrinsecess)
+        mPrincessViewModel.setPrincessImage(binding.ivPrinsecess,binding.tvWin)
 
         // bind Code Block View Model
         binding.codeBlockVM = mCodeBlockViewModel
