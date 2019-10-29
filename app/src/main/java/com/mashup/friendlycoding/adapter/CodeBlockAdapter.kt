@@ -1,36 +1,28 @@
 package com.mashup.friendlycoding.adapter
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.repository.CodeBlock
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.MutableLiveData
-import com.mashup.friendlycoding.databinding.ActivityMainBinding
-import com.mashup.friendlycoding.databinding.CodeBlockListBinding
+import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
-import kotlinx.android.synthetic.main.code_block_list.view.*
+import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
-class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBlock>) :
+class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     private val mCodeBlockViewModel = CodeBlockViewModel()
-    lateinit var binding: CodeBlockListBinding
-
+    var clickable = true
+    lateinit var binding: ItemCodeBlockListBinding
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
         val view = LayoutInflater.from(mContext)
-            .inflate(R.layout.code_block_list, viewGroup, false)
-
-
-
+            .inflate(R.layout.item_code_block_list, viewGroup, false)
+//
         return Holder(view)
     }
 
@@ -42,14 +34,15 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
 
         val item = CodeBlocks[position]
         //길게 눌렀을 때
-
         Log.e("button", "누르기전")
         val listener = View.OnLongClickListener {
-            Log.e("button", "눌림")
-            Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-            CodeBlocks.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, CodeBlocks.size)
+            if (clickable) {
+                Log.e("button", "눌림")
+                Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                CodeBlocks.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, CodeBlocks.size)
+            }
             true
         }
         Log.e("button", "누르고")
@@ -59,7 +52,6 @@ class CodeBlockAdapter(val mContext: Context, val CodeBlocks: ArrayList<CodeBloc
         }
         Log.e("button", "적용")
     }
-
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //val func_name = itemView.findViewById<TextView>(R.id.func_name)

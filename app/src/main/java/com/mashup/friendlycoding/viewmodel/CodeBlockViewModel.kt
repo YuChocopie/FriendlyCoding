@@ -44,6 +44,18 @@ class CodeBlockViewModel : ViewModel() {
         mRun.deleteBlock(position)
     }
 
+    fun coloringNowProcessing(view : View?) {
+        if (view == null)
+            return
+        view.setBackgroundResource(R.color.processing)
+    }
+
+    fun coloringNowTerminated(view : View?) {
+        if (view == null)
+            return
+        view.setBackgroundResource(R.color.Invisible)
+    }
+
     //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
     fun run(view: View) {
         Log.e("Run", "실행")

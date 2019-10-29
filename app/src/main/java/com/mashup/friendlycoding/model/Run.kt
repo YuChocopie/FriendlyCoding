@@ -7,6 +7,8 @@ import com.mashup.friendlycoding.repository.CodeBlock
 
 class Run {
     private var moveView = MutableLiveData<Int>()
+    private var nowProcessing = MutableLiveData<Int>()
+    private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
@@ -14,7 +16,7 @@ class Run {
     }
 
     fun init() {
-        mCodeBlock.value = ArrayList<CodeBlock>()
+        mCodeBlock.value = ArrayList()
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
@@ -34,6 +36,14 @@ class Run {
         return moveView
     }
 
+    fun getNowProcessing() : LiveData<Int> {
+        return nowProcessing
+    }
+
+    fun getNowTerminated() : LiveData<Int> {
+        return nowTerminated
+    }
+
     fun clearBlock() {
         moveView.value = -1
         val block = mCodeBlock.value
@@ -44,7 +54,13 @@ class Run {
     inner class RunThead : Thread() {
         override fun run() {
             try {
+                moveView.postValue(-2)
+                sleep(500)
+
                 for (i in 0 until mCodeBlock.value!!.size) {
+                    nowProcessing.postValue(i)
+                    Log.e("실행 중 : ", "$i")
+
                     when (mCodeBlock.value!![i].funcName) {
                         "move();" -> {
                             moveView.postValue(0)
@@ -64,11 +80,13 @@ class Run {
                             sleep(1000)
                         }
                     }
+
+                    nowTerminated.postValue(i)
                 }
+                moveView.postValue(-3)
             } catch (e : IndexOutOfBoundsException) {
                 return
             }
-
         }
     }
 

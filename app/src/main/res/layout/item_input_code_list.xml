@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
+
     <TextView
+        android:layout_margin="4dp"
+        android:background="@drawable/square_round5"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:padding="5dp"
         android:id="@+id/input_code_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:background="?android:attr/selectableItemBackground"
-        ></TextView>
+        android:textSize="16sp"
+         />
     <!--물결 속성 부여//android:background="?android:attr/selectableItemBackground"-->
 </LinearLayout>
