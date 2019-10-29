@@ -32,9 +32,9 @@ class MainActivity : BaseActivity() {
     lateinit var mAdapter: CodeBlockAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
-
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
 
@@ -54,26 +54,36 @@ class MainActivity : BaseActivity() {
         rc_code_block_list.adapter = mAdapter
 
         //input code adapter
-        var mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel,mAdapter)
+        val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mAdapter)
         rc_input_code.adapter = mInputdapter
         rc_input_code.layoutManager = layoutManager
+
         //경계선
         rc_input_code.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         )
+
         mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
-                Log.e("추가됨", " ")
-                mAdapter.notifyDataSetChanged()
-                if (mRun.getCodeBlock().value!!.size > 1) {
-                    rc_code_block_list.smoothScrollToPosition(mRun.getCodeBlock().value!!.size - 1)
-                }
-            })
+            Log.e("추가됨", " ")
+            mAdapter.notifyDataSetChanged()
+            if (mRun.getCodeBlock().value!!.size > 1) {
+                rc_code_block_list.smoothScrollToPosition(mRun.getCodeBlock().value!!.size - 1)
+            }
+        })
 
         mRun.getMoving().observe(this, Observer<Int> { t ->
-                mPrincessViewModel.move(t)
-           })
+            mPrincessViewModel.move(t)
+        })
 
+        mRun.getNowProcessing().observe(this, Observer<Int> { t ->
+            mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
+        })
+
+        mRun.getNowTerminated().observe(this, Observer<Int> { t ->
+            mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(t))
+        })
     }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
