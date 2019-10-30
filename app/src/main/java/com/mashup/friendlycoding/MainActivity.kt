@@ -105,13 +105,15 @@ class MainActivity : BaseActivity() {
 
         mPrincessViewModel.metBoss.observe(this, Observer<Boolean> { t ->
             // 보스를 만났거나 만나지 않았을 때 뷰의 전환
+            // 보스의 의미 : 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
+            // 함수가 정상적으로 처리되면 (보스를 이기면) 원래의 맵으로 돌아오고, 그 다음 코드를 실행해야 한다.
             boss.text = if (t) "OFF" else "보스"
             constraintLayout.isVisible = !t
             bossField.isVisible = t
             mCodeBlockViewModel.clearBlock()
             mPrincessViewModel.clear()
-            runCode.isVisible = !t
-            runBattle.isVisible = t
+            mAdapter.clickable = true
+            mInputdapter.clickable = true
 
             if (t) {
                 mBattleViewModel = BattleViewModel()

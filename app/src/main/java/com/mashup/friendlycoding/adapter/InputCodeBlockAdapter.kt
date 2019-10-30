@@ -25,7 +25,10 @@ class InputCodeBlockAdapter(val mCodeBlockViewModel: CodeBlockViewModel, val ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // TODO : getBlockButton이 아니라 stage 마다 달라지는 ArrayList<CodeBlock>으로 바꿀 것
+        // TODO : 또한 이 어댑터가 BattleViewModel에서도 재활용되므로, mCodeBlockViewModel로 한정되지 말아야 함
+
         val item = mCodeBlockViewModel.getBlockButton()[position]
+
         val listener = View.OnClickListener {
             if (clickable) {
                 mCodeBlockViewModel.addNewBlock(item)

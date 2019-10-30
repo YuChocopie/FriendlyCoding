@@ -5,11 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.friendlycoding.viewmodel.CodeBlock
 
-class Run {
+class RunModel {
     private var moveView = MutableLiveData<Int>()
     private var nowProcessing = MutableLiveData<Int>()
     private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
+    private val mPrincess = Princess(10)
+
+    lateinit var mMonster: Monster
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
         return mCodeBlock

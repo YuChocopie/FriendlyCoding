@@ -2,15 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlock" />
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-
         <import type="com.mashup.friendlycoding.MainActivity" />
-
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
 
         <variable
@@ -153,37 +148,18 @@
             app:layout_constraintTop_toBottomOf="@id/field"
             app:layout_constraintVertical_bias="0.0" />
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageButton
             android:id="@+id/run"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
+            android:background="@color/White"
+            android:onClick="@{(view)->codeBlockVM.run(view)}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_slideshow"
+            android:tint="@color/ic_replay_red"
             app:layout_constraintEnd_toEndOf="@+id/rc_code_block_list"
-            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list">
-
-            <ImageButton
-                android:id="@+id/runCode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/White"
-                android:onClick="@{(view)->codeBlockVM.run(view)}"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_slideshow"
-                android:tint="@color/ic_replay_red" />
-
-            <ImageButton
-                android:id="@+id/runBattle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/Black"
-                android:onClick="@{(view)->battleVM.runBattle(view)}"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_slideshow"
-                android:tint="@color/ic_replay_red" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list" />
 
         <ImageButton
             android:id="@+id/clear"
