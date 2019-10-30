@@ -98,7 +98,7 @@ class MainActivity : BaseActivity() {
         mRun.getNowProcessing().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
             if (t > 8)
-                rc_code_block_list.smoothScrollToPosition(mAdapter.itemCount - 1)
+                rc_code_block_list.smoothScrollToPosition(t+3)
         })
 
         mRun.getNowTerminated().observe(this, Observer<Int> { t ->
