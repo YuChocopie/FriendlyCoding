@@ -2,12 +2,11 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.model.Run
-import com.mashup.friendlycoding.repository.CodeBlock
+import com.mashup.friendlycoding.model.RunModel
+
+class CodeBlock (val funcName : String)
 
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
@@ -15,7 +14,7 @@ class CodeBlockViewModel : ViewModel() {
     val princessImage: Int = R.drawable.princess
     val gridImage: Int = R.drawable.grid2
 
-    private var mRun = Run()
+    private var mRun = RunModel()
     private val blockButton = arrayListOf(
         CodeBlock("move();"),
         CodeBlock("turnLeft();"),
@@ -23,7 +22,7 @@ class CodeBlockViewModel : ViewModel() {
         CodeBlock("pickAxe();")
     )
 
-    fun getRunModel(): Run {
+    fun getRunModel(): RunModel {
         return mRun
     }
 
@@ -59,7 +58,7 @@ class CodeBlockViewModel : ViewModel() {
 
     //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
     fun run(view: View) {
-        Log.e("Run", "실행")
+        Log.e("RunModel", "실행")
         mRun.run()
     }
 }

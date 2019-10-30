@@ -6,9 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
+import com.mashup.friendlycoding.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class PrincessViewModel : ViewModel() {
+    var metBoss = MutableLiveData<Boolean>()
+
     val mapList = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
         arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
@@ -24,6 +27,7 @@ class PrincessViewModel : ViewModel() {
 
     var nowX = 0
     var nowY = 9
+    
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     var direction = 1
@@ -46,6 +50,7 @@ class PrincessViewModel : ViewModel() {
     fun setPrincessImage(view: ImageView, win: TextView) {
         this.princessImg = view
         this.win = win
+        metBoss.value = false
     }
 
     fun setViewSize(width: Int) {
@@ -124,5 +129,11 @@ class PrincessViewModel : ViewModel() {
         direction = 1
         princessImg!!.x = oneBlock * nowX - oneBlock * 0.1f
         princessImg!!.y = oneBlock * nowY - oneBlock * 0.23f
+    }
+
+    fun runBoss() {
+        metBoss.value = !metBoss.value!!
+        //Thread.sleep(1000)
+        //metBoss.postValue(false)
     }
 }

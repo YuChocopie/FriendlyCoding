@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.repository.CodeBlock
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
+import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
@@ -22,7 +22,7 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
         val view = LayoutInflater.from(mContext)
             .inflate(R.layout.item_code_block_list, viewGroup, false)
-//
+
         return Holder(view)
     }
 
