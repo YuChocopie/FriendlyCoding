@@ -1,44 +1,19 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.app.Application
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.adapter.HP
-import com.mashup.friendlycoding.repository.BattleRepository
-import com.mashup.friendlycoding.repository.CodeBlock
+import com.mashup.friendlycoding.model.Run
+import com.mashup.friendlycoding.model.RunBattle
 import kotlin.collections.ArrayList
-import android.widget.FrameLayout
 
+class BattleViewModel {
+    private var mRunBattle = RunBattle()
+    private var mFireImg : ImageView? = null
 
-class BattleViewModel() {
-    private var mCodeBlock: MutableLiveData<ArrayList<CodeBlock>>? = null
-    private var monsterHP : MutableLiveData<ArrayList<HP>>? = null
-    private var mRepo = BattleRepository()
-
-    fun init() {
-        if (mCodeBlock != null) {
-            return
-        }
-
-        mRepo = BattleRepository().getInstance()
-        mCodeBlock = mRepo.getCodeBlock()
-        monsterHP = mRepo.getMonsterMaxHP()
-    }
-
-    fun getCodeBlock () : LiveData<ArrayList<CodeBlock>>? {
-        return mCodeBlock
-    }
-
-    fun getHP() : LiveData<ArrayList<HP>>? {
-        return monsterHP
-    }
 
     fun monsterAttack (attackType : Int) {
         if (attackType == 0) { // FIRE
@@ -50,8 +25,11 @@ class BattleViewModel() {
     }
 
     fun monsterAttacked () {
-        val currentHP : ArrayList<HP> = monsterHP!!.value!!
-        monsterHP!!.value!!.removeAt(currentHP.size-1)
-        monsterHP!!.postValue(currentHP)
+        mRunBattle.monsterAttacked()
+    }
+
+    fun runBattle(view : View) {
+        Log.e("배틀", "실행")
+        mRunBattle.runBattle()
     }
 }

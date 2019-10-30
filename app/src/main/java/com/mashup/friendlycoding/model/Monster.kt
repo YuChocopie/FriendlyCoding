@@ -7,7 +7,6 @@ import kotlin.random.Random
 class Monster (val maxHP : Int) {
     var currentHP = maxHP
 
-    // java와 kotlin엔 왜 #define 이 없는지??????
     private val FIRE = 0
     private val EARTH = 1
 

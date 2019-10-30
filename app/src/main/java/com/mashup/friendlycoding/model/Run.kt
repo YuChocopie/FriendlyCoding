@@ -3,7 +3,7 @@ package com.mashup.friendlycoding.model
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mashup.friendlycoding.repository.CodeBlock
+import com.mashup.friendlycoding.viewmodel.CodeBlock
 
 class Run {
     private var moveView = MutableLiveData<Int>()

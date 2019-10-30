@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.repository.CodeBlock
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
+import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 

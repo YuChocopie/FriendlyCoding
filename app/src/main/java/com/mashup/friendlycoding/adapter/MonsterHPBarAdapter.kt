@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.repository.CodeBlock
 
 class HP
 

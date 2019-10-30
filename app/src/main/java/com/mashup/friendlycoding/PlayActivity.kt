@@ -25,7 +25,6 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //TODO : 지훈 형의 MainActivity, CodeBlockViewModel 과 합침
         val binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
         binding.lifecycleOwner = this
         binding.battleVM = mBattleViewModel

@@ -2,12 +2,11 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.Run
-import com.mashup.friendlycoding.repository.CodeBlock
+
+class CodeBlock (val funcName : String)
 
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
