@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">FriendlyCoding</string>
+
     <string name="move">move();</string>
+    <string name="turnLeft">move();</string>
+    <string name="turnRight">move();</string>
+    <string name="pickAxe">move();</string>
+
     <string name="run">실행</string>
     <string name="boss">보스를 물리쳐야 해요!</string>
     <string name="clear">Clear</string>

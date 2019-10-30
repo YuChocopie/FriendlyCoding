@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.viewmodel
 
+import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -15,11 +16,14 @@ class CodeBlockViewModel : ViewModel() {
     val gridImage: Int = R.drawable.grid2
 
     private var mRun = Run()
+
+
     private val blockButton = arrayListOf(
-        CodeBlock("move();"),
-        CodeBlock("turnLeft();"),
-        CodeBlock("turnRight();"),
-        CodeBlock("pickAxe();")
+
+        CodeBlock("move"),
+        CodeBlock("turnLeft"),
+        CodeBlock("turnRight"),
+        CodeBlock("pickAxe")
     )
 
     fun getRunModel(): Run {
