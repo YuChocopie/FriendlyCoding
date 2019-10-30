@@ -20,6 +20,7 @@ class RunModel {
 
     fun init() {
         mCodeBlock.value = ArrayList()
+
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
