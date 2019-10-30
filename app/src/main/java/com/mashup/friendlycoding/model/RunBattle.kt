@@ -9,7 +9,6 @@ class RunBattle {
     private val princess = Princess(10)
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
 
-
     fun runBattle () {
     }
 

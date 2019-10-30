@@ -2,24 +2,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlock" />
+
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
+
         <import type="com.mashup.friendlycoding.MainActivity" />
+
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-        <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel"/>
+
+        <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
 
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
+
         <variable
             name="princessVM"
             type="PrincessViewModel" />
+
         <variable
             name="codeBlock"
             type="java.util.ArrayList&lt;CodeBlock&gt;" />
+
         <variable
             name="battleVM"
-            type="BattleViewModel"/>
+            type="BattleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,107 +42,105 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- 일반 코드 실행 부분 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ededed"
-            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ededed">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@{codeBlockVM.gridImage}"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@{codeBlockVM.gridImage}"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:src="@{codeBlockVM.monsterImage}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="@{codeBlockVM.monsterImage}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@{codeBlockVM.sunnyImage}"
-                android:tint="#F0E368"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-            <ImageView
-                android:id="@+id/ivPrinsecess"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="136dp"
-                android:layout_marginTop="80dp"
-                android:src="@{codeBlockVM.princessImage}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@{codeBlockVM.sunnyImage}"
+                    android:tint="#F0E368"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/tvWin"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#BC000000"
-                android:gravity="center"
-                android:text="WIN!!!!!"
-                android:textColor="@color/White"
-                android:textSize="60sp"
-                android:textStyle="bold"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/ivPrinsecess"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="136dp"
+                    android:layout_marginTop="80dp"
+                    android:src="@{codeBlockVM.princessImage}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvWin"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#BC000000"
+                    android:gravity="center"
+                    android:text="WIN!!!!!"
+                    android:textColor="@color/White"
+                    android:textSize="60sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 보스 코드 실행 부분 -->
             <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bossField"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/hp_bar"
+                android:id="@+id/bossField"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_margin="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="horizontal" />
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/monster"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="30dp"
-                android:animation="@{(10000)}"
-                android:src="@{codeBlockVM.monsterImage}" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hp_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/princess"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="30dp"
-                android:animation="@{(500)}"
-                android:src="@{codeBlockVM.princessImage}" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/monster"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="30dp"
+                    android:animation="@{(10000)}"
+                    android:src="@{codeBlockVM.monsterImage}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/princess"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="30dp"
+                    android:animation="@{(500)}"
+                    android:src="@{codeBlockVM.princessImage}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -154,30 +160,27 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             app:layout_constraintEnd_toEndOf="@+id/rc_code_block_list"
-            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"
-            >
+            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list">
 
-        <ImageButton
-            android:id="@+id/runCode"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/White"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_slideshow"
-            android:tint="@color/ic_replay_red"
-            android:onClick="@{(view)->codeBlockVM.run(view)}"
-            />
+            <ImageButton
+                android:id="@+id/runCode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/White"
+                android:onClick="@{(view)->codeBlockVM.run(view)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_slideshow"
+                android:tint="@color/ic_replay_red" />
 
-        <ImageButton
-            android:id="@+id/runBattle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/Black"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_slideshow"
-            android:tint="@color/ic_replay_red"
-            android:onClick="@{(view)->battleVM.runBattle(view)}"
-            />
+            <ImageButton
+                android:id="@+id/runBattle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/Black"
+                android:onClick="@{(view)->battleVM.runBattle(view)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_slideshow"
+                android:tint="@color/ic_replay_red" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -186,10 +189,10 @@
             android:id="@+id/clear"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/White"
-            android:scaleType="centerCrop"
             android:layout_marginTop="10dp"
+            android:background="@color/White"
             android:onClick="@{()->codeBlockVM.clearBlock()}"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_replay"
             android:tint="@color/icon_color"
             app:layout_constraintEnd_toEndOf="@+id/run"
@@ -199,11 +202,11 @@
             android:id="@+id/boss"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:layout_constraintEnd_toEndOf="@+id/clear"
-            app:layout_constraintTop_toBottomOf="@+id/clear"
             android:layout_marginTop="10dp"
             android:onClick="@{()->princessVM.runBoss()}"
-            android:text="@string/runBoss"/>
+            android:text="@string/runBoss"
+            app:layout_constraintEnd_toEndOf="@+id/clear"
+            app:layout_constraintTop_toBottomOf="@+id/clear" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_input_code"
