@@ -10,6 +10,10 @@
         <variable
             name="codeBlockAdapter"
             type="com.mashup.friendlycoding.adapter.CodeBlockAdapter" />
+        <variable
+            name="runM"
+            type="com.mashup.friendlycoding.model.RunModel" />
+
     </data>
 
     <LinearLayout
@@ -19,12 +23,21 @@
 
         <TextView
             android:id="@+id/func_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="20sp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{(view)->codeBlockVM.run(view)}"
             />
+        <EditText
+            android:id="@+id/et_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            >
+
+        </EditText>
+
     </LinearLayout>
 </layout>
