@@ -6,20 +6,27 @@ import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
 
-class CodeBlock (val funcName : String)
+class CodeBlock(val funcName: String, var count: Int = 1) {
+    fun setCountBlock(cnt: Int) {
+        count = cnt
+    }
+}
 
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
     val sunnyImage: Int = R.drawable.ic_sunny
     val princessImage: Int = R.drawable.princess
     val gridImage: Int = R.drawable.grid2
+    //var count: Int = 1//count 받아오기
+
 
     private var mRun = RunModel()
     private val blockButton = arrayListOf(
-        CodeBlock("move();"),
-        CodeBlock("turnLeft();"),
-        CodeBlock("turnRight();"),
-        CodeBlock("pickAxe();")
+        CodeBlock("move"),
+        CodeBlock("turnLeft"),
+        CodeBlock("turnRight"),
+        CodeBlock("pickAxe")
+
     )
 
     fun getRunModel(): RunModel {
@@ -30,6 +37,7 @@ class CodeBlockViewModel : ViewModel() {
         return blockButton
     }
 
+
     fun clearBlock() {
         mRun.clearBlock()
     }
@@ -39,18 +47,19 @@ class CodeBlockViewModel : ViewModel() {
         mRun.addNewBlock(codeBlock)
     }
 
+
     fun deleteBlock(position: Int) {
         Log.e("삭제합니다", "$position")
         mRun.deleteBlock(position)
     }
 
-    fun coloringNowProcessing(view : View?) {
+    fun coloringNowProcessing(view: View?) {
         if (view == null)
             return
         view.setBackgroundResource(R.color.processing)
     }
 
-    fun coloringNowTerminated(view : View?) {
+    fun coloringNowTerminated(view: View?) {
         if (view == null)
             return
         view.setBackgroundResource(R.color.Invisible)
