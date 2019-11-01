@@ -1,4 +1,4 @@
-package com.mashup.friendlycoding
+package com.mashup.friendlycoding.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityMainBinding
@@ -31,7 +31,9 @@ class MainActivity : BaseActivity() {
     lateinit var mAdapter: CodeBlockAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
+            R.layout.activity_main
+        )
         binding.lifecycleOwner = this
 
         layoutMainView = this.findViewById(R.id.constraintLayout)

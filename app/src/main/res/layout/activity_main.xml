@@ -4,7 +4,7 @@
     <data>
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlock" />
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-        <import type="com.mashup.friendlycoding.MainActivity" />
+        <import type="com.mashup.friendlycoding.activity.MainActivity" />
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
         <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
 

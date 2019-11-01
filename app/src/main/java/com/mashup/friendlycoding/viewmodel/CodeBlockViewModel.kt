@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
 
-class CodeBlock(val funcName: String, var count: Int = 1) {
+class CodeBlock(var funcName: String, var count: Int = 0) {
     fun setCountBlock(cnt: Int) {
         count = cnt
     }
@@ -19,14 +19,14 @@ class CodeBlockViewModel : ViewModel() {
     val gridImage: Int = R.drawable.grid2
     //var count: Int = 1//count 받아오기
 
-
     private var mRun = RunModel()
     private val blockButton = arrayListOf(
         CodeBlock("move"),
         CodeBlock("turnLeft"),
         CodeBlock("turnRight"),
-        CodeBlock("pickAxe")
-
+        CodeBlock("pickAxe"),
+        CodeBlock("for"),
+        CodeBlock("}")
     )
 
     fun getRunModel(): RunModel {
@@ -37,7 +37,6 @@ class CodeBlockViewModel : ViewModel() {
         return blockButton
     }
 
-
     fun clearBlock() {
         mRun.clearBlock()
     }
@@ -46,7 +45,6 @@ class CodeBlockViewModel : ViewModel() {
         Log.e("${codeBlock.funcName} ", "")
         mRun.addNewBlock(codeBlock)
     }
-
 
     fun deleteBlock(position: Int) {
         Log.e("삭제합니다", "$position")
