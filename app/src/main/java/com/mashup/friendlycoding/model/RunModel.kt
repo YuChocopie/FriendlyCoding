@@ -19,14 +19,12 @@ class RunModel {
     private var nowProcessing = MutableLiveData<Int>()
     private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
-    private var isIterating = false
     private var jumpTo = 0
     private val mPrincess = Princess(10)
     private var IR = 0  // 명령어 실행할 주소
     private var iterator = 0 // 반복자
     private var blockLevel = 0 // 들여쓰기 정도.
-    private var bracket = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    private var iteratorStack = Stack<Int>()  // 반복자 스택
+    private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
     lateinit var mMonster: Monster
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
@@ -42,8 +40,8 @@ class RunModel {
         val adding = CodeBlock(codeBlock.funcName, address = IR)
 
         if (adding.funcName == "}") {
-            adding.address = bracket.peek()  // jump할 주소
-            bracket.pop()
+            adding.address = bracketStack.peek()  // jump할 주소
+            bracketStack.pop()
             Log.e("block level", "decreases")
             blockLevel--
         }
@@ -57,7 +55,7 @@ class RunModel {
         adding.funcName = tap + adding.funcName
 
         if (ignoreBlanks(adding.funcName) == "for") {
-            bracket.push(IR)
+            bracketStack.push(IR)
             blockLevel++
             Log.e("블록하강 ", "qqqqqqq")
         }
@@ -76,6 +74,7 @@ class RunModel {
 
     fun deleteBlock(position: Int) {
         val block = mCodeBlock.value
+        IR--
         mCodeBlock.value!!.removeAt(position)
         mCodeBlock.postValue(block)
     }
@@ -96,14 +95,14 @@ class RunModel {
         iterator = 0
         jumpTo = 0
         blockLevel = 0
-        moveView.value = -1
+        moveView.postValue(-1)
         val block = mCodeBlock.value
         mCodeBlock.value!!.clear()
         mCodeBlock.postValue(block)
     }
 
     fun run() {
-        if (!bracket.empty()) {
+        if (!bracketStack.empty()) {
             Log.e("compile", "error")
             clearBlock()
             return
@@ -151,7 +150,6 @@ class RunModel {
                         }
 
                         "for" -> {
-                            isIterating = true
                             //iteratorStack.push(mCodeBlock.value!![IR].argument)
                             iterator = mCodeBlock.value!![IR].argument
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
@@ -192,6 +190,7 @@ class RunModel {
             } catch (e: IndexOutOfBoundsException) {
                 return
             }
+            //clearBlock() 클리어 실패 시
         }
     }
 }
