@@ -16,8 +16,8 @@ import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 import android.text.Editable
 import android.R.id.edit
-
-
+import com.mashup.friendlycoding.ignoreBlanks
+import java.lang.Exception
 
 class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
@@ -65,13 +65,14 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
             //binding.executePendingBindings()
             view.func_name.text = codeBlock.funcName
 
-            if (codeBlock.funcName == "for") {
+            if (ignoreBlanks(codeBlock.funcName) == "for") {
                 val edit = itemView.findViewById<EditText>(R.id.argument)
                 edit.isVisible = true
                 edit.isCursorVisible = false
+
                 edit.addTextChangedListener(object : TextWatcher {
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        codeBlock.count = s.toString().toInt()
+                        try{codeBlock.argument = s.toString().toInt()}catch (e : Exception) {}
                     }
 
                     override fun afterTextChanged(arg0: Editable) {
@@ -84,7 +85,7 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
                 itemView.findViewById<TextView>(R.id.colon).text = " {"
             }
 
-            if (codeBlock.funcName == "}") {
+            if (ignoreBlanks(codeBlock.funcName) == "}") {
                 val end = itemView.findViewById<LinearLayout>(R.id.end)
                 end.isVisible = false
             }

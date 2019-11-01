@@ -154,7 +154,7 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:background="@color/White"
-            android:onClick="@{(view)->codeBlockVM.run(view)}"
+            android:onClick="@{()->codeBlockVM.run()}"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_slideshow"
             android:tint="@color/ic_replay_red"

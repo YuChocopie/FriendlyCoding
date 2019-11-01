@@ -32,8 +32,6 @@ class InputCodeBlockAdapter(val mCodeBlockViewModel: CodeBlockViewModel, val ada
         val listener = View.OnClickListener {
             if (clickable) {
                 mCodeBlockViewModel.addNewBlock(item)
-                adapter.notifyDataSetChanged()
-                Log.e("click", "Clicked")
             }
         }
 
