@@ -1,17 +1,23 @@
 package com.mashup.friendlycoding.adapter
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
+import android.text.Editable
+import android.R.id.edit
+
+
 
 class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
@@ -33,11 +39,10 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
         //생성된 View에 보여줄 데이터를 설정
 
         val item = CodeBlocks[position]
+
         //길게 눌렀을 때
-        Log.e("button", "누르기전")
         val listener = View.OnLongClickListener {
             if (clickable) {
-                Log.e("button", "눌림")
                 Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                 CodeBlocks.removeAt(position)
                 notifyItemRemoved(position)
@@ -45,12 +50,11 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
             }
             true
         }
-        Log.e("button", "누르고")
+
         holder.apply {
             bind(listener, item)
             itemView.tag = item
         }
-        Log.e("button", "적용")
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,6 +64,31 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
         fun bind(listener: View.OnLongClickListener, codeBlock: CodeBlock) {
             //binding.executePendingBindings()
             view.func_name.text = codeBlock.funcName
+
+            if (codeBlock.funcName == "for") {
+                val edit = itemView.findViewById<EditText>(R.id.argument)
+                edit.isVisible = true
+                edit.isCursorVisible = false
+                edit.addTextChangedListener(object : TextWatcher {
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        codeBlock.count = s.toString().toInt()
+                    }
+
+                    override fun afterTextChanged(arg0: Editable) {
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                    }
+                })
+
+                itemView.findViewById<TextView>(R.id.colon).text = " {"
+            }
+
+            if (codeBlock.funcName == "}") {
+                val end = itemView.findViewById<LinearLayout>(R.id.end)
+                end.isVisible = false
+            }
+
             view.setOnLongClickListener(listener)
         }
     }
