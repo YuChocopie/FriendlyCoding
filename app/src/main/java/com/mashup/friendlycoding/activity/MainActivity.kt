@@ -49,6 +49,7 @@ class MainActivity : BaseActivity() {
 
         mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
         mMapSettingViewModel.offeredBlock = stageInfo.offeredBlock
+        mMapSettingViewModel.bossBattleBlock = stageInfo.bossBattleBlock
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
         mRun.mMonster = stageInfo.monster
@@ -60,11 +61,11 @@ class MainActivity : BaseActivity() {
         // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!, mCodeBlockViewModel)
         val linearLayoutManager = LinearLayoutManager(this)
-        rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
+        rc_code_block_list.layoutManager = linearLayoutManager
 
         // 입력될 블록의 리사이클러 뷰 연결
-        val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel)
+        val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rc_input_code.adapter = mInputdapter
         rc_input_code.layoutManager = layoutManager
@@ -151,7 +152,7 @@ class MainActivity : BaseActivity() {
             mInputdapter.clickable = true
 
             if (t) {
-                mBattleViewModel = BattleViewModel()
+                mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
                 binding.battleVM = mBattleViewModel
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
             }
@@ -166,7 +167,7 @@ class MainActivity : BaseActivity() {
         // 보스전 테스트를 위한 임시 코드
         mPrincessViewModel.metBoss.observe(this, Observer<Boolean> { t ->
             // 보스를 만났거나 만나지 않았을 때 뷰의 전환
-            // 보스의 의미 : 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
+            // 보스의 의미는 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
             // 함수가 정상적으로 처리되면 (보스를 이기면) 원래의 맵으로 돌아오고, 그 다음 코드를 실행해야 한다.
             boss.text = if (t) "OFF" else "보스"
             constraintLayout.isVisible = !t
@@ -177,15 +178,31 @@ class MainActivity : BaseActivity() {
             mInputdapter.clickable = true
 
             if (t) {
-                mBattleViewModel = BattleViewModel()
+                mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
+                mBattleViewModel!!.mRun = mRun
+                mBattleViewModel!!.init()
                 binding.battleVM = mBattleViewModel
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
+                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.bossBattleBlock!!)
+                rc_input_code.layoutManager = layoutManager
             }
 
             else {
                 mBattleViewModel = null
                 binding.battleVM = null
                 Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
+                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
+                rc_input_code.layoutManager = layoutManager
+            }
+        })
+
+        mRun.monsterAttacked.observe(this, Observer<Boolean> { t ->
+            if (t) {
+                Log.e("공주의 공격!", "현재 HP : ${mRun.mMonster!!.hp}")
+                mBattleViewModel!!.monsterAttacked()
+            }
+            else {
+                princess_attack_motion.isVisible = false
             }
         })
     }

@@ -14,6 +14,7 @@ class RunModel {
     private var nowProcessing = MutableLiveData<Int>()
     private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
+    var monsterAttacked = MutableLiveData<Boolean>()
     var isLost = MutableLiveData<Boolean>()
     var isWin = MutableLiveData<Boolean>()
     var metBoss = MutableLiveData<Boolean>()
@@ -213,6 +214,9 @@ class RunModel {
                 while (IR < mCodeBlock.value!!.size) {
                     nowProcessing.postValue(IR)
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
+                    if (mMonster!!.hp <= 0) {
+                        metBoss.postValue(false)
+                    }
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         "move" -> {
@@ -247,18 +251,26 @@ class RunModel {
 
                         "}" -> {
                             jumpTo = mCodeBlock.value!![IR].address
-                            Log.e(
-                                "jumpTo",
-                                "$jumpTo, iterate ${mCodeBlock.value!![jumpTo].argument}"
-                            )
-                            if (mCodeBlock.value!![jumpTo].argument-- > 1) { // 이 조건 때문에 if에서 열린 블록이라도 반복을 진행하진 않을 것
-                                IR = jumpTo
-                                Log.e(
-                                    "한 번 더!",
-                                    "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}"
-                                )
-                            } else {
-                                mCodeBlock.value!![jumpTo].argument = iterator // 원상 복구
+                            Log.e("jumpTo", "$jumpTo, iterate ${mCodeBlock.value!![jumpTo].argument}")
+
+                            if (mCodeBlock.value!![jumpTo].type == 2) {
+                                when (mCodeBlock.value!![jumpTo].argument) {
+                                    7 -> {
+                                        if (mMonster!!.hp > 0) {
+                                            IR = jumpTo
+                                            Log.e("아직 안 죽었네", "$jumpTo 로!")
+                                        }
+                                    }
+                                }
+                            }
+
+                            else if (mCodeBlock.value!![jumpTo].type == 1) {
+                                if (mCodeBlock.value!![jumpTo].argument-- > 1) { // 이 조건 때문에 if에서 열린 블록이라도 반복을 진행하진 않을 것
+                                    IR = jumpTo
+                                    Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
+                                } else {
+                                    mCodeBlock.value!![jumpTo].argument = iterator // 원상 복구
+                                }
                             }
                         }
 
@@ -289,6 +301,13 @@ class RunModel {
                         "pickAxe" -> {
                             mPrincess.isPickAxe = true
                             sleep(1000)
+                        }
+
+                        "attack" -> {
+                            mMonster!!.hp -= mPrincess.DPS
+                            monsterAttacked.postValue(true)
+                            sleep(1000)
+                            monsterAttacked.postValue(false)
                         }
                     }
 

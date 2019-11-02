@@ -5,10 +5,11 @@ import com.mashup.friendlycoding.viewmodel.CodeBlock
 
 class Drawables(val backgroundImg : Int = R.drawable.grid2, var princessImg : Int = R.drawable.princess) {
     var monsterImg = 0
+    var bossBattleBackgroundImg = 0
     var itemImg : ArrayList<Array<Int>>? = null
 }
 
-class Stage(val map : Map, val princess : Princess, val monster: Monster, val offeredBlock : ArrayList<CodeBlock>, val bossBattleBlock : ArrayList<CodeBlock>? = null)
+class Stage(val map : Map, val princess : Princess, val monster: Monster?, val offeredBlock : ArrayList<CodeBlock>, val bossBattleBlock : ArrayList<CodeBlock>? = null)
 
 class MapSettingModel {
     fun getStageInfo (stageNum : Int) : Stage {
@@ -31,6 +32,7 @@ class MapSettingModel {
                 // 드로어블
                 val mDrawables = Drawables()
                 mDrawables.monsterImg = R.drawable.monster
+                mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 mDrawables.itemImg = arrayListOf(arrayOf(3, R.drawable.pick_axe, 2, 9))    // 순서대로 아이템의 종류, 아이템의 이미지, 아이템의 y, x
 
                 // 기본 제공되는 블록
@@ -48,13 +50,15 @@ class MapSettingModel {
                 val bossBattleBlock = arrayListOf(
                     CodeBlock("if", type = 2),
                     CodeBlock("while", type = 2),
-                    CodeBlock("isKilled", type = 3),
-                    CodeBlock("detectedFire", type = 3),
-                    CodeBlock("detectedWater", type = 3),
-                    CodeBlock("}", type = 4)
+                    CodeBlock("for", type = 1),
+                    CodeBlock("}", type = 4),
+                    CodeBlock("attack"),
+                    CodeBlock("isAlive", type = 3, argument = 7),
+                    CodeBlock("detectedFire", type = 3, argument = 5),
+                    CodeBlock("detectedWater", type = 3, argument = 6)
                     )
 
-                return Stage(Map(mapList, mDrawables), Princess(), Monster(0, 0, 0), offeredBlock)
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(100, 0, 0), offeredBlock, bossBattleBlock)
             }
 
             1-> {
@@ -85,9 +89,9 @@ class MapSettingModel {
                     CodeBlock("move"),
                     CodeBlock("turnLeft"),
                     CodeBlock("turnRight"),
-                    CodeBlock("if"),
-                    CodeBlock("for"),
-                    CodeBlock("isMushroom"),
+                    CodeBlock("if", type = 2),
+                    CodeBlock("for", type = 1),
+                    CodeBlock("isMushroom", type = 3, argument = 4),
                     CodeBlock("eatMushRoom"),
                     CodeBlock("}")
                 )
@@ -98,7 +102,7 @@ class MapSettingModel {
             // 2 -> {} ...
 
             else -> {
-                return Stage(Map(), Princess(), Monster(0, 0, 0), arrayListOf())
+                return Stage(Map(), Princess(), null, arrayListOf())
             }
         }
     }
