@@ -8,4 +8,5 @@ class MapSettingViewModel :ViewModel(){
     val mMapSettingModel = MapSettingModel()
     var mDrawables = Drawables()
     var offeredBlock = arrayListOf<CodeBlock>()
+    var bossBattleBlock : ArrayList<CodeBlock>? = null
 }

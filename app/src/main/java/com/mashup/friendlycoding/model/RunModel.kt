@@ -117,9 +117,11 @@ class RunModel {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-        val adding = CodeBlock(codeBlock.funcName, address = IR)
-
+        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
         if (adding.funcName == "}") {
+            if (bracketStack.empty()) {
+                return
+            }
             if (bracketStack.peek() < 10000)
                 adding.address = bracketStack.peek()  // jump할 주소
             else { // if인 경우엔 jump가 아니라 if의 주소를 바꿔야 한다
@@ -205,7 +207,7 @@ class RunModel {
 
                 while (IR < mCodeBlock.value!!.size) {
                     nowProcessing.postValue(IR)
-                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName)
+                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         "move" -> {

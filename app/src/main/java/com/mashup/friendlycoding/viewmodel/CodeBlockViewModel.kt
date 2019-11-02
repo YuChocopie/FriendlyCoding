@@ -6,31 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
 
-class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int = 0)
+class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int = 0, var type : Int = 0)
 
 class CodeBlockViewModel : ViewModel() {
-    val monsterImage: Int = R.drawable.monster
     val sunnyImage: Int = R.drawable.ic_sunny
-    val princessImage: Int = R.drawable.princess
-    val gridImage: Int = R.drawable.grid2
-    //var count: Int = 1//count 받아오기
 
     private var mRun = RunModel()
-    private val blockButton = arrayListOf(
-        CodeBlock("move"),
-        CodeBlock("turnLeft"),
-        CodeBlock("turnRight"),
-        CodeBlock("pick_axe"),
-        CodeBlock("for"),
-        CodeBlock("}")
-    )
 
     fun getRunModel(): RunModel {
         return mRun
-    }
-
-    fun getBlockButton(): ArrayList<CodeBlock> {
-        return blockButton
     }
 
     fun clearBlock() {
@@ -38,6 +22,7 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
+
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
     }

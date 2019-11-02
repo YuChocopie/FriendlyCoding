@@ -118,7 +118,7 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="30dp"
                     android:animation="@{(10000)}"
-                    android:src="@{codeBlockVM.monsterImage}"
+                    android:src="@{mapSettingVM.mDrawables.monsterImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -128,7 +128,7 @@
                     android:layout_height="100dp"
                     android:layout_marginBottom="30dp"
                     android:animation="@{(500)}"
-                    android:src="@{codeBlockVM.princessImage}"
+                    android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

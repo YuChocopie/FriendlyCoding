@@ -8,7 +8,7 @@ class Drawables(val backgroundImg : Int = R.drawable.grid2, var princessImg : In
     var itemImg : ArrayList<Array<Int>>? = null
 }
 
-class Stage(val map : Map, val princess : Princess, val monster: Monster, val block : ArrayList<CodeBlock>)
+class Stage(val map : Map, val princess : Princess, val monster: Monster, val offeredBlock : ArrayList<CodeBlock>, val bossBattleBlock : ArrayList<CodeBlock>? = null)
 
 class MapSettingModel {
     fun getStageInfo (stageNum : Int) : Stage {
@@ -34,18 +34,27 @@ class MapSettingModel {
                 mDrawables.itemImg = arrayListOf(arrayOf(3, R.drawable.pick_axe, 2, 9))    // 순서대로 아이템의 종류, 아이템의 이미지, 아이템의 y, x
 
                 // 기본 제공되는 블록
-                val blockButton = arrayListOf(
+                val offeredBlock = arrayListOf(
                     CodeBlock("move"),
                     CodeBlock("turnLeft"),
                     CodeBlock("turnRight"),
                     CodeBlock("pickAxe"),
-                    CodeBlock("for"),
-                    CodeBlock("}"),
-                    CodeBlock("if"),
-                    CodeBlock("isPickAxe")
+                    CodeBlock("for", type = 1),
+                    CodeBlock("}", type = 4),
+                    CodeBlock("if", type = 2),
+                    CodeBlock("isPickAxe", type = 3)
                 )
 
-                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), blockButton)
+                val bossBattleBlock = arrayListOf(
+                    CodeBlock("if", type = 2),
+                    CodeBlock("while", type = 2),
+                    CodeBlock("isKilled", type = 3),
+                    CodeBlock("detectedFire", type = 3),
+                    CodeBlock("detectedWater", type = 3),
+                    CodeBlock("}", type = 4)
+                    )
+
+                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), offeredBlock)
             }
 
             1-> {

@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
 
         mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
-        mMapSettingViewModel.offeredBlock = stageInfo.block
+        mMapSettingViewModel.offeredBlock = stageInfo.offeredBlock
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
         mRun.mMonster = stageInfo.monster
