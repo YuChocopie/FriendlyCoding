@@ -10,11 +10,15 @@ class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int 
 
 class CodeBlockViewModel : ViewModel() {
     val sunnyImage: Int = R.drawable.ic_sunny
-
-    private var mRun = RunModel()
+    var mRun = RunModel()
 
     fun getRunModel(): RunModel {
         return mRun
+    }
+
+    fun insertCodeBlockModeOff() {
+        Log.e("해제", "${mRun.blockInsertMode}")
+        mRun.blockInsertMode = false
     }
 
     fun clearBlock() {
@@ -22,14 +26,8 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
-    }
-
-    fun deleteBlock(position: Int) {
-        Log.e("삭제합니다", "$position")
-        mRun.deleteBlock(position)
     }
 
     fun coloringNowProcessing(view: View?) {

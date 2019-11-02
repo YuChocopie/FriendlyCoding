@@ -1,25 +1,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
     <data>
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
-
         <variable
             name="position"
             type="Integer" />
-
         <variable
             name="codeBlockAdapter"
             type="com.mashup.friendlycoding.adapter.CodeBlockAdapter" />
-
         <variable
             name="runM"
             type="com.mashup.friendlycoding.model.RunModel" />
-
     </data>
 
     <LinearLayout

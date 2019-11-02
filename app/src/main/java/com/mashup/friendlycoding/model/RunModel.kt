@@ -28,6 +28,7 @@ class RunModel {
     private var iterator = 0 // 반복자
     private var blockLevel = 0 // 들여쓰기 정도.
     private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
+    var blockInsertMode = false
 
     // 공주의 좌표
     private var x = 0
@@ -138,7 +139,7 @@ class RunModel {
             tap += "    "
         }
 
-        Log.e("${adding.funcName} ", "추가됨")
+        Log.e("${adding.funcName} ", "추가됨 $blockInsertMode")
         adding.funcName = tap + adding.funcName
 
         if (ignoreBlanks(adding.funcName) == "for" || ignoreBlanks(adding.funcName) == "while" || ignoreBlanks(

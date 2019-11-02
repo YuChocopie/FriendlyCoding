@@ -55,22 +55,22 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
         val type2BlockListener = View.OnClickListener {
             if (clickable && item.type == 2) {
-                //Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요.", Toast.LENGTH_SHORT).show()
-                //conditionInputMode = true
+                mCodeBlockViewModel.mRun.blockInsertMode = true
+                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.blockInsertMode}", Toast.LENGTH_SHORT).show()
             }
         }
-
-        val type2BlockFocused = View.OnFocusChangeListener { view, b ->
-            if (b) {
-                Toast.makeText(view.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                Toast.makeText(view.context, "${item.funcName}에서 나갔습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
+//
+//        val type2BlockFocused = View.OnFocusChangeListener { view, b ->
+//            if (b) {
+//                Toast.makeText(view.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요.", Toast.LENGTH_SHORT).show()
+//            }
+//            else {
+//                Toast.makeText(view.context, "${item.funcName}에서 나갔습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
         holder.apply {
-            bind(listener, type2BlockFocused, item)
+            bind(listener, type2BlockListener, item)
             itemView.tag = item
         }
     }
@@ -79,7 +79,7 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
         //val func_name = itemView.findViewById<TextView>(R.id.func_name)
         private var view: View = itemView
 
-        fun bind(listener: View.OnLongClickListener, type2BlockFocused : View.OnFocusChangeListener, codeBlock: CodeBlock) {
+        fun bind(listener: View.OnLongClickListener, type2BlockListener : View.OnClickListener, codeBlock: CodeBlock) {
             //binding.executePendingBindings()
             view.func_name.text = codeBlock.funcName
 
@@ -114,12 +114,12 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
             }
 
             view.setOnLongClickListener(listener)
-
-            if (codeBlock.type == 2) {
-                view.isFocusable = true
-                view.isFocusableInTouchMode = true
-                view.onFocusChangeListener = type2BlockFocused
-            }
+            view.setOnClickListener(type2BlockListener)
+//            if (codeBlock.type == 2) {
+//                view.isFocusable = true
+//                view.isFocusableInTouchMode = true
+//                view.onFocusChangeListener = type2BlockListener
+//            }
         }
     }
 
