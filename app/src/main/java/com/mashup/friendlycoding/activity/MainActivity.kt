@@ -47,15 +47,29 @@ class MainActivity : BaseActivity() {
         binding.mapSettingVM = mMapSettingViewModel
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
 
-        mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
         mMapSettingViewModel.offeredBlock = stageInfo.offeredBlock
         mMapSettingViewModel.bossBattleBlock = stageInfo.bossBattleBlock
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
         mRun.mMonster = stageInfo.monster
 
-//        for (i in 0 until stageInfo.map.drawables!!.itemImg.size) {
+        // 맵의 뷰를 활성화 하고 드로어블 적용
+//        for (i in 0 .. 9) {
+//            for (j in 0 .. 9) {
+//                when (mRun.mMap.mapList!![i][j]) {
+//                    1 -> {
 //
+//                    }
+//
+//                    2 -> {
+//
+//                    }
+//
+//                    3 -> {
+//
+//                    }
+//                }
+//            }
 //        }
 
         // 코드 블록의 리사이클러 뷰 연결
