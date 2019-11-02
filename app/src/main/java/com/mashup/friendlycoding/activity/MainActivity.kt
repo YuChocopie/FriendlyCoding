@@ -55,13 +55,17 @@ class MainActivity : BaseActivity() {
         mRun.mPrincess = stageInfo.princess
         mRun.mMonster = stageInfo.monster
 
-        //connect recycler view of code blocks
+//        for (i in 0 until stageInfo.map.drawables!!.itemImg.size) {
+//
+//        }
+
+        // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
 
-        //connect recycler view of input codes
+        // 입력될 블록의 리사이클러 뷰 연결
         val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel)
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rc_input_code.adapter = mInputdapter
@@ -155,9 +159,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-
-
-        // 테스트를 위한 임시 코드
+        // 보스전 테스트를 위한 임시 코드
         mPrincessViewModel.metBoss.observe(this, Observer<Boolean> { t ->
             // 보스를 만났거나 만나지 않았을 때 뷰의 전환
             // 보스의 의미 : 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
@@ -182,9 +184,6 @@ class MainActivity : BaseActivity() {
                 Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
             }
         })
-
-
-
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

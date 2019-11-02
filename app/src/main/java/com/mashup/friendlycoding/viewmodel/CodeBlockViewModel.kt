@@ -20,7 +20,7 @@ class CodeBlockViewModel : ViewModel() {
         CodeBlock("move"),
         CodeBlock("turnLeft"),
         CodeBlock("turnRight"),
-        CodeBlock("pickAxe"),
+        CodeBlock("pick_axe"),
         CodeBlock("for"),
         CodeBlock("}")
     )

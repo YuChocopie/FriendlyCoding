@@ -104,7 +104,7 @@ class RunModel {
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
                 isLost.postValue(true)
-            } else if (y == 9 && x == 9) {
+            } else if (mMap.mapList!![y][x] == 2) {
                 isWin.postValue(true)
             } else if (y == mMonster?.y && x == mMonster?.x) {
                 metBoss.postValue(true)
