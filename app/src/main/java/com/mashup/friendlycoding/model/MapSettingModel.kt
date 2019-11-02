@@ -1,14 +1,18 @@
 package com.mashup.friendlycoding.model
 
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.viewmodel.CodeBlock
 
-class Drawables(val backgroundImg : Int = 0) {
+class Drawables(var backgroundImg : Int = 0) {
     var monsterImg = 0
     var itemImg = 0
+    var princessImg = 0
 }
 
+class Stage(val map : Map, val princess : Princess, val monster: Monster, val block : ArrayList<CodeBlock>)
+
 class MapSettingModel {
-    fun getMapInfo (stageNum : Int) : Map {
+    fun getStageInfo (stageNum : Int) : Stage {
         when (stageNum) {
             0 -> {
                 // 맵 정보
@@ -28,8 +32,19 @@ class MapSettingModel {
                 // 드로어블
                 val mDrawables = Drawables(R.drawable.grid2)
                 mDrawables.monsterImg = R.drawable.monster
+                mDrawables.princessImg = R.drawable.princess
 
-                return Map(mapList, mDrawables)
+                // 기본 제공되는 블록
+                val blockButton = arrayListOf(
+                    CodeBlock("move"),
+                    CodeBlock("turnLeft"),
+                    CodeBlock("turnRight"),
+                    CodeBlock("pickAxe"),
+                    CodeBlock("for"),
+                    CodeBlock("}")
+                )
+
+                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), blockButton)
             }
 
             // 1 -> {} ...
@@ -55,7 +70,16 @@ class MapSettingModel {
                 val mDrawables = Drawables(R.drawable.grid2)
                 mDrawables.itemImg = R.drawable.monster
 
-                return Map(mapList, mDrawables)
+                val blockButton = arrayListOf(
+                    CodeBlock("move"),
+                    CodeBlock("turnLeft"),
+                    CodeBlock("turnRight"),
+                    CodeBlock("pickAxe"),
+                    CodeBlock("for"),
+                    CodeBlock("}")
+                )
+
+                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), blockButton)
             }
         }
     }
