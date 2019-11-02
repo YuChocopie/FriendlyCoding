@@ -6,11 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
 
-class CodeBlock(var funcName: String, var count: Int = 0) {
-    fun setCountBlock(cnt: Int) {
-        count = cnt
-    }
-}
+class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int = 0)
 
 class CodeBlockViewModel : ViewModel() {
     val monsterImage: Int = R.drawable.monster
@@ -42,7 +38,7 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-        Log.e("${codeBlock.funcName} ", "")
+        Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
     }
 
@@ -63,8 +59,7 @@ class CodeBlockViewModel : ViewModel() {
         view.setBackgroundResource(R.color.Invisible)
     }
 
-    //TODO : 최종 CodeBlock 들을 실제 실행하는 함수
-    fun run(view: View) {
+    fun run() {
         Log.e("RunModel", "실행")
         mRun.run()
     }

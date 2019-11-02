@@ -33,8 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="@{(view)->codeBlockVM.run(view)}"
-            android:text="ssss"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -53,6 +51,8 @@
                 android:id="@+id/argument"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 android:background="@null"
                 android:hint="\?"
                 android:textCursorDrawable="@null"

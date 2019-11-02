@@ -9,36 +9,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ActivityMainBinding
+import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.viewmodel.CodeBlock
-
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RunModel {
     private var moveView = MutableLiveData<Int>()
     private var nowProcessing = MutableLiveData<Int>()
     private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
-    private var isIterating = false
     private var jumpTo = 0
     private val mPrincess = Princess(10)
-    private var index = 0
-    private var iterator = 0
-    private var blockLevel = 0
-
+    private var IR = 0  // 명령어 실행할 주소
+    private var iterator = 0 // 반복자
+    private var blockLevel = 0 // 들여쓰기 정도.
+    private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
     lateinit var mMonster: Monster
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
         return mCodeBlock
-    }
-
-    fun ignoreBlanks(code : String) : String {
-        var i = 0
-        var start = 0
-        while (code[i] == ' ') {
-            start++
-            i++
-        }
-
-        return code.substring(start)
     }
 
     fun init() {
@@ -47,23 +37,32 @@ class RunModel {
 
     fun addNewBlock(codeBlock: CodeBlock) {
 //        TODO : 공백 추가하기
-//        var tap : String = ""
-//        for (i in 0 until blockLevel) {
-//            tap += "    "
-//        }
-//
-//        codeBlock.funcName = tap + codeBlock.funcName
-//
-//        if (ignoreBlanks(codeBlock.funcName) == "for")
-//            blockLevel++
-//        else if (ignoreBlanks(codeBlock.funcName) == "}") {
-//            Log.e("block level", "decreases")
-//            blockLevel--
-//        }
+        val adding = CodeBlock(codeBlock.funcName, address = IR)
 
-        Log.e("${codeBlock.funcName} ", "")
+        if (adding.funcName == "}") {
+            adding.address = bracketStack.peek()  // jump할 주소
+            bracketStack.pop()
+            Log.e("block level", "decreases")
+            blockLevel--
+        }
+
+        var tap = ""
+        for (i in 0 until blockLevel) {
+            tap += "    "
+        }
+
+        Log.e("${adding.funcName} ", "xcxcxcxcx")
+        adding.funcName = tap + adding.funcName
+
+        if (ignoreBlanks(adding.funcName) == "for") {
+            bracketStack.push(IR)
+            blockLevel++
+            Log.e("블록하강 ", "qqqqqqq")
+        }
+
+        IR++
         val block = mCodeBlock.value
-        mCodeBlock.value!!.add(codeBlock)
+        block!!.add(adding)
         mCodeBlock.postValue(block)
     }
 //
@@ -75,6 +74,7 @@ class RunModel {
 
     fun deleteBlock(position: Int) {
         val block = mCodeBlock.value
+        IR--
         mCodeBlock.value!!.removeAt(position)
         mCodeBlock.postValue(block)
     }
@@ -92,16 +92,26 @@ class RunModel {
     }
 
     fun clearBlock() {
-        moveView.value = -1
+        iterator = 0
+        jumpTo = 0
+        blockLevel = 0
+        moveView.postValue(-1)
         val block = mCodeBlock.value
         mCodeBlock.value!!.clear()
         mCodeBlock.postValue(block)
     }
 
     fun run() {
+        if (!bracketStack.empty()) {
+            Log.e("compile", "error")
+            clearBlock()
+            return
+        }
+
         val run = RunThead()
+        IR = 0
         run.start()
-        index = 0
+        //clearBlock()
         iterator = 0
     }
 
@@ -112,13 +122,13 @@ class RunModel {
                 moveView.postValue(-2)
                 sleep(500)
 
-                while (index < mCodeBlock.value!!.size) {
-                    nowProcessing.postValue(index)
-                    Log.e("실행 중 : ", ignoreBlanks(mCodeBlock.value!![index].funcName))
+                while (IR < mCodeBlock.value!!.size) {
+                    nowProcessing.postValue(IR)
+                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName)
                     //updateBlock(i, cnt)
                     //mCodeBlock.value!![i].count
                     //Log.e("test",mCodeBlock.value!![i].funcName)
-                    when (ignoreBlanks(mCodeBlock.value!![index].funcName)) {
+                    when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         "move" -> {
                             moveView.postValue(0)
                             Log.e("갑니다", "0")
@@ -131,6 +141,7 @@ class RunModel {
                             Log.e("갑니다", "1")
                             sleep(1000)
                         }
+
                         "turnRight" -> {
                             //  moveView.value = 2
                             moveView.postValue(2)
@@ -139,28 +150,47 @@ class RunModel {
                         }
 
                         "for" -> {
-                            isIterating = true
-                            jumpTo = index
-                            iterator = mCodeBlock.value!![index].count
-                            Log.e("반복", "${mCodeBlock.value!![index].count}")
+                            //iteratorStack.push(mCodeBlock.value!![IR].argument)
+                            iterator = mCodeBlock.value!![IR].argument
+                            Log.e("반복", "${mCodeBlock.value!![IR].argument}")
                             sleep(1000)
                         }
 
                         "}" -> {
-                            if (iterator-- > 1) {
-                                index = jumpTo
-                                Log.e("한 번 더!", "$iterator")
+                            jumpTo = mCodeBlock.value!![IR].address
+                            if (mCodeBlock.value!![jumpTo].argument-- > 1) {
+                                IR = jumpTo
+                                Log.e(
+                                    "한 번 더!",
+                                    "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}   "
+                                )
+                            } else {
+                                mCodeBlock.value!![jumpTo].argument = iterator
                             }
+//
+//                            else {
+//                                if (!iteratorStack.empty()) {
+//                                    iteratorStack.pop()
+//
+//                                    if (!iteratorStack.empty()) {
+//                                        iterator = iteratorStack.peek()
+//                                    }
+//                                    else
+//                                        iterator = 0
+//                                }
+//                            }
+                            sleep(1000)
                         }
                     }
 
-                    nowTerminated.postValue(index)
-                    index++
+                    nowTerminated.postValue(IR)
+                    IR++  // PC
                 }
                 moveView.postValue(-3)
             } catch (e: IndexOutOfBoundsException) {
                 return
             }
+            //clearBlock() 클리어 실패 시
         }
     }
 }
