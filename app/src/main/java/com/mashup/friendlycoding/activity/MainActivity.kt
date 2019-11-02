@@ -20,15 +20,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
-    lateinit var layoutMainView: View
     private val mCodeBlockViewModel = CodeBlockViewModel()
-    private val mRun = mCodeBlockViewModel.getRunModel()
     private var mBattleViewModel : BattleViewModel? = null
+    private val mRun = mCodeBlockViewModel.getRunModel()
 
-    //수평으로 바꾸어주는 매니저
-    val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    private lateinit var layoutMainView: View
 
-    lateinit var mAdapter: CodeBlockAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
@@ -47,14 +44,15 @@ class MainActivity : BaseActivity() {
         binding.codeBlock = mCodeBlockViewModel.getBlockButton()
         mRun.init()
 
-        //recycler view connects
-        mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
+        //connect recycler view of code blocks
+        val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
 
-        //input code adapter
+        //connect recycler view of input codes
         val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mAdapter)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rc_input_code.adapter = mInputdapter
         rc_input_code.layoutManager = layoutManager
 
@@ -65,6 +63,7 @@ class MainActivity : BaseActivity() {
 
         bossField.isVisible = false
 
+        // 코드 블록의 추가
         mRun.getCodeBlock().observe(this, Observer<List<CodeBlock>> {
             Log.e("추가됨", " ")
             mAdapter.notifyDataSetChanged()
@@ -73,30 +72,37 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        // 코드 실행 - 객체의 움직임 - View Model 호출
         mRun.getMoving().observe(this, Observer<Int> { t ->
-            if (t == -2) {
-                rc_code_block_list.smoothScrollToPosition(0)
-                Log.e("실행 중", "위로")
-                mAdapter.clickable = false
-                mInputdapter.clickable = false
-            } else if (t == -3) {
-                Log.e("실행 끝", "위로")
-                mAdapter.clickable = true
-                mInputdapter.clickable = true
-            } else
-                mPrincessViewModel.move(t)
+            when (t) {
+                -2 -> {
+                    rc_code_block_list.smoothScrollToPosition(0)
+                    Log.e("실행 중", "위로")
+                    mAdapter.clickable = false
+                    mInputdapter.clickable = false
+                }
+                -3 -> {
+                    Log.e("실행 끝", "위로")
+                    mAdapter.clickable = true
+                    mInputdapter.clickable = true
+                }
+                else -> mPrincessViewModel.move(t)
+            }
         })
 
+        // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.getNowProcessing().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
             if (t > 8)
                 rc_code_block_list.smoothScrollToPosition(t + 3)
         })
 
+        // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
         mRun.getNowTerminated().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(t))
         })
 
+        // 공주가 패배할 시
         mPrincessViewModel.isLost.observe(this, Observer<Boolean> { t ->
             if (t) {
                 mCodeBlockViewModel.clearBlock()
@@ -105,6 +111,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        // 공주가 보스를 만남
         mPrincessViewModel.metBoss.observe(this, Observer<Boolean> { t ->
             // 보스를 만났거나 만나지 않았을 때 뷰의 전환
             // 보스의 의미 : 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
