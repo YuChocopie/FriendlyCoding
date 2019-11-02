@@ -40,7 +40,7 @@ class PrincessViewModel : ViewModel() {
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
-        this.princessImg?.height ?: oneBlock.toInt()
+        //this.princessImg?.height ?: oneBlock.toInt()
         clear()
     }
 

@@ -1,8 +1,10 @@
 package com.mashup.friendlycoding.activity
 
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -37,7 +39,7 @@ class MainActivity : BaseActivity() {
 
         // Princess View Model과 bind
         binding.princessVM = mPrincessViewModel
-        mPrincessViewModel.setPrincessImage(binding.ivPrinsecess, binding.tvWin)
+        mPrincessViewModel.setPrincessImage(binding.ivPrincess, binding.tvWin)
 
         // Code Block View Model과 bind
         binding.codeBlockVM = mCodeBlockViewModel
@@ -49,28 +51,19 @@ class MainActivity : BaseActivity() {
 
         mMapSettingViewModel.offeredBlock = stageInfo.offeredBlock
         mMapSettingViewModel.bossBattleBlock = stageInfo.bossBattleBlock
+        mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
         mRun.mMonster = stageInfo.monster
 
         // 맵의 뷰를 활성화 하고 드로어블 적용
-//        for (i in 0 .. 9) {
-//            for (j in 0 .. 9) {
-//                when (mRun.mMap.mapList!![i][j]) {
-//                    1 -> {
-//
-//                    }
-//
-//                    2 -> {
-//
-//                    }
-//
-//                    3 -> {
-//
-//                    }
-//                }
-//            }
-//        }
+        for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
+            val itemID = resources.getIdentifier("i"+ mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
+            Log.e("${mMapSettingViewModel.mDrawables.itemImg[i][0]}", "i" + mMapSettingViewModel.mDrawables.itemImg[i][1])
+            when (mMapSettingViewModel.mDrawables.itemImg[i][0]) {
+                3 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.pick_axe)
+            }
+        }
 
         // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!, mCodeBlockViewModel)
@@ -113,6 +106,13 @@ class MainActivity : BaseActivity() {
                     Log.e("실행 끝", "위로")
                     mAdapter.clickable = true
                     mInputdapter.clickable = true
+                    mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.getNowProcessing().value!!))
+                }
+
+                6 -> {
+                    val changingViewID = resources.getIdentifier(mRun.changingView, "id", packageName)
+                    Log.e("ID", mRun.changingView!!)
+                    findViewById<ImageView>(changingViewID).isVisible = false
                 }
                 else -> mPrincessViewModel.move(t)
             }

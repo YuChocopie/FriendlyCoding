@@ -20,6 +20,7 @@ class RunModel {
     var metBoss = MutableLiveData<Boolean>()
     var insertBlockAt = MutableLiveData<Int>()
     var insertedBlock : String? = null
+    var changingView : String? = null
 
     private var jumpTo = 0
     private var IR = 0  // 명령어 실행할 주소
@@ -299,7 +300,15 @@ class RunModel {
                         }
 
                         "pickAxe" -> {
-                            mPrincess.isPickAxe = true
+                            if (mMap.mapList!![y][x] == 3) {
+                                mPrincess.isPickAxe = true
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }
+                            else {
+                                moveView.postValue(-3)
+                                return
+                            }
                             sleep(1000)
                         }
 

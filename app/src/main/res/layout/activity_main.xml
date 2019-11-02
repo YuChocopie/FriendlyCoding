@@ -73,11 +73,25 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <ImageView
-                    android:id="@+id/ivPrinsecess"
+                    android:id="@+id/ivPrincess"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/i19"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toEndOf="@id/ivPrincess"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/i29"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toEndOf="@id/i19"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
                 <TextView
