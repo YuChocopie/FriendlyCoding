@@ -76,11 +76,9 @@
                     android:id="@+id/ivPrinsecess"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="136dp"
-                    android:layout_marginTop="80dp"
                     android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <TextView
                     android:id="@+id/tvWin"

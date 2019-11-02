@@ -34,15 +34,13 @@ class PrincessViewModel : ViewModel() {
     fun setPrincessImage(view: ImageView, win: TextView) {
         this.princessImg = view
         this.win = win
-        //metBoss.value = false
+        metBoss.value = false
     }
 
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
         this.princessImg?.height ?: oneBlock.toInt()
-        // isLost.value = false
-        metBoss.value = false
         clear()
     }
 
@@ -113,10 +111,6 @@ class PrincessViewModel : ViewModel() {
     }
 
     fun clear() {
-        //unit = 1
-//        nowX = 0
-//        nowY = 9
-//        direction = 1
         princessImg!!.x = oneBlock * 0 - oneBlock * 0.1f
         princessImg!!.y = oneBlock * 9 - oneBlock * 0.23f
     }
