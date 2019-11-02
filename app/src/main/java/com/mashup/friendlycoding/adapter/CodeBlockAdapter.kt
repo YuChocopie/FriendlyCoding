@@ -16,21 +16,17 @@ import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 import android.text.Editable
 import android.R.id.edit
-import com.mashup.friendlycoding.generated.callback.OnClickListener
 import com.mashup.friendlycoding.ignoreBlanks
 import java.lang.Exception
 
-class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>) :
+class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>, private val mCodeBlockViewModel : CodeBlockViewModel) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
-    private val mCodeBlockViewModel = CodeBlockViewModel()
     var clickable = true
-    var conditionInputMode = false
     lateinit var binding: ItemCodeBlockListBinding
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
         val view = LayoutInflater.from(mContext)
             .inflate(R.layout.item_code_block_list, viewGroup, false)
-
         return Holder(view)
     }
 
@@ -58,6 +54,10 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
                 mCodeBlockViewModel.mRun.blockInsertMode = true
                 Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.blockInsertMode}", Toast.LENGTH_SHORT).show()
             }
+            else {
+                mCodeBlockViewModel.mRun.blockInsertMode = false
+                Log.e("해제", "${mCodeBlockViewModel.mRun.blockInsertMode}")
+            }
         }
 //
 //        val type2BlockFocused = View.OnFocusChangeListener { view, b ->
@@ -77,7 +77,7 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //val func_name = itemView.findViewById<TextView>(R.id.func_name)
-        private var view: View = itemView
+        private var view : View = itemView
 
         fun bind(listener: View.OnLongClickListener, type2BlockListener : View.OnClickListener, codeBlock: CodeBlock) {
             //binding.executePendingBindings()

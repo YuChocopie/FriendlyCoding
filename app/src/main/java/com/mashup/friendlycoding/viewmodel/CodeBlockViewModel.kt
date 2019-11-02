@@ -2,6 +2,8 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
@@ -16,9 +18,9 @@ class CodeBlockViewModel : ViewModel() {
         return mRun
     }
 
-    fun insertCodeBlockModeOff() {
-        Log.e("해제", "${mRun.blockInsertMode}")
+    fun insertBlockModeOff() {
         mRun.blockInsertMode = false
+        Log.e("해제", "${mRun.blockInsertMode}")
     }
 
     fun clearBlock() {
@@ -40,6 +42,12 @@ class CodeBlockViewModel : ViewModel() {
         if (view == null)
             return
         view.setBackgroundResource(R.color.Invisible)
+    }
+
+    fun insertBlock(view : View?, funcName: String) {
+        if (view == null)
+            return
+        view.findViewById<TextView>(R.id.insertedBlock).text = "$funcName()"
     }
 
     fun run() {

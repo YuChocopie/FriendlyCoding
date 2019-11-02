@@ -1,6 +1,5 @@
 package com.mashup.friendlycoding.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,7 +14,6 @@ import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityMainBinding
 import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_main.*
-import com.mashup.friendlycoding.model.Map
 
 class MainActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
@@ -60,7 +58,7 @@ class MainActivity : BaseActivity() {
 //        }
 
         // 코드 블록의 리사이클러 뷰 연결
-        val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!)
+        val mAdapter = CodeBlockAdapter(this, mRun.getCodeBlock().value!!, mCodeBlockViewModel)
         val linearLayoutManager = LinearLayoutManager(this)
         rc_code_block_list.layoutManager = linearLayoutManager
         rc_code_block_list.adapter = mAdapter
@@ -115,6 +113,12 @@ class MainActivity : BaseActivity() {
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
         mRun.getNowTerminated().observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(t))
+        })
+
+        // 코드 추가 - 블록이 삽입될 시
+        mRun.insertBlockAt.observe(this, Observer<Int> { t ->
+            Log.e("블록 추가됨", "$t 에 ${mRun.insertedBlock}")
+            mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
         })
 
         // 공주가 패배할 시
