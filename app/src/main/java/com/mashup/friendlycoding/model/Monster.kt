@@ -25,9 +25,11 @@ class Monster (val type : Int, private val maxHP : Int, val x : Int, val y : Int
             // 유형에 따라 달라지는 공격 빈도
             1 -> {
                 det = rand.nextInt(5)
-                if (det == 3) {   // 1/5 확률
-                    attackType = rand.nextInt(2) // attackType은 0나 1, 불이나 물
+                if (det == 1) {   // 1/3 확률
+                    attackType = rand.nextInt(2)// attackType은 0나 1, 불이나 물
                 }
+                else
+                    attackType = -1
             }
 
             2 -> {

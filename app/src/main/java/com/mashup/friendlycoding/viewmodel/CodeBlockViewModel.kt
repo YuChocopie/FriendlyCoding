@@ -56,4 +56,8 @@ class CodeBlockViewModel : ViewModel() {
     fun changeBlockLevel(OpenOrClose : Boolean) {
         mRun.changeBlockLevel(OpenOrClose)
     }
+
+    fun runBoss () {
+        mRun.metBoss.value = !mRun.metBoss.value!!
+    }
 }

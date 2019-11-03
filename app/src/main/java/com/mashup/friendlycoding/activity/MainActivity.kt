@@ -124,10 +124,30 @@ class MainActivity : BaseActivity() {
                     Toast.makeText(this, "컴파일 에러", Toast.LENGTH_SHORT).show()
                 }
 
-                6 -> {
+                -6 -> {
+                    Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
+                    boss.text = "보스"
+                    constraintLayout.isVisible = true
+                    bossField.isVisible = false
+                    mCodeBlockViewModel.clearBlock()
+                    mPrincessViewModel.clear()
+                    mAdapter.clickable = true
+                    mInputdapter.clickable = true
+                }
+
+                6 -> {  // 곡괭이의 습득
                     val changingViewID = resources.getIdentifier(mRun.changingView, "id", packageName)
                     Log.e("ID", mRun.changingView!!)
                     findViewById<ImageView>(changingViewID).isVisible = false
+                }
+
+                7 -> {  // 패배
+                    mCodeBlockViewModel.clearBlock()
+                    mPrincessViewModel.clear()
+                }
+
+                8 -> {  // 승리
+                    binding.tvWin.isVisible = true
                 }
                 else -> mPrincessViewModel.move(t)
             }
@@ -153,20 +173,24 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        // 공주가 패배할 시
-        mRun.isLost.observe(this, Observer<Boolean> { t ->
-            if (t) {
-                mCodeBlockViewModel.clearBlock()
-                mPrincessViewModel.clear()
-                mRun.isLost.value = false
-            }
+        mRun.princessAction.observe(this, Observer<Int> { t ->
+            binding.shield.isVisible = t == 9
         })
 
-        // 공주가 이길 시
-        mRun.isWin.observe(this, Observer<Boolean> { t ->
-            if (t) {
-                binding.tvWin.isVisible = true
-            }
+        mRun.monsterAttack.observe(this, Observer<Int> { t ->
+                when (t) {
+                    0 -> {
+                        binding.attackFire.isVisible = true
+                    }
+                    1 -> {
+                        binding.attackIce.isVisible = true
+                    }
+                    -1 -> {
+                        Log.e("몬스터", "공격 끌게요!")
+                        binding.attackFire.isVisible = false
+                        binding.attackIce.isVisible = false
+                    }
+                }
         })
 
         // 공주가 보스를 만남
@@ -184,40 +208,10 @@ class MainActivity : BaseActivity() {
 
             if (t) {
                 mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
-                binding.battleVM = mBattleViewModel
-                Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
-                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.bossBattleBlock!!)
-                rc_input_code.layoutManager = layoutManager
-            }
-
-            else {
-                mBattleViewModel = null
-                binding.battleVM = null
-                Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
-                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
-                rc_input_code.layoutManager = layoutManager
-            }
-        })
-
-        // 보스전 테스트를 위한 임시 코드
-        mPrincessViewModel.metBoss.observe(this, Observer<Boolean> { t ->    // 실제 코드에서 mPrincessViewModel을 mRun으로 바꾸면 됨.
-            // 보스를 만났거나 만나지 않았을 때 뷰의 전환
-            // 보스의 의미는 함수의 호출이므로 사실 실제 앱에서는 clearBlock과 clear를 하면 안 된다.
-            // 함수가 정상적으로 처리되면 (보스를 이기면) 원래의 맵으로 돌아오고, 그 다음 코드를 실행해야 한다.
-            boss.text = if (t) "OFF" else "보스"
-            constraintLayout.isVisible = !t
-            bossField.isVisible = t
-            mCodeBlockViewModel.clearBlock()
-            mPrincessViewModel.clear()
-            mAdapter.clickable = true
-            mInputdapter.clickable = true
-
-            if (t) {
-                mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.init()
-                binding.battleVM = mBattleViewModel
                 mRun.mMonster = stageInfo.monster
+                binding.battleVM = mBattleViewModel
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
                 rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.bossBattleBlock!!)
                 rc_input_code.layoutManager = layoutManager
@@ -226,7 +220,6 @@ class MainActivity : BaseActivity() {
             else {
                 mBattleViewModel = null
                 binding.battleVM = null
-                mRun.mMonster = null
                 Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
                 rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
                 rc_input_code.layoutManager = layoutManager
