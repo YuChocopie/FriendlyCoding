@@ -42,7 +42,7 @@ class MapSettingModel {
                     CodeBlock("for", type = 1),
                     CodeBlock("}", type = 4),
                     CodeBlock("if", type = 2),
-                    CodeBlock("isPickAxe", type = 3)
+                    CodeBlock("isPickAxe", type = 3, argument = 3)
                 )
 
                 val bossBattleBlock = arrayListOf(
@@ -54,7 +54,7 @@ class MapSettingModel {
                     CodeBlock("}", type = 4)
                     )
 
-                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), offeredBlock)
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(0, 0, 0), offeredBlock)
             }
 
             1-> {
@@ -92,13 +92,13 @@ class MapSettingModel {
                     CodeBlock("}")
                 )
 
-                return Stage(Map(mapList, mDrawables), Princess(10), Monster(0, 0, 0), blockButton)
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(0, 0, 0), blockButton)
             }
 
             // 2 -> {} ...
 
             else -> {
-                return Stage(Map(), Princess(10), Monster(0, 0, 0), arrayListOf())
+                return Stage(Map(), Princess(), Monster(0, 0, 0), arrayListOf())
             }
         }
     }

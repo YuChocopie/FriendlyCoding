@@ -1,14 +1,9 @@
 package com.mashup.friendlycoding.model
 
 import android.util.Log
-import android.view.View
 import android.widget.EditText
-import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.databinding.ActivityMainBinding
 import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.viewmodel.CodeBlock
 import java.util.*
@@ -22,19 +17,22 @@ class RunModel {
     var isLost = MutableLiveData<Boolean>()
     var isWin = MutableLiveData<Boolean>()
     var metBoss = MutableLiveData<Boolean>()
+    var insertBlockAt = MutableLiveData<Int>()
+    var insertedBlock : String? = null
 
     private var jumpTo = 0
     private var IR = 0  // 명령어 실행할 주소
     private var iterator = 0 // 반복자
     private var blockLevel = 0 // 들여쓰기 정도.
     private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
+    var blockInsertMode = false
 
     // 공주의 좌표
     private var x = 0
     private var y = 9
     private var d = 1
 
-    var mPrincess = Princess(10)
+    var mPrincess = Princess()
     var mMap = Map()
     var mMonster : Monster? = null
 
@@ -117,6 +115,19 @@ class RunModel {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
+        if (blockInsertMode) {
+            if (codeBlock.type == 3) {
+                Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
+                mCodeBlock.value!![IR - 1].argument = codeBlock.argument
+                insertedBlock = codeBlock.funcName
+                insertBlockAt.postValue(IR - 1)
+                blockInsertMode = false
+                return
+            }
+            else
+                return
+        }
+
         val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
         if (adding.funcName == "}") {
             if (bracketStack.empty()) {
@@ -138,7 +149,7 @@ class RunModel {
             tap += "    "
         }
 
-        Log.e("${adding.funcName} ", "추가됨")
+        Log.e("${adding.funcName} ", "추가됨 $blockInsertMode")
         adding.funcName = tap + adding.funcName
 
         if (ignoreBlanks(adding.funcName) == "for" || ignoreBlanks(adding.funcName) == "while" || ignoreBlanks(
@@ -156,6 +167,7 @@ class RunModel {
         val block = mCodeBlock.value
         block!!.add(adding)
         mCodeBlock.postValue(block)
+        blockInsertMode = false
     }
 //
 //    fun updateBlock(position: Int, cnt: Int) {
@@ -163,13 +175,6 @@ class RunModel {
 //        mCodeBlock.value!![position].count = cnt
 //        mCodeBlock.postValue(block)
 //    }
-
-    fun deleteBlock(position: Int) {
-        val block = mCodeBlock.value
-        IR--
-        mCodeBlock.value!!.removeAt(position)
-        mCodeBlock.postValue(block)
-    }
 
     fun clearBlock() {
         x = 0
@@ -258,14 +263,32 @@ class RunModel {
                         }
 
                         "if" -> {
-                            if (mCodeBlock.value!![IR].argument != 1) {
-                                Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                IR = mCodeBlock.value!![IR].address
+                            when (mCodeBlock.value!![IR].argument) {
+                                1 -> {
+
+                                }
+
+                                3 -> {  // 곡괭이?
+                                    if (!mPrincess.isPickAxe) {
+                                        Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                        IR = mCodeBlock.value!![IR].address
+                                    }
+                                }
+
+                                else -> {
+
+                                }
                             }
+                            sleep(1000)
                         }
 
                         "else" -> {
 
+                        }
+
+                        "pickAxe" -> {
+                            mPrincess.isPickAxe = true
+                            sleep(1000)
                         }
                     }
 

@@ -2,6 +2,8 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.RunModel
@@ -10,11 +12,15 @@ class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int 
 
 class CodeBlockViewModel : ViewModel() {
     val sunnyImage: Int = R.drawable.ic_sunny
-
-    private var mRun = RunModel()
+    var mRun = RunModel()
 
     fun getRunModel(): RunModel {
         return mRun
+    }
+
+    fun insertBlockModeOff() {
+        mRun.blockInsertMode = false
+        Log.e("해제", "${mRun.blockInsertMode}")
     }
 
     fun clearBlock() {
@@ -22,14 +28,8 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
-    }
-
-    fun deleteBlock(position: Int) {
-        Log.e("삭제합니다", "$position")
-        mRun.deleteBlock(position)
     }
 
     fun coloringNowProcessing(view: View?) {
@@ -42,6 +42,12 @@ class CodeBlockViewModel : ViewModel() {
         if (view == null)
             return
         view.setBackgroundResource(R.color.Invisible)
+    }
+
+    fun insertBlock(view : View?, funcName: String) {
+        if (view == null)
+            return
+        view.findViewById<TextView>(R.id.insertedBlock).text = "$funcName()"
     }
 
     fun run() {
