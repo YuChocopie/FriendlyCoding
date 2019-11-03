@@ -18,6 +18,8 @@ class RunModel {
     var isWin = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 플레이어가 이겼는지 여부. 이겼으면 관련 뷰모델과 모델을 모두 클리어하고 승리 메시지를 띄운다.
     var metBoss = MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
     var insertBlockAt = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 코드 블록이 어디에 삽입될 지를 알려준다.
+
+    var insertBlockPosition = 0
     var insertedBlock : String? = null   // 삽입된 코드 블록의 이름
     var changingView : String? = null    // 아이템을 주웠거나 아이템이 파괴됐을시 해당 아이템의 ID를 MainActivity에게 알려준다.
 
@@ -27,8 +29,7 @@ class RunModel {
     private var blockLevel = 0 // 들여쓰기 정도.
     private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
     private var tempBracketBuffer = 0   // 괄호가 삭제되거나 할 때를 대비해서 임시로 저장해두는 버퍼.
-
-    var blockInsertMode = false
+    private var coc = arrayOf(false, false, false, false, false) // 행동 수칙이 있는가?
 
     // 공주의 좌표
     private var x = 0 // x좌표
@@ -41,6 +42,8 @@ class RunModel {
 
     fun init() {
         mCodeBlock.value = ArrayList()
+        insertBlockPosition = -1
+        insertBlockAt.postValue(-1)
         isLost.value = false
         isWin.value = false
     }
@@ -53,6 +56,7 @@ class RunModel {
         jumpTo = 0
         blockLevel = 0
         moveView.postValue(-1)
+        insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
         block!!.clear()
         mCodeBlock.postValue(block)
@@ -130,15 +134,20 @@ class RunModel {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-        if (blockInsertMode) {
+        if (insertBlockPosition != -1) {
             if (codeBlock.type == 3) {
                 Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
-                mCodeBlock.value!![IR - 1].argument = codeBlock.argument
+                mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
-                insertBlockAt.postValue(IR - 1)
-                blockInsertMode = false
+                insertBlockAt.postValue(insertBlockPosition)
+
+                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName) == "if") {
+                    coc[codeBlock.argument] = true
+                }
+                insertBlockPosition = -1
                 return
             }
+
             else
                 return
         }
@@ -183,8 +192,8 @@ class RunModel {
         val block = mCodeBlock.value
         block!!.add(adding)
         mCodeBlock.postValue(block)
-        blockInsertMode = false
-        Log.e("${adding.funcName} ", "추가됨 $blockInsertMode")
+        insertBlockAt.postValue(-1)
+        Log.e("${adding.funcName} ", "${insertBlockAt.value}에 추가됨")
     }
 //
 //    fun updateBlock(position: Int, cnt: Int) {
@@ -194,7 +203,6 @@ class RunModel {
 //    }
 
     fun run() {
-        // 괄호 짝이 안 맞는 코드일 시 경고 메시지 출력
         val run = RunThead()
         IR = 0
         run.start()
@@ -207,7 +215,6 @@ class RunModel {
             try {
                 if (!bracketStack.empty()) {
                     moveView.postValue(-5)
-                    //clearBlock()
                     return
                 }
 
@@ -216,10 +223,23 @@ class RunModel {
 
                 while (IR < mCodeBlock.value!!.size) {
                     if (metBoss.value == true) {
-                        when (mMonster!!.type) {
-                            1 -> {
-
+                        // 몬스터의 차례
+                        Log.e("보스와의 배틀!", "!!!")
+                        mMonster?.attack()
+                        Log.e("몬스터의 공격!", "${mMonster?.attackType}")
+                        if (mMonster?.attackType != 0) {
+                            when (mMonster?.attackType) {
+                                0 -> Log.e("몬스터의", "불 공격!!!")
+                                1 -> Log.e("몬스터의", "물 공격!!!")
                             }
+                        }
+                        sleep(1000)
+                    }
+
+                    if (mMonster?.attackType != -1) {
+                        if (!coc[mMonster?.attackType!!]) {   // 피하는 루틴이 없음
+                            moveView.postValue(-4)   // 사망
+                            return
                         }
                     }
 

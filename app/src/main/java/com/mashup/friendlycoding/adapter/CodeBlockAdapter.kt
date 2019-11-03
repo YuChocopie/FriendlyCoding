@@ -65,12 +65,12 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
         val type2BlockListener = View.OnClickListener {
             if (clickable && item.type == 2) {
-                mCodeBlockViewModel.mRun.blockInsertMode = true
-                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.blockInsertMode}", Toast.LENGTH_SHORT).show()
+                mCodeBlockViewModel.mRun.insertBlockPosition = position
+                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.insertBlockPosition}", Toast.LENGTH_SHORT).show()
             }
             else {
-                mCodeBlockViewModel.mRun.blockInsertMode = false
-                Log.e("해제", "${mCodeBlockViewModel.mRun.blockInsertMode}")
+                mCodeBlockViewModel.mRun.insertBlockAt.postValue(-1)
+                Log.e("해제", "${mCodeBlockViewModel.mRun.insertBlockPosition}")
             }
         }
 

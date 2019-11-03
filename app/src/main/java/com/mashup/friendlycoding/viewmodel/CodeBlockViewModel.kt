@@ -15,8 +15,8 @@ class CodeBlockViewModel : ViewModel() {
     var mRun = RunModel()
 
     fun insertBlockModeOff() {
-        mRun.blockInsertMode = false
-        Log.e("해제", "${mRun.blockInsertMode}")
+        mRun.insertBlockAt.postValue(-1)
+        Log.e("해제", "${mRun.insertBlockAt.value}")
     }
 
     fun clearBlock() {

@@ -58,8 +58,8 @@ class MapSettingModel {
                     CodeBlock("}", type = 4),
                     CodeBlock("attack"),
                     CodeBlock("isAlive", type = 3, argument = 7),
-                    CodeBlock("detectedFire", type = 3, argument = 5),
-                    CodeBlock("detectedWater", type = 3, argument = 6)
+                    CodeBlock("detectedFire", type = 3, argument = 0),
+                    CodeBlock("detectedWater", type = 3, argument = 1)
                     )
 
                 return Stage(Map(mapList, mDrawables), Princess(), Monster(1, 100, 0, 0), offeredBlock, bossBattleBlock)

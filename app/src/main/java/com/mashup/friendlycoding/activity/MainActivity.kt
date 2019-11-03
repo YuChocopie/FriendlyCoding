@@ -53,7 +53,6 @@ class MainActivity : BaseActivity() {
         mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
-        mRun.mMonster = stageInfo.monster
 
         // 맵의 뷰를 활성화 하고 드로어블 적용
         for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
@@ -148,8 +147,10 @@ class MainActivity : BaseActivity() {
 
         // 코드 추가 - 블록이 삽입될 시
         mRun.insertBlockAt.observe(this, Observer<Int> { t ->
-            Log.e("블록 삽입됨", "$t 에 ${mRun.insertedBlock}")
-            mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+            if (t != -1) {
+                Log.e("블록 삽입됨", "$t 에 ${mRun.insertedBlock}")
+                mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+            }
         })
 
         // 공주가 패배할 시
@@ -216,6 +217,7 @@ class MainActivity : BaseActivity() {
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.init()
                 binding.battleVM = mBattleViewModel
+                mRun.mMonster = stageInfo.monster
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
                 rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.bossBattleBlock!!)
                 rc_input_code.layoutManager = layoutManager
@@ -224,6 +226,7 @@ class MainActivity : BaseActivity() {
             else {
                 mBattleViewModel = null
                 binding.battleVM = null
+                mRun.mMonster = null
                 Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
                 rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
                 rc_input_code.layoutManager = layoutManager
