@@ -11,8 +11,8 @@ import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import kotlinx.android.synthetic.main.item_input_code_list.view.*
 
-class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel, private val mMapSettingViewModel: MapSettingViewModel) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
-    var clickable = true
+class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel, var inputCodeBlock : ArrayList<CodeBlock>) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
+        var clickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             ViewHolder {
@@ -22,10 +22,10 @@ class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel,
         return ViewHolder(inflatedView)
     }
 
-    override fun getItemCount() = mMapSettingViewModel.offeredBlock.size
+    override fun getItemCount() = inputCodeBlock.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mMapSettingViewModel.offeredBlock[position]
+        val item = inputCodeBlock[position]
         val listener = View.OnClickListener {
             if (clickable) {
                 mCodeBlockViewModel.addNewBlock(item)
