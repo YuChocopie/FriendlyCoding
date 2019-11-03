@@ -1,31 +1,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-        <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-        <variable
-            name="codeBlockVM"
-            type="CodeBlockViewModel" />
-        <variable
-            name="position"
-            type="Integer" />
-        <variable
-            name="codeBlockAdapter"
-            type="com.mashup.friendlycoding.adapter.CodeBlockAdapter" />
-        <variable
-            name="runM"
-            type="com.mashup.friendlycoding.model.RunModel" />
-    </data>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
             android:id="@+id/func_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
             android:textSize="20sp" />
 
         <LinearLayout

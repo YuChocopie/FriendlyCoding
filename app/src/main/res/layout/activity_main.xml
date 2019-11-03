@@ -164,7 +164,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginBottom="30dp"
-                    android:animation="@{(10000)}"
+                    android:animation="@{(500)}"
                     app:layout_constraintTop_toTopOf="@id/monster"
                     app:layout_constraintEnd_toEndOf="@id/monster"
                     android:visibility="gone"

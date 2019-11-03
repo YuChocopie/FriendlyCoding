@@ -36,7 +36,7 @@ class MapSettingModel {
                 mDrawables.itemImg = arrayListOf(
                     arrayOf(3, "29") // 순서대로 아이템의 종류, 아이템의 y, x
                     //arrayOf(1, "40"),
-                    //arrayOf(1, "60")
+                    //arrayOf(1, "60") .... and so on.
                 )
 
                 // 기본 제공되는 블록
@@ -62,7 +62,7 @@ class MapSettingModel {
                     CodeBlock("detectedWater", type = 3, argument = 6)
                     )
 
-                return Stage(Map(mapList, mDrawables), Princess(), Monster(100, 0, 0), offeredBlock, bossBattleBlock)
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(1, 100, 0, 0), offeredBlock, bossBattleBlock)
             }
 
             1-> {
@@ -102,7 +102,7 @@ class MapSettingModel {
                     CodeBlock("}")
                 )
 
-                return Stage(Map(mapList, mDrawables), Princess(), Monster(0, 0, 0), blockButton)
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(1, 100, 0, 0), blockButton)
             }
 
             // 2 -> {} ...
