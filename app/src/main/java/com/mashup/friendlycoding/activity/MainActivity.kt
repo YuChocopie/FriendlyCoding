@@ -149,7 +149,15 @@ class MainActivity : BaseActivity() {
                 8 -> {  // 승리
                     binding.tvWin.isVisible = true
                 }
-                else -> mPrincessViewModel.move(t)
+
+                else -> {
+                    // 안 먹힘!
+//                    if (t == -1) {
+//                        Log.e("블록", "캐시 초기화")
+//                        rc_code_block_list.recycledViewPool.clear()
+//                    }
+                    mPrincessViewModel.move(t)
+                }
             }
         })
 
