@@ -52,8 +52,6 @@ class RunModel {
         mCodeBlock.value = ArrayList()
         insertBlockPosition = -1
         insertBlockAt.postValue(-1)
-        //isLost.value = false
-        //isWin.value = false
         metBoss.value = false
         monsterAttack.value = -1
         princessAction.value = 0
@@ -72,8 +70,6 @@ class RunModel {
         block!!.clear()
         mCodeBlock.postValue(block)
         isBossAlive = false
-      //  isLost.postValue(false)
-      //  isWin.postValue(false)
     }
 
     fun movePrincess() {
@@ -233,11 +229,6 @@ class RunModel {
                 sleep(speed)
 
                 while (IR < mCodeBlock.value!!.size) {
-//                    if (mMonster != null) {
-//                        if (isBossAlive && !mMonster!!.isAlive()) {
-//
-//                        }
-//                    }
                     if (metBoss.value == true && !isAttacking) {
                         if (mMonster!!.isAlive()) {
                             // 몬스터의 차례
@@ -266,7 +257,7 @@ class RunModel {
                             }
                         }
                     }
-////
+
                     if (iterator > 30) {
                         // 이런 게임 깨는데 루프를 30번 넘게 돌진 않겠지?
                         moveView.postValue(-4)
@@ -277,11 +268,6 @@ class RunModel {
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
-//                        "while" -> {
-//                            if (mCodeBlock.value!![IR].argument == 7)
-//                                isBossAlive = true
-//                        }
-
                         "move" -> {
                             movePrincess()
                             moveView.postValue(d)
@@ -320,6 +306,7 @@ class RunModel {
                                 when (mCodeBlock.value!![jumpTo].argument) {
                                     7 -> {   // isAlive
                                         if (mMonster!!.isAlive()) {
+                                            nowTerminated.postValue(IR)
                                             IR = jumpTo
                                             Log.e("아직 안 죽었네", "$jumpTo 로!")
                                             iterator++
@@ -345,6 +332,7 @@ class RunModel {
                             else if (mCodeBlock.value!![jumpTo].type == 1) {
                                 Log.e("for 가 날 열었어", "${mCodeBlock.value!![jumpTo].argument}")
                                 if (iterator + 1 < mCodeBlock.value!![jumpTo].argument) {
+                                    nowTerminated.postValue(IR)
                                     IR = jumpTo
                                     Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
                                     iterator++
@@ -364,6 +352,7 @@ class RunModel {
                                             princessAction.postValue(9)
                                         }
                                         else {
+                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -376,6 +365,7 @@ class RunModel {
                                             princessAction.postValue(9)
                                         }
                                         else {
+                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -384,6 +374,7 @@ class RunModel {
                                 3 -> {  // 곡괭이
                                     if (!mPrincess.isPickAxe) {
                                         Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                        nowTerminated.postValue(IR)
                                         IR = mCodeBlock.value!![IR].address
                                     }
                                 }
