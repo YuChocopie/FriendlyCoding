@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import kotlinx.android.synthetic.main.item_input_code_list.view.*
 
-class InputCodeBlockAdapter(val mCodeBlockViewModel: CodeBlockViewModel, val adapter: CodeBlockAdapter) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
+class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel, private val mMapSettingViewModel: MapSettingViewModel) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
     var clickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -21,14 +22,10 @@ class InputCodeBlockAdapter(val mCodeBlockViewModel: CodeBlockViewModel, val ada
         return ViewHolder(inflatedView)
     }
 
-    override fun getItemCount() = mCodeBlockViewModel.getBlockButton().size
+    override fun getItemCount() = mMapSettingViewModel.offeredBlock.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TODO : getBlockButton이 아니라 stage 마다 달라지는 ArrayList<CodeBlock>으로 바꿀 것
-        // TODO : 또한 이 어댑터가 BattleViewModel에서도 재활용되므로, mCodeBlockViewModel로 한정되지 말아야 함
-
-        val item = mCodeBlockViewModel.getBlockButton()[position]
-
+        val item = mMapSettingViewModel.offeredBlock[position]
         val listener = View.OnClickListener {
             if (clickable) {
                 mCodeBlockViewModel.addNewBlock(item)

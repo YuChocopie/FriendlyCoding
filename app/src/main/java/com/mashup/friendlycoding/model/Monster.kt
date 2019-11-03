@@ -4,6 +4,5 @@ import android.app.Application
 import com.mashup.friendlycoding.viewmodel.BattleViewModel
 import kotlin.random.Random
 
-class Monster (val type : Int) {
-
+class Monster (val type : Int, val x : Int, val y : Int) {
 }

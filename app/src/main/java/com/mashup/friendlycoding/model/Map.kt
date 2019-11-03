@@ -1,4 +1,5 @@
 package com.mashup.friendlycoding.model
 
-class Map {
+class Map (var mapList : Array<Array<Int>>? = null, var drawables: Drawables? = null) {
+
 }

@@ -19,28 +19,115 @@ class RunModel {
     private var nowProcessing = MutableLiveData<Int>()
     private var nowTerminated = MutableLiveData<Int>()
     private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
+    var isLost = MutableLiveData<Boolean>()
+    var isWin = MutableLiveData<Boolean>()
+    var metBoss = MutableLiveData<Boolean>()
+
     private var jumpTo = 0
-    private val mPrincess = Princess(10)
     private var IR = 0  // 명령어 실행할 주소
     private var iterator = 0 // 반복자
     private var blockLevel = 0 // 들여쓰기 정도.
     private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    lateinit var mMonster: Monster
+
+    // 공주의 좌표
+    private var x = 0
+    private var y = 9
+    private var d = 1
+
+    var mPrincess = Princess(10)
+    var mMap = Map()
+    var mMonster : Monster? = null
+
+    fun init() {
+        mCodeBlock.value = ArrayList()
+        isLost.value = false
+        isWin.value = false
+    }
 
     fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
         return mCodeBlock
     }
 
-    fun init() {
-        mCodeBlock.value = ArrayList()
+    fun getMoving(): LiveData<Int> {
+        return moveView
+    }
+
+    fun getNowProcessing(): LiveData<Int> {
+        return nowProcessing
+    }
+
+    fun getNowTerminated(): LiveData<Int> {
+        return nowTerminated
+    }
+
+    fun movePrincess() {
+        d %= 4
+        when (d) {
+            //goint up
+            0 -> {
+                y--
+            }
+
+            //going right
+            1 -> {
+                x++
+            }
+
+            //going down
+            2 -> {
+                y++
+            }
+
+            //going left
+            3 -> {
+                x--
+            }
+        }
+    }
+
+    fun rotate (LeftOrRight : Boolean) {
+        if (!LeftOrRight) {   // 왼쪽으로
+            d -= 1
+            if (d < 0)
+                d += 4
+        }
+        else {  // 오른쪽으로
+            if (d == 3)
+                d = 0
+            else
+                d++
+        }
+    }
+
+    fun collisionCheck() {
+        Log.e("(nowX", "(nowX  $x,,,$y")
+        if (x < 10 && x > -1 && y < 10 && y > -1) {
+            if (mMap.mapList!![y][x] == 1) {
+                isLost.postValue(true)
+            } else if (mMap.mapList!![y][x] == 2) {
+                isWin.postValue(true)
+            } else if (y == mMonster?.y && x == mMonster?.x) {
+                metBoss.postValue(true)
+            }
+        }
+
+        else {
+            isLost.postValue(true)
+        }
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-//        TODO : 공백 추가하기
-        val adding = CodeBlock(codeBlock.funcName, address = IR)
-
+        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
         if (adding.funcName == "}") {
-            adding.address = bracketStack.peek()  // jump할 주소
+            if (bracketStack.empty()) {
+                return
+            }
+            if (bracketStack.peek() < 10000)
+                adding.address = bracketStack.peek()  // jump할 주소
+            else { // if인 경우엔 jump가 아니라 if의 주소를 바꿔야 한다
+                mCodeBlock.value!![bracketStack.peek() - 10000].address = IR
+            }
+
             bracketStack.pop()
             Log.e("block level", "decreases")
             blockLevel--
@@ -51,13 +138,18 @@ class RunModel {
             tap += "    "
         }
 
-        Log.e("${adding.funcName} ", "xcxcxcxcx")
+        Log.e("${adding.funcName} ", "추가됨")
         adding.funcName = tap + adding.funcName
 
-        if (ignoreBlanks(adding.funcName) == "for") {
-            bracketStack.push(IR)
+        if (ignoreBlanks(adding.funcName) == "for" || ignoreBlanks(adding.funcName) == "while" || ignoreBlanks(
+                adding.funcName
+            ) == "if"
+        ) {
+            if (ignoreBlanks(adding.funcName) == "if")
+                bracketStack.push(IR + 10000)
+            else
+                bracketStack.push(IR)
             blockLevel++
-            Log.e("블록하강 ", "qqqqqqq")
         }
 
         IR++
@@ -79,19 +171,10 @@ class RunModel {
         mCodeBlock.postValue(block)
     }
 
-    fun getMoving(): LiveData<Int> {
-        return moveView
-    }
-
-    fun getNowProcessing(): LiveData<Int> {
-        return nowProcessing
-    }
-
-    fun getNowTerminated(): LiveData<Int> {
-        return nowTerminated
-    }
-
     fun clearBlock() {
+        x = 0
+        y = 9
+        d = 1
         iterator = 0
         jumpTo = 0
         blockLevel = 0
@@ -102,6 +185,7 @@ class RunModel {
     }
 
     fun run() {
+        // 괄호 짝이 안 맞는 코드일 시 경고 메시지 출력
         if (!bracketStack.empty()) {
             Log.e("compile", "error")
             clearBlock()
@@ -111,7 +195,6 @@ class RunModel {
         val run = RunThead()
         IR = 0
         run.start()
-        //clearBlock()
         iterator = 0
     }
 
@@ -124,33 +207,34 @@ class RunModel {
 
                 while (IR < mCodeBlock.value!!.size) {
                     nowProcessing.postValue(IR)
-                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName)
-                    //updateBlock(i, cnt)
-                    //mCodeBlock.value!![i].count
-                    //Log.e("test",mCodeBlock.value!![i].funcName)
+                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
+
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         "move" -> {
-                            moveView.postValue(0)
-                            Log.e("갑니다", "0")
+                            movePrincess()
+                            moveView.postValue(d)
+                            collisionCheck()
+                            Log.e("갑니다", "앞으로")
                             sleep(1000)
                         }
 
                         "turnLeft" -> {
                             //    moveView.value = 1
-                            moveView.postValue(1)
-                            Log.e("갑니다", "1")
+                            rotate(false)
+                            moveView.postValue(4)
+                            Log.e("돕니다", "왼쪽으로")
                             sleep(1000)
                         }
 
                         "turnRight" -> {
+                            rotate(true)
                             //  moveView.value = 2
-                            moveView.postValue(2)
-                            Log.e("갑니다", "2")
+                            moveView.postValue(5)
+                            Log.e("돕니다", "오른쪽으로")
                             sleep(1000)
                         }
 
                         "for" -> {
-                            //iteratorStack.push(mCodeBlock.value!![IR].argument)
                             iterator = mCodeBlock.value!![IR].argument
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
                             sleep(1000)
@@ -158,28 +242,30 @@ class RunModel {
 
                         "}" -> {
                             jumpTo = mCodeBlock.value!![IR].address
-                            if (mCodeBlock.value!![jumpTo].argument-- > 1) {
+                            Log.e(
+                                "jumpTo",
+                                "$jumpTo, iterate ${mCodeBlock.value!![jumpTo].argument}"
+                            )
+                            if (mCodeBlock.value!![jumpTo].argument-- > 1) { // 이 조건 때문에 if에서 열린 블록이라도 반복을 진행하진 않을 것
                                 IR = jumpTo
                                 Log.e(
                                     "한 번 더!",
-                                    "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}   "
+                                    "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}"
                                 )
                             } else {
-                                mCodeBlock.value!![jumpTo].argument = iterator
+                                mCodeBlock.value!![jumpTo].argument = iterator // 원상 복구
                             }
-//
-//                            else {
-//                                if (!iteratorStack.empty()) {
-//                                    iteratorStack.pop()
-//
-//                                    if (!iteratorStack.empty()) {
-//                                        iterator = iteratorStack.peek()
-//                                    }
-//                                    else
-//                                        iterator = 0
-//                                }
-//                            }
-                            sleep(1000)
+                        }
+
+                        "if" -> {
+                            if (mCodeBlock.value!![IR].argument != 1) {
+                                Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                IR = mCodeBlock.value!![IR].address
+                            }
+                        }
+
+                        "else" -> {
+
                         }
                     }
 
@@ -190,7 +276,7 @@ class RunModel {
             } catch (e: IndexOutOfBoundsException) {
                 return
             }
-            //clearBlock() 클리어 실패 시
+            //clearBlock() 스테이지 클리어 실패 시
         }
     }
 }

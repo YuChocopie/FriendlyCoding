@@ -55,9 +55,16 @@
                 android:layout_marginEnd="3dp"
                 android:background="@null"
                 android:hint="\?"
+                android:inputType="numberDecimal"
                 android:textCursorDrawable="@null"
                 android:textSize="20sp"
                 android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,9 +78,6 @@
                 android:layout_height="wrap_content"
                 android:text=";"
                 android:textSize="20sp" />
-
         </LinearLayout>
-
-
     </LinearLayout>
 </layout>
