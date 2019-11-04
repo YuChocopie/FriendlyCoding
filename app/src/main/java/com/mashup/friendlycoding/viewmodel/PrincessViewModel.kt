@@ -1,23 +1,18 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.util.Log
-import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mashup.friendlycoding.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 class PrincessViewModel : ViewModel() {
     var metBoss = MutableLiveData<Boolean>()
 
     private var princessImg: ImageView? = null
     private var win: TextView? = null
-    var oneBlock = 0f
+    private var oneBlock = 0f
+    private val n = 10
     var width = 0
-    var sale = true
-    val n = 10
 
     fun move(i: Int) {
         when (i) {
@@ -40,7 +35,7 @@ class PrincessViewModel : ViewModel() {
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
-        this.princessImg?.height ?: oneBlock.toInt()
+        //this.princessImg?.height ?: oneBlock.toInt()
         clear()
     }
 
@@ -65,14 +60,14 @@ class PrincessViewModel : ViewModel() {
 //        isLost.value = WinOrLose
 //    }
 
-    fun rotationLeft() {
+    private fun rotationLeft() {
         // TODO : 공주 사진 변경
 //        direction -= 1
 //        if (direction < 0)
 //            direction += 4
     }
 
-    fun rotationRight() {
+    private fun rotationRight() {
         // TODO : 공주 사진 변경
 //        if (direction == 3)
 //            direction = 0
@@ -80,7 +75,7 @@ class PrincessViewModel : ViewModel() {
 //            direction++
     }
 
-    fun go(direction : Int) {
+    private fun go(direction : Int) {
         val one = oneBlock
         //direction %= 4
         when (direction) {

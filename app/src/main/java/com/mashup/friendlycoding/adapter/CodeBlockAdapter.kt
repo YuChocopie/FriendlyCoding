@@ -15,7 +15,6 @@ import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 import android.text.Editable
-import android.R.id.edit
 import com.mashup.friendlycoding.ignoreBlanks
 import java.lang.Exception
 
@@ -35,7 +34,6 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
         //binding.position = position
         //holder.bind(CodeBlocks[position], mContext)
         //생성된 View에 보여줄 데이터를 설정
-
         val item = CodeBlocks[position]
 
         //길게 눌렀을 때
@@ -43,6 +41,22 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
             if (clickable) {
                 Toast.makeText(it.context, "${item.funcName}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                 CodeBlocks.removeAt(position)
+                if (item.type == 1 || item.type == 2) {
+                    mCodeBlockViewModel.changeBlockLevel(false)
+                    for (i in position until CodeBlocks.size) {
+                        Log.e("코드 들이기", CodeBlocks[i].funcName)
+                        if (CodeBlocks[i].type == 4) {
+                            break
+                        }
+                        else if (CodeBlocks[i].funcName.substring(0, 4) == "    ") {
+                            Log.e("코드 들이기", CodeBlocks[i].funcName)
+                            CodeBlocks[i].funcName = CodeBlocks[i].funcName.substring(4)
+                        }
+                    }
+                }
+                else if (item.type == 4) {
+                    mCodeBlockViewModel.changeBlockLevel(true)
+                }
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, CodeBlocks.size)
             }
@@ -51,23 +65,14 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
         val type2BlockListener = View.OnClickListener {
             if (clickable && item.type == 2) {
-                mCodeBlockViewModel.mRun.blockInsertMode = true
-                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.blockInsertMode}", Toast.LENGTH_SHORT).show()
+                mCodeBlockViewModel.mRun.insertBlockPosition = position
+                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.insertBlockPosition}", Toast.LENGTH_SHORT).show()
             }
             else {
-                mCodeBlockViewModel.mRun.blockInsertMode = false
-                Log.e("해제", "${mCodeBlockViewModel.mRun.blockInsertMode}")
+                mCodeBlockViewModel.mRun.insertBlockAt.postValue(-1)
+                Log.e("해제", "${mCodeBlockViewModel.mRun.insertBlockPosition}")
             }
         }
-//
-//        val type2BlockFocused = View.OnFocusChangeListener { view, b ->
-//            if (b) {
-//                Toast.makeText(view.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요.", Toast.LENGTH_SHORT).show()
-//            }
-//            else {
-//                Toast.makeText(view.context, "${item.funcName}에서 나갔습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
         holder.apply {
             bind(listener, type2BlockListener, item)
@@ -76,11 +81,9 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        //val func_name = itemView.findViewById<TextView>(R.id.func_name)
         private var view : View = itemView
 
         fun bind(listener: View.OnLongClickListener, type2BlockListener : View.OnClickListener, codeBlock: CodeBlock) {
-            //binding.executePendingBindings()
             view.func_name.text = codeBlock.funcName
 
             if (codeBlock.type == 1 || codeBlock.type == 2) {
@@ -115,11 +118,6 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
 
             view.setOnLongClickListener(listener)
             view.setOnClickListener(type2BlockListener)
-//            if (codeBlock.type == 2) {
-//                view.isFocusable = true
-//                view.isFocusableInTouchMode = true
-//                view.onFocusChangeListener = type2BlockListener
-//            }
         }
     }
 

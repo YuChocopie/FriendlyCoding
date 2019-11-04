@@ -73,11 +73,25 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <ImageView
-                    android:id="@+id/ivPrinsecess"
+                    android:id="@+id/ivPrincess"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/i19"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toEndOf="@id/ivPrincess"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/i29"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toEndOf="@id/i19"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
                 <TextView
@@ -150,11 +164,12 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginBottom="30dp"
-                    android:animation="@{(10000)}"
+                    android:animation="@{(500)}"
                     app:layout_constraintTop_toTopOf="@id/monster"
                     app:layout_constraintEnd_toEndOf="@id/monster"
+                    android:src="@drawable/princess_attack"
                     android:visibility="gone"
-                    android:src="@drawable/princess_attack" />
+                     />
 
                 <ImageView
                     android:id="@+id/princess"
@@ -165,6 +180,41 @@
                     android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
+                    android:id="@+id/shield"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:animation="@{(500)}"
+                    android:src="@drawable/shield"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/attack_fire"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="30dp"
+                    android:animation="@{(500)}"
+                    android:src="@drawable/attack_fire"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/monster"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/attack_ice"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="30dp"
+                    android:animation="@{(500)}"
+                    android:src="@drawable/attack_ice"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/monster"
+                    android:visibility="gone"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -210,7 +260,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
-            android:onClick="@{()->princessVM.runBoss()}"
+            android:onClick="@{()->codeBlockVM.runBoss()}"
             android:text="@string/runBoss"
             app:layout_constraintEnd_toEndOf="@+id/clear"
             app:layout_constraintTop_toBottomOf="@+id/clear" />

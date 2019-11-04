@@ -1,8 +1,8 @@
 package com.mashup.friendlycoding.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
@@ -14,16 +14,13 @@ class CodeBlockViewModel : ViewModel() {
     val sunnyImage: Int = R.drawable.ic_sunny
     var mRun = RunModel()
 
-    fun getRunModel(): RunModel {
-        return mRun
-    }
-
     fun insertBlockModeOff() {
-        mRun.blockInsertMode = false
-        Log.e("해제", "${mRun.blockInsertMode}")
+        mRun.insertBlockAt.postValue(-1)
+        Log.e("해제", "${mRun.insertBlockAt.value}")
     }
 
     fun clearBlock() {
+        Log.e("새로고침", " ")
         mRun.clearBlock()
     }
 
@@ -44,6 +41,7 @@ class CodeBlockViewModel : ViewModel() {
         view.setBackgroundResource(R.color.Invisible)
     }
 
+    @SuppressLint("SetTextI18n")
     fun insertBlock(view : View?, funcName: String) {
         if (view == null)
             return
@@ -53,5 +51,13 @@ class CodeBlockViewModel : ViewModel() {
     fun run() {
         Log.e("RunModel", "실행")
         mRun.run()
+    }
+
+    fun changeBlockLevel(OpenOrClose : Boolean) {
+        mRun.changeBlockLevel(OpenOrClose)
+    }
+
+    fun runBoss () {
+        mRun.metBoss.value = !mRun.metBoss.value!!
     }
 }

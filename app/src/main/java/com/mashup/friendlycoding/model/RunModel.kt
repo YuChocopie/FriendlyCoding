@@ -2,7 +2,6 @@ package com.mashup.friendlycoding.model
 
 import android.util.Log
 import android.widget.EditText
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.viewmodel.CodeBlock
@@ -10,28 +9,40 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class RunModel {
-    private var moveView = MutableLiveData<Int>()
-    private var nowProcessing = MutableLiveData<Int>()
-    private var nowTerminated = MutableLiveData<Int>()
-    private var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()
-    var monsterAttacked = MutableLiveData<Boolean>()
-    var isLost = MutableLiveData<Boolean>()
-    var isWin = MutableLiveData<Boolean>()
-    var metBoss = MutableLiveData<Boolean>()
-    var insertBlockAt = MutableLiveData<Int>()
-    var insertedBlock : String? = null
+    // PrincessViewModel
+    var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
-    private var jumpTo = 0
+    // CodeBlockViewModel
+    var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
+    var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
+    var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
+    var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
+    var insertBlockAt = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 코드 블록이 어디에 삽입될 지를 알려준다.
+
+    // BattleViewModel
+    var metBoss = MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
+    var monsterAttack = MutableLiveData<Int>()
+    var princessAction = MutableLiveData<Int>()
+
+    var insertBlockPosition = 0
+    var insertedBlock : String? = null   // 삽입된 코드 블록의 이름
+    var changingView : String? = null    // 아이템을 주웠거나 아이템이 파괴됐을시 해당 아이템의 ID를 MainActivity에게 알려준다.
+
+    private var jumpTo = 0 // jump 할 주소
     private var IR = 0  // 명령어 실행할 주소
     private var iterator = 0 // 반복자
     private var blockLevel = 0 // 들여쓰기 정도.
     private var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var blockInsertMode = false
+    private var tempBracketBuffer = 0   // 괄호가 삭제되거나 할 때를 대비해서 임시로 저장해두는 버퍼.
+    private var coc = arrayOf(-1, -1 , -1, -1, -1) // 행동 수칙이 있는가?
+    private var isAttacking = false  // 몬스터가 공격 중에 있는지
+    private var isBossAlive = false
+    private var speed = 500L
 
     // 공주의 좌표
-    private var x = 0
-    private var y = 9
-    private var d = 1
+    private var x = 0 // x좌표
+    private var y = 9 // y좌표
+    private var d = 1 // 방향 : 0-> 위, 1-> 오른쪽, 2-> 아래, 3-> 왼쪽
 
     var mPrincess = Princess()
     var mMap = Map()
@@ -39,24 +50,26 @@ class RunModel {
 
     fun init() {
         mCodeBlock.value = ArrayList()
-        isLost.value = false
-        isWin.value = false
+        insertBlockPosition = -1
+        insertBlockAt.postValue(-1)
+        metBoss.value = false
+        monsterAttack.value = -1
+        princessAction.value = 0
     }
 
-    fun getCodeBlock(): LiveData<ArrayList<CodeBlock>> {
-        return mCodeBlock
-    }
-
-    fun getMoving(): LiveData<Int> {
-        return moveView
-    }
-
-    fun getNowProcessing(): LiveData<Int> {
-        return nowProcessing
-    }
-
-    fun getNowTerminated(): LiveData<Int> {
-        return nowTerminated
+    fun clearBlock() {
+        x = 0
+        y = 9
+        d = 1
+        iterator = 0
+        jumpTo = 0
+        blockLevel = 0
+        moveView.postValue(-1)
+        insertBlockAt.postValue(-1)
+        val block = mCodeBlock.value
+        block!!.clear()
+        mCodeBlock.postValue(block)
+        isBossAlive = false
     }
 
     fun movePrincess() {
@@ -98,35 +111,57 @@ class RunModel {
         }
     }
 
-    fun collisionCheck() {
+    fun collisionCheck() {   // 벽이나 보스와의 충돌 감지
         Log.e("(nowX", "(nowX  $x,,,$y")
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
-                isLost.postValue(true)
+                moveView.postValue(7)   // 벽이라면 졌다는 시그널 전송
             } else if (mMap.mapList!![y][x] == 2) {
-                isWin.postValue(true)
+                moveView.postValue(8)    // 이겼다면 이겼다는 시그널 전송
             } else if (y == mMonster?.y && x == mMonster?.x) {
-                metBoss.postValue(true)
+                metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
             }
         }
 
         else {
-            isLost.postValue(true)
+            moveView.postValue(7)     // 인덱스를 넘어갈 시
+        }
+    }
+
+    fun changeBlockLevel(OpenOrClose : Boolean) {
+        if (!OpenOrClose) {  // 여는 괄호를 삭제함
+            blockLevel--
+            if (bracketStack.isNotEmpty())
+                bracketStack.pop()
+        }
+
+        else {
+            blockLevel++  // 닫는 괄호를 삭제함
+            bracketStack.push(tempBracketBuffer)
         }
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-        if (blockInsertMode) {
+        if (insertBlockPosition != -1) {
             if (codeBlock.type == 3) {
                 Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
-                mCodeBlock.value!![IR - 1].argument = codeBlock.argument
+                mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
-                insertBlockAt.postValue(IR - 1)
-                blockInsertMode = false
+                insertBlockAt.postValue(insertBlockPosition)
+
+                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName) == "if") {
+                    coc[codeBlock.argument] = insertBlockPosition
+                }
+                insertBlockPosition = -1
                 return
             }
+
             else
                 return
+        }
+
+        else if (codeBlock.type == 3) {
+            return
         }
 
         val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
@@ -138,6 +173,7 @@ class RunModel {
                 adding.address = bracketStack.peek()  // jump할 주소
             else { // if인 경우엔 jump가 아니라 if의 주소를 바꿔야 한다
                 mCodeBlock.value!![bracketStack.peek() - 10000].address = IR
+                adding.address = bracketStack.peek() - 10000   // 자신을 연 if문의 주소
             }
 
             bracketStack.pop()
@@ -150,17 +186,18 @@ class RunModel {
             tap += "    "
         }
 
-        Log.e("${adding.funcName} ", "추가됨 $blockInsertMode")
         adding.funcName = tap + adding.funcName
 
-        if (ignoreBlanks(adding.funcName) == "for" || ignoreBlanks(adding.funcName) == "while" || ignoreBlanks(
-                adding.funcName
-            ) == "if"
-        ) {
-            if (ignoreBlanks(adding.funcName) == "if")
-                bracketStack.push(IR + 10000)
-            else
-                bracketStack.push(IR)
+        if (adding.type == 1 || adding.type == 2) {
+            tempBracketBuffer =
+                if (ignoreBlanks(adding.funcName) == "if") {
+                    bracketStack.push(IR + 10000)
+                    IR + 10000
+                }
+                else {
+                    bracketStack.push(IR)
+                    IR
+                }
             blockLevel++
         }
 
@@ -168,36 +205,11 @@ class RunModel {
         val block = mCodeBlock.value
         block!!.add(adding)
         mCodeBlock.postValue(block)
-        blockInsertMode = false
-    }
-//
-//    fun updateBlock(position: Int, cnt: Int) {
-//        val block = mCodeBlock.value
-//        mCodeBlock.value!![position].count = cnt
-//        mCodeBlock.postValue(block)
-//    }
-
-    fun clearBlock() {
-        x = 0
-        y = 9
-        d = 1
-        iterator = 0
-        jumpTo = 0
-        blockLevel = 0
-        moveView.postValue(-1)
-        val block = mCodeBlock.value
-        mCodeBlock.value!!.clear()
-        mCodeBlock.postValue(block)
+        insertBlockAt.postValue(-1)
+        Log.e("${adding.funcName} ", "${insertBlockAt.value}에 추가됨")
     }
 
     fun run() {
-        // 괄호 짝이 안 맞는 코드일 시 경고 메시지 출력
-        if (!bracketStack.empty()) {
-            Log.e("compile", "error")
-            clearBlock()
-            return
-        }
-
         val run = RunThead()
         IR = 0
         run.start()
@@ -208,15 +220,52 @@ class RunModel {
         lateinit var view: EditText
         override fun run() {
             try {
+                if (!bracketStack.empty()) {
+                    moveView.postValue(-5)
+                    return
+                }
+
                 moveView.postValue(-2)
-                sleep(500)
+                sleep(speed)
 
                 while (IR < mCodeBlock.value!!.size) {
+                    if (metBoss.value == true && !isAttacking) {
+                        if (mMonster!!.isAlive()) {
+                            // 몬스터의 차례
+                            Log.e("보스와의 배틀!", "!!!")
+                            mMonster?.attack()
+                            Log.e("몬스터의 공격!", "${mMonster?.attackType}")
+                            monsterAttack.postValue(mMonster?.attackType)
+                            if (mMonster?.attackType != -1) {
+                                when (mMonster?.attackType) {
+                                    0 -> Log.e("몬스터의", "불 공격!!!")
+                                    1 -> Log.e("몬스터의", "물 공격!!!")
+                                }
+                                sleep(speed)
+
+                                if (coc[mMonster?.attackType!!] == -1) {   // 피하는 루틴이 없음
+                                    moveView.postValue(-6)   // 사망
+                                    return
+                                } else {
+                                    IR = coc[mMonster?.attackType!!]  // 해당하는 것을 막으러 가자.
+                                    isAttacking = true
+                                }
+                            }
+
+                            else {
+                                Log.e("몬스터", "휴식!")
+                            }
+                        }
+                    }
+
+                    if (iterator > 30) {
+                        // 이런 게임 깨는데 루프를 30번 넘게 돌진 않겠지?
+                        moveView.postValue(-4)
+                        return
+                    }
+
                     nowProcessing.postValue(IR)
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
-                    if (mMonster!!.hp <= 0) {
-                        metBoss.postValue(false)
-                    }
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         "move" -> {
@@ -224,7 +273,7 @@ class RunModel {
                             moveView.postValue(d)
                             collisionCheck()
                             Log.e("갑니다", "앞으로")
-                            sleep(1000)
+                            sleep(speed)
                         }
 
                         "turnLeft" -> {
@@ -232,7 +281,7 @@ class RunModel {
                             rotate(false)
                             moveView.postValue(4)
                             Log.e("돕니다", "왼쪽으로")
-                            sleep(1000)
+                            sleep(speed)
                         }
 
                         "turnRight" -> {
@@ -240,49 +289,92 @@ class RunModel {
                             //  moveView.value = 2
                             moveView.postValue(5)
                             Log.e("돕니다", "오른쪽으로")
-                            sleep(1000)
+                            sleep(speed)
                         }
 
                         "for" -> {
-                            iterator = mCodeBlock.value!![IR].argument
+                            //iterator = mCodeBlock.value!![IR].argument
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
-                            sleep(1000)
+                            sleep(speed)
                         }
 
                         "}" -> {
                             jumpTo = mCodeBlock.value!![IR].address
-                            Log.e("jumpTo", "$jumpTo, iterate ${mCodeBlock.value!![jumpTo].argument}")
+                            Log.e("jumpTo", "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(mCodeBlock.value!![jumpTo].funcName)}")
 
-                            if (mCodeBlock.value!![jumpTo].type == 2) {
+                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "while") {
                                 when (mCodeBlock.value!![jumpTo].argument) {
-                                    7 -> {
-                                        if (mMonster!!.hp > 0) {
+                                    7 -> {   // isAlive
+                                        if (mMonster!!.isAlive()) {
+                                            nowTerminated.postValue(IR)
                                             IR = jumpTo
                                             Log.e("아직 안 죽었네", "$jumpTo 로!")
+                                            iterator++
+                                        }
+
+                                        else {
+                                            iterator = 0
+                                            metBoss.postValue(false)
                                         }
                                     }
                                 }
                             }
 
-                            else if (mCodeBlock.value!![jumpTo].type == 1) {
-                                if (mCodeBlock.value!![jumpTo].argument-- > 1) { // 이 조건 때문에 if에서 열린 블록이라도 반복을 진행하진 않을 것
-                                    IR = jumpTo
-                                    Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
-                                } else {
-                                    mCodeBlock.value!![jumpTo].argument = iterator // 원상 복구
+                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "if") {
+                                if (isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
+                                    princessAction.postValue(0)
+                                    Log.e("몬스터", "공격 종료!")
+                                    monsterAttack.postValue(-1)
+                                    isAttacking = false
                                 }
                             }
+
+                            else if (mCodeBlock.value!![jumpTo].type == 1) {
+                                Log.e("for 가 날 열었어", "${mCodeBlock.value!![jumpTo].argument}")
+                                if (iterator + 1 < mCodeBlock.value!![jumpTo].argument) {
+                                    nowTerminated.postValue(IR)
+                                    IR = jumpTo
+                                    Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
+                                    iterator++
+                                } else {
+                                    iterator = 0
+                                }
+                            }
+                            sleep(speed)
                         }
 
                         "if" -> {
                             when (mCodeBlock.value!![IR].argument) {
-                                1 -> {
-
+                                0 -> {
+                                    if (mMonster != null) {
+                                        if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
+                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                            princessAction.postValue(9)
+                                        }
+                                        else {
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
                                 }
 
-                                3 -> {  // 곡괭이?
+                                1 -> {
+                                    if (mMonster != null) {
+                                        if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
+                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                            princessAction.postValue(9)
+                                        }
+                                        else {
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+                                }
+
+                                3 -> {  // 곡괭이
                                     if (!mPrincess.isPickAxe) {
                                         Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                        nowTerminated.postValue(IR)
                                         IR = mCodeBlock.value!![IR].address
                                     }
                                 }
@@ -291,7 +383,7 @@ class RunModel {
 
                                 }
                             }
-                            sleep(1000)
+                            sleep(speed)
                         }
 
                         "else" -> {
@@ -299,14 +391,23 @@ class RunModel {
                         }
 
                         "pickAxe" -> {
-                            mPrincess.isPickAxe = true
-                            sleep(1000)
+                            if (mMap.mapList!![y][x] == 3) {
+                                mPrincess.pickAxe()
+                                mMap.pickAxe(y, x)
+                                changingView = "i$x$y"    // 아이템 뷰의 아이디는 i + x좌표 + y좌표 이다.
+                                moveView.postValue(6)
+                            }
+                            else {
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
                         }
 
                         "attack" -> {
-                            mMonster!!.hp -= mPrincess.DPS
+                            mMonster?.monsterAttacked(mPrincess.DPS)
                             monsterAttacked.postValue(true)
-                            sleep(1000)
+                            sleep(speed)
                             monsterAttacked.postValue(false)
                         }
                     }
@@ -318,7 +419,6 @@ class RunModel {
             } catch (e: IndexOutOfBoundsException) {
                 return
             }
-            //clearBlock() 스테이지 클리어 실패 시
         }
     }
 }
