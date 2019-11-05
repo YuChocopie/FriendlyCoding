@@ -23,7 +23,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val list = arrayListOf<StageItem>(
+        val list = arrayListOf(
             StageItem("R.drawable.cave"),
             StageItem("R.drawable.cave"),
             StageItem("R.drawable.cave"),

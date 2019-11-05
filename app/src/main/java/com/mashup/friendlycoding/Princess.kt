@@ -1,4 +1,4 @@
-package com.mashup.friendlycoding.model
+package com.mashup.friendlycoding
 
 //DPS : Damage Per Second 로 공격력을 의미
 class Princess {

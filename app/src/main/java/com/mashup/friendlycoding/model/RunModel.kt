@@ -3,8 +3,10 @@ package com.mashup.friendlycoding.model
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
+import com.mashup.friendlycoding.Map
+import com.mashup.friendlycoding.Monster
+import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.ignoreBlanks
-import com.mashup.friendlycoding.viewmodel.CodeBlock
 import java.util.*
 import kotlin.collections.ArrayList
 

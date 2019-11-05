@@ -6,9 +6,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.model.RunModel
-
-class CodeBlock(var funcName: String, var argument : Int = 0, var address : Int = 0, var type : Int = 0)
 
 class CodeBlockViewModel : ViewModel() {
     val sunnyImage: Int = R.drawable.ic_sunny

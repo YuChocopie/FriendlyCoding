@@ -39,68 +39,35 @@ class PrincessViewModel : ViewModel() {
         clear()
     }
 
-    //fun go(direction: Int) {
-        //changeXY(direction)
-        //check()
-    //}
-//
-//    fun check() {
-//        if (nowX < 10 && nowX > -1 && nowY < 10 && nowY > -1) {
-//            if (mapList[nowY][nowX] == 1) {
-//                isLost.value = true
-//            } else if (nowY == 9 && nowX == 9) {
-//                win!!.visibility = VISIBLE
-//            }
-//        } else {
-//            isLost.value = false
-//        }
-//    }
-//
-//    fun sendSignal(WinOrLose : Boolean) {
-//        isLost.value = WinOrLose
-//    }
-
     private fun rotationLeft() {
         // TODO : 공주 사진 변경
-//        direction -= 1
-//        if (direction < 0)
-//            direction += 4
     }
 
     private fun rotationRight() {
         // TODO : 공주 사진 변경
-//        if (direction == 3)
-//            direction = 0
-//        else
-//            direction++
     }
 
     private fun go(direction : Int) {
         val one = oneBlock
-        //direction %= 4
         when (direction) {
             //goint up
             0 -> {
                 princessImg!!.y = (princessImg!!.y - one)
-                //nowY--
             }
 
             //going right
             1 -> {
                 princessImg!!.x = (princessImg!!.x + one)
-                //nowX++
             }
 
             //going down
             2 -> {
                 princessImg!!.y = (princessImg!!.y + one)
-                //nowY++
             }
 
             //going left
             3 -> {
                 princessImg!!.x = (princessImg!!.x - one)
-                //nowX--
             }
         }
     }
@@ -108,9 +75,5 @@ class PrincessViewModel : ViewModel() {
     fun clear() {
         princessImg!!.x = oneBlock * 0 - oneBlock * 0.1f
         princessImg!!.y = oneBlock * 9 - oneBlock * 0.23f
-    }
-
-    fun runBoss() {
-        metBoss.value = !metBoss.value!!
     }
 }

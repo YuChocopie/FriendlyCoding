@@ -11,11 +11,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
-import com.mashup.friendlycoding.viewmodel.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 import android.text.Editable
 import com.mashup.friendlycoding.ignoreBlanks
+import com.mashup.friendlycoding.model.CodeBlock
 import java.lang.Exception
 
 class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>, private val mCodeBlockViewModel : CodeBlockViewModel) :
