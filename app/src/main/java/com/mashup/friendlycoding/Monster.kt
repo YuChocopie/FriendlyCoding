@@ -1,4 +1,4 @@
-package com.mashup.friendlycoding.model
+package com.mashup.friendlycoding
 
 import java.util.*
 

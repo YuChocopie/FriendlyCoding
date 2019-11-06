@@ -3,6 +3,7 @@ package com.mashup.friendlycoding.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Adapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
+import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_play.*
 
@@ -55,6 +57,7 @@ class PlayActivity : BaseActivity() {
         mRun.mPrincess = stageInfo.princess
 
         // 맵의 뷰를 활성화 하고 드로어블 적용
+        // TODO : MapSettingViewModel에서 이 일을 대신하기.
         for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
             val itemID = resources.getIdentifier("i"+ mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
             Log.e("${mMapSettingViewModel.mDrawables.itemImg[i][0]}", "i" + mMapSettingViewModel.mDrawables.itemImg[i][1])
@@ -77,11 +80,6 @@ class PlayActivity : BaseActivity() {
         rc_input_code.adapter = mInputdapter
         rc_input_code.layoutManager = layoutManager
 
-        //경계선
-//        rc_input_code.addItemDecoration(
-//            DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
-//        )
-
         bossField.isVisible = false
 
         // 코드 블록의 추가
@@ -100,22 +98,19 @@ class PlayActivity : BaseActivity() {
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                     // 실행 중에는 코드를 수정할 수 없다
-                    mAdapter.clickable = false
-                    mInputdapter.clickable = false
+                    clickableControl(false, mAdapter, mInputdapter)
                 }
                 -3 -> {
                     Log.e("실행 끝", "위로")
                     // 실행이 끝났으니 코드를 다시 수정가능하게 하자
-                    mAdapter.clickable = true
-                    mInputdapter.clickable = true
+                    clickableControl(true, mAdapter, mInputdapter)
                     mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.nowProcessing.value!!))
                 }
 
                 -4 -> {
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
-                    mAdapter.clickable = true
-                    mInputdapter.clickable = true
+                    clickableControl(true, mAdapter, mInputdapter)
                     mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.nowProcessing.value!!))
                 }
 
@@ -131,8 +126,7 @@ class PlayActivity : BaseActivity() {
                     bossField.isVisible = false
                     mCodeBlockViewModel.clearBlock()
                     mPrincessViewModel.clear()
-                    mAdapter.clickable = true
-                    mInputdapter.clickable = true
+                    clickableControl(true, mAdapter, mInputdapter)
                 }
 
                 6 -> {  // 곡괭이의 습득
@@ -211,8 +205,7 @@ class PlayActivity : BaseActivity() {
             bossField.isVisible = t
             mCodeBlockViewModel.clearBlock()
             mPrincessViewModel.clear()
-            mAdapter.clickable = true
-            mInputdapter.clickable = true
+            clickableControl(true, mAdapter, mInputdapter)
 
             if (t) {
                 mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
@@ -248,5 +241,10 @@ class PlayActivity : BaseActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
+    }
+
+    private fun clickableControl (able : Boolean, codeBlockAdapter: CodeBlockAdapter, mInputCodeBlockAdapter: InputCodeBlockAdapter) {
+        codeBlockAdapter.clickable = able
+        mInputCodeBlockAdapter.clickable = able
     }
 }

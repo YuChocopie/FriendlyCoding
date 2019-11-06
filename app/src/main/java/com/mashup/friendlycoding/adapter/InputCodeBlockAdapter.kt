@@ -1,14 +1,12 @@
 package com.mashup.friendlycoding.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.viewmodel.CodeBlock
+import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
-import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import kotlinx.android.synthetic.main.item_input_code_list.view.*
 
 class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel, var inputCodeBlock : ArrayList<CodeBlock>) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {

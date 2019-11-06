@@ -3,8 +3,10 @@ package com.mashup.friendlycoding.model
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
+import com.mashup.friendlycoding.Map
+import com.mashup.friendlycoding.Monster
+import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.ignoreBlanks
-import com.mashup.friendlycoding.viewmodel.CodeBlock
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -16,13 +18,20 @@ class RunModel {
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
     var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
     var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
-    var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
     var insertBlockAt = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 코드 블록이 어디에 삽입될 지를 알려준다.
 
     // BattleViewModel
     var metBoss = MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
-    var monsterAttack = MutableLiveData<Int>()
-    var princessAction = MutableLiveData<Int>()
+    var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
+    var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
+    var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
+
+    // ㄴ 사실 시그널 변수가 저렇게 많이 필요하진 않고
+    // nowProcessing이나 nowTerminated 를 제외한 모든 MutableLiveData는 moveVIew 에 합칠 수도 있긴 합니다.
+    // 하지만 그렇게 되면 PlayActivity에서 observe 하는 부분이 매우 길어지고
+    // 그 시그널 넘버도 많아지면 굉장히 복잡하게 될 우려가 있기 때문에
+    // 일부러 목적에 맞게 나눠놨습니다.
+    // 합치려다가 진짜 엄두가 안 나서 포기한 거라고는 말 못합니다.
 
     var insertBlockPosition = 0
     var insertedBlock : String? = null   // 삽입된 코드 블록의 이름
