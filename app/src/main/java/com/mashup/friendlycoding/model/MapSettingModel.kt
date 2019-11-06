@@ -14,6 +14,7 @@ class Stage(val map : Map, val princess : Princess, val monster: Monster?, val o
 class MapSettingModel {
     fun getStageInfo (stageNum : Int) : Stage {
         when (stageNum) {
+            // Act 1
             0 -> {
                 // 맵 정보
                 val mapList = arrayOf(
@@ -34,7 +35,7 @@ class MapSettingModel {
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 mDrawables.itemImg = arrayListOf(
-                    arrayOf(3, "29") // 순서대로 아이템의 종류, 아이템의 y, x
+                    arrayOf(3, "29") // 순서대로 아이템의 종류, 아이템의 xy좌표 -> ixy는 아이템 이미지 뷰의 아이디
                     //arrayOf(1, "40"),
                     //arrayOf(1, "60") .... and so on.
                 )
@@ -83,15 +84,15 @@ class MapSettingModel {
                 val mDrawables = Drawables(backgroundImg = R.drawable.test_image)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.itemImg = arrayListOf(
-//                    arrayOf(1, 0, 1),
-//                    arrayOf(1, 0, 2), ......
+//                    arrayOf(1, "01"),
+//                    arrayOf(1, "02"), ......
                     arrayOf(4, "29"),
                     arrayOf(4, "34"),
                     arrayOf(4, "86")
                     )
 
                 // 기본 제공되는 블록
-                val blockButton = arrayListOf(
+                val offeredBlock = arrayListOf(
                     CodeBlock("move"),
                     CodeBlock("turnLeft"),
                     CodeBlock("turnRight"),
@@ -102,7 +103,18 @@ class MapSettingModel {
                     CodeBlock("}")
                 )
 
-                return Stage(Map(mapList, mDrawables), Princess(), Monster(1, 100, 0, 0), blockButton)
+                val bossBattleBlock = arrayListOf(
+                    CodeBlock("if", type = 2),
+                    CodeBlock("while", type = 2),
+                    CodeBlock("for", type = 1),
+                    CodeBlock("}", type = 4),
+                    CodeBlock("attack"),
+                    CodeBlock("isAlive", type = 3, argument = 7),
+                    CodeBlock("detectedFire", type = 3, argument = 0),
+                    CodeBlock("detectedWater", type = 3, argument = 1)
+                )
+
+                return Stage(Map(mapList, mDrawables), Princess(), Monster(1, 100, 0, 0), offeredBlock, bossBattleBlock)
             }
 
             // 2 -> {} ...

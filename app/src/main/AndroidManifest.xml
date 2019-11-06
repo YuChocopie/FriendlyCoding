@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.TutorialActivity"></activity>
-        <activity android:name=".activity.SelectStageActivity" />
+        <activity android:name=".activity.SelectStageActivity"></activity>
+        <activity android:name=".activity.TutorialActivity" />
         <activity android:name=".activity.StoryActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayActivity" />
+        <activity android:name=".activity.PlayActivity" />
     </application>
 
 </manifest>
