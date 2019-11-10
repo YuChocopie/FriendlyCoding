@@ -59,7 +59,7 @@ class PlayActivity : BaseActivity() {
         // 맵의 뷰를 활성화 하고 드로어블 적용
         // TODO : MapSettingViewModel에서 이 일을 대신하기.
         for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
-            val itemID = resources.getIdentifier("i"+ mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
+            val itemID = resources.getIdentifier(mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
             Log.e("${mMapSettingViewModel.mDrawables.itemImg[i][0]}", "i" + mMapSettingViewModel.mDrawables.itemImg[i][1])
             when (mMapSettingViewModel.mDrawables.itemImg[i][0]) {
                 3 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.pick_axe)
@@ -138,6 +138,7 @@ class PlayActivity : BaseActivity() {
                 7 -> {  // 패배
                     mCodeBlockViewModel.clearBlock()
                     mPrincessViewModel.clear()
+                    mAdapter.notifyDataSetChanged()
                 }
 
                 8 -> {  // 승리
@@ -171,7 +172,8 @@ class PlayActivity : BaseActivity() {
         mRun.insertBlockAt.observe(this, Observer<Int> { t ->
             if (t != -1) {
                 Log.e("블록 삽입됨", "$t 에 ${mRun.insertedBlock}")
-                mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+                //mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+                mAdapter.notifyItemChanged(t)
             }
         })
 
