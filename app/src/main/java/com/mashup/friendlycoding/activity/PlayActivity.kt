@@ -156,6 +156,10 @@ class PlayActivity : BaseActivity() {
             }
         })
 
+
+
+
+        
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
