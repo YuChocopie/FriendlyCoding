@@ -158,21 +158,11 @@ class PlayActivity : BaseActivity() {
                 }
             }
         })
-
-
-
-
-
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
             //if (t > 8)
                 //rc_code_block_list.smoothScrollToPosition(t + 3)
-        })
-
-        mRun.nowProcessing.observe(this, Observer<Int> { t ->
-            if (t > 8)
-            rc_code_block_list.smoothScrollToPosition(t + 3)
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기

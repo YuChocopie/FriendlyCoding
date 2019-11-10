@@ -80,6 +80,7 @@ class RunModel {
         block!!.clear()
         bracketStack.clear()
         mCodeBlock.postValue(block)
+        nowTerminated.postValue(IR)
         isBossAlive = false
     }
 
@@ -297,6 +298,7 @@ class RunModel {
                             moveView.postValue(d)
                             if (collisionCheck()) {
                                 Log.e("충돌 !!!", "앙인암ㅇ리ㅏ흘" )
+                                nowTerminated.postValue(IR)
                                 return
                             }
                             Log.e("갑니다", "앞으로")
