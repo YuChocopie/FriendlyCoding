@@ -175,8 +175,9 @@ class RunModel {
                 mCodeBlock.value!![insertBlockPosition].funcName = insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
                 insertBlockAt.postValue(insertBlockPosition)
 
-                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName) == "if()") {
+                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName).substring(0, 2) == "if") {
                     coc[codeBlock.argument] = insertBlockPosition
+                    Log.e("행동 추가", "$insertBlockPosition")
                 }
                 insertBlockPosition = -1
                 return
@@ -332,25 +333,25 @@ class RunModel {
                             jumpTo = mCodeBlock.value!![IR].address
                             Log.e("jumpTo", "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(mCodeBlock.value!![jumpTo].funcName)}")
 
-                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "while") {
-                                when (mCodeBlock.value!![jumpTo].argument) {
-                                    7 -> {   // isAlive
-                                        if (mMonster!!.isAlive()) {
-                                            nowTerminated.postValue(IR)
-                                            IR = jumpTo
-                                            Log.e("아직 안 죽었네", "$jumpTo 로!")
-                                            iterator++
-                                        }
-
-                                        else {
-                                            iterator = 0
-                                            metBoss.postValue(false)
+                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).length > 5) {
+                                if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0, 5) == "while") {
+                                    when (mCodeBlock.value!![jumpTo].argument) {
+                                        7 -> {   // isAlive
+                                            if (mMonster!!.isAlive()) {
+                                                nowTerminated.postValue(IR)
+                                                IR = jumpTo
+                                                Log.e("아직 안 죽었네", "$jumpTo 로!")
+                                                iterator++
+                                            } else {
+                                                iterator = 0
+                                                metBoss.postValue(false)
+                                            }
                                         }
                                     }
                                 }
                             }
 
-                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0,2) == "if") {
+                            if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0,2) == "if") {
                                 if (isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
                                     princessAction.postValue(0)
                                     Log.e("몬스터", "공격 종료!")
@@ -359,7 +360,7 @@ class RunModel {
                                 }
                             }
 
-                            else if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "for(") {
+                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "for(") {
                                 Log.e("for 가 날 열었어", "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}")
                                 if (mCodeBlock.value!![jumpTo].argument-- > 1) {
                                     nowTerminated.postValue(IR)
@@ -376,6 +377,7 @@ class RunModel {
                                 }
                             }
                             sleep(speed)
+                            nowTerminated.postValue(IR)
                         }
 
                         "else" -> {
