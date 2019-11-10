@@ -151,6 +151,10 @@ class PlayActivity : BaseActivity() {
 //                        Log.e("블록", "캐시 초기화")
 //                        rc_code_block_list.recycledViewPool.clear()
 //                    }
+                    if (t == -1) {
+                        rc_code_block_list.adapter = CodeBlockAdapter(this, mRun.mCodeBlock.value!!, mCodeBlockViewModel)
+                        rc_code_block_list.layoutManager = linearLayoutManager
+                    }
                     mPrincessViewModel.move(t)
                 }
             }

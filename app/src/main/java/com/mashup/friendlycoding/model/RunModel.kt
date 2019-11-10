@@ -47,6 +47,7 @@ class RunModel {
     private var isAttacking = false  // 몬스터가 공격 중에 있는지
     private var isBossAlive = false
     private var speed = 500L
+    private var iteratorStack = Stack<Int>()
 
     // 공주의 좌표
     private var x = 0 // x좌표
@@ -312,7 +313,8 @@ class RunModel {
                         }
 
                         "for(" -> {
-                            //iterator = mCodeBlock.value!![IR].argument
+                            iterator = mCodeBlock.value!![IR].argument
+                            iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
                             sleep(speed)
                         }
@@ -339,7 +341,7 @@ class RunModel {
                                 }
                             }
 
-                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "if") {
+                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0,2) == "if") {
                                 if (isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
                                     princessAction.postValue(0)
                                     Log.e("몬스터", "공격 종료!")
@@ -348,15 +350,20 @@ class RunModel {
                                 }
                             }
 
-                            else if (mCodeBlock.value!![jumpTo].type == 1) {
-                                Log.e("for 가 날 열었어", "${mCodeBlock.value!![jumpTo].argument}")
-                                if (iterator + 1 < mCodeBlock.value!![jumpTo].argument) {
+                            else if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "for(") {
+                                Log.e("for 가 날 열었어", "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}")
+                                if (mCodeBlock.value!![jumpTo].argument-- > 1) {
                                     nowTerminated.postValue(IR)
                                     IR = jumpTo
                                     Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
                                     iterator++
-                                } else {
-                                    iterator = 0
+                                }
+
+                                else {
+                                     //mCodeBlock.value!![jumpTo].argument = iterator
+                                    //mCodeBlock.value!![IR].argument = iterator
+                                    mCodeBlock.value!![jumpTo].argument = iteratorStack.peek()
+                                    iteratorStack.pop()
                                 }
                             }
                             sleep(speed)

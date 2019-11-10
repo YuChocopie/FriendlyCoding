@@ -90,22 +90,21 @@ class CodeBlockAdapter(
 
         fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
-            val edit = itemView.findViewById<EditText>(R.id.argument)
-            edit.isVisible = false
-            edit.hint = ""
-            edit.isCursorVisible = false
-            view.end.text = ""
 
             if (codeBlock.type == 2)
                 view.end.text = "{"
+            else {
+                view.end.text = ""
+            }
 
             if (codeBlock.type == 1) {
-                edit.isVisible = true
-                edit.isClickable = true
-                edit.hint = "?"
+                view.argument.isVisible = true
+                view.argument.isCursorVisible = false
+                view.argument.isClickable = true
+                view.argument.hint = "?"
                 view.end.text = ") {"
 
-                edit.addTextChangedListener(object : TextWatcher {
+                view.argument.addTextChangedListener(object : TextWatcher {
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         try {
                             codeBlock.argument = s.toString().toInt()
@@ -117,6 +116,11 @@ class CodeBlockAdapter(
                     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                     }
                 })
+            }
+
+            else {
+                view.argument.isVisible = false
+                view.argument.isClickable = false
             }
 
             view.setOnLongClickListener(listener)

@@ -20,7 +20,8 @@
             android:background="@null"
             android:inputType="numberDecimal"
             android:textCursorDrawable="@null"
-            android:clickable="false"
+            android:hint="\?"
+            android:visibility="gone"
             android:textSize="20sp" />
         <TextView
             android:id="@+id/end"
