@@ -21,7 +21,7 @@
             android:overScrollMode="never"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_stage"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/item_stage"/>
 
         <ImageView
             android:id="@+id/cloud"

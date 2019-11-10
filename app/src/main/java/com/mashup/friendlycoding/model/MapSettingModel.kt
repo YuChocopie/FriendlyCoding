@@ -8,22 +8,22 @@ import com.mashup.friendlycoding.R
 class MapSettingModel {
     // Act 마다 반복되는 거 있으면 알아서 빼주세용
     private val defaultCodeBlock = arrayListOf(
-        CodeBlock("move"),
-        CodeBlock("turnLeft"),
-        CodeBlock("turnRight"),
-        CodeBlock("for", type = 1),
-        CodeBlock("if", type = 2),
-        CodeBlock("while", type = 2),
+        CodeBlock("move();"),
+        CodeBlock("turnLeft();"),
+        CodeBlock("turnRight();"),
+        CodeBlock("for(", type = 1),
+        CodeBlock("if()", type = 2),
+        CodeBlock("while()", type = 2),
         CodeBlock("}", type = 4)
     )
 
     private val defaultBattleCodeBlock = arrayListOf(
-        CodeBlock("if", type = 2),
-        CodeBlock("while", type = 2),
-        CodeBlock("for", type = 1),
+        CodeBlock("if()", type = 2),
+        CodeBlock("while()", type = 2),
+        CodeBlock("for(", type = 1),
         CodeBlock("}", type = 4),
-        CodeBlock("attack"),
-        CodeBlock("isAlive", type = 3, argument = 7)
+        CodeBlock("attack();"),
+        CodeBlock("isAlive()", type = 3, argument = 7)
     )
 
     fun getStageInfo(stageNum: Int): Stage {
@@ -50,7 +50,7 @@ class MapSettingModel {
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 mDrawables.itemImg = arrayListOf(
-                    arrayOf(3, "29") // 순서대로 아이템의 종류, 아이템의 xy좌표 -> ixy는 아이템 이미지 뷰의 아이디
+                    arrayOf(3, "i29") // 순서대로 아이템의 종류, 아이템의 xy좌표 -> ixy는 아이템 이미지 뷰의 아이디
                     //arrayOf(1, "40"),
                     //arrayOf(1, "60") .... and so on.
                 )
@@ -58,13 +58,13 @@ class MapSettingModel {
                 // 기본 제공되는 블록
                 val offeredBlock = defaultCodeBlock
                 offeredBlock.addAll(arrayListOf(
-                    CodeBlock("pickAxe"),
-                    CodeBlock("isPickAxe", type = 3, argument = 3)))
+                    CodeBlock("pickAxe();"),
+                    CodeBlock("isPickAxe()", type = 3, argument = 3)))
 
                 val bossBattleBlock = defaultBattleCodeBlock
                 bossBattleBlock.addAll(arrayListOf(
-                    CodeBlock("detectedFire", type = 3, argument = 0),
-                    CodeBlock("detectedWater", type = 3, argument = 1)))
+                    CodeBlock("detectedFire()", type = 3, argument = 0),
+                    CodeBlock("detectedWater()", type = 3, argument = 1)))
 
                 return Stage(
                     Map(mapList, mDrawables),
@@ -95,22 +95,22 @@ class MapSettingModel {
                 mDrawables.itemImg = arrayListOf(
 //                    arrayOf(1, "01"),
 //                    arrayOf(1, "02"), ......
-                    arrayOf(4, "29"),
-                    arrayOf(4, "34"),
-                    arrayOf(4, "86")
+                    arrayOf(4, "i29"),
+                    arrayOf(4, "i34"),
+                    arrayOf(4, "i86")
                 )
 
                 // 기본 제공되는 블록
                 val offeredBlock = defaultCodeBlock
                 offeredBlock.addAll(arrayListOf(
-                    CodeBlock("isMushroom", type = 3, argument = 4),
-                    CodeBlock("eatMushRoom")
+                    CodeBlock("isMushroom()", type = 3, argument = 4),
+                    CodeBlock("eatMushRoom();")
                 ))
 
                 val bossBattleBlock = defaultBattleCodeBlock
                 bossBattleBlock.addAll(arrayListOf(
-                    CodeBlock("detectedFire", type = 3, argument = 0),
-                    CodeBlock("detectedWater", type = 3, argument = 1)
+                    CodeBlock("detectedFire()", type = 3, argument = 0),
+                    CodeBlock("detectedWater()", type = 3, argument = 1)
                 ))
 
                 return Stage(

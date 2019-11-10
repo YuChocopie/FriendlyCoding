@@ -47,6 +47,7 @@ class RunModel {
     private var isAttacking = false  // 몬스터가 공격 중에 있는지
     private var isBossAlive = false
     private var speed = 500L
+    private var iteratorStack = Stack<Int>()
 
     // 공주의 좌표
     private var x = 0 // x좌표
@@ -77,7 +78,9 @@ class RunModel {
         insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
         block!!.clear()
+        bracketStack.clear()
         mCodeBlock.postValue(block)
+        nowTerminated.postValue(IR)
         isBossAlive = false
     }
 
@@ -120,21 +123,26 @@ class RunModel {
         }
     }
 
-    fun collisionCheck() {   // 벽이나 보스와의 충돌 감지
+    fun collisionCheck() : Boolean {   // 벽이나 보스와의 충돌 감지
         Log.e("(nowX", "(nowX  $x,,,$y")
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
                 moveView.postValue(7)   // 벽이라면 졌다는 시그널 전송
+                return true
             } else if (mMap.mapList!![y][x] == 2) {
                 moveView.postValue(8)    // 이겼다면 이겼다는 시그널 전송
+                return false
             } else if (y == mMonster?.y && x == mMonster?.x) {
                 metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
+                return true
             }
         }
 
         else {
             moveView.postValue(7)     // 인덱스를 넘어갈 시
+            return true
         }
+        return false
     }
 
     fun changeBlockLevel(OpenOrClose : Boolean) {
@@ -150,15 +158,24 @@ class RunModel {
         }
     }
 
+    fun insertBlock (at : String, block : String) : String {
+        var idx = 0
+        val inserted : String
+        while (at[idx++] != '(') {}
+        inserted = at.substring(0, idx) + block + ')'
+        return inserted
+    }
+
     fun addNewBlock(codeBlock: CodeBlock) {
         if (insertBlockPosition != -1) {
             if (codeBlock.type == 3) {
                 Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
+                mCodeBlock.value!![insertBlockPosition].funcName = insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
                 insertBlockAt.postValue(insertBlockPosition)
 
-                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName) == "if") {
+                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName) == "if()") {
                     coc[codeBlock.argument] = insertBlockPosition
                 }
                 insertBlockPosition = -1
@@ -199,7 +216,7 @@ class RunModel {
 
         if (adding.type == 1 || adding.type == 2) {
             tempBracketBuffer =
-                if (ignoreBlanks(adding.funcName) == "if") {
+                if (ignoreBlanks(adding.funcName) == "if()") {
                     bracketStack.push(IR + 10000)
                     IR + 10000
                 }
@@ -226,7 +243,6 @@ class RunModel {
     }
 
     inner class RunThead : Thread() {
-        lateinit var view: EditText
         override fun run() {
             try {
                 if (!bracketStack.empty()) {
@@ -277,15 +293,19 @@ class RunModel {
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
-                        "move" -> {
+                        "move();" -> {
                             movePrincess()
                             moveView.postValue(d)
-                            collisionCheck()
+                            if (collisionCheck()) {
+                                Log.e("충돌 !!!", "앙인암ㅇ리ㅏ흘" )
+                                nowTerminated.postValue(IR)
+                                return
+                            }
                             Log.e("갑니다", "앞으로")
                             sleep(speed)
                         }
 
-                        "turnLeft" -> {
+                        "turnLeft();" -> {
                             //    moveView.value = 1
                             rotate(false)
                             moveView.postValue(4)
@@ -293,7 +313,7 @@ class RunModel {
                             sleep(speed)
                         }
 
-                        "turnRight" -> {
+                        "turnRight();" -> {
                             rotate(true)
                             //  moveView.value = 2
                             moveView.postValue(5)
@@ -301,8 +321,9 @@ class RunModel {
                             sleep(speed)
                         }
 
-                        "for" -> {
-                            //iterator = mCodeBlock.value!![IR].argument
+                        "for(" -> {
+                            iterator = mCodeBlock.value!![IR].argument
+                            iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
                             sleep(speed)
                         }
@@ -329,7 +350,7 @@ class RunModel {
                                 }
                             }
 
-                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "if") {
+                            else if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0,2) == "if") {
                                 if (isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
                                     princessAction.postValue(0)
                                     Log.e("몬스터", "공격 종료!")
@@ -338,58 +359,20 @@ class RunModel {
                                 }
                             }
 
-                            else if (mCodeBlock.value!![jumpTo].type == 1) {
-                                Log.e("for 가 날 열었어", "${mCodeBlock.value!![jumpTo].argument}")
-                                if (iterator + 1 < mCodeBlock.value!![jumpTo].argument) {
+                            else if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "for(") {
+                                Log.e("for 가 날 열었어", "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}")
+                                if (mCodeBlock.value!![jumpTo].argument-- > 1) {
                                     nowTerminated.postValue(IR)
                                     IR = jumpTo
                                     Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
                                     iterator++
-                                } else {
-                                    iterator = 0
-                                }
-                            }
-                            sleep(speed)
-                        }
-
-                        "if" -> {
-                            when (mCodeBlock.value!![IR].argument) {
-                                0 -> {
-                                    if (mMonster != null) {
-                                        if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
-                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                            princessAction.postValue(9)
-                                        }
-                                        else {
-                                            nowTerminated.postValue(IR)
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
                                 }
 
-                                1 -> {
-                                    if (mMonster != null) {
-                                        if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
-                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                            princessAction.postValue(9)
-                                        }
-                                        else {
-                                            nowTerminated.postValue(IR)
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
-                                }
-
-                                3 -> {  // 곡괭이
-                                    if (!mPrincess.isPickAxe) {
-                                        Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                        nowTerminated.postValue(IR)
-                                        IR = mCodeBlock.value!![IR].address
-                                    }
-                                }
-
-                                else -> {
-
+                                else {
+                                     //mCodeBlock.value!![jumpTo].argument = iterator
+                                    //mCodeBlock.value!![IR].argument = iterator
+                                    mCodeBlock.value!![jumpTo].argument = iteratorStack.peek()
+                                    iteratorStack.pop()
                                 }
                             }
                             sleep(speed)
@@ -399,7 +382,7 @@ class RunModel {
 
                         }
 
-                        "pickAxe" -> {
+                        "pickAxe();" -> {
                             if (mMap.mapList!![y][x] == 3) {
                                 mPrincess.pickAxe()
                                 mMap.pickAxe(y, x)
@@ -413,11 +396,57 @@ class RunModel {
                             sleep(speed)
                         }
 
-                        "attack" -> {
+                        "attack();" -> {
                             mMonster?.monsterAttacked(mPrincess.DPS)
                             monsterAttacked.postValue(true)
                             sleep(speed)
                             monsterAttacked.postValue(false)
+                        }
+
+                        else -> {
+                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0,2) == "if") {
+                                Log.e("if", "입니다")
+                                when (mCodeBlock.value!![IR].argument) {
+                                    0 -> {
+                                        if (mMonster != null) {
+                                            if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
+                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                                princessAction.postValue(9)
+                                            }
+                                            else {
+                                                nowTerminated.postValue(IR)
+                                                IR = mCodeBlock.value!![IR].address
+                                            }
+                                        }
+                                    }
+
+                                    1 -> {
+                                        if (mMonster != null) {
+                                            if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
+                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                                princessAction.postValue(9)
+                                            }
+                                            else {
+                                                nowTerminated.postValue(IR)
+                                                IR = mCodeBlock.value!![IR].address
+                                            }
+                                        }
+                                    }
+
+                                    3 -> {  // 곡괭이
+                                        if (!mPrincess.isPickAxe) {
+                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+
+                                    else -> {
+
+                                    }
+                                }
+                                sleep(speed)
+                            }
                         }
                     }
 

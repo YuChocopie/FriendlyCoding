@@ -18,7 +18,11 @@ import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.model.CodeBlock
 import java.lang.Exception
 
-class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: ArrayList<CodeBlock>, private val mCodeBlockViewModel : CodeBlockViewModel) :
+class CodeBlockAdapter(
+    private val mContext: Context,
+    private val CodeBlocks: ArrayList<CodeBlock>,
+    private val mCodeBlockViewModel: CodeBlockViewModel
+) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     var clickable = true
     lateinit var binding: ItemCodeBlockListBinding
@@ -47,14 +51,12 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
                         Log.e("코드 들이기", CodeBlocks[i].funcName)
                         if (CodeBlocks[i].type == 4) {
                             break
-                        }
-                        else if (CodeBlocks[i].funcName.substring(0, 4) == "    ") {
+                        } else if (CodeBlocks[i].funcName.substring(0, 4) == "    ") {
                             Log.e("코드 들이기", CodeBlocks[i].funcName)
                             CodeBlocks[i].funcName = CodeBlocks[i].funcName.substring(4)
                         }
                     }
-                }
-                else if (item.type == 4) {
+                } else if (item.type == 4) {
                     mCodeBlockViewModel.changeBlockLevel(true)
                 }
                 notifyItemRemoved(position)
@@ -66,9 +68,12 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
         val type2BlockListener = View.OnClickListener {
             if (clickable && item.type == 2) {
                 mCodeBlockViewModel.mRun.insertBlockPosition = position
-                Toast.makeText(it.context, "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.insertBlockPosition}", Toast.LENGTH_SHORT).show()
-            }
-            else {
+                Toast.makeText(
+                    it.context,
+                    "${item.funcName}이 선택되었습니다. 조건을 추가해주세요. ${mCodeBlockViewModel.mRun.insertBlockPosition}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
                 mCodeBlockViewModel.mRun.insertBlockAt.postValue(-1)
                 Log.e("해제", "${mCodeBlockViewModel.mRun.insertBlockPosition}")
             }
@@ -81,39 +86,45 @@ class CodeBlockAdapter(private val mContext: Context, private val CodeBlocks: Ar
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var view : View = itemView
+        private var view: View = itemView
 
-        fun bind(listener: View.OnLongClickListener, type2BlockListener : View.OnClickListener, codeBlock: CodeBlock) {
+        fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
 
-            if (codeBlock.type == 1 || codeBlock.type == 2) {
-                itemView.findViewById<TextView>(R.id.colon).text = " {"
+            if (codeBlock.type == 2)
+                view.end.text = "{"
+            else {
+                view.end.text = ""
+            }
 
-                if (codeBlock.type == 1) {
-                    val edit = itemView.findViewById<EditText>(R.id.argument)
-                    edit.isVisible = true
-                    edit.isCursorVisible = false
+            if (codeBlock.type == 1) {
+                view.argument.text.clear()
+                view.argument.isVisible = true
+                view.argument.isCursorVisible = false
+                view.argument.isClickable = true
+//                if ( view.argument.text != null)
+//                    view.argument.hint =  view.argument.text
+//                else
+//                    view.argument.hint="?"
+                view.end.text = ") {"
 
-                    edit.addTextChangedListener(object : TextWatcher {
-                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                            try {
-                                codeBlock.argument = s.toString().toInt()
-                            } catch (e: Exception) { }
+                view.argument.addTextChangedListener(object : TextWatcher {
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        try {
+                            codeBlock.argument = s.toString().toInt()
                         }
-                        override fun afterTextChanged(arg0: Editable) {}
-                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                    })
-                }
+                        catch (e: Exception) { }
+                    }
+
+                    override fun afterTextChanged(arg0: Editable) {}
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                    }
+                })
             }
 
-            if (ignoreBlanks(codeBlock.funcName) == "}") {
-                val end = itemView.findViewById<LinearLayout>(R.id.end)
-                end.isVisible = false
-            }
-
-            else if (codeBlock.type == 3) {
-                val end = itemView.findViewById<TextView>(R.id.colon)
-                end.isVisible = false
+            else {
+                view.argument.isVisible = false
+                view.argument.isClickable = false
             }
 
             view.setOnLongClickListener(listener)

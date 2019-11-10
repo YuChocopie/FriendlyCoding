@@ -39,13 +39,13 @@ class CodeBlockViewModel : ViewModel() {
             return
         view.setBackgroundResource(R.color.Invisible)
     }
-
-    @SuppressLint("SetTextI18n")
-    fun insertBlock(view : View?, funcName: String) {
-        if (view == null)
-            return
-        view.findViewById<TextView>(R.id.insertedBlock).text = "$funcName()"
-    }
+//
+//    @SuppressLint("SetTextI18n")
+//    fun insertBlock(view : View?, funcName: String) {
+//        if (view == null)
+//            return
+//        view.findViewById<TextView>(R.id.insertedBlock).text = "$funcName()"
+//    }
 
     fun run() {
         Log.e("RunModel", "실행")

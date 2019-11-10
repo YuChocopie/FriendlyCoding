@@ -59,7 +59,7 @@ class PlayActivity : BaseActivity() {
         // 맵의 뷰를 활성화 하고 드로어블 적용
         // TODO : MapSettingViewModel에서 이 일을 대신하기.
         for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
-            val itemID = resources.getIdentifier("i"+ mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
+            val itemID = resources.getIdentifier(mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
             Log.e("${mMapSettingViewModel.mDrawables.itemImg[i][0]}", "i" + mMapSettingViewModel.mDrawables.itemImg[i][1])
             when (mMapSettingViewModel.mDrawables.itemImg[i][0]) {
                 3 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.pick_axe)
@@ -85,9 +85,12 @@ class PlayActivity : BaseActivity() {
         // 코드 블록의 추가
         mRun.mCodeBlock.observe(this, Observer<List<CodeBlock>> {
             Log.e("추가됨", " ")
-            mAdapter.notifyDataSetChanged()
-            if (mRun.mCodeBlock.value!!.size > 1) {
+            if (mRun.mCodeBlock.value!!.size > 0) {
                 rc_code_block_list.smoothScrollToPosition(mRun.mCodeBlock.value!!.size - 1)
+                mAdapter.notifyItemChanged(mRun.mCodeBlock.value!!.size - 1)
+            }
+            else {
+                mAdapter.notifyDataSetChanged()
             }
         })
 
@@ -138,6 +141,7 @@ class PlayActivity : BaseActivity() {
                 7 -> {  // 패배
                     mCodeBlockViewModel.clearBlock()
                     mPrincessViewModel.clear()
+                    mAdapter.notifyDataSetChanged()
                 }
 
                 8 -> {  // 승리
@@ -154,12 +158,11 @@ class PlayActivity : BaseActivity() {
                 }
             }
         })
-
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
-            if (t > 8)
-                rc_code_block_list.smoothScrollToPosition(t + 3)
+            //if (t > 8)
+                //rc_code_block_list.smoothScrollToPosition(t + 3)
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -171,7 +174,8 @@ class PlayActivity : BaseActivity() {
         mRun.insertBlockAt.observe(this, Observer<Int> { t ->
             if (t != -1) {
                 Log.e("블록 삽입됨", "$t 에 ${mRun.insertedBlock}")
-                mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+                //mCodeBlockViewModel.insertBlock(linearLayoutManager.findViewByPosition(t), mRun.insertedBlock!!)
+                mAdapter.notifyItemChanged(t)
             }
         })
 
