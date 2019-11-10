@@ -122,21 +122,26 @@ class RunModel {
         }
     }
 
-    fun collisionCheck() {   // 벽이나 보스와의 충돌 감지
+    fun collisionCheck() : Boolean {   // 벽이나 보스와의 충돌 감지
         Log.e("(nowX", "(nowX  $x,,,$y")
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
                 moveView.postValue(7)   // 벽이라면 졌다는 시그널 전송
+                return true
             } else if (mMap.mapList!![y][x] == 2) {
                 moveView.postValue(8)    // 이겼다면 이겼다는 시그널 전송
+                return false
             } else if (y == mMonster?.y && x == mMonster?.x) {
                 metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
+                return true
             }
         }
 
         else {
             moveView.postValue(7)     // 인덱스를 넘어갈 시
+            return true
         }
+        return false
     }
 
     fun changeBlockLevel(OpenOrClose : Boolean) {
@@ -237,7 +242,6 @@ class RunModel {
     }
 
     inner class RunThead : Thread() {
-        lateinit var view: EditText
         override fun run() {
             try {
                 if (!bracketStack.empty()) {
@@ -291,7 +295,10 @@ class RunModel {
                         "move();" -> {
                             movePrincess()
                             moveView.postValue(d)
-                            collisionCheck()
+                            if (collisionCheck()) {
+                                Log.e("충돌 !!!", "앙인암ㅇ리ㅏ흘" )
+                                return
+                            }
                             Log.e("갑니다", "앞으로")
                             sleep(speed)
                         }

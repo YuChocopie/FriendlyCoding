@@ -85,9 +85,12 @@ class PlayActivity : BaseActivity() {
         // 코드 블록의 추가
         mRun.mCodeBlock.observe(this, Observer<List<CodeBlock>> {
             Log.e("추가됨", " ")
-            mAdapter.notifyDataSetChanged()
-            if (mRun.mCodeBlock.value!!.size > 1) {
+            if (mRun.mCodeBlock.value!!.size > 0) {
                 rc_code_block_list.smoothScrollToPosition(mRun.mCodeBlock.value!!.size - 1)
+                mAdapter.notifyItemChanged(mRun.mCodeBlock.value!!.size - 1)
+            }
+            else {
+                mAdapter.notifyDataSetChanged()
             }
         })
 
@@ -159,12 +162,17 @@ class PlayActivity : BaseActivity() {
 
 
 
-        
+
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
+            //if (t > 8)
+                //rc_code_block_list.smoothScrollToPosition(t + 3)
+        })
+
+        mRun.nowProcessing.observe(this, Observer<Int> { t ->
             if (t > 8)
-                rc_code_block_list.smoothScrollToPosition(t + 3)
+            rc_code_block_list.smoothScrollToPosition(t + 3)
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기

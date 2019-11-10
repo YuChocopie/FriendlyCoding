@@ -98,10 +98,14 @@ class CodeBlockAdapter(
             }
 
             if (codeBlock.type == 1) {
+                view.argument.text.clear()
                 view.argument.isVisible = true
                 view.argument.isCursorVisible = false
                 view.argument.isClickable = true
-                view.argument.hint = "?"
+//                if ( view.argument.text != null)
+//                    view.argument.hint =  view.argument.text
+//                else
+//                    view.argument.hint="?"
                 view.end.text = ") {"
 
                 view.argument.addTextChangedListener(object : TextWatcher {
