@@ -90,7 +90,7 @@ class MapSettingModel {
                 )
 
                 // 드로어블
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.test_image)
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.itemImg = arrayListOf(
 //                    arrayOf(1, "01"),
