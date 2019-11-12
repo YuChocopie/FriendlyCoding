@@ -405,6 +405,47 @@ class RunModel {
                             monsterAttacked.postValue(false)
                         }
 
+                        "eatMushroom" -> {
+                            if(mMap.mapList!![y][x] == 4){
+                                mPrincess.eatMushroom()
+                                mMap.eatMushroom(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }
+                            else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
+                        }
+
+                        "pickBook;" -> {
+                            if(mMap.mapList!![y][x] == 5){
+                                mPrincess.pickBook()
+                                mMap.pickBook(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }
+                            else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
+                        }
+
+                        "pickBranch" -> {
+                            if(mMap.mapList!![y][x] == 6){
+                                mPrincess.pickBranch()
+                                mMap.pickBranch(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
+                        }
+
                         else -> {
                             if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0,2) == "if") {
                                 Log.e("if", "입니다")
@@ -443,6 +484,30 @@ class RunModel {
                                         }
                                     }
 
+                                    4 -> { //버섯
+                                        if(mPrincess.mushroomCnt < 2){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+
+                                    5 -> { //책
+                                        if(!mPrincess.isBook){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+
+                                    6 -> { //나무
+                                        if(mPrincess.branchCnt < 2){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+
+                                    }
                                     else -> {
 
                                     }

@@ -123,6 +123,106 @@ class MapSettingModel {
             }
 
             // 2 -> {} ...
+            21 -> {
+                val mapList = arrayOf(
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 5, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 5는 책
+                )
+
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                mDrawables.itemImg = arrayListOf(
+                    arrayOf(5, "i41")
+                )
+
+                val offeredBlock = defaultCodeBlock
+                offeredBlock.addAll(arrayListOf(
+                    CodeBlock("isBook()", type = 3, argument = 5),
+                    CodeBlock("pickBook();")
+                ))
+
+                return Stage(
+                    Map(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 100, 0, 0),
+                    offeredBlock
+                )
+            }
+
+            22 -> {
+                val mapList = arrayOf(
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 4, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 4, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 4는 버섯
+                )
+
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                mDrawables.itemImg = arrayListOf(
+                    arrayOf(4, "i41"),
+                    arrayOf(4, "i23")
+                )//독버섯은 랜덤생성
+
+                val offeredBlock = defaultCodeBlock
+                offeredBlock.addAll(arrayListOf(
+                    CodeBlock("isMushroom()", type = 3, argument = 4),
+                    CodeBlock("earMushroom();")
+                ))
+
+                return Stage(
+                    Map(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 100, 0, 0),
+                    offeredBlock
+                )
+            }
+
+            23 -> {
+                val mapList = arrayOf(
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 6, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 6, 0, 0, 0, 0, 0, 0, 0, 0),
+                    arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 6은 나무
+                )
+
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                mDrawables.itemImg = arrayListOf(
+                    arrayOf(6, "i23"),
+                    arrayOf(6, "i19")
+                )
+
+                val offeredBlock = defaultCodeBlock
+                offeredBlock.addAll(arrayListOf(
+                    CodeBlock("isBranch()", type = 3, argument = 6),
+                    CodeBlock("pickBranch();")
+                ))
+
+                return Stage(
+                    Map(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 100, 0, 0),
+                    offeredBlock
+                )
+            }
 
             else -> {
                 return Stage(
