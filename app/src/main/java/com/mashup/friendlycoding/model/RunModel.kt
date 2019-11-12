@@ -294,6 +294,13 @@ class RunModel {
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
+                        // TODO : 0 유형 블록 (일반 함수)
+                        //  예)
+                        //  "함수이름" -> {
+                        //      ...
+                        //   sleep(speed)
+                        //  }
+
                         "move();" -> {
                             movePrincess()
                             moveView.postValue(d)
@@ -323,6 +330,12 @@ class RunModel {
                         }
 
                         "for(" -> {
+                            if (mCodeBlock.value!![IR].argument == 0) {
+                                moveView.postValue(-5)
+                                nowTerminated.postValue(IR)
+                                return
+                            }
+
                             iterator = mCodeBlock.value!![IR].argument
                             iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
@@ -336,6 +349,17 @@ class RunModel {
                             if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).length > 5) {
                                 if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0, 5) == "while") {
                                     when (mCodeBlock.value!![jumpTo].argument) {
+                                        // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
+                                        //  예)
+                                        //  argument -> {
+                                        //      if (...) {
+                                        //          IR = jumpTo
+                                        //          iterator++
+                                        //      }
+                                        //      else {
+                                        //      }
+                                        //  }
+
                                         7 -> {   // isAlive
                                             if (mMonster!!.isAlive()) {
                                                 nowTerminated.postValue(IR)
@@ -421,6 +445,16 @@ class RunModel {
                                             }
                                         }
                                     }
+
+                                    // TODO : 3번 블록 (boolean형 반환 함수) 중 if에 들어간 블록
+                                    //  예)
+                                    //  argument -> {
+                                    //      if (...) {
+                                    //      }
+                                    //      else {
+                                    //          IR = mCodeBlock.value!![IR].address
+                                    //      }
+                                    //  }
 
                                     1 -> {
                                         if (mMonster != null) {
