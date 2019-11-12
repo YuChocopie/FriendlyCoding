@@ -9,8 +9,11 @@ import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_input_code_list.view.*
 
-class InputCodeBlockAdapter(private val mCodeBlockViewModel: CodeBlockViewModel, var inputCodeBlock : ArrayList<CodeBlock>) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
-        var clickable = true
+class InputCodeBlockAdapter(
+    private val mCodeBlockViewModel: CodeBlockViewModel,
+    var inputCodeBlock: ArrayList<CodeBlock>
+) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
+    var clickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             ViewHolder {

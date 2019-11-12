@@ -3,7 +3,6 @@ package com.mashup.friendlycoding.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Adapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -15,26 +14,28 @@ import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.CodeBlock
-import com.mashup.friendlycoding.viewmodel.*
+import com.mashup.friendlycoding.viewmodel.BattleViewModel
+import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
+import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
     private val mCodeBlockViewModel = CodeBlockViewModel()
     private val mMapSettingViewModel = MapSettingViewModel()
-    private var mBattleViewModel : BattleViewModel? = null
+    private var mBattleViewModel: BattleViewModel? = null
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this,
+        val binding = DataBindingUtil.setContentView<ActivityPlayBinding>(
+            this,
             R.layout.activity_play
         )
         binding.lifecycleOwner = this
 
-        // 현재 몇 스테이지인지?
-        val stageNum = intent.getIntExtra("stageNum", 0)
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
 
@@ -46,6 +47,8 @@ class PlayActivity : BaseActivity() {
         binding.codeBlockVM = mCodeBlockViewModel
         mRun.init()
 
+        // 현재 몇 스테이지인지?
+        val stageNum = intent.getIntExtra("stageNum", 0)
         // Map Setting View Model과 bind 후 stageInfo 얻어오기
         binding.mapSettingVM = mMapSettingViewModel
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
@@ -59,8 +62,15 @@ class PlayActivity : BaseActivity() {
         // 맵의 뷰를 활성화 하고 드로어블 적용
         // TODO : MapSettingViewModel에서 이 일을 대신하기.
         for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
-            val itemID = resources.getIdentifier(mMapSettingViewModel.mDrawables.itemImg[i][1].toString(), "id", packageName)
-            Log.e("${mMapSettingViewModel.mDrawables.itemImg[i][0]}", "i" + mMapSettingViewModel.mDrawables.itemImg[i][1])
+            val itemID = resources.getIdentifier(
+                mMapSettingViewModel.mDrawables.itemImg[i][1].toString(),
+                "id",
+                packageName
+            )
+            Log.e(
+                "${mMapSettingViewModel.mDrawables.itemImg[i][0]}",
+                "i" + mMapSettingViewModel.mDrawables.itemImg[i][1]
+            )
             when (mMapSettingViewModel.mDrawables.itemImg[i][0]) {
                 3 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.pick_axe)
                 // 1 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.tree)
@@ -75,7 +85,8 @@ class PlayActivity : BaseActivity() {
         rc_code_block_list.layoutManager = linearLayoutManager
 
         // 입력될 블록의 리사이클러 뷰 연결
-        val mInputdapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
+        val mInputdapter =
+            InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rc_input_code.adapter = mInputdapter
         rc_input_code.layoutManager = layoutManager
@@ -88,8 +99,7 @@ class PlayActivity : BaseActivity() {
             if (mRun.mCodeBlock.value!!.size > 0) {
                 rc_code_block_list.smoothScrollToPosition(mRun.mCodeBlock.value!!.size - 1)
                 mAdapter.notifyItemChanged(mRun.mCodeBlock.value!!.size - 1)
-            }
-            else {
+            } else {
                 mAdapter.notifyDataSetChanged()
             }
         })
@@ -107,14 +117,22 @@ class PlayActivity : BaseActivity() {
                     Log.e("실행 끝", "위로")
                     // 실행이 끝났으니 코드를 다시 수정가능하게 하자
                     clickableControl(true, mAdapter, mInputdapter)
-                    mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.nowProcessing.value!!))
+                    mCodeBlockViewModel.coloringNowTerminated(
+                        linearLayoutManager.findViewByPosition(
+                            mRun.nowProcessing.value!!
+                        )
+                    )
                 }
 
                 -4 -> {
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                     clickableControl(true, mAdapter, mInputdapter)
-                    mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.nowProcessing.value!!))
+                    mCodeBlockViewModel.coloringNowTerminated(
+                        linearLayoutManager.findViewByPosition(
+                            mRun.nowProcessing.value!!
+                        )
+                    )
                 }
 
                 -5 -> {
@@ -133,7 +151,8 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 곡괭이의 습득
-                    val changingViewID = resources.getIdentifier(mRun.changingView, "id", packageName)
+                    val changingViewID =
+                        resources.getIdentifier(mRun.changingView, "id", packageName)
                     Log.e("ID", mRun.changingView!!)
                     findViewById<ImageView>(changingViewID).isVisible = false
                 }
@@ -162,7 +181,7 @@ class PlayActivity : BaseActivity() {
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowProcessing(linearLayoutManager.findViewByPosition(t))
             //if (t > 8)
-                //rc_code_block_list.smoothScrollToPosition(t + 3)
+            //rc_code_block_list.smoothScrollToPosition(t + 3)
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -184,19 +203,19 @@ class PlayActivity : BaseActivity() {
         })
 
         mRun.monsterAttack.observe(this, Observer<Int> { t ->
-                when (t) {
-                    0 -> {
-                        binding.attackFire.isVisible = true
-                    }
-                    1 -> {
-                        binding.attackIce.isVisible = true
-                    }
-                    -1 -> {
-                        Log.e("몬스터", "공격 끌게요!")
-                        binding.attackFire.isVisible = false
-                        binding.attackIce.isVisible = false
-                    }
+            when (t) {
+                0 -> {
+                    binding.attackFire.isVisible = true
                 }
+                1 -> {
+                    binding.attackIce.isVisible = true
+                }
+                -1 -> {
+                    Log.e("몬스터", "공격 끌게요!")
+                    binding.attackFire.isVisible = false
+                    binding.attackIce.isVisible = false
+                }
+            }
         })
 
         // 공주가 보스를 만남
@@ -212,31 +231,37 @@ class PlayActivity : BaseActivity() {
             clickableControl(true, mAdapter, mInputdapter)
 
             if (t) {
-                mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
+                mBattleViewModel = BattleViewModel(
+                    binding.hpBar,
+                    binding.princess,
+                    binding.monster,
+                    binding.princessAttackMotion
+                )
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.init()
                 mRun.mMonster = stageInfo.monster
                 binding.battleVM = mBattleViewModel
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
-                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.bossBattleBlock!!)
+                rc_input_code.adapter = InputCodeBlockAdapter(
+                    mCodeBlockViewModel,
+                    mMapSettingViewModel.bossBattleBlock!!
+                )
                 rc_input_code.layoutManager = layoutManager
-            }
-
-            else {
+            } else {
                 mBattleViewModel = null
                 binding.battleVM = null
                 Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
-                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
-                rc_input_code.layoutManager = layoutManager
+                rc_input_code.adapter =
+                    InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
             }
+            rc_input_code.layoutManager = layoutManager
         })
 
         mRun.monsterAttacked.observe(this, Observer<Boolean> { t ->
             if (t) {
                 Log.e("공주의 공격!", "현재 HP : ${mRun.mMonster!!.getHP()}")
                 mBattleViewModel!!.monsterAttacked()
-            }
-            else {
+            } else {
                 princess_attack_motion.isVisible = false
             }
         })
@@ -247,7 +272,11 @@ class PlayActivity : BaseActivity() {
         mPrincessViewModel.setViewSize(layoutMainView.width)
     }
 
-    private fun clickableControl (able : Boolean, codeBlockAdapter: CodeBlockAdapter, mInputCodeBlockAdapter: InputCodeBlockAdapter) {
+    private fun clickableControl(
+        able: Boolean,
+        codeBlockAdapter: CodeBlockAdapter,
+        mInputCodeBlockAdapter: InputCodeBlockAdapter
+    ) {
         codeBlockAdapter.clickable = able
         mInputCodeBlockAdapter.clickable = able
     }
