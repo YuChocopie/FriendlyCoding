@@ -387,7 +387,7 @@ class RunModel {
                         "pickAxe();" -> {
                             if (mMap.mapList!![y][x] == 3) {
                                 mPrincess.pickAxe()
-                                mMap.pickAxe(y, x)
+                                mMap.itemPicked(y, x)
                                 changingView = "i$x$y"    // 아이템 뷰의 아이디는 i + x좌표 + y좌표 이다.
                                 moveView.postValue(6)
                             }
@@ -405,10 +405,10 @@ class RunModel {
                             monsterAttacked.postValue(false)
                         }
 
-                        "eatMushroom" -> {
+                        "eatMushroom():" -> {
                             if(mMap.mapList!![y][x] == 4){
                                 mPrincess.eatMushroom()
-                                mMap.eatMushroom(y,x)
+                                mMap.itemPicked(y,x)
                                 changingView = "i$x$y"
                                 moveView.postValue(6)
                             }
@@ -419,10 +419,10 @@ class RunModel {
                             sleep(speed)
                         }
 
-                        "pickBook;" -> {
+                        "pickBook();" -> {
                             if(mMap.mapList!![y][x] == 5){
                                 mPrincess.pickBook()
-                                mMap.pickBook(y,x)
+                                mMap.itemPicked(y,x)
                                 changingView = "i$x$y"
                                 moveView.postValue(6)
                             }
@@ -433,10 +433,10 @@ class RunModel {
                             sleep(speed)
                         }
 
-                        "pickBranch" -> {
+                        "pickBranch();" -> {
                             if(mMap.mapList!![y][x] == 6){
                                 mPrincess.pickBranch()
-                                mMap.pickBranch(y,x)
+                                mMap.itemPicked(y,x)
                                 changingView = "i$x$y"
                                 moveView.postValue(6)
                             }else{
