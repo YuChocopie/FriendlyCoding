@@ -48,25 +48,24 @@ class PrincessViewModel : ViewModel() {
     }
 
     private fun go(direction: Int) {
-        val one = oneBlock
         when (direction) {
             //goint up
             0 -> {
-                princessImg!!.y = (princessImg!!.y - one)
+                princessImg!!.y = (princessImg!!.y - oneBlock)
             }
             //going right
             1 -> {
-                princessImg!!.x = (princessImg!!.x + one)
+                princessImg!!.x = (princessImg!!.x + oneBlock)
             }
 
             //going down
             2 -> {
-                princessImg!!.y = (princessImg!!.y + one)
+                princessImg!!.y = (princessImg!!.y + oneBlock)
             }
 
             //going left
             3 -> {
-                princessImg!!.x = (princessImg!!.x - one)
+                princessImg!!.x = (princessImg!!.x - oneBlock)
             }
         }
     }
@@ -75,4 +74,6 @@ class PrincessViewModel : ViewModel() {
         princessImg!!.x = oneBlock * 0 - oneBlock * 0.1f
         princessImg!!.y = oneBlock * 9 - oneBlock * 0.23f
     }
+
+
 }

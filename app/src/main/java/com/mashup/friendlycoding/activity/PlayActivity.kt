@@ -51,32 +51,12 @@ class PlayActivity : BaseActivity() {
         val stageNum = intent.getIntExtra("stageNum", 0)
         // Map Setting View Model과 bind 후 stageInfo 얻어오기
         binding.mapSettingVM = mMapSettingViewModel
-        val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
 
-        mMapSettingViewModel.offeredBlock = stageInfo.offeredBlock
-        mMapSettingViewModel.bossBattleBlock = stageInfo.bossBattleBlock
-        mMapSettingViewModel.mDrawables = stageInfo.map.drawables!!
+        val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
+        mMapSettingViewModel.setStage(stageInfo,this)
+
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
-
-        // 맵의 뷰를 활성화 하고 드로어블 적용
-        // TODO : MapSettingViewModel에서 이 일을 대신하기.
-        for (i in 0 until mMapSettingViewModel.mDrawables.itemImg.size) {
-            val itemID = resources.getIdentifier(
-                mMapSettingViewModel.mDrawables.itemImg[i][1].toString(),
-                "id",
-                packageName
-            )
-            Log.e(
-                "${mMapSettingViewModel.mDrawables.itemImg[i][0]}",
-                "i" + mMapSettingViewModel.mDrawables.itemImg[i][1]
-            )
-            when (mMapSettingViewModel.mDrawables.itemImg[i][0]) {
-                3 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.pick_axe)
-                // 1 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.tree)
-                // 2 -> findViewById<ImageView>(itemID).setImageResource(R.drawable.sunny) ...
-            }
-        }
 
         // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.mCodeBlock.value!!, mCodeBlockViewModel)
@@ -270,6 +250,7 @@ class PlayActivity : BaseActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
         mPrincessViewModel.setViewSize(layoutMainView.width)
+        mMapSettingViewModel.setViewSize(layoutMainView.width)
     }
 
     private fun clickableControl(

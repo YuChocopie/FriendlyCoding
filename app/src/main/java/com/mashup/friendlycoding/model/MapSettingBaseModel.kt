@@ -3,14 +3,18 @@ package com.mashup.friendlycoding.model
 import java.util.*
 
 open class MapSettingBaseModel {
+    var random = Random()
+    fun rand(from: Int, to: Int) : Int {
+        return random.nextInt(to - from) + from
+    }
 
     // Act 마다 반복되는 거 있으면 알아서 빼주세용
-    val defaultCodeBlock_tutorial: ArrayList<CodeBlock> = arrayListOf(
+    var defaultCodeBlock_tutorial: ArrayList<CodeBlock> = arrayListOf(
         CodeBlock("move();"),
         CodeBlock("turnLeft();"),
         CodeBlock("turnRight();")
     )
-    val defaultCodeBlock: ArrayList<CodeBlock> = arrayListOf(
+    var defaultCodeBlock: ArrayList<CodeBlock> = arrayListOf(
         CodeBlock("move();"),
         CodeBlock("turnLeft();"),
         CodeBlock("turnRight();"),
@@ -27,7 +31,7 @@ open class MapSettingBaseModel {
         CodeBlock("isBook()", type = 3, argument = 5),
         CodeBlock("pickBook();")
     )
-    val stageCodeBlock2_2 = arrayListOf(
+    var stageCodeBlock2_2 = arrayListOf(
         CodeBlock("isMushroom()", type = 3, argument = 4),
         CodeBlock("eatMushRoom();")
     )
@@ -42,7 +46,7 @@ open class MapSettingBaseModel {
      * **/
 
 
-    val defaultBattleCodeBlock = arrayListOf(
+    var defaultBattleCodeBlock = arrayListOf(
         CodeBlock("if()", type = 2),
         CodeBlock("while()", type = 2),
         CodeBlock("for(", type = 1),
@@ -56,7 +60,7 @@ open class MapSettingBaseModel {
         CodeBlock("detectedWater()", type = 3, argument = 1))
 
 
-    val mapListActNull = arrayOf(
+    var mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -70,7 +74,7 @@ open class MapSettingBaseModel {
 
 
         )
-    val mapListAct0 = arrayOf(
+    var mapListAct0 = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
         arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
         arrayOf(1, 0, 0, 0, 1, 0, 0, 0, 0, 0),
@@ -82,7 +86,7 @@ open class MapSettingBaseModel {
         arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
         arrayOf(0, 0, 3, 0, 0, 1, 0, 0, 0, 2)    // 클리어되는 곳을 일단 2로 설정함, 3은 곡괭이
     )
-    val mapListAct1 = arrayOf(
+    var mapListAct1 = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
         arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
         arrayOf(1, 0, 0, 0, 1, 0, 0, 0, 0, 0),
@@ -94,7 +98,7 @@ open class MapSettingBaseModel {
         arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
         arrayOf(0, 0, 4, 0, 0, 1, 0, 0, 0, 2)  // 4는 버섯
     )
-    val mapListAct2_1 = arrayOf(
+    var mapListAct2_1 = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 5, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -106,7 +110,7 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 5는 책
     )
-    val mapListAct2_2 = arrayOf(
+    var mapListAct2_2 = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 4, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -118,7 +122,7 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 4는 버섯
     )
-    val mapListAct2_3 = arrayOf(
+    var mapListAct2_3 = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),

@@ -91,12 +91,11 @@ open class RunBaseModel {
     }
 
     fun rotate(LeftOrRight: Boolean) {
+        driction = (driction + 4) % 4
         if (!LeftOrRight) {   // 왼쪽으로
             driction -= 1
-            if (driction < 0)
-                driction += 4
         } else {  // 오른쪽으로
-            driction = if (driction == 3) 0 else driction++
+            driction++
         }
     }
 
