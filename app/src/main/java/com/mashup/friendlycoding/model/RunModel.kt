@@ -31,7 +31,6 @@ class RunModel : RunBaseModel() {
     }
 
     fun deleteBlock(position : Int) {
-        mCodeBlock.value!!.removeAt(position)
         IR--
         if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2) {
             this.changeBlockLevel(false)
@@ -47,6 +46,7 @@ class RunModel : RunBaseModel() {
         } else if (mCodeBlock.value!![position].type == 4) {
             this.changeBlockLevel(true)
         }
+        mCodeBlock.value!!.removeAt(position)
     }
 
     inner class RunThead : Thread() {
@@ -149,11 +149,8 @@ class RunModel : RunBaseModel() {
                             )
 
                             if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).length > 5
-                                && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(
-                                    0,
-                                    5
-                                ) == "while"
-                            ) {
+                                && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0, 5) == "while") {
+                                Log.e("요건", "while문")
                                 when (mCodeBlock.value!![jumpTo].argument) {
                                     // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
                                     //  예)

@@ -55,7 +55,6 @@ open class MapSettingBaseModel {
         CodeBlock("detectedFire()", type = 3, argument = 0),
         CodeBlock("detectedWater()", type = 3, argument = 1))
 
-
     val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),

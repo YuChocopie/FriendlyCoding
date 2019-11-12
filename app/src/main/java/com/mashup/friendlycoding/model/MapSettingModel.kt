@@ -61,6 +61,7 @@ class MapSettingModel : MapSettingBaseModel() {
             2 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 var mapList: Array<Array<Int>> = mapListActNull
+                defaultBattleCodeBlock.addAll(battleCodeBlock0)
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct2_1
@@ -95,7 +96,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     Map(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
-                    defaultCodeBlock
+                    defaultCodeBlock,
+                    defaultBattleCodeBlock
                 )
             }
 

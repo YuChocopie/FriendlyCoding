@@ -9,7 +9,6 @@ import com.mashup.friendlycoding.ignoreBlanks
 import java.util.*
 
 open class RunBaseModel {
-
     // PrincessViewModel
     var moveView =
         MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
@@ -27,13 +26,6 @@ open class RunBaseModel {
     var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
     var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
     var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
-
-    // 사실 시그널 변수가 저렇게 많이 필요하진 않고
-    // nowProcessing이나 nowTerminated 를 제외한 모든 MutableLiveData는 moveVIew 에 합칠 수도 있긴 합니다.
-    // 하지만 그렇게 되면 PlayActivity에서 observe 하는 부분이 매우 길어지고
-    // 그 시그널 넘버도 많아지면 굉장히 복잡하게 될 우려가 있기 때문에
-    // 일부러 목적에 맞게 나눠놨습니다.
-    // 합치려다가 진짜 엄두가 안 나서 포기한 거라고는 말 못합니다.
 
     // 공주의 좌표
     var x = 0 // x좌표
@@ -59,7 +51,6 @@ open class RunBaseModel {
     var isBossAlive = false
     var speed = 500L
     var iteratorStack = Stack<Int>()
-
 
     /***
      * inti()
