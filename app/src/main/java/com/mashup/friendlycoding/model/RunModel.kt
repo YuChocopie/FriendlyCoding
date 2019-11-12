@@ -411,7 +411,7 @@ class RunModel {
                         "pickAxe();" -> {
                             if (mMap.mapList!![y][x] == 3) {
                                 mPrincess.pickAxe()
-                                mMap.pickAxe(y, x)
+                                mMap.itemPicked(y, x)
                                 changingView = "i$x$y"    // 아이템 뷰의 아이디는 i + x좌표 + y좌표 이다.
                                 moveView.postValue(6)
                             }
@@ -427,6 +427,47 @@ class RunModel {
                             monsterAttacked.postValue(true)
                             sleep(speed)
                             monsterAttacked.postValue(false)
+                        }
+
+                        "eatMushroom():" -> {
+                            if(mMap.mapList!![y][x] == 4){
+                                mPrincess.eatMushroom()
+                                mMap.itemPicked(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }
+                            else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
+                        }
+
+                        "pickBook();" -> {
+                            if(mMap.mapList!![y][x] == 5){
+                                mPrincess.pickBook()
+                                mMap.itemPicked(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }
+                            else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
+                        }
+
+                        "pickBranch();" -> {
+                            if(mMap.mapList!![y][x] == 6){
+                                mPrincess.pickBranch()
+                                mMap.itemPicked(y,x)
+                                changingView = "i$x$y"
+                                moveView.postValue(6)
+                            }else{
+                                moveView.postValue(-3)
+                                return
+                            }
+                            sleep(speed)
                         }
 
                         else -> {
@@ -477,6 +518,30 @@ class RunModel {
                                         }
                                     }
 
+                                    4 -> { //버섯
+                                        if(mPrincess.mushroomCnt < 2){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+
+                                    5 -> { //책
+                                        if(!mPrincess.isBook){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+                                    }
+
+                                    6 -> { //나무
+                                        if(mPrincess.branchCnt < 2){
+                                            Log.e("분기","${mCodeBlock.value!![IR].address}로!")
+                                            nowTerminated.postValue(IR)
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
+
+                                    }
                                     else -> {
 
                                     }
