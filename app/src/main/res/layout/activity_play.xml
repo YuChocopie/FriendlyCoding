@@ -111,13 +111,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/bossBackground"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    android:src="@{mapSettingVM.mDrawables.bossBattleBackgroundImg}"
-                    tools:layout_editor_absoluteX="2dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 보스 코드 실행 부분 -->
@@ -125,6 +118,17 @@
                 android:id="@+id/bossField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/bossBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@{mapSettingVM.mDrawables.bossBattleBackgroundImg}"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/hp_bar"

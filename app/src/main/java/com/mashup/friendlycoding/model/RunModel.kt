@@ -243,6 +243,25 @@ class RunModel {
         iterator = 0
     }
 
+    fun deleteBlock(position : Int) {
+        mCodeBlock.value!!.removeAt(position)
+        IR--
+        if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2) {
+            this.changeBlockLevel(false)
+            for (i in position until mCodeBlock.value!!.size) {
+                Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                if (mCodeBlock.value!![i].type == 4) {
+                    break
+                } else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
+                    Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                    mCodeBlock.value!![i].funcName = mCodeBlock.value!![i].funcName.substring(4)
+                }
+            }
+        } else if (mCodeBlock.value!![position].type == 4) {
+            this.changeBlockLevel(true)
+        }
+    }
+
     inner class RunThead : Thread() {
         override fun run() {
             try {

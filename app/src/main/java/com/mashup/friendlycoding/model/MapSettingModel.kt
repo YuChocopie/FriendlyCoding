@@ -29,7 +29,7 @@ class MapSettingModel {
     fun getStageInfo(stageNum: Int): Stage {
         when (stageNum) {
             // Act 1
-            0 -> {
+            11 -> {
                 // 맵 정보
                 val mapList = arrayOf(
                     arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
@@ -75,7 +75,7 @@ class MapSettingModel {
                 )
             }
 
-            1 -> {
+            12 -> {
                 val mapList = arrayOf(
                     arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
                     arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
