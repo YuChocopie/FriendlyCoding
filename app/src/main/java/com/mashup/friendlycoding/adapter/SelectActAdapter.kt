@@ -48,7 +48,6 @@ class SelectActAdapter(
             holder.apply {
                 bind(items[position], context)
                 itemView.tag = items
-
                 itemView.stageImage.setPadding(650, 0, 0, 0)
             }
         } else if (check == 1 || check == 3) {

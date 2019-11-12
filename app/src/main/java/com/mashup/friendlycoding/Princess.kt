@@ -12,15 +12,15 @@ class Princess {
         this.isPickAxe = true
     }
 
-    fun pickBook(){
+    fun pickBook() {
         this.isBook = true
     }
 
-    fun eatMushroom () {
+    fun eatMushroom() {
         this.mushroomCnt++
     }
 
-    fun pickBranch(){
+    fun pickBranch() {
         this.branchCnt++
     }
 }

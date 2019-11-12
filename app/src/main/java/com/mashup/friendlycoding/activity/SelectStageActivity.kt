@@ -22,7 +22,6 @@ class SelectStageActivity : BaseActivity() {
             }
             startActivity(intent)
         }
-
         stage1.setOnClickListener(listener)
         stage2.setOnClickListener(listener)
         stage3.setOnClickListener(listener)

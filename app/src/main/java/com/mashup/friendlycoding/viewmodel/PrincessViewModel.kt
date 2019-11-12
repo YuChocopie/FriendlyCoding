@@ -47,14 +47,13 @@ class PrincessViewModel : ViewModel() {
         // TODO : 공주 사진 변경
     }
 
-    private fun go(direction : Int) {
+    private fun go(direction: Int) {
         val one = oneBlock
         when (direction) {
             //goint up
             0 -> {
                 princessImg!!.y = (princessImg!!.y - one)
             }
-
             //going right
             1 -> {
                 princessImg!!.x = (princessImg!!.x + one)

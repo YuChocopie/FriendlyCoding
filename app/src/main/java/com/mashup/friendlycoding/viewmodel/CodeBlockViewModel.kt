@@ -1,9 +1,7 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.CodeBlock
@@ -56,11 +54,11 @@ class CodeBlockViewModel : ViewModel() {
         mRun.run()
     }
 
-    fun changeBlockLevel(OpenOrClose : Boolean) {
+    fun changeBlockLevel(OpenOrClose: Boolean) {
         mRun.changeBlockLevel(OpenOrClose)
     }
 
-    fun runBoss () {
+    fun runBoss() {
         mRun.metBoss.value = !mRun.metBoss.value!!
     }
 }
