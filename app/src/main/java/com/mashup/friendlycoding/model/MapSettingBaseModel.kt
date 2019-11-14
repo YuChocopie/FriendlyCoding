@@ -33,18 +33,16 @@ open class MapSettingBaseModel {
     )
     var stageCodeBlock2_2 = arrayListOf(
         CodeBlock("isMushroom()", type = 3, argument = 4),
-        CodeBlock("eatMushRoom();")
+        CodeBlock("eatMushroom();")
     )
     var stageCodeBlock2_3 = arrayListOf(
         CodeBlock("isBranch()", type = 3, argument = 6),
         CodeBlock("pickBranch();")
     )
 
-
     /**
      * 보스 배틀 코드블락
      * **/
-
 
     var defaultBattleCodeBlock = arrayListOf(
         CodeBlock("if()", type = 2),
@@ -59,8 +57,7 @@ open class MapSettingBaseModel {
         CodeBlock("detectedFire()", type = 3, argument = 0),
         CodeBlock("detectedWater()", type = 3, argument = 1))
 
-
-    var mapListActNull = arrayOf(
+    val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -71,8 +68,6 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-
         )
     var mapListAct0 = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
@@ -134,5 +129,4 @@ open class MapSettingBaseModel {
         arrayOf(0, 6, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 6은 나무
     )
-
 }

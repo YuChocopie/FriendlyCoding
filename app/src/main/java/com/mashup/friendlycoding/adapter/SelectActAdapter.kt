@@ -38,7 +38,7 @@ class SelectActAdapter(
             }
 
             val intent = Intent(context, SelectStageActivity::class.java)
-            intent.putExtra("actNum", 5 - position)
+            intent.putExtra("actNum", (5 - position)*10)
             context.startActivity(intent)
         }
 

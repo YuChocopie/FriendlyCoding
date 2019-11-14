@@ -4,7 +4,6 @@ import android.util.Log
 import com.mashup.friendlycoding.ignoreBlanks
 
 class RunModel : RunBaseModel() {
-
     fun collisionCheck(): Boolean {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
@@ -131,11 +130,8 @@ class RunModel : RunBaseModel() {
                             )
 
                             if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).length > 5
-                                && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(
-                                    0,
-                                    5
-                                ) == "while"
-                            ) {
+                                && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0, 5) == "while") {
+                                Log.e("요건", "while문")
                                 when (mCodeBlock.value!![jumpTo].argument) {
                                     // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
                                     //  예)
@@ -221,7 +217,8 @@ class RunModel : RunBaseModel() {
                             monsterAttacked.postValue(false)
                         }
 
-                        "eatMushroom():" -> {
+                        "eatMushroom();" -> {
+                            Log.e("버섯을 먹습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x] == 4) {
                                 mPrincess.eatMushroom()
                                 mMap.itemPicked(y, x)
@@ -235,6 +232,7 @@ class RunModel : RunBaseModel() {
                         }
 
                         "pickBook();" -> {
+                            Log.e("책을 줍습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x] == 5) {
                                 mPrincess.pickBook()
                                 mMap.itemPicked(y, x)
@@ -261,11 +259,7 @@ class RunModel : RunBaseModel() {
                         }
 
                         else -> {
-                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(
-                                    0,
-                                    2
-                                ) == "if"
-                            ) {
+                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 2) == "if") {
                                 Log.e("if", "입니다")
                                 when (mCodeBlock.value!![IR].argument) {
                                     0 -> {

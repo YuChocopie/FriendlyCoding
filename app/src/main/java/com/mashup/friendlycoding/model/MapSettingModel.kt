@@ -8,16 +8,13 @@ import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.R
 
 class MapSettingModel : MapSettingBaseModel() {
-    // Act 마다 반복되는 거 있으면 알아서 빼주세용
-
-    fun setMapRandimItem(mapList: Array<Array<Int>>, mDrawables: MapDrawable): Map {
-        var map = mapList
+    private fun setMapRandimItem(mapList: Array<Array<Int>>, mDrawables: MapDrawable): Map {
         for (i in 0 until mDrawables.item.size) {
             while (true) {
                 val a = rand(0, 10)
                 val b = rand(0, 10)
-                if (map[a][b] == 0) {
-                    map[a][b] = mDrawables.item[i].item_id
+                if (mapList[a][b] == 0) {
+                    mapList[a][b] = mDrawables.item[i].item_id
                     mDrawables.item[i].X = a
                     mDrawables.item[i].Y = b
                     mDrawables.item[i].visibility = View.VISIBLE
@@ -26,12 +23,13 @@ class MapSettingModel : MapSettingBaseModel() {
             }
         }
         return Map(mapList, mDrawables)
-
     }
     fun getStageInfo(stageNum: Int): Stage {
+        Log.e("stageNum", "$stageNum")
         when (stageNum / 10) {
             // Act 1
             0 -> {
+                // 맵 정보
                 // TODO : 아이템의 위치 랜덤하게
                 val mapList = mapListAct0
                 // 드로어블
@@ -77,6 +75,7 @@ class MapSettingModel : MapSettingBaseModel() {
             2 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 var mapList: Array<Array<Int>> = mapListActNull
+                defaultBattleCodeBlock.addAll(battleCodeBlock0)
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct2_1
@@ -88,8 +87,6 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mapList = mapListAct2_2
-
-                        mapList = mapListAct2_1
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_mushroom, 41),
                             MapItem(R.drawable.ic_mushroom_poison, 23)
@@ -112,10 +109,10 @@ class MapSettingModel : MapSettingBaseModel() {
                     setMapRandimItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
-                    defaultCodeBlock
+                    defaultCodeBlock,
+                    defaultBattleCodeBlock
                 )
             }
-
 
             else -> {
                 return Stage(

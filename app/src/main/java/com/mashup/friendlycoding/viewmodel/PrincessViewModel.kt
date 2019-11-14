@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 
 class PrincessViewModel : ViewModel() {
     var metBoss = MutableLiveData<Boolean>()
-
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
@@ -74,6 +73,4 @@ class PrincessViewModel : ViewModel() {
         princessImg!!.x = oneBlock * 0 - oneBlock * 0.1f
         princessImg!!.y = oneBlock * 9 - oneBlock * 0.23f
     }
-
-
 }

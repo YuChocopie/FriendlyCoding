@@ -9,10 +9,8 @@ import com.mashup.friendlycoding.ignoreBlanks
 import java.util.*
 
 open class RunBaseModel {
-
     // PrincessViewModel
-    var moveView =
-        MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
+    var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
@@ -27,13 +25,6 @@ open class RunBaseModel {
     var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
     var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
     var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
-
-    // 사실 시그널 변수가 저렇게 많이 필요하진 않고
-    // nowProcessing이나 nowTerminated 를 제외한 모든 MutableLiveData는 moveVIew 에 합칠 수도 있긴 합니다.
-    // 하지만 그렇게 되면 PlayActivity에서 observe 하는 부분이 매우 길어지고
-    // 그 시그널 넘버도 많아지면 굉장히 복잡하게 될 우려가 있기 때문에
-    // 일부러 목적에 맞게 나눠놨습니다.
-    // 합치려다가 진짜 엄두가 안 나서 포기한 거라고는 말 못합니다.
 
     // 공주의 좌표
     var x = 0 // x좌표
@@ -59,7 +50,6 @@ open class RunBaseModel {
     var isBossAlive = false
     var speed = 500L
     var iteratorStack = Stack<Int>()
-
 
     /***
      * inti()
@@ -102,7 +92,6 @@ open class RunBaseModel {
     /***
      * 코드블락 관련 코드
      * ***/
-
     fun clearBlock() {
         x = 0
         y = 9
@@ -110,6 +99,7 @@ open class RunBaseModel {
         iterator = 0
         jumpTo = 0
         blockLevel = 0
+        IR = 0
         moveView.postValue(-1)
         insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
@@ -127,6 +117,8 @@ open class RunBaseModel {
                 bracketStack.pop()
         } else {
             blockLevel++  // 닫는 괄호를 삭제함
+            // TODO : 자신을 연 for, if while 문이 없으면 아무 일도 안 하기 -> 어떻게 구분할 것인지???
+            // TODO : 아마도? 블록 변동 일어나면 전체 코드의 address 들 바꿔주는 로직 필요할 듯
             bracketStack.push(tempBracketBuffer)
         }
     }
@@ -211,5 +203,24 @@ open class RunBaseModel {
         mCodeBlock.postValue(block)
         insertBlockAt.postValue(-1)
         Log.e("${adding.funcName} ", "${insertBlockAt.value}에 추가됨")
+    }
+
+    fun deleteBlock(position : Int) {
+        IR--
+        if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2) {
+            this.changeBlockLevel(false)
+            for (i in position until mCodeBlock.value!!.size) {
+                Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                if (mCodeBlock.value!![i].type == 4) {
+                    break
+                } else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
+                    Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                    mCodeBlock.value!![i].funcName = mCodeBlock.value!![i].funcName.substring(4)
+                }
+            }
+        } else if (mCodeBlock.value!![position].type == 4) {
+            this.changeBlockLevel(true)
+        }
+        mCodeBlock.value!!.removeAt(position)
     }
 }
