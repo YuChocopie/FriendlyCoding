@@ -30,25 +30,6 @@ class RunModel : RunBaseModel() {
         iterator = 0
     }
 
-    fun deleteBlock(position : Int) {
-        IR--
-        if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2) {
-            this.changeBlockLevel(false)
-            for (i in position until mCodeBlock.value!!.size) {
-                Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
-                if (mCodeBlock.value!![i].type == 4) {
-                    break
-                } else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
-                    Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
-                    mCodeBlock.value!![i].funcName = mCodeBlock.value!![i].funcName.substring(4)
-                }
-            }
-        } else if (mCodeBlock.value!![position].type == 4) {
-            this.changeBlockLevel(true)
-        }
-        mCodeBlock.value!!.removeAt(position)
-    }
-
     inner class RunThead : Thread() {
         override fun run() {
             try {
@@ -236,7 +217,8 @@ class RunModel : RunBaseModel() {
                             monsterAttacked.postValue(false)
                         }
 
-                        "eatMushroom():" -> {
+                        "eatMushroom();" -> {
+                            Log.e("버섯을 먹습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x] == 4) {
                                 mPrincess.eatMushroom()
                                 mMap.itemPicked(y, x)
@@ -250,6 +232,7 @@ class RunModel : RunBaseModel() {
                         }
 
                         "pickBook();" -> {
+                            Log.e("책을 줍습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x] == 5) {
                                 mPrincess.pickBook()
                                 mMap.itemPicked(y, x)
@@ -276,11 +259,7 @@ class RunModel : RunBaseModel() {
                         }
 
                         else -> {
-                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(
-                                    0,
-                                    2
-                                ) == "if"
-                            ) {
+                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 2) == "if") {
                                 Log.e("if", "입니다")
                                 when (mCodeBlock.value!![IR].argument) {
                                     0 -> {

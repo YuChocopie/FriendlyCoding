@@ -8,7 +8,6 @@ import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.model.RunModel
 
 class CodeBlockViewModel : ViewModel() {
-    val sunnyImage: Int = R.drawable.ic_sunny
     var mRun = RunModel()
 
     fun insertBlockModeOff() {
@@ -41,7 +40,6 @@ class CodeBlockViewModel : ViewModel() {
             return
         view.setBackgroundResource(R.color.Invisible)
     }
-//
 //    @SuppressLint("SetTextI18n")
 //    fun insertBlock(view : View?, funcName: String) {
 //        if (view == null)

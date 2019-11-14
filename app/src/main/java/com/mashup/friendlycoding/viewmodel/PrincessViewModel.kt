@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 
 class PrincessViewModel : ViewModel() {
     var metBoss = MutableLiveData<Boolean>()
-
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
@@ -48,25 +47,24 @@ class PrincessViewModel : ViewModel() {
     }
 
     private fun go(direction: Int) {
-        val one = oneBlock
         when (direction) {
             //goint up
             0 -> {
-                princessImg!!.y = (princessImg!!.y - one)
+                princessImg!!.y = (princessImg!!.y - oneBlock)
             }
             //going right
             1 -> {
-                princessImg!!.x = (princessImg!!.x + one)
+                princessImg!!.x = (princessImg!!.x + oneBlock)
             }
 
             //going down
             2 -> {
-                princessImg!!.y = (princessImg!!.y + one)
+                princessImg!!.y = (princessImg!!.y + oneBlock)
             }
 
             //going left
             3 -> {
-                princessImg!!.x = (princessImg!!.x - one)
+                princessImg!!.x = (princessImg!!.x - oneBlock)
             }
         }
     }

@@ -10,8 +10,7 @@ import java.util.*
 
 open class RunBaseModel {
     // PrincessViewModel
-    var moveView =
-        MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
+    var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
@@ -82,19 +81,17 @@ open class RunBaseModel {
     }
 
     fun rotate(LeftOrRight: Boolean) {
+        driction = (driction + 4) % 4
         if (!LeftOrRight) {   // 왼쪽으로
             driction -= 1
-            if (driction < 0)
-                driction += 4
         } else {  // 오른쪽으로
-            driction = if (driction == 3) 0 else driction++
+            driction++
         }
     }
 
     /***
      * 코드블락 관련 코드
      * ***/
-
     fun clearBlock() {
         x = 0
         y = 9
@@ -102,6 +99,7 @@ open class RunBaseModel {
         iterator = 0
         jumpTo = 0
         blockLevel = 0
+        IR = 0
         moveView.postValue(-1)
         insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
@@ -119,6 +117,8 @@ open class RunBaseModel {
                 bracketStack.pop()
         } else {
             blockLevel++  // 닫는 괄호를 삭제함
+            // TODO : 자신을 연 for, if while 문이 없으면 아무 일도 안 하기 -> 어떻게 구분할 것인지???
+            // TODO : 아마도? 블록 변동 일어나면 전체 코드의 address 들 바꿔주는 로직 필요할 듯
             bracketStack.push(tempBracketBuffer)
         }
     }
@@ -203,5 +203,24 @@ open class RunBaseModel {
         mCodeBlock.postValue(block)
         insertBlockAt.postValue(-1)
         Log.e("${adding.funcName} ", "${insertBlockAt.value}에 추가됨")
+    }
+
+    fun deleteBlock(position : Int) {
+        IR--
+        if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2) {
+            this.changeBlockLevel(false)
+            for (i in position until mCodeBlock.value!!.size) {
+                Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                if (mCodeBlock.value!![i].type == 4) {
+                    break
+                } else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
+                    Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
+                    mCodeBlock.value!![i].funcName = mCodeBlock.value!![i].funcName.substring(4)
+                }
+            }
+        } else if (mCodeBlock.value!![position].type == 4) {
+            this.changeBlockLevel(true)
+        }
+        mCodeBlock.value!!.removeAt(position)
     }
 }

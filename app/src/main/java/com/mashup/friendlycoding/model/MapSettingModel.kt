@@ -1,14 +1,29 @@
 package com.mashup.friendlycoding.model
 
 import android.util.Log
+import android.view.View
 import com.mashup.friendlycoding.Map
 import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.R
 
 class MapSettingModel : MapSettingBaseModel() {
-
-    // Act 마다 반복되는 거 있으면 알아서 빼주세용
+    private fun setMapRandimItem(mapList: Array<Array<Int>>, mDrawables: MapDrawable): Map {
+        for (i in 0 until mDrawables.item.size) {
+            while (true) {
+                val a = rand(0, 10)
+                val b = rand(0, 10)
+                if (mapList[a][b] == 0) {
+                    mapList[a][b] = mDrawables.item[i].item_id
+                    mDrawables.item[i].X = a
+                    mDrawables.item[i].Y = b
+                    mDrawables.item[i].visibility = View.VISIBLE
+                    break
+                }
+            }
+        }
+        return Map(mapList, mDrawables)
+    }
     fun getStageInfo(stageNum: Int): Stage {
         Log.e("stageNum", "$stageNum")
         when (stageNum / 10) {
@@ -21,16 +36,12 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage00)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
-                mDrawables.itemImg = arrayListOf(
-                    arrayOf(3, "i29") // 순서대로 아이템의 종류, 아이템의 xy좌표 -> ixy는 아이템 이미지 뷰의 아이디
-                )
-
                 // 기본 제공되는 블록
                 stageCodeBlock0.addAll(defaultCodeBlock)
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
                 return Stage(
-                    Map(mapList, mDrawables),
+                    setMapRandimItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
                     stageCodeBlock0,
@@ -43,18 +54,21 @@ class MapSettingModel : MapSettingBaseModel() {
                 // 드로어블
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01)
                 mDrawables.monsterImg = R.drawable.monster
-                mDrawables.itemImg = arrayListOf(
-                    arrayOf(4, "i29"),
-                    arrayOf(4, "i34"),
-                    arrayOf(4, "i86")
+                mDrawables.item = arrayListOf(
+                    MapItem(R.drawable.ic_mushroom, 29),
+                    MapItem(R.drawable.ic_sunny, 34),
+                    MapItem(R.drawable.ic_mushroom_poison, 86)
                 )
+                battleCodeBlock0.addAll(defaultBattleCodeBlock)
+
 
                 // 기본 제공되는 블록
                 return Stage(
-                    Map(mapList, mDrawables),
+                    setMapRandimItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
-                    defaultCodeBlock_tutorial
+                    defaultCodeBlock_tutorial,
+                    battleCodeBlock0
                 )
             }
 
@@ -65,19 +79,18 @@ class MapSettingModel : MapSettingBaseModel() {
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct2_1
-                        mDrawables.itemImg = arrayListOf(
-                            arrayOf(5, "i41")
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_mushroom, 41)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_1)
                     }
 
                     2 -> {
                         mapList = mapListAct2_2
-
-                        mDrawables.itemImg = arrayListOf(
-                            arrayOf(4, "i41"),
-                            arrayOf(4, "i23")
-                        )//독버섯은 랜덤생성
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_mushroom, 41),
+                            MapItem(R.drawable.ic_mushroom_poison, 23)
+                        )
 
                         defaultCodeBlock.addAll(stageCodeBlock2_2)
                     }
@@ -85,15 +98,15 @@ class MapSettingModel : MapSettingBaseModel() {
                     3 -> {
                         mapList = mapListAct2_3
 
-                        mDrawables.itemImg = arrayListOf(
-                            arrayOf(6, "i23"),
-                            arrayOf(6, "i19")
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_mushroom, 41),
+                            MapItem(R.drawable.ic_mushroom_poison, 19)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }
                 }
                 return Stage(
-                    Map(mapList, mDrawables),
+                    setMapRandimItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
                     defaultCodeBlock,
