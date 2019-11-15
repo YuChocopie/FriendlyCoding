@@ -1,6 +1,7 @@
 package com.mashup.friendlycoding.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,9 @@ import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.model.CodeBlock
 import java.lang.Exception
@@ -69,6 +73,82 @@ class CodeBlockAdapter(
         holder.apply {
             bind(listener, type2BlockListener, item)
             itemView.tag = item
+
+            setCodingStyleColor(holder,item)
+        }
+    }
+    private fun setCodingStyleColor(holder: Holder,codeBlock: CodeBlock) {
+        var viewType =codeBlock.type
+
+        var viewFuncName :String = codeBlock.funcName
+
+
+        var str = holder.itemView.func_name
+        when(viewType){
+            0->{
+                val builder = SpannableStringBuilder(viewFuncName)
+                var length = viewFuncName.length
+
+                str.text = ""
+                builder.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#ff0000")),
+                    length - 3,
+                    length - 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                builder.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#0000ff")),
+                    0,
+                    length - 3,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                str.append(builder)
+            }
+            1->{//for
+                val builder = SpannableStringBuilder(viewFuncName)
+                var length = viewFuncName.length
+
+                val temper = "){"
+                val builder2 = SpannableStringBuilder(temper)
+                var length2 = temper.length
+
+                var str2 = holder.itemView.end
+
+                str.text = ""
+                str2.text = ""
+                builder.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#00ff00")),
+                    0,
+                    length-1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                builder.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#0000ff")),
+                    length-1,
+                    length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                builder2.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#0000ff")),
+                    0,
+                    length2-1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+//                builder.setSpan(
+//                    ForegroundColorSpan(Color.parseColor("#00ffff")),
+//                    0,
+//                    length - 3,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                )
+
+                str.append(builder)
+                str2.append(builder2)
+            }
         }
     }
 
