@@ -20,8 +20,8 @@ open class MapSettingBaseModel {
         CodeBlock("turnRight();"),
         CodeBlock("for(", type = 1),
         CodeBlock("if()", type = 2),
-        CodeBlock("while()", type = 2),
-        CodeBlock("}", type = 4)
+        CodeBlock("while()", type = 4),
+        CodeBlock("}")
     )
     var stageCodeBlock0 = arrayListOf(
         CodeBlock("pickAxe();"),
@@ -46,9 +46,9 @@ open class MapSettingBaseModel {
 
     var defaultBattleCodeBlock = arrayListOf(
         CodeBlock("if()", type = 2),
-        CodeBlock("while()", type = 2),
+        CodeBlock("while()", type = 4),
         CodeBlock("for(", type = 1),
-        CodeBlock("}", type = 4),
+        CodeBlock("}"),
         CodeBlock("attack();"),
         CodeBlock("isAlive()", type = 3, argument = 7)
     )

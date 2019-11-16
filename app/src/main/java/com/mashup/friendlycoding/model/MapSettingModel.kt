@@ -61,7 +61,6 @@ class MapSettingModel : MapSettingBaseModel() {
                 )
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
-
                 // 기본 제공되는 블록
                 return Stage(
                     setMapRandimItem(mapList, mDrawables),

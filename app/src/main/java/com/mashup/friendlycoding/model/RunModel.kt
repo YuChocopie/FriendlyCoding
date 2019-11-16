@@ -25,6 +25,7 @@ class RunModel : RunBaseModel() {
 
     fun run() {
         val run = RunThead()
+        setAddress()
         IR = 0
         run.start()
         iterator = 0
@@ -122,15 +123,9 @@ class RunModel : RunBaseModel() {
 
                         "}" -> {
                             jumpTo = mCodeBlock.value!![IR].address
-                            Log.e(
-                                "jumpTo",
-                                "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(
-                                    mCodeBlock.value!![jumpTo].funcName
-                                )}"
-                            )
+                            Log.e("jumpTo", "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(mCodeBlock.value!![jumpTo].funcName)}")
 
-                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).length > 5
-                                && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(0, 5) == "while") {
+                            if (mCodeBlock.value!![jumpTo].type == 4) {
                                 Log.e("요건", "while문")
                                 when (mCodeBlock.value!![jumpTo].argument) {
                                     // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
@@ -157,32 +152,21 @@ class RunModel : RunBaseModel() {
                                 }
                             }
 
-                            if (mMonster != null && ignoreBlanks(mCodeBlock.value!![jumpTo].funcName).substring(
-                                    0,
-                                    2
-                                ) == "if"
-                                && isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType
-                            ) {
+                            if (mMonster != null && mCodeBlock.value!![jumpTo].type == 2 && isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
                                 princessAction.postValue(0)
                                 Log.e("몬스터", "공격 종료!")
                                 monsterAttack.postValue(-1)
                                 isAttacking = false
                             }
 
-                            if (ignoreBlanks(mCodeBlock.value!![jumpTo].funcName) == "for(") {
-                                Log.e(
-                                    "for 가 날 열었어",
-                                    "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}"
-                                )
-                                if (mCodeBlock.value!![jumpTo].argument-- > 1) {
-                                    nowTerminated.postValue(IR)
+                            if (mCodeBlock.value!![jumpTo].type == 1) {
+                                Log.e("for 가 날 열었어", "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}")
+                                if (mCodeBlock.value!![jumpTo].argument-- > 1) { nowTerminated.postValue(IR)
                                     IR = jumpTo
-                                    Log.e(
-                                        "한 번 더!",
-                                        "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}"
-                                    )
+                                    Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
                                     iterator++
-                                } else {
+                                }
+                                else {
                                     //mCodeBlock.value!![jumpTo].argument = iterator
                                     //mCodeBlock.value!![IR].argument = iterator
                                     mCodeBlock.value!![jumpTo].argument = iteratorStack.peek()
