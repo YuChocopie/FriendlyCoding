@@ -126,6 +126,7 @@ open class RunBaseModel {
             Log.e("닫는 괄호", "삭제")
             blockLevel++  // 닫는 괄호를 삭제함
             closingBracket--
+            bracketStack.push(1)
         }
     }
 
@@ -222,8 +223,9 @@ open class RunBaseModel {
         Log.e("닫는 괄호?", mCodeBlock.value!![ir].funcName + " $myself" + " $ir 까지")
         mCodeBlock.value!![ir].address = myself
 
-        if (mCodeBlock.value!![myself].type == 2) {
-            coc[mCodeBlock.value!![myself].argument] = myself
+        if (mCodeBlock.value!![myself].type == 2 || mCodeBlock.value!![myself].type == 4) {
+            if (mCodeBlock.value!![myself].type == 2)
+                coc[mCodeBlock.value!![myself].argument] = myself
             mCodeBlock.value!![myself].address = ir
         }
         return ir

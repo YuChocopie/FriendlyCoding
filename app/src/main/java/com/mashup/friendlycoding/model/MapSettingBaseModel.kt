@@ -55,7 +55,9 @@ open class MapSettingBaseModel {
 
     var battleCodeBlock0 = arrayListOf(
         CodeBlock("detectedFire()", type = 3, argument = 0),
-        CodeBlock("detectedWater()", type = 3, argument = 1))
+        CodeBlock("detectedWater()", type = 3, argument = 1),
+        CodeBlock("iceShield();"),
+        CodeBlock("fireShield();"))
 
     val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),

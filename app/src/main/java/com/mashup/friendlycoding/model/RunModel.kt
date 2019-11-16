@@ -77,6 +77,7 @@ class RunModel : RunBaseModel() {
                         moveView.postValue(-4)
                         return
                     }
+
                     nowProcessing.postValue(IR)
                     turnOff = IR
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
@@ -98,19 +99,16 @@ class RunModel : RunBaseModel() {
                                 nowTerminated.postValue(IR)
                                 return
                             }
-                            sleep(speed)
                         }
                         "turnLeft();" -> {
                             //moveView.value = 1
                             rotate(false)
                             moveView.postValue(4)
-                            sleep(speed)
                         }
                         "turnRight();" -> {
                             //  moveView.value = 2
                             rotate(true)
                             moveView.postValue(5)
-                            sleep(speed)
                         }
 
                         "for(" -> {
@@ -122,7 +120,6 @@ class RunModel : RunBaseModel() {
                             iterator = mCodeBlock.value!![IR].argument
                             iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
-                            sleep(speed)
                         }
 
                         "}" -> {
@@ -132,32 +129,10 @@ class RunModel : RunBaseModel() {
 
                             if (mCodeBlock.value!![jumpTo].type == 4) {
                                 Log.e("요건", "while문")
-                                when (mCodeBlock.value!![jumpTo].argument) {
-                                    // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
-                                    //  예)
-                                    //  argument -> {
-                                    //      if (...) {
-                                    //          IR = jumpTo
-                                    //          iterator++
-                                    //      }
-                                    //      else {
-                                    //      }
-                                    //  }
-                                    7 -> {   // isAlive
-                                        if (mMonster!!.isAlive()) {
-                                            IR = jumpTo
-                                            Log.e("아직 안 죽었네", "$jumpTo 로!")
-                                            iterator++
-                                        } else {
-                                            iterator = 0
-                                            metBoss.postValue(false)
-                                        }
-                                    }
-                                }
+                                IR = jumpTo - 1
                             }
 
                             if (mMonster != null && mCodeBlock.value!![jumpTo].type == 2 && isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
-                                princessAction.postValue(0)
                                 Log.e("몬스터", "공격 종료!")
                                 monsterAttack.postValue(-1)
                                 isAttacking = false
@@ -177,7 +152,6 @@ class RunModel : RunBaseModel() {
                                     iteratorStack.pop()
                                 }
                             }
-                            sleep(speed)
                         }
 
                         "else" -> {
@@ -194,14 +168,11 @@ class RunModel : RunBaseModel() {
                                 moveView.postValue(-3)
                                 return
                             }
-                            sleep(speed)
                         }
 
                         "attack();" -> {
                             mMonster?.monsterAttacked(mPrincess.DPS)
                             monsterAttacked.postValue(true)
-                            sleep(speed)
-                            monsterAttacked.postValue(false)
                         }
 
                         "eatMushroom();" -> {
@@ -215,7 +186,6 @@ class RunModel : RunBaseModel() {
                                 moveView.postValue(-3)
                                 return
                             }
-                            sleep(speed)
                         }
 
                         "pickBook();" -> {
@@ -229,7 +199,6 @@ class RunModel : RunBaseModel() {
                                 moveView.postValue(-3)
                                 return
                             }
-                            sleep(speed)
                         }
 
                         "pickBranch();" -> {
@@ -242,25 +211,20 @@ class RunModel : RunBaseModel() {
                                 moveView.postValue(-3)
                                 return
                             }
-                            sleep(speed)
+                        }
+
+                        "fireShield();" -> {
+                            princessAction.postValue(9)
+                        }
+
+                        "iceShield();" -> {
+                            princessAction.postValue(9)
                         }
 
                         else -> {
-                            if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 2) == "if") {
+                            if (mCodeBlock.value!![IR].type == 2) {
                                 Log.e("if", "입니다")
                                 when (mCodeBlock.value!![IR].argument) {
-                                    0 -> {
-                                        if (mMonster != null) {
-                                            if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
-                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                                princessAction.postValue(9)
-                                            }
-                                            else {
-                                                IR = mCodeBlock.value!![IR].address
-                                            }
-                                        }
-                                    }
-
                                     // TODO : 3번 블록 (boolean형 반환 함수) 중 if에 들어간 블록
                                     //  예)
                                     //  argument -> {
@@ -271,11 +235,21 @@ class RunModel : RunBaseModel() {
                                     //      }
                                     //  }
 
+                                    0 -> {
+                                        if (mMonster != null) {
+                                            if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
+                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                            }
+                                            else {
+                                                IR = mCodeBlock.value!![IR].address
+                                            }
+                                        }
+                                    }
+
                                     1 -> {
                                         if (mMonster != null) {
                                             if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
                                                 Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                                princessAction.postValue(9)
                                             } else {
                                                 IR = mCodeBlock.value!![IR].address
                                             }
@@ -313,12 +287,39 @@ class RunModel : RunBaseModel() {
 
                                     }
                                 }
-                                sleep(speed)
+                            }
+
+                            else if (mCodeBlock.value!![IR].type == 4) {
+                                jumpTo = mCodeBlock.value!![IR].address
+                                when (mCodeBlock.value!![IR].argument) {
+                                    // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
+                                    //  예)
+                                    //  argument -> {
+                                    //      if (...) {
+                                    //          IR = jumpTo
+                                    //          iterator++
+                                    //      }
+                                    //      else {
+                                    //      }
+                                    //  }
+                                    7 -> {   // isAlive
+                                        if (!mMonster!!.isAlive()) {
+                                            IR = jumpTo
+                                            Log.e("죽었네!", "$jumpTo 로!")
+                                            metBoss.postValue(false)
+                                            iterator = 0
+                                        } else {
+                                            iterator++
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-
+                    sleep(speed)
                     nowTerminated.postValue(turnOff)
+                    princessAction.postValue(0)
+                    monsterAttacked.postValue(false)
                     IR++  // PC
                 }
                 moveView.postValue(-3)
