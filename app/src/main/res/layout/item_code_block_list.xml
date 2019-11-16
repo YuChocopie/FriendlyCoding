@@ -10,6 +10,7 @@
             android:id="@+id/func_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:bufferType="spannable"
             android:textSize="20sp" />
         <EditText
             android:id="@+id/argument"
@@ -25,6 +26,7 @@
             android:textSize="20sp" />
         <TextView
             android:id="@+id/end"
+            android:bufferType="spannable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""

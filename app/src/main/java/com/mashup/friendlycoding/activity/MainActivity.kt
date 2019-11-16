@@ -4,6 +4,7 @@ package com.mashup.friendlycoding.activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,6 +63,9 @@ class MainActivity : BaseActivity() {
             up = -900F
             animateCloud()
         }
+//        val animation =
+//            AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
+//        cloud.startAnimation(animation)
     }
 
     override fun onPause() {
