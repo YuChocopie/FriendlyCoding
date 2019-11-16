@@ -213,6 +213,10 @@ open class RunBaseModel {
         val myself = ir
 
         Log.e("여는 괄호?", mCodeBlock.value!![ir].funcName + "$ir")
+        if ((mCodeBlock.value!![ir].type == 1 && mCodeBlock.value!![ir].argument <= 0)  || ((mCodeBlock.value!![ir].type == 2 ||  mCodeBlock.value!![ir].type == 4) && mCodeBlock.value!![ir].argument < 0)) {
+            compileError = true
+        }
+
         ir++
         while (ir < mCodeBlock.value!!.size && ignoreBlanks(mCodeBlock.value!![ir].funcName) != "}") {
             if (mCodeBlock.value!![ir].type != 0) {

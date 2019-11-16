@@ -26,6 +26,10 @@ class RunModel : RunBaseModel() {
     }
 
     fun run() {
+        iterator = 0
+        compileError = false
+        IR = 0
+
         Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
         if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
             moveView.postValue(-5)
@@ -36,9 +40,11 @@ class RunModel : RunBaseModel() {
         while (open < mCodeBlock.value!!.size && mCodeBlock.value!![open].type == 0) {open++}
         if (open < mCodeBlock.value!!.size)
             compile(open)
-        IR = 0
-        run.start()
-        iterator = 0
+        if (compileError) {
+            moveView.postValue(-5)
+        }
+        else
+            run.start()
     }
 
     inner class RunThead : Thread() {
@@ -112,11 +118,11 @@ class RunModel : RunBaseModel() {
                         }
 
                         "for(" -> {
-                            if (mCodeBlock.value!![IR].argument == 0) {
-                                moveView.postValue(-5)
-                                nowTerminated.postValue(IR)
-                                return
-                            }
+//                            if (mCodeBlock.value!![IR].argument <= 0) {
+//                                moveView.postValue(-5)
+//                                nowTerminated.postValue(IR)
+//                                return
+//                            }
                             iterator = mCodeBlock.value!![IR].argument
                             iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
@@ -223,7 +229,7 @@ class RunModel : RunBaseModel() {
 
                         else -> {
                             if (mCodeBlock.value!![IR].type == 2) {
-                                Log.e("if", "입니다")
+                                Log.e("if", "입니다, ${mCodeBlock.value!![IR].argument}")
                                 when (mCodeBlock.value!![IR].argument) {
                                     // TODO : 3번 블록 (boolean형 반환 함수) 중 if에 들어간 블록
                                     //  예)
