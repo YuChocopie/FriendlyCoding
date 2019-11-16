@@ -47,9 +47,10 @@ open class RunBaseModel {
     var isBossAlive = false
     var speed = 500L
     var iteratorStack = Stack<Int>()
+    var compileError : Boolean = false
 
-    var openingBracket : Int = 0
-    var closingBracket : Int = 0
+    var openingBracket = 0
+    var closingBracket = 0
 
     /***
      * inti()
@@ -61,6 +62,7 @@ open class RunBaseModel {
         metBoss.value = false
         monsterAttack.value = -1
         princessAction.value = 0
+        compileError = false
     }
 
     /***
@@ -108,23 +110,22 @@ open class RunBaseModel {
         mCodeBlock.postValue(block)
         nowTerminated.postValue(IR)
         isBossAlive = false
+        compileError = false
     }
 
     fun changeBlockLevel(OpenOrClose: Boolean) {
         if (!OpenOrClose) {  // 여는 괄호를 삭제함
             Log.e("여는 괄호", "삭제")
             blockLevel--
+            openingBracket--
             if (bracketStack.isNotEmpty()) {
                 bracketStack.pop()
             }
-            openingBracket--
         }
         else {
             Log.e("닫는 괄호", "삭제")
             blockLevel++  // 닫는 괄호를 삭제함
             closingBracket--
-            if (openingBracket != closingBracket)
-                bracketStack.push(1)
         }
     }
 
@@ -191,7 +192,7 @@ open class RunBaseModel {
 
             for (i in position until mCodeBlock.value!!.size) {
                 Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
-                if (mCodeBlock.value!![i].funcName == "}") {
+                if (ignoreBlanks(mCodeBlock.value!![i].funcName) == "}") {
                     break
                 }
                 else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
@@ -206,7 +207,7 @@ open class RunBaseModel {
         mCodeBlock.value!!.removeAt(position)
     }
 
-    fun setAddress (open : Int) {
+    fun compile (open : Int) : Int {
         var ir = open
         val myself = ir
 
@@ -214,8 +215,7 @@ open class RunBaseModel {
         ir++
         while (ir < mCodeBlock.value!!.size && ignoreBlanks(mCodeBlock.value!![ir].funcName) != "}") {
             if (mCodeBlock.value!![ir].type != 0) {
-                setAddress(ir)
-                ir++
+                ir = compile(ir)
             }
             ir++
         }
@@ -226,5 +226,6 @@ open class RunBaseModel {
             coc[mCodeBlock.value!![myself].argument] = myself
             mCodeBlock.value!![myself].address = ir
         }
+        return ir
     }
 }

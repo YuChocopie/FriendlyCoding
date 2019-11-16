@@ -26,9 +26,8 @@ class RunModel : RunBaseModel() {
     }
 
     fun run() {
-        Log.e("괄호", "isEmpty : ${bracketStack.empty()}, opening : $openingBracket, closing : $closingBracket")
-
-        if (!bracketStack.empty() || (openingBracket != closingBracket)) {
+        Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
+        if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
             moveView.postValue(-5)
             return
         }
@@ -36,7 +35,7 @@ class RunModel : RunBaseModel() {
         var open = 0
         while (open < mCodeBlock.value!!.size && mCodeBlock.value!![open].type == 0) {open++}
         if (open < mCodeBlock.value!!.size)
-            setAddress(open)
+            compile(open)
         IR = 0
         run.start()
         iterator = 0
