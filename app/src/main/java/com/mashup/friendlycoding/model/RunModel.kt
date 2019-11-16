@@ -4,6 +4,8 @@ import android.util.Log
 import com.mashup.friendlycoding.ignoreBlanks
 
 class RunModel : RunBaseModel() {
+    var turnOff : Int = 0
+
     fun collisionCheck(): Boolean {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
@@ -24,8 +26,17 @@ class RunModel : RunBaseModel() {
     }
 
     fun run() {
+        Log.e("괄호", "isEmpty : ${bracketStack.empty()}, opening : $openingBracket, closing : $closingBracket")
+
+        if (!bracketStack.empty() || (openingBracket != closingBracket)) {
+            moveView.postValue(-5)
+            return
+        }
         val run = RunThead()
-        setAddress()
+        var open = 0
+        while (open < mCodeBlock.value!!.size && mCodeBlock.value!![open].type == 0) {open++}
+        if (open < mCodeBlock.value!!.size)
+            setAddress(open)
         IR = 0
         run.start()
         iterator = 0
@@ -34,10 +45,6 @@ class RunModel : RunBaseModel() {
     inner class RunThead : Thread() {
         override fun run() {
             try {
-                if (!bracketStack.empty()) {
-                    moveView.postValue(-5)
-                    return
-                }
                 moveView.postValue(-2)
                 sleep(speed)
 
@@ -72,10 +79,8 @@ class RunModel : RunBaseModel() {
                         return
                     }
                     nowProcessing.postValue(IR)
-                    Log.e(
-                        "실행 중 : ",
-                        mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}"
-                    )
+                    turnOff = IR
+                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
 
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         // TODO : 0 유형 블록 (일반 함수)
@@ -122,6 +127,7 @@ class RunModel : RunBaseModel() {
                         }
 
                         "}" -> {
+                            turnOff = IR
                             jumpTo = mCodeBlock.value!![IR].address
                             Log.e("jumpTo", "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(mCodeBlock.value!![jumpTo].funcName)}")
 
@@ -140,7 +146,6 @@ class RunModel : RunBaseModel() {
                                     //  }
                                     7 -> {   // isAlive
                                         if (mMonster!!.isAlive()) {
-                                            nowTerminated.postValue(IR)
                                             IR = jumpTo
                                             Log.e("아직 안 죽었네", "$jumpTo 로!")
                                             iterator++
@@ -174,7 +179,6 @@ class RunModel : RunBaseModel() {
                                 }
                             }
                             sleep(speed)
-                            nowTerminated.postValue(IR)
                         }
 
                         "else" -> {
@@ -248,14 +252,11 @@ class RunModel : RunBaseModel() {
                                 when (mCodeBlock.value!![IR].argument) {
                                     0 -> {
                                         if (mMonster != null) {
-                                            if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
-                                                Log.e(
-                                                    "막았다!",
-                                                    "${mCodeBlock.value!![jumpTo].argument} 공격"
-                                                )
+                                            if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
+                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
                                                 princessAction.postValue(9)
-                                            } else {
-                                                nowTerminated.postValue(IR)
+                                            }
+                                            else {
                                                 IR = mCodeBlock.value!![IR].address
                                             }
                                         }
@@ -274,13 +275,9 @@ class RunModel : RunBaseModel() {
                                     1 -> {
                                         if (mMonster != null) {
                                             if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
-                                                Log.e(
-                                                    "막았다!",
-                                                    "${mCodeBlock.value!![jumpTo].argument} 공격"
-                                                )
+                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
                                                 princessAction.postValue(9)
                                             } else {
-                                                nowTerminated.postValue(IR)
                                                 IR = mCodeBlock.value!![IR].address
                                             }
                                         }
@@ -289,7 +286,6 @@ class RunModel : RunBaseModel() {
                                     3 -> {  // 곡괭이
                                         if (!mPrincess.isPickAxe) {
                                             Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -297,7 +293,6 @@ class RunModel : RunBaseModel() {
                                     4 -> { //버섯
                                         if (mPrincess.mushroomCnt < 2) {
                                             Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -305,7 +300,6 @@ class RunModel : RunBaseModel() {
                                     5 -> { //책
                                         if (!mPrincess.isBook) {
                                             Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -313,7 +307,6 @@ class RunModel : RunBaseModel() {
                                     6 -> { //나무
                                         if (mPrincess.branchCnt < 2) {
                                             Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            nowTerminated.postValue(IR)
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -326,7 +319,7 @@ class RunModel : RunBaseModel() {
                         }
                     }
 
-                    nowTerminated.postValue(IR)
+                    nowTerminated.postValue(turnOff)
                     IR++  // PC
                 }
                 moveView.postValue(-3)

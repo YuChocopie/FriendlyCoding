@@ -42,14 +42,14 @@ open class RunBaseModel {
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var tempBracketBuffer = 0   // 괄호가 삭제되거나 할 때를 대비해서 임시로 저장해두는 버퍼.
     var coc = arrayOf(-1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
     var iteratorStack = Stack<Int>()
 
-    var allClosed = false
+    var openingBracket : Int = 0
+    var closingBracket : Int = 0
 
     /***
      * inti()
@@ -108,21 +108,23 @@ open class RunBaseModel {
         mCodeBlock.postValue(block)
         nowTerminated.postValue(IR)
         isBossAlive = false
-        allClosed = false
     }
 
     fun changeBlockLevel(OpenOrClose: Boolean) {
         if (!OpenOrClose) {  // 여는 괄호를 삭제함
+            Log.e("여는 괄호", "삭제")
             blockLevel--
-            if (bracketStack.isNotEmpty() &&  (IR-1 == bracketStack.peek())) {
+            if (bracketStack.isNotEmpty()) {
                 bracketStack.pop()
             }
-        } else {
+            openingBracket--
+        }
+        else {
+            Log.e("닫는 괄호", "삭제")
             blockLevel++  // 닫는 괄호를 삭제함
-            // TODO : 자신을 연 for, if while 문이 없으면 아무 일도 안 하기 -> 어떻게 구분할 것인지???
-            // TODO : 아마도? 블록 변동 일어나면 전체 코드의 address 들 바꿔주는 로직 필요할 듯
-            if (bracketStack.isEmpty())
-                bracketStack.push(tempBracketBuffer)
+            closingBracket--
+            if (openingBracket != closingBracket)
+                bracketStack.push(1)
         }
     }
 
@@ -142,9 +144,6 @@ open class RunBaseModel {
                 insertedBlock = codeBlock.funcName
                 mCodeBlock.value!![insertBlockPosition].funcName = insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
                 insertBlockAt.postValue(insertBlockPosition)
-//                if (ignoreBlanks(mCodeBlock.value!![insertBlockPosition].funcName).substring(0, 2) == "if") {
-//                    coc[codeBlock.argument] = insertBlockPosition
-//                    Log.e("행동 추가", "$insertBlockPosition") }
                 insertBlockPosition = -1
                 return
             }
@@ -160,16 +159,10 @@ open class RunBaseModel {
             if (bracketStack.empty()) {
                 return
             }
-//            if (bracketStack.peek() < 10000)
-//                adding.address = bracketStack.peek()  // jump할 주소
-//            else { // if인 경우엔 jump가 아니라 if의 주소를 바꿔야 한다
-//                mCodeBlock.value!![bracketStack.peek() - 10000].address = IR
-//                adding.address = bracketStack.peek() - 10000   // 자신을 연 if문의 주소
-//            }
-
             bracketStack.pop()
             Log.e("block level", "decreases")
             blockLevel--
+            closingBracket++
         }
 
         var tap = ""
@@ -181,18 +174,10 @@ open class RunBaseModel {
 
         if (adding.type != 0) {
             bracketStack.push(1)
-//            tempBracketBuffer =
-//                if (ignoreBlanks(adding.funcName) == "if()") {
-//                    bracketStack.push(IR + 10000)
-//                    IR + 10000
-//                } else {
-//                    bracketStack.push(IR)
-//                    IR
-//                }
             blockLevel++
+            openingBracket++
         }
 
-        IR++
         val block = mCodeBlock.value
         block!!.add(adding)
         mCodeBlock.postValue(block)
@@ -201,69 +186,45 @@ open class RunBaseModel {
     }
 
     fun deleteBlock(position : Int) {
-        IR--
-        if (mCodeBlock.value!![position].type == 1 || mCodeBlock.value!![position].type == 2 || mCodeBlock.value!![position].type == 4) {
+        if (mCodeBlock.value!![position].type != 0) {
             this.changeBlockLevel(false)
+
             for (i in position until mCodeBlock.value!!.size) {
                 Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
                 if (mCodeBlock.value!![i].funcName == "}") {
                     break
-                } else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
+                }
+                else if (mCodeBlock.value!![i].funcName.substring(0, 4) == "    ") {
                     Log.e("코드 들이기", mCodeBlock.value!![i].funcName)
                     mCodeBlock.value!![i].funcName = mCodeBlock.value!![i].funcName.substring(4)
                 }
             }
-        } else if (mCodeBlock.value!![position].type == 4) {
+        }
+        else if (ignoreBlanks(mCodeBlock.value!![position].funcName) == "}") {
             this.changeBlockLevel(true)
         }
         mCodeBlock.value!!.removeAt(position)
     }
 
-    fun setAddress () {
-        var ir = 0
-        val myself = Stack<Int>()
-        var flag: Boolean
-        Log.e("huh", "주소 지정, ${mCodeBlock.value!!.size}")
+    fun setAddress (open : Int) {
+        var ir = open
+        val myself = ir
 
-        while (ir < IR) {
-            flag = false
-
-            if (mCodeBlock.value!![ir].funcName != "}") {
-                while (mCodeBlock.value!![ir].type == 0 && ir < mCodeBlock.value!!.size) {
-                    ir++
-                } // for if while 만날 때까지 돌림
-                Log.e("발견", mCodeBlock.value!![ir].funcName)
-                myself.push(ir)
+        Log.e("여는 괄호?", mCodeBlock.value!![ir].funcName + "$ir")
+        ir++
+        while (ir < mCodeBlock.value!!.size && ignoreBlanks(mCodeBlock.value!![ir].funcName) != "}") {
+            if (mCodeBlock.value!![ir].type != 0) {
+                setAddress(ir)
                 ir++
-
-                while (mCodeBlock.value!![ir].funcName != "}" && ir < mCodeBlock.value!!.size) {
-                    if (mCodeBlock.value!![ir].type != 0) {
-                        Log.e("또 다른 발견", mCodeBlock.value!![ir].funcName)
-                        break
-                    }
-                    ir++
-                }
-            }
-
-            if (mCodeBlock.value!![ir].funcName == "}") {
-                if (mCodeBlock.value!![myself.peek()].type == 1 || mCodeBlock.value!![myself.peek()].type == 4) {
-                    mCodeBlock.value!![ir].address = myself.peek()
-                    Log.e(
-                        "} 발견",
-                        "for , while ? ${mCodeBlock.value!![ir].funcName}에 ${mCodeBlock.value!![myself.peek()].funcName}의 주소를"
-                    )
-                    myself.pop()
-                } else if (mCodeBlock.value!![myself.peek()].type == 2) {
-                    mCodeBlock.value!![myself.peek()].address = ir
-                    coc[mCodeBlock.value!![myself.peek()].argument] = myself.peek()
-                    Log.e(
-                        "} 발견",
-                        "if 에 ${mCodeBlock.value!![myself.peek()].funcName}에 ${mCodeBlock.value!![ir].funcName}의 주소를"
-                    )
-                    myself.pop()
-                }
             }
             ir++
+        }
+        Log.e("닫는 괄호?", mCodeBlock.value!![ir].funcName + " $myself" + " $ir 까지")
+        mCodeBlock.value!![ir].address = myself
+
+        if (mCodeBlock.value!![myself].type == 2) {
+            coc[mCodeBlock.value!![myself].argument] = myself
+            mCodeBlock.value!![myself].address = ir
         }
     }
 }
