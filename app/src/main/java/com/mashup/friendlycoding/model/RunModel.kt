@@ -108,7 +108,7 @@ class RunModel : RunBaseModel() {
 
                         "move();" -> {
                             movePrincess()
-                            moveView.postValue(driction)
+                            moveView.postValue(direction)
 
                             var signal = collisionCheck()
                             if (signal != 0) {
