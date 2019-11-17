@@ -16,17 +16,17 @@ class Princess {
     }
 
     fun pickBook() {
-        this.bookCnt++
+        ++this.bookCnt
         this.isBook = true
     }
 
     fun eatMushroom() {
-        this.mushroomCnt++
+        ++this.mushroomCnt
         this.isMushroom = true
     }
 
     fun pickBranch() {
-        this.branchCnt++
+        ++this.branchCnt
         this.isBranch = true
     }
 }

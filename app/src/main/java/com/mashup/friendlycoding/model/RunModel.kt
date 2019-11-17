@@ -191,10 +191,11 @@ class RunModel : RunBaseModel() {
                         }
 
                         "pickBook();" -> {
-                            Log.e("책을 줍습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
+                            Log.e("책을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x]%10 == 5) {
                                 mPrincess.pickBook()
                                 changingView = mMap.mapList!![y][x]/10
+                                changingViewAll = mMap.mapList!![y][x]
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             } else {
@@ -204,9 +205,12 @@ class RunModel : RunBaseModel() {
                         }
 
                         "pickBranch();" -> {
+                            Log.e("나무을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
                             if (mMap.mapList!![y][x]%10 == 6) {
+                                Log.e("됨","됨")
                                 mPrincess.pickBranch()
                                 changingView = mMap.mapList!![y][x]/10
+                                changingViewAll = mMap.mapList!![y][x]
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             } else {
