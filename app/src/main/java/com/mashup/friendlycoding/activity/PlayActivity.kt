@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -83,19 +84,19 @@ class PlayActivity : BaseActivity() {
 
         when(stageNum){
             21 -> {
-                binding.tvCount.setText("Count : ")
+                binding.tvCount.setText("Count = ")
                 binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
                 binding.tvState.setText("Book = ")
                 binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
             }
             22 -> {
-                binding.tvCount.setText("Count : ")
+                binding.tvCount.setText("Count = ")
                 binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
                 binding.tvState.setText("Mushroom = ")
                 binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
             }
             23 -> {
-                binding.tvCount.setText("Count : ")
+                binding.tvCount.setText("Count = ")
                 binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
                 binding.tvState.setText("Branch = ")
                 binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")

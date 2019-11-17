@@ -67,8 +67,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.gate, 2),
-                            MapItem(R.drawable.gate, 2)
+                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.circle, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -85,8 +85,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     }
                     2 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.gate, 2),
-                            MapItem(R.drawable.gate, 2)
+                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.circle, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -102,7 +102,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     }
                     3 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.gate, 2),
+                            MapItem(R.drawable.circle, 2),
                             MapItem(R.drawable.ic_sunny, 2)
                         )
                         mDrawables.princessX = 0
