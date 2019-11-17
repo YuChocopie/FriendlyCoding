@@ -152,7 +152,7 @@ class CodeBlockAdapter(
 
         fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
-            view.lineCount.text = position.toString()
+            view.lineCount.text = (position+1).toString()
             if (codeBlock.type == 2)
                 view.end.text = "{"
             else {
