@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="stageVM"
             type="com.mashup.friendlycoding.viewmodel.StageViewModel" />
@@ -18,19 +19,75 @@
             android:id="@+id/recyclerviewStage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
             android:clipToPadding="false"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_stage"/>
+            tools:listitem="@layout/item_stage" />
 
         <ImageView
-            android:id="@+id/cloud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/cloud2"
+            android:layout_width="1000dp"
+            android:layout_height="500dp"
             android:src="@drawable/cloud"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="50dp"/>
+        <ImageView
+            android:id="@+id/cloud3"
+            android:layout_width="1000dp"
+            android:layout_height="500dp"
+            android:src="@drawable/cloud"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="350dp"/>
+
+        <ImageView
+            android:id="@+id/cloud4"
+            android:layout_width="1000dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cloud"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="500dp"/>
+
+        <ImageView
+            android:id="@+id/cloud6"
+            android:layout_width="1000dp"
+            android:layout_height="500dp"
+            android:src="@drawable/cloud"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="1000dp"
+            />
+        <ImageView
+            android:id="@+id/cloud7"
+            android:layout_width="1000dp"
+            android:layout_height="500dp"
+            android:src="@drawable/cloud"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="350dp"
+            android:layout_marginLeft="1000dp"
+            />
+
+        <ImageView
+            android:id="@+id/cloud8"
+            android:layout_width="1000dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cloud"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="500dp"
+            android:layout_marginLeft="1000dp"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

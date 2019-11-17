@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 //    private var mStageViewModel = StageViewModel()
-    var check = 0
+    var check = 4
     var key = "key"
     var up = -500F
 
@@ -57,15 +57,24 @@ class MainActivity : BaseActivity() {
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -700F
             animateCloud()
-            //recyclerviewStage.isLayoutFrozen = true
+            recyclerviewStage.isLayoutFrozen = true
         } else if (check == 4) {
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -900F
             animateCloud()
         }
-//        val animation =
-//            AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
-//        cloud.startAnimation(animation)
+        val animation =
+            AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
+        val animation1 =
+            AnimationUtils.loadAnimation(this, R.anim.cloudanimation1)
+
+        cloud2.startAnimation(animation)
+        cloud3.startAnimation(animation)
+        cloud4.startAnimation(animation)
+
+        cloud6.startAnimation(animation1)
+        cloud7.startAnimation(animation1)
+        cloud8.startAnimation(animation1)
     }
 
     override fun onPause() {
@@ -92,6 +101,6 @@ class MainActivity : BaseActivity() {
         ani.duration = 2000
         ani.fillAfter = true
         ani.startOffset = 2000
-        cloud.startAnimation(ani)
+        cloud2.startAnimation(ani)
     }
 }
