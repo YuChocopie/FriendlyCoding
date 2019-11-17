@@ -27,8 +27,8 @@ class PlayActivity : BaseActivity() {
     private var mBattleViewModel: BattleViewModel? = null
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
-    private var itemNumber : Int = 0
-    private var mp : MediaPlayer? = null
+    private var itemNumber: Int = 0
+    private var mp: MediaPlayer? = null
     private val mStageViewModel = StageViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class PlayActivity : BaseActivity() {
         binding.lifecycleOwner = this
         mp = MediaPlayer.create(this, R.raw.stage2)
         mp!!.isLooping = true
-        mp!!.start()
+        //mp!!.start()
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
 
@@ -56,8 +56,10 @@ class PlayActivity : BaseActivity() {
         val stageNum = intent.getIntExtra("stageNum", 0)
 
         if (stageNum == 11) {
+
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
+
         }
 
         // Map Setting View Model과 bind 후 stageInfo 얻어오기
@@ -66,22 +68,22 @@ class PlayActivity : BaseActivity() {
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
         val princessInfo = mPrincessViewModel.mMapSettingModel.getStageInfo(stageNum)
         val pcodeInfo = mCodeBlockViewModel.mMapSettingModel.getStageInfo(stageNum)
-        mMapSettingViewModel.setStage(stageInfo,this)
-        mPrincessViewModel.setPrincessImage(princessInfo,this)
+        mMapSettingViewModel.setStage(stageInfo, this)
+        mPrincessViewModel.setPrincessImage(princessInfo, this)
         mCodeBlockViewModel.setSettingModel(pcodeInfo)
 
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
 
         // stageNum 20 넘을 때 visible로 변경
-        if(stageNum/10 > 1){
+        if (stageNum / 10 > 1) {
             binding.tvCount.isVisible = true
             binding.tvCountSet.isVisible = true
             binding.tvState.isVisible = true
             binding.tvStateSet.isVisible = true
         }
 
-        when(stageNum){
+        when (stageNum) {
             21 -> {
                 binding.tvCount.setText("Count : ")
                 binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
@@ -175,30 +177,34 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 곡괭이의 습득
-                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
+                    itemNumber = resources.getIdentifier(
+                        "item_" + mRun.changingView.toString(),
+                        "id",
+                        packageName
+                    )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
                     findViewById<ImageView>(itemNumber).isVisible = false
-                    Log.e("좌표를알아보자","${mRun.changingViewAll}")
-                    if((mRun.changingViewAll)%10 == 4){
+                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
+                    if ((mRun.changingViewAll) % 10 == 4) {
                         binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
                         binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
-                        if(mRun.mPrincess.mushroomCnt == 2){
+                        if (mRun.mPrincess.mushroomCnt == 2) {
                             mPrincessViewModel.clear()
                             mRun.moveView.postValue(7)
                             binding.tvWin.isVisible = true
                         }
-                    }else if((mRun.changingViewAll)%10 == 5){
-                        Log.e("책","먹음")
+                    } else if ((mRun.changingViewAll) % 10 == 5) {
+                        Log.e("책", "먹음")
                         binding.tvCountSet.setText("${mRun.mPrincess.bookCnt}")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
                         mPrincessViewModel.clear()
                         mRun.moveView.postValue(7)
                         binding.tvWin.isVisible = true
-                    }else if((mRun.changingViewAll)%10 == 6){
-                        Log.e("브랜치","먹음")
+                    } else if ((mRun.changingViewAll) % 10 == 6) {
+                        Log.e("브랜치", "먹음")
                         binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
-                        if(mRun.mPrincess.branchCnt == 2){
+                        if (mRun.mPrincess.branchCnt == 2) {
                             mPrincessViewModel.clear()
                             mRun.moveView.postValue(7)
                             binding.tvWin.isVisible = true
@@ -254,11 +260,26 @@ class PlayActivity : BaseActivity() {
         mRun.princessAction.observe(this, Observer<Int> { t ->
             if (t == -1) {
                 binding.shield.isVisible = false
-            }
-            else {
+            } else {
                 when (t) {
-                    0 -> { binding.shield.setImageResource(resources.getIdentifier("fire_shield", "drawable", packageName)) }
-                    1 -> { binding.shield.setImageResource(resources.getIdentifier("ice_shield", "drawable", packageName)) }
+                    0 -> {
+                        binding.shield.setImageResource(
+                            resources.getIdentifier(
+                                "fire_shield",
+                                "drawable",
+                                packageName
+                            )
+                        )
+                    }
+                    1 -> {
+                        binding.shield.setImageResource(
+                            resources.getIdentifier(
+                                "ice_shield",
+                                "drawable",
+                                packageName
+                            )
+                        )
+                    }
                 }
                 binding.shield.isVisible = true
             }
@@ -328,6 +349,21 @@ class PlayActivity : BaseActivity() {
             }
         })
     }
+
+
+        override fun onResume() {
+        super.onResume()
+        mp!!.start()
+    }
+//    override fun onPause() {
+//        super.onPause()
+//        mp!!.stop()
+//    }
+//    override fun onStop() {
+//        super.onStop()
+//        mp!!.stop()
+//
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
