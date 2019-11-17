@@ -15,10 +15,7 @@ import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.CodeBlock
-import com.mashup.friendlycoding.viewmodel.BattleViewModel
-import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
-import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
-import com.mashup.friendlycoding.viewmodel.PrincessViewModel
+import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PlayActivity : BaseActivity() {
@@ -30,6 +27,7 @@ class PlayActivity : BaseActivity() {
     private lateinit var layoutMainView: View
     private var itemNumber : Int = 0
     private var mp : MediaPlayer? = null
+    private val mStageViewModel = StageViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,6 +191,7 @@ class PlayActivity : BaseActivity() {
                             mPrincessViewModel.clear()
                             mRun.moveView.postValue(7)
                             binding.tvWin.isVisible = true
+                            mStageViewModel.check = 2
                         }
                     }
                 }
