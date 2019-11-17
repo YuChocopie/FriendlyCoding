@@ -203,7 +203,9 @@ class PlayActivity : BaseActivity() {
                             mPrincessViewModel.clear()
                             mRun.moveView.postValue(7)
                             binding.tvWin.isVisible = true
-                            mStageViewModel.check = 2
+                            if(mStageViewModel.check == 1){
+                                mStageViewModel.check = 2
+                            }
                         }
                     }
                 }
