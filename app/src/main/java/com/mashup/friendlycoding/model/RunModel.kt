@@ -37,9 +37,12 @@ class RunModel : RunBaseModel() {
         }
         val run = RunThead()
         var open = 0
-        while (open < mCodeBlock.value!!.size && mCodeBlock.value!![open].type == 0) {open++}
-        if (open < mCodeBlock.value!!.size)
-            compile(open)
+        while (open < mCodeBlock.value!!.size) {
+            if (mCodeBlock.value!![open].type != 0) {
+                open = compile(open)
+            }
+            open++
+        }
         if (compileError) {
             moveView.postValue(-5)
         }
@@ -160,35 +163,27 @@ class RunModel : RunBaseModel() {
                             }
                         }
 
-                        "else" -> {
-
-                        }
-
+                        // 아이템 습득 부분
                         "pickAxe();" -> {
                             if (mMap.mapList!![y][x] == 3) {
                                 mPrincess.pickAxe()
                                 mMap.itemPicked(y, x)
-                                changingView = "i$x$y"    // 아이템 뷰의 아이디는 i + x좌표 + y좌표 이다.
                                 moveView.postValue(6)
                             } else {
                                 moveView.postValue(-3)
                                 return
                             }
-                        }
-
-                        "attack();" -> {
-                            mMonster?.monsterAttacked(mPrincess.DPS)
-                            monsterAttacked.postValue(true)
+                            sleep(speed)
                         }
 
                         "eatMushroom();" -> {
-                            Log.e("버섯을 먹습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
-                            if (mMap.mapList!![y][x] == 4) {
+                            Log.e("현재 좌표 = $y, $x" , "발밑 ${mMap.mapList!![y][x]}")
+                            if(mMap.mapList!![y][x]%10 == 4){
                                 mPrincess.eatMushroom()
+                                changingView = mMap.mapList!![y][x]/10
                                 mMap.itemPicked(y, x)
-                                changingView = "i$x$y"
                                 moveView.postValue(6)
-                            } else {
+                            }else{
                                 moveView.postValue(-3)
                                 return
                             }
@@ -196,10 +191,10 @@ class RunModel : RunBaseModel() {
 
                         "pickBook();" -> {
                             Log.e("책을 줍습니다.", "공주 밑엔 ${mMap.mapList!![y][x]}")
-                            if (mMap.mapList!![y][x] == 5) {
+                            if (mMap.mapList!![y][x]%10 == 5) {
                                 mPrincess.pickBook()
+                                changingView = mMap.mapList!![y][x]/10
                                 mMap.itemPicked(y, x)
-                                changingView = "i$x$y"
                                 moveView.postValue(6)
                             } else {
                                 moveView.postValue(-3)
@@ -208,15 +203,21 @@ class RunModel : RunBaseModel() {
                         }
 
                         "pickBranch();" -> {
-                            if (mMap.mapList!![y][x] == 6) {
+                            if (mMap.mapList!![y][x]%10 == 6) {
                                 mPrincess.pickBranch()
+                                changingView = mMap.mapList!![y][x]/10
                                 mMap.itemPicked(y, x)
-                                changingView = "i$x$y"
                                 moveView.postValue(6)
                             } else {
                                 moveView.postValue(-3)
                                 return
                             }
+                        }
+
+                        // 보스전 부분
+                        "attack();" -> {
+                            mMonster?.monsterAttacked(mPrincess.DPS)
+                            monsterAttacked.postValue(true)
                         }
 
                         "fireShield();" -> {

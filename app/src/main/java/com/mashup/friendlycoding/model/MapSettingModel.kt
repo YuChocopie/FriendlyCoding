@@ -14,7 +14,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val a = rand(0, 10)
                 val b = rand(0, 10)
                 if (mapList[a][b] == 0) {
-                    mapList[a][b] = mDrawables.item[i].item_id
+                    mapList[a][b] = (i+1) * 10 + mDrawables.item[i].item_id
                     mDrawables.item[i].X = a
                     mDrawables.item[i].Y = b
                     mDrawables.item[i].visibility = View.VISIBLE
@@ -55,9 +55,9 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.item = arrayListOf(
-                    MapItem(R.drawable.ic_mushroom, 29),
-                    MapItem(R.drawable.ic_sunny, 34),
-                    MapItem(R.drawable.ic_mushroom_poison, 86)
+                    MapItem(R.drawable.ic_mushroom, 4),
+                    MapItem(R.drawable.ic_sunny, 2),
+                    MapItem(R.drawable.ic_mushroom_poison, 8)
                 )
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
@@ -79,7 +79,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     1 -> {
                         mapList = mapListAct2_1
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, 41)
+                            MapItem(R.drawable.ic_mushroom, 4)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_1)
                     }
@@ -87,8 +87,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     2 -> {
                         mapList = mapListAct2_2
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, 41),
-                            MapItem(R.drawable.ic_mushroom_poison, 23)
+                            MapItem(R.drawable.ic_mushroom, 4),
+                            MapItem(R.drawable.ic_mushroom_poison, 8)
                         )
 
                         defaultCodeBlock.addAll(stageCodeBlock2_2)
@@ -98,8 +98,8 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct2_3
 
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, 41),
-                            MapItem(R.drawable.ic_mushroom_poison, 19)
+                            MapItem(R.drawable.ic_mushroom, 4),
+                            MapItem(R.drawable.ic_mushroom_poison, 8)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }

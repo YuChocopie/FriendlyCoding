@@ -27,6 +27,7 @@ class PlayActivity : BaseActivity() {
     private var mBattleViewModel: BattleViewModel? = null
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
+    private var itemNumber : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,10 +132,9 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 곡괭이의 습득
-                    val changingViewID =
-                        resources.getIdentifier(mRun.changingView, "id", packageName)
-                    Log.e("ID", mRun.changingView!!)
-                    findViewById<ImageView>(changingViewID).isVisible = false
+                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
+                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
+                    findViewById<ImageView>(itemNumber).isVisible = false
                 }
 
                 7 -> {  // 패배
