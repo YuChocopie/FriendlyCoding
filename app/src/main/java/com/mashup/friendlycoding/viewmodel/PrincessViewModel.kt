@@ -101,6 +101,8 @@ class PrincessViewModel : ViewModel() {
         if (direction == 3)
             direction = 0
         else direction++
+
+        //selectDirection()
         selectImage()
     }
 
