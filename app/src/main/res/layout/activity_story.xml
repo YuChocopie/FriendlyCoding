@@ -11,11 +11,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
-        tools:context=".activity.StoryActivity">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-=======
         tools:context=".activity.StoryActivity"
         android:background="@drawable/bg_stage_map_01"
         android:orientation="vertical"
@@ -95,5 +90,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
->>>>>>> cf2591de9e48976fb3663b3052e5f37f86b698d6
 </layout>
