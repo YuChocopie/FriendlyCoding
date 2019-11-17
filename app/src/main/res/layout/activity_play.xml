@@ -257,7 +257,7 @@
                     android:layout_height="100dp"
                     android:layout_marginBottom="30dp"
                     android:animation="@{(500)}"
-                    android:src="@{mapSettingVM.mDrawables.princessImg}"
+                    android:src="@drawable/princess_boss"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 

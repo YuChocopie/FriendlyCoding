@@ -4,6 +4,7 @@ package com.mashup.friendlycoding.activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import androidx.annotation.RequiresApi
@@ -43,7 +44,7 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.stageVM = mStageViewModel
 
-        val adapter = SelectActAdapter(this, list)
+        val adapter = SelectActAdapter(this, list,check)
         recyclerviewStage.adapter = adapter
 
         val lm = LinearLayoutManager(this)
@@ -54,21 +55,39 @@ class MainActivity : BaseActivity() {
             recyclerviewStage.scrollToPosition(list.size - 1)
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 1) {
+            cloud2.visibility = View.GONE
+            cloud6.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 2)
             up = -700F
             animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 2) {
+            cloud2.visibility = View.GONE
+            cloud6.visibility = View.GONE
+            cloud3.visibility = View.GONE
+            cloud7.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 3)
             up = -1000F
             animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 3) {
+            cloud2.visibility = View.GONE
+            cloud6.visibility = View.GONE
+            cloud3.visibility = View.GONE
+            cloud7.visibility = View.GONE
+            cloud4.visibility = View.GONE
+            cloud8.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -700F
             animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 4) {
+            cloud2.visibility = View.GONE
+            cloud6.visibility = View.GONE
+            cloud3.visibility = View.GONE
+            cloud7.visibility = View.GONE
+            cloud4.visibility = View.GONE
+            cloud8.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -900F
             animateCloud()

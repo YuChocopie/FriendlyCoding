@@ -41,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="350dp"/>
+            android:layout_marginBottom="500dp"/>
 
         <ImageView
             android:id="@+id/cloud4"
@@ -72,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="350dp"
+            android:layout_marginBottom="500dp"
             android:layout_marginLeft="1000dp"
             />
 
@@ -87,7 +87,12 @@
             android:layout_marginBottom="500dp"
             android:layout_marginLeft="1000dp"
             />
-
+<!--        <EditText-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="ddd"-->
+<!--            android:id="@+id/et_test"-->
+<!--            ></EditText>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
