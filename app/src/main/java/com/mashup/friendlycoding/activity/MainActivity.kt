@@ -7,22 +7,26 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.adapter.SelectActAdapter
+import com.mashup.friendlycoding.databinding.ActivityMainBinding
+import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.StageItem
+import com.mashup.friendlycoding.viewmodel.StageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
-//    private var mStageViewModel = StageViewModel()
-    var check = 1
+    private var mStageViewModel = StageViewModel()
+    var check = mStageViewModel.check
     var key = "key"
     var up = -500F
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
 
         val list = arrayListOf(
             StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
@@ -32,8 +36,13 @@ class MainActivity : BaseActivity() {
             StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
             StageItem(R.drawable.bg_stage_map_01,R.drawable.bg_stage_select_01)
         )
-//        binding.lifecycleOwner = this
-//        binding.stageVM = mStageViewModel
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+            this,
+            R.layout.activity_main
+        )
+        binding.lifecycleOwner = this
+        binding.stageVM = mStageViewModel
+
         val adapter = SelectActAdapter(this, list)
         recyclerviewStage.adapter = adapter
 
