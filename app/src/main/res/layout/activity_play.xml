@@ -222,12 +222,12 @@
                     android:background="@drawable/hp_bar_border"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
                 <ImageView
                     android:id="@+id/monster"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginBottom="30dp"
+                    android:scaleType="centerCrop"
                     android:animation="@{(10000)}"
                     android:src="@{mapSettingVM.mDrawables.monsterImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -260,9 +260,9 @@
                     android:layout_height="100dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="30dp"
-                    android:animation="@{(500)}"
-                    android:src="@drawable/shield"
+                    android:src="@drawable/ice_shield"
                     android:visibility="gone"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -287,7 +287,6 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/monster" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

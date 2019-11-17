@@ -226,11 +226,11 @@ class RunModel : RunBaseModel() {
                         }
 
                         "fireShield();" -> {
-                            princessAction.postValue(9)
+                            princessAction.postValue(0)
                         }
 
                         "iceShield();" -> {
-                            princessAction.postValue(9)
+                            princessAction.postValue(1)
                         }
 
                         else -> {
@@ -296,7 +296,6 @@ class RunModel : RunBaseModel() {
                                         }
                                     }
                                     else -> {
-
                                     }
                                 }
                             }
@@ -330,7 +329,7 @@ class RunModel : RunBaseModel() {
                     }
                     sleep(speed)
                     nowTerminated.postValue(turnOff)
-                    princessAction.postValue(0)
+                    princessAction.postValue(-1)
                     monsterAttacked.postValue(false)
                     IR++  // PC
                 }

@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -28,6 +29,7 @@ class PlayActivity : BaseActivity() {
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
     private var itemNumber : Int = 0
+    private var mp : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,9 @@ class PlayActivity : BaseActivity() {
             R.layout.activity_play
         )
         binding.lifecycleOwner = this
-
+        mp = MediaPlayer.create(this, R.raw.stage2)
+        mp!!.isLooping = true
+        mp!!.start()
 
         layoutMainView = this.findViewById(R.id.constraintLayout)
 
@@ -235,7 +239,16 @@ class PlayActivity : BaseActivity() {
         })
 
         mRun.princessAction.observe(this, Observer<Int> { t ->
-            binding.shield.isVisible = t == 9
+            if (t == -1) {
+                binding.shield.isVisible = false
+            }
+            else {
+                when (t) {
+                    0 -> { binding.shield.setImageResource(resources.getIdentifier("fire_shield", "drawable", packageName)) }
+                    1 -> { binding.shield.setImageResource(resources.getIdentifier("ice_shield", "drawable", packageName)) }
+                }
+                binding.shield.isVisible = true
+            }
         })
 
         mRun.monsterAttack.observe(this, Observer<Int> { t ->
@@ -301,6 +314,11 @@ class PlayActivity : BaseActivity() {
                 princess_attack_motion.isVisible = false
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mp!!.stop()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
+import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
@@ -81,7 +82,7 @@ class CodeBlockAdapter(
         var str = holder.itemView.func_name
         when(viewType){
             0->{
-                if (codeBlock.funcName == "}") {
+                if (ignoreBlanks(codeBlock.funcName) == "}") {
                     return
                 }
 
