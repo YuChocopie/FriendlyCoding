@@ -31,6 +31,7 @@ open class RunBaseModel {
 
     var mPrincess = Princess()
     var mMap = Map()
+    var mMapd = MapDrawable()
     var mMonster: Monster? = null
 
     var insertBlockPosition = 0
@@ -52,7 +53,7 @@ open class RunBaseModel {
 
     var openingBracket = 0
     var closingBracket = 0
-
+    var first =true
     /***
      * inti()
      * ***/
@@ -96,8 +97,9 @@ open class RunBaseModel {
      * 코드블락 관련 코드
      * ***/
     fun clearBlock() {
-        x = 0
-        y = 9
+        first =true
+        x = mMapd.princessX
+        y = mMapd.princessY
         driction = 1
         iterator = 0
         jumpTo = 0

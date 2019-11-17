@@ -17,6 +17,7 @@ import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_play.*
+import java.lang.Thread.sleep
 
 class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
@@ -56,8 +57,10 @@ class PlayActivity : BaseActivity() {
 
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
         val princessInfo = mPrincessViewModel.mMapSettingModel.getStageInfo(stageNum)
+        val pcodeInfo = mCodeBlockViewModel.mMapSettingModel.getStageInfo(stageNum)
         mMapSettingViewModel.setStage(stageInfo,this)
         mPrincessViewModel.setPrincessImage(princessInfo,this)
+        mCodeBlockViewModel.setSettingModel(pcodeInfo)
 
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
@@ -204,6 +207,9 @@ class PlayActivity : BaseActivity() {
 
                 8 -> {  // 승리
                     binding.tvWin.isVisible = true
+                }
+                9 -> {  // 종료
+                    finish()
                 }
 
                 else -> {

@@ -66,27 +66,50 @@ class MapSettingModel : MapSettingBaseModel() {
                 when (stageNum % 10) {
                     // Stage 1
                     1 -> {
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.gate, 2),
+                            MapItem(R.drawable.gate, 2)
+                        )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
                         mapList[9][4] = mDrawables.item[0].item_id
                         mDrawables.item[0].X = 9
                         mDrawables.item[0].Y = 4
                         mDrawables.item[0].visibility = View.VISIBLE
+                        mDrawables
+//                        (var backgroundImg : Int = R.drawable.bg_stage02,
+//                        var princessImg : Int = R.drawable.princess_right,
+//                        var princessX : Int=0,
+//                        var princessY : Int=9,
+//                        var stage : Int=0)
                     }
                     2 -> {
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.gate, 2),
+                            MapItem(R.drawable.gate, 2)
+                        )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
-                        mapList[9][4] = mDrawables.item[0].item_id
-                        mDrawables.item[0].X = 9
-                        mDrawables.item[0].Y = 9
+                        mapList[7][4] = mDrawables.item[0].item_id
+                        mapList[0][0] = mDrawables.item[1].item_id
+                        mDrawables.item[0].X = 7
+                        mDrawables.item[0].Y = 4
                         mDrawables.item[0].visibility = View.VISIBLE
+                        mDrawables.item[1].X = 0
+                        mDrawables.item[1].Y = 0
+                        mDrawables.item[1].visibility = View.VISIBLE
+
                     }
                     3 -> {
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.gate, 2),
+                            MapItem(R.drawable.ic_sunny, 2)
+                        )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 0
-                        mapList[9][4] = mDrawables.item[0].item_id
-                        mDrawables.item[0].X = 9
-                        mDrawables.item[0].Y = 9
+                        mapList[0][0] = mDrawables.item[1].item_id
+                        mDrawables.item[0].X = 0
+                        mDrawables.item[0].Y = 0
                         mDrawables.item[0].visibility = View.VISIBLE
                     }
                 }

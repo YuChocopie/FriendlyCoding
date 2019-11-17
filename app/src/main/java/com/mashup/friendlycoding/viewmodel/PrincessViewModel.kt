@@ -25,7 +25,6 @@ class PrincessViewModel : ViewModel() {
 
     private var direction = 0
 
-
     fun move(i: Int) {
         when (i) {
             -1 -> clear()
@@ -125,9 +124,9 @@ class PrincessViewModel : ViewModel() {
             3 -> {
                 princessImg!!.x = (princessImg!!.x - one)
             }
+
         }
     }
-
     fun clear() {
         princessImg!!.x = oneBlock * mDrawables.princessX - oneBlock * 0.05f
         princessImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
@@ -135,4 +134,6 @@ class PrincessViewModel : ViewModel() {
         direction = 1
         //princessImg=tempPrincessImg
     }
+
+
 }

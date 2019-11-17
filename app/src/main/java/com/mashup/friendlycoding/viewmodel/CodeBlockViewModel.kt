@@ -4,12 +4,16 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.model.CodeBlock
-import com.mashup.friendlycoding.model.RunModel
+import com.mashup.friendlycoding.model.*
 
 class CodeBlockViewModel : ViewModel() {
+    val mMapSettingModel = MapSettingModel()
+    var mDrawables = MapDrawable()
     var mRun = RunModel()
 
+    fun setSettingModel(stageInfo: Stage) {
+        mDrawables = stageInfo.map.drawables!!
+    }
     fun insertBlockModeOff() {
         mRun.insertBlockAt.postValue(-1)
         Log.e("해제", "${mRun.insertBlockAt.value}")
@@ -49,7 +53,7 @@ class CodeBlockViewModel : ViewModel() {
 
     fun run() {
         Log.e("RunModel", "실행")
-        mRun.run()
+        mRun.run(mDrawables)
     }
 
     fun changeBlockLevel(OpenOrClose: Boolean) {
