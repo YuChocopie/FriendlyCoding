@@ -28,7 +28,7 @@ class MapSettingModel : MapSettingBaseModel() {
         Log.e("stageNum", "$stageNum")
 
         when (stageNum / 10) {
-            // Act 1
+            // Act 0
             0 -> {
                 // 맵 정보
                 // TODO : 아이템의 위치 랜덤하게
@@ -51,19 +51,20 @@ class MapSettingModel : MapSettingBaseModel() {
                 )
             }
 
+            // Act 1
             1 -> {
                 val mapList = mapListAct1
                 // 드로어블
-                val mDrawables =
-                    MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
-                mDrawables.monsterImg = R.drawable.monster
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
+                mDrawables.monsterImg = R.drawable.monster1
+                mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 mDrawables.item = arrayListOf(
                     MapItem(R.drawable.ic_sunny, 34)
                 )
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
-
                 when (stageNum % 10) {
+                    // Stage 1
                     1 -> {
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
