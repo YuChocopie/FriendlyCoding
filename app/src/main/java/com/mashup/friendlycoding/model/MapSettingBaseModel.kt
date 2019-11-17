@@ -23,6 +23,8 @@ open class MapSettingBaseModel {
         CodeBlock("while()", type = 2),
         CodeBlock("}", type = 4)
     )
+
+
     var stageCodeBlock0 = arrayListOf(
         CodeBlock("pickAxe();"),
         CodeBlock("isPickAxe()", type = 3, argument = 3))
