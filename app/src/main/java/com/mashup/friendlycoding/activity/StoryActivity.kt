@@ -25,11 +25,15 @@ class StoryActivity : BaseActivity() {
         mStoryViewModel.page.observe(this, Observer<Int> { t ->
             Log.e("페이지", "$t")
             if (t == 3) {
-                sleep(500)
+                //sleep(500)
                 finish()
             }
             else {
-                binding.princessScript.text = mStoryViewModel.script[t]
+                try {
+                    binding.princessScript.text = mStoryViewModel.script[t]
+                }catch (e:ArrayIndexOutOfBoundsException ){
+
+                }
                 if (t == 2) {
                     binding.storyNext.setImageResource(R.drawable.go_to_play)
                 }
