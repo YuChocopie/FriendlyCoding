@@ -25,7 +25,7 @@ class MapSettingViewModel :ViewModel(){
     }
 
     private fun setMapItem() {
-        Log.e("123", mDrawables.item.size.toString())
+        Log.e("아이템갯수", mDrawables.item.size.toString())
         if (mDrawables.item.size > 0)
             settingImg(playActivity.item_1, mDrawables.item[0])
         if (mDrawables.item.size > 1)
