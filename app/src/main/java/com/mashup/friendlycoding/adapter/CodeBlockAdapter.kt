@@ -2,25 +2,23 @@ package com.mashup.friendlycoding.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockListBinding
+import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
-import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import com.mashup.friendlycoding.ignoreBlanks
-import com.mashup.friendlycoding.model.CodeBlock
-import java.lang.Exception
 
 class CodeBlockAdapter(
     private val mContext: Context,
@@ -78,16 +76,13 @@ class CodeBlockAdapter(
         }
     }
     private fun setCodingStyleColor(holder: Holder,codeBlock: CodeBlock) {
-        var viewType =codeBlock.type
-
+        val viewType = codeBlock.type
         var viewFuncName :String = codeBlock.funcName
-
-
         var str = holder.itemView.func_name
         when(viewType){
             0->{
                 val builder = SpannableStringBuilder(viewFuncName)
-                var length = viewFuncName.length
+                val length = viewFuncName.length
 
                 str.text = ""
                 builder.setSpan(
@@ -157,7 +152,7 @@ class CodeBlockAdapter(
 
         fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
-
+            view.lineCount.text = (position+1).toString()
             if (codeBlock.type == 2)
                 view.end.text = "{"
             else {
@@ -188,7 +183,6 @@ class CodeBlockAdapter(
                     }
                 })
             }
-
             else {
                 view.argument.isVisible = false
                 view.argument.isClickable = false

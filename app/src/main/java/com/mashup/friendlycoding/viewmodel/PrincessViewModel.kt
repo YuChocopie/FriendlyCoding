@@ -52,19 +52,15 @@ class PrincessViewModel : ViewModel() {
                 rotationRight()
             }
         }
+        selectImage()
+
     }
 
     fun setPrincessImage(view: ImageView, win: TextView, princessContext: Context) {
-//        if (princessImg == null) {
-//            imgX = view.rotationX
-//            imgY = view.rotationY
-//            Log.e("setPrincessImage","호출됨")
-//        }
         this.princessImg = view
         this.win = win
         this.princessContext = princessContext
         metBoss.value = false
-
 //        if (tempPrincessImg == null) {
 //            this.tempPrincessImg = view //초기화용 공주 이미지
 //        }
@@ -79,31 +75,18 @@ class PrincessViewModel : ViewModel() {
     }
 
     private fun rotationLeft() {
-        // TODO : 공주 사진 변경
-//        val animation =
-//            AnimationUtils.loadAnimation(princessContext, R.anim.rotate_left)
-        //princessImg!!.startAnimation(animation)
-
-        //selectDirection()
         direction -= 1
         if (direction < 0)
             direction += 4
-        selectImage()
 
     }
 
     private fun rotationRight() {
-        // TODO : 공주 사진 변경
-//        val animation =
-//            AnimationUtils.loadAnimation(princessContext, R.anim.rotate_right)
-        //princessImg!!.startAnimation(animation)
-        //selectDirection()
         if (direction == 3)
             direction = 0
         else direction++
 
         //selectDirection()
-        selectImage()
     }
 
     private fun selectImage() {
@@ -120,73 +103,9 @@ class PrincessViewModel : ViewModel() {
             3 -> {
                 princessImg!!.setImageResource(R.drawable.princess_left)
             }
-
         }
-
-
     }
 
-    private fun selectDirection() {
-        //코드로 애니메이션 적용
-        var rotateAnim: RotateAnimation? = null
-        when (direction) {
-            0 -> {
-                rotateAnim = RotateAnimation(
-                    0.0f,
-                    90.0f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F
-                )
-                Log.e("rotation", "$direction")
-            }
-            1 -> {
-                rotateAnim = RotateAnimation(
-                    90.0f,
-                    180.0f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F
-                )
-                Log.e("rotation", "$direction")
-            }
-            3 -> {
-                rotateAnim = RotateAnimation(
-                    180.0f,
-                    270.0f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F
-                )
-                Log.e("rotation", "$direction")
-            }
-            4 -> {
-                rotateAnim = RotateAnimation(
-                    270.0f,
-                    360.0f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5F
-                )
-                Log.e("rotation", "$direction")
-            }
-
-        }
-
-
-
-        rotateAnim?.duration = 300
-        rotateAnim?.fillAfter = true
-
-        if (rotateAnim != null) {
-            princessImg!!.startAnimation(rotateAnim)
-        }
-
-    }
 
     private fun go(direction: Int) {
         val one = oneBlock
