@@ -13,10 +13,11 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:bufferType="spannable"
-            android:gravity="center"
+            android:gravity="end"
+            android:paddingEnd="10dp"
             android:textColor="@color/CodeBolckLineGreen"
             android:textSize="20sp"
-            tools:text="99" />
+            tools:text="9" />
 
         <View
             android:layout_width="2dp"

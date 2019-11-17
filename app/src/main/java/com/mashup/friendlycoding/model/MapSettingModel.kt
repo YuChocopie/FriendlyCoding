@@ -26,6 +26,7 @@ class MapSettingModel : MapSettingBaseModel() {
     }
     fun getStageInfo(stageNum: Int): Stage {
         Log.e("stageNum", "$stageNum")
+
         when (stageNum / 10) {
             // Act 1
             0 -> {
@@ -33,7 +34,8 @@ class MapSettingModel : MapSettingBaseModel() {
                 // TODO : 아이템의 위치 랜덤하게
                 val mapList = mapListAct0
                 // 드로어블
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage00)
+                val mDrawables =
+                    MapDrawable(backgroundImg = R.drawable.bg_stage00, princessX = 0, princessY = 9)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 // 기본 제공되는 블록
@@ -52,19 +54,45 @@ class MapSettingModel : MapSettingBaseModel() {
             1 -> {
                 val mapList = mapListAct1
                 // 드로어블
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01)
+                val mDrawables =
+                    MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
                 mDrawables.monsterImg = R.drawable.monster
                 mDrawables.item = arrayListOf(
-                    MapItem(R.drawable.ic_mushroom, 29),
-                    MapItem(R.drawable.ic_sunny, 34),
-                    MapItem(R.drawable.ic_mushroom_poison, 86)
+                    MapItem(R.drawable.ic_sunny, 34)
                 )
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
 
+                when (stageNum % 10) {
+                    1 -> {
+                        mDrawables.princessX = 0
+                        mDrawables.princessY = 9
+                        mapList[9][4] = mDrawables.item[0].item_id
+                        mDrawables.item[0].X = 9
+                        mDrawables.item[0].Y = 4
+                        mDrawables.item[0].visibility = View.VISIBLE
+                    }
+                    2 -> {
+                        mDrawables.princessX = 0
+                        mDrawables.princessY = 9
+                        mapList[9][4] = mDrawables.item[0].item_id
+                        mDrawables.item[0].X = 9
+                        mDrawables.item[0].Y = 9
+                        mDrawables.item[0].visibility = View.VISIBLE
+                    }
+                    3 -> {
+                        mDrawables.princessX = 0
+                        mDrawables.princessY = 0
+                        mapList[9][4] = mDrawables.item[0].item_id
+                        mDrawables.item[0].X = 9
+                        mDrawables.item[0].Y = 9
+                        mDrawables.item[0].visibility = View.VISIBLE
+                    }
+                }
+
                 // 기본 제공되는 블록
                 return Stage(
-                    setMapRandimItem(mapList, mDrawables),
+                    Map(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
                     defaultCodeBlock_tutorial,

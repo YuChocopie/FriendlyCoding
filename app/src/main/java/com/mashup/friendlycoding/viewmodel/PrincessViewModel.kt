@@ -1,20 +1,21 @@
 package com.mashup.friendlycoding.viewmodel
 
-import android.content.Context
-import android.content.res.Resources
-import android.util.Log
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.activity.PlayActivity
+import com.mashup.friendlycoding.model.MapDrawable
+import com.mashup.friendlycoding.model.MapSettingModel
+import com.mashup.friendlycoding.model.Stage
+import kotlinx.android.synthetic.main.activity_play.*
 
 class PrincessViewModel : ViewModel() {
+    val mMapSettingModel = MapSettingModel()
+    var mDrawables = MapDrawable()
     var metBoss = MutableLiveData<Boolean>()
-
+    lateinit var playActivity: PlayActivity
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
@@ -24,7 +25,6 @@ class PrincessViewModel : ViewModel() {
 
     private var direction = 0
 
-    private var princessContext: Context? = null
 
     fun move(i: Int) {
         when (i) {
@@ -56,15 +56,12 @@ class PrincessViewModel : ViewModel() {
 
     }
 
-    fun setPrincessImage(view: ImageView, win: TextView, princessContext: Context) {
-        this.princessImg = view
-        this.win = win
-        this.princessContext = princessContext
+    fun setPrincessImage(stageInfo: Stage, playActivity: PlayActivity) {
+        this.playActivity = playActivity
+        this.princessImg = playActivity.ivPrincess
+        this.win = playActivity.tvWin
+        mDrawables = stageInfo.map.drawables!!
         metBoss.value = false
-//        if (tempPrincessImg == null) {
-//            this.tempPrincessImg = view //초기화용 공주 이미지
-//        }
-
     }
 
     fun setViewSize(width: Int) {
@@ -132,10 +129,8 @@ class PrincessViewModel : ViewModel() {
     }
 
     fun clear() {
-//        princessImg!!.rotationX=imgX
-//        princessImg!!.rotationY=imgY
-        princessImg!!.x = oneBlock * 0 - oneBlock * 0.05f
-        princessImg!!.y = oneBlock * 9 + oneBlock * 0.1f
+        princessImg!!.x = oneBlock * mDrawables.princessX - oneBlock * 0.05f
+        princessImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
         princessImg!!.setImageResource(R.drawable.princess_right)
         direction = 1
         //princessImg=tempPrincessImg

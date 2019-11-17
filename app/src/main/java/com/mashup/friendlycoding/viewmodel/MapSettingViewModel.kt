@@ -17,15 +17,11 @@ class MapSettingViewModel :ViewModel(){
     var width = 0
     var oneBlock = 0f
 
-    fun setStage(
-        stageInfo: Stage, playActivity: PlayActivity
-    ) {
+    fun setStage(stageInfo: Stage, playActivity: PlayActivity) {
         offeredBlock = stageInfo.offeredBlock
         bossBattleBlock = stageInfo.bossBattleBlock
         mDrawables = stageInfo.map.drawables!!
         this.playActivity = playActivity
-        Log.e(" mDrawables", mDrawables.item.size.toString())
-        Log.e(" offeredBlocksize", offeredBlock.size.toString())
     }
 
     private fun setMapItem() {

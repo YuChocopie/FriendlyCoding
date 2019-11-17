@@ -41,7 +41,6 @@ class PlayActivity : BaseActivity() {
 
         // Princess View Model과 bind
         binding.princessVM = mPrincessViewModel
-        mPrincessViewModel.setPrincessImage(binding.ivPrincess, binding.tvWin,this)
 
         // Code Block View Model과 bind
         binding.codeBlockVM = mCodeBlockViewModel
@@ -53,7 +52,9 @@ class PlayActivity : BaseActivity() {
         binding.mapSettingVM = mMapSettingViewModel
 
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
+        val princessInfo = mPrincessViewModel.mMapSettingModel.getStageInfo(stageNum)
         mMapSettingViewModel.setStage(stageInfo,this)
+        mPrincessViewModel.setPrincessImage(princessInfo,this)
 
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
