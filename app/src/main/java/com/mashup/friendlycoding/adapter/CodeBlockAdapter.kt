@@ -81,6 +81,10 @@ class CodeBlockAdapter(
         var str = holder.itemView.func_name
         when(viewType){
             0->{
+                if (codeBlock.funcName == "}") {
+                    return
+                }
+
                 val builder = SpannableStringBuilder(viewFuncName)
                 val length = viewFuncName.length
 

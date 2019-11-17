@@ -175,15 +175,17 @@ class PlayActivity : BaseActivity() {
                             binding.tvWin.isVisible = true
                         }
                     }else if((mRun.changingViewAll)%10 == 5){
-                        binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                        Log.e("책","먹음")
+                        binding.tvCountSet.setText("${mRun.mPrincess.bookCnt}")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
                         mPrincessViewModel.clear()
                         mRun.moveView.postValue(7)
                         binding.tvWin.isVisible = true
                     }else if((mRun.changingViewAll)%10 == 6){
+                        Log.e("브랜치","먹음")
                         binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
-                        if(mRun.mPrincess.branchCnt == 3){
+                        if(mRun.mPrincess.branchCnt == 2){
                             mPrincessViewModel.clear()
                             mRun.moveView.postValue(7)
                             binding.tvWin.isVisible = true
