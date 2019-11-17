@@ -82,7 +82,7 @@ open class MapSettingBaseModel {
         arrayOf(1, 1, 1, 1, 0, 1, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 1, 0, 1, 0, 0),
         arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
-        arrayOf(0, 0, 3, 0, 0, 1, 0, 0, 0, 2)    // 클리어되는 곳을 일단 2로 설정함, 3은 곡괭이
+        arrayOf(0, 0, 2, 0, 0, 1, 0, 0, 0, 2)    // 클리어되는 곳을 일단 2로 설정함, 3은 곡괭이
     )
     var mapListAct1 = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
@@ -91,10 +91,10 @@ open class MapSettingBaseModel {
         arrayOf(1, 0, 1, 1, 1, 0, 1, 1, 1, 1),
         arrayOf(1, 0, 0, 4, 0, 0, 0, 0, 0, 0),
         arrayOf(1, 0, 0, 0, 0, 1, 1, 1, 1, 0),
-        arrayOf(1, 1, 1, 1, 0, 1, 0, 0, 4, 0),
-        arrayOf(0, 0, 0, 0, 0, 1, 0, 1, 0, 0),
+        arrayOf(1, 1, 1, 1, 1, 1, 0, 0, 4, 0),
+        arrayOf(0, 0, 0, 0, 2, 1, 0, 1, 0, 0),
         arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
-        arrayOf(0, 0, 4, 0, 0, 1, 0, 0, 0, 2)  // 4는 버섯
+        arrayOf(0, 0, 0, 0, 2, 1, 0, 0, 0, 2)  // 4는 버섯
     )
     var mapListAct2_1 = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),

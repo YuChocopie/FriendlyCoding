@@ -5,31 +5,36 @@ import com.mashup.friendlycoding.ignoreBlanks
 
 class RunModel : RunBaseModel() {
     var turnOff : Int = 0
+    var c: Int = 1000000
 
-    fun collisionCheck(): Boolean {   // 벽이나 보스와의 충돌 감지
+    fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
-                moveView.postValue(7)   // 벽이라면 졌다는 시그널 전송
-                return true
+                // 벽이라면 졌다는 시그널 전송
+                return 7
             } else if (mMap.mapList!![y][x] == 2) {
-                moveView.postValue(8)    // 이겼다면 이겼다는 시그널 전송
-                return false
+                // 이겼다면 이겼다는 시그널 전송
+                return 8
             } else if (y == mMonster?.y && x == mMonster?.x) {
                 metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
-                return true
+                return 0
             }
         } else {
             moveView.postValue(7)     // 인덱스를 넘어갈 시
-            return true
+            return 7
         }
-        return false
+        return 0
     }
 
-    fun run() {
+    fun run(mapDrawable: MapDrawable) {
         iterator = 0
         compileError = false
         IR = 0
-
+        if (first) {
+            x = mapDrawable.princessX
+            y = mapDrawable.princessY
+            first = false
+        }
         Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
         if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
             moveView.postValue(-5)
@@ -104,10 +109,19 @@ class RunModel : RunBaseModel() {
                         "move();" -> {
                             movePrincess()
                             moveView.postValue(driction)
-                            if (collisionCheck()) {
+
+                            var signal = collisionCheck()
+                            if (signal != 0) {
+                                sleep(speed)
+                                moveView.postValue(signal)
+                                if (signal == 8) {
+                                    sleep(speed)
+                                    moveView.postValue(9)
+                                }
                                 nowTerminated.postValue(IR)
                                 return
                             }
+
                         }
                         "turnLeft();" -> {
                             //moveView.value = 1
