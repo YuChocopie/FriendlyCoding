@@ -24,6 +24,8 @@ class SelectActAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.image.setImageResource(items[position].item)
+        holder.bg.setImageResource(items[position].backgroundImg)
         holder.image.setOnClickListener {
             if (position == 0) {
                 Log.d("TAG", "${position}번째")
@@ -43,33 +45,26 @@ class SelectActAdapter(
         }
 
         var check = position % 5
-        if (check == 2) {
-            //holder.bind(items[position], context)
-            holder.apply {
-                bind(items[position], context)
-                itemView.tag = items
-                itemView.stageImage.setPadding(650, 0, 0, 0)
-            }
-        } else if (check == 1 || check == 3) {
-            holder.apply {
-                bind(items[position], context)
-                itemView.tag = items
-                itemView.stageImage.setPadding(400, 0, 0, 0)
-            }
-        } else if (check == 0 || check == 4) {
-            holder.apply {
-                bind(items[position], context)
-                itemView.tag = items
-                itemView.stageImage.setPadding(50, 0, 0, 0)
-            }
+        if (check == 1|| check == 4) {
+            holder.image.scaleType= ImageView.ScaleType.FIT_END
+        } else if (check == 0 || check == 2|| check == 3|| check == 5) {
+            holder.image.scaleType= ImageView.ScaleType.FIT_START
         }
+//        else if (check == 0 || check == 4) {
+//            holder.apply {
+//                bind(items[position], context)
+//                itemView.tag = items
+//                itemView.ivStageImage.setPadding(50, 0, 0, 0)
+//            }
+//        }
     }
 
     override fun getItemCount() = items.size
 
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        val image = itemView.findViewById<ImageView>(R.id.stageImage)
+        val image: ImageView = itemView.findViewById<ImageView>(R.id.ivStageImage)
+        val bg: ImageView = itemView.findViewById<ImageView>(R.id.ivStageBackgroundImage)
         fun bind(list: StageItem, context: Context) {
             image?.setImageResource(R.drawable.cave)
         }

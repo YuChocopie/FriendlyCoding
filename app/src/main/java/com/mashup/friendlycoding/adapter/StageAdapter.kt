@@ -47,19 +47,19 @@ class StageAdapter(
                 bind(items[position], context)
                 itemView.tag = items
 
-                itemView.stageImage.setPadding(650, 0, 0, 0)
+                itemView.ivStageImage.setPadding(650, 0, 0, 0)
             }
         } else if (check == 1 || check == 3) {
             holder.apply {
                 bind(items[position], context)
                 itemView.tag = items
-                itemView.stageImage.setPadding(400, 0, 0, 0)
+                itemView.ivStageImage.setPadding(400, 0, 0, 0)
             }
         } else if (check == 0 || check == 4) {
             holder.apply {
                 bind(items[position], context)
                 itemView.tag = items
-                itemView.stageImage.setPadding(50, 0, 0, 0)
+                itemView.ivStageImage.setPadding(50, 0, 0, 0)
             }
         }
     }
@@ -68,7 +68,7 @@ class StageAdapter(
 
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        val image = itemView.findViewById<ImageView>(R.id.stageImage)
+        val image = itemView.findViewById<ImageView>(R.id.ivStageImage)
         fun bind(list: StageItem, context: Context) {
             image?.setImageResource(R.drawable.cave)
         }

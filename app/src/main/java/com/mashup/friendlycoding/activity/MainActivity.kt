@@ -4,6 +4,7 @@ package com.mashup.friendlycoding.activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 //    private var mStageViewModel = StageViewModel()
-    var check = 0
+    var check = 1
     var key = "key"
     var up = -500F
 
@@ -24,11 +25,12 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         val list = arrayListOf(
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave")
+            StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
+            StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
+            StageItem(R.drawable.bg_stage_map_01,R.drawable.bg_stage_select_01),
+            StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
+            StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
+            StageItem(R.drawable.bg_stage_map_01,R.drawable.bg_stage_select_01)
         )
 //        binding.lifecycleOwner = this
 //        binding.stageVM = mStageViewModel
@@ -56,12 +58,24 @@ class MainActivity : BaseActivity() {
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -700F
             animateCloud()
-            //recyclerviewStage.isLayoutFrozen = true
+            recyclerviewStage.isLayoutFrozen = true
         } else if (check == 4) {
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -900F
             animateCloud()
         }
+        val animation =
+            AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
+        val animation1 =
+            AnimationUtils.loadAnimation(this, R.anim.cloudanimation1)
+
+        cloud2.startAnimation(animation)
+        cloud3.startAnimation(animation)
+        cloud4.startAnimation(animation)
+
+        cloud6.startAnimation(animation1)
+        cloud7.startAnimation(animation1)
+        cloud8.startAnimation(animation1)
     }
 
     override fun onPause() {
@@ -88,6 +102,6 @@ class MainActivity : BaseActivity() {
         ani.duration = 2000
         ani.fillAfter = true
         ani.startOffset = 2000
-        cloud.startAnimation(ani)
+        cloud2.startAnimation(ani)
     }
 }
