@@ -5,7 +5,7 @@
     <translate
         android:repeatCount="infinite"
         android:duration="50000"
-        android:fromXDelta="0%p"
+        android:fromXDelta="150%p"
         android:toXDelta="-150%p" />
 
 </set>
