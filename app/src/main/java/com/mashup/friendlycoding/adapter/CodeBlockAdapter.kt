@@ -55,7 +55,7 @@ class CodeBlockAdapter(
         }
 
         val type2BlockListener = View.OnClickListener {
-            if (clickable && item.type == 2) {
+            if (clickable && item.type == 2 || clickable && item.type == 4) {
                 mCodeBlockViewModel.mRun.insertBlockPosition = position
                 Toast.makeText(
                     it.context,
@@ -153,7 +153,7 @@ class CodeBlockAdapter(
         fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
             view.lineCount.text = (position+1).toString()
-            if (codeBlock.type == 2)
+            if (codeBlock.type == 2 || codeBlock.type == 4)
                 view.end.text = "{"
             else {
                 view.end.text = ""

@@ -27,6 +27,7 @@ class PlayActivity : BaseActivity() {
     private var mBattleViewModel: BattleViewModel? = null
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
+    private var itemNumber : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,35 @@ class PlayActivity : BaseActivity() {
 
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
+
+        // stageNum 20 넘을 때 visible로 변경
+        if(stageNum/10 > 1){
+            binding.tvCount.isVisible = true
+            binding.tvCountSet.isVisible = true
+            binding.tvState.isVisible = true
+            binding.tvStateSet.isVisible = true
+        }
+
+        when(stageNum){
+            21 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvState.setText("Book = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+            }
+            22 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
+                binding.tvState.setText("Mushroom = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+            }
+            23 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvState.setText("Branch = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+            }
+        }
 
         // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.mCodeBlock.value!!, mCodeBlockViewModel)
@@ -131,10 +161,33 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 곡괭이의 습득
-                    val changingViewID =
-                        resources.getIdentifier(mRun.changingView, "id", packageName)
-                    Log.e("ID", mRun.changingView!!)
-                    findViewById<ImageView>(changingViewID).isVisible = false
+                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
+                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
+                    findViewById<ImageView>(itemNumber).isVisible = false
+                    Log.e("좌표를알아보자","${mRun.changingViewAll}")
+                    if((mRun.changingViewAll)%10 == 4){
+                        binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
+                        binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+                        if(mRun.mPrincess.mushroomCnt == 2){
+                            mPrincessViewModel.clear()
+                            mRun.moveView.postValue(7)
+                            binding.tvWin.isVisible = true
+                        }
+                    }else if((mRun.changingViewAll)%10 == 5){
+                        binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                        binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+                        mPrincessViewModel.clear()
+                        mRun.moveView.postValue(7)
+                        binding.tvWin.isVisible = true
+                    }else if((mRun.changingViewAll)%10 == 6){
+                        binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                        binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+                        if(mRun.mPrincess.branchCnt == 3){
+                            mPrincessViewModel.clear()
+                            mRun.moveView.postValue(7)
+                            binding.tvWin.isVisible = true
+                        }
+                    }
                 }
 
                 7 -> {  // 패배
