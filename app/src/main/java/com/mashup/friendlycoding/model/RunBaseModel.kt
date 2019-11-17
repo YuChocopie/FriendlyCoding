@@ -27,7 +27,7 @@ open class RunBaseModel {
     // 공주의 좌표
     var x = 0 // x좌표
     var y = 9 // y좌표
-    var driction = 1 // 방향 : 0-> 위, 1-> 오른쪽, 2-> 아래, 3-> 왼쪽
+    var direction = 1 // 방향 : 0-> 위, 1-> 오른쪽, 2-> 아래, 3-> 왼쪽
 
     var mPrincess = Princess()
     var mMap = Map()
@@ -71,8 +71,8 @@ open class RunBaseModel {
      * 공주 이동 관련 코드
      * ***/
     fun movePrincess() {
-        driction %= 4
-        when (driction) {
+        direction %= 4
+        when (direction) {
             //goint up
             0 -> y--
             //going right
@@ -85,11 +85,11 @@ open class RunBaseModel {
     }
 
     fun rotate(LeftOrRight: Boolean) {
-        driction = (driction + 4) % 4
+        direction = (direction + 4) % 4
         if (!LeftOrRight) {   // 왼쪽으로
-            driction -= 1
+            direction -= 1
         } else {  // 오른쪽으로
-            driction++
+            direction++
         }
     }
 
@@ -100,7 +100,7 @@ open class RunBaseModel {
         first =true
         x = mMapd.princessX
         y = mMapd.princessY
-        driction = 1
+        direction = 1
         iterator = 0
         jumpTo = 0
         blockLevel = 0

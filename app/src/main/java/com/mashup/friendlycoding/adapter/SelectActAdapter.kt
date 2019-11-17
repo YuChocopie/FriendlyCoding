@@ -15,7 +15,8 @@ import kotlinx.android.synthetic.main.item_stage.view.*
 
 class SelectActAdapter(
     val context: Context,
-    val items: ArrayList<StageItem>
+    val items: ArrayList<StageItem>,
+    val mapCheck: Int
 ) : RecyclerView.Adapter<SelectActAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,29 +27,92 @@ class SelectActAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.image.setImageResource(items[position].item)
         holder.bg.setImageResource(items[position].backgroundImg)
-        holder.image.setOnClickListener {
-            if (position == 0) {
-                Log.d("TAG", "${position}번째")
-            } else if (position == 1) {
-                Log.d("TAG", "${position}번째")
-            } else if (position == 2) {
-                Log.d("TAG", "${position}번째")
-            } else if (position == 3) {
-                Log.d("TAG", "${position}번째")
-            } else if (position == 4) {
-                Log.d("TAG", "${position}번째")
+        Log.e("positionmm", "$mapCheck")
+        when (mapCheck) {
+            0 -> {
+                when (position) {
+                    5 -> {
+                        holder.image.setOnClickListener {
+                            val intent = Intent(context, SelectStageActivity::class.java)
+                            intent.putExtra("actNum", (6 - position) * 10)
+                            context.startActivity(intent)
+                        }
+                    }
+                }
             }
+            1 -> {
+                when (position) {
+                    4, 5 -> {
+                        holder.image.setOnClickListener {
+                            val intent = Intent(context, SelectStageActivity::class.java)
+                            intent.putExtra("actNum", (6 - position) * 10)
+                            context.startActivity(intent)
+                        }
 
-            val intent = Intent(context, SelectStageActivity::class.java)
-            intent.putExtra("actNum", (6 - position)*10)
-            context.startActivity(intent)
+                    }
+                }
+
+            }
+            2 -> {
+                when (position) {
+                    3, 4, 5 -> {
+                        holder.image.setOnClickListener {
+                            val intent = Intent(context, SelectStageActivity::class.java)
+                            intent.putExtra("actNum", (6 - position) * 10)
+                            context.startActivity(intent)
+                        }
+
+                    }
+                }
+
+            }
+            3 -> {
+                when (position) {
+                    2, 3, 4, 5 -> {
+                        holder.image.setOnClickListener {
+                            val intent = Intent(context, SelectStageActivity::class.java)
+                            intent.putExtra("actNum", (6 - position) * 10)
+                            context.startActivity(intent)
+                        }
+
+                    }
+                }
+
+            }
+            4 -> {
+                when (position) {
+                    1, 2, 3, 4, 5 -> {
+                        holder.image.setOnClickListener {
+                            val intent = Intent(context, SelectStageActivity::class.java)
+                            intent.putExtra("actNum", (6 - position) * 10)
+                            context.startActivity(intent)
+                        }
+
+                    }
+                }
+
+            }
+//            5 -> {
+//                when (position) {
+//                    0, 1, 2, 3, 4, 5 -> {
+//                        holder.image.setOnClickListener {
+//                            val intent = Intent(context, SelectStageActivity::class.java)
+//                            intent.putExtra("actNum", (6 - position) * 10)
+//                            context.startActivity(intent)
+//                        }
+//
+//                    }
+//                }
+//
+//            }
         }
 
+
         var check = position % 5
-        if (check == 1|| check == 4) {
-            holder.image.scaleType= ImageView.ScaleType.FIT_END
-        } else if (check == 0 || check == 2|| check == 3|| check == 5) {
-            holder.image.scaleType= ImageView.ScaleType.FIT_START
+        if (check == 1 || check == 4) {
+            holder.image.scaleType = ImageView.ScaleType.FIT_END
+        } else if (check == 0 || check == 2 || check == 3 || check == 5) {
+            holder.image.scaleType = ImageView.ScaleType.FIT_START
         }
 //        else if (check == 0 || check == 4) {
 //            holder.apply {
