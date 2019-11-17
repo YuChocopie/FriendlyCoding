@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="tutorialVM"
             type="com.mashup.friendlycoding.viewmodel.TutorialViewModel" />
@@ -13,6 +12,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.TutorialActivity">
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
