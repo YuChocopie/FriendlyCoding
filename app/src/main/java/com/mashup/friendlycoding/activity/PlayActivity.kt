@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,7 @@ class PlayActivity : BaseActivity() {
             this,
             R.layout.activity_play
         )
+
         binding.lifecycleOwner = this
         mp = MediaPlayer.create(this, R.raw.stage2)
         mp!!.isLooping = true
@@ -52,6 +54,12 @@ class PlayActivity : BaseActivity() {
 
         // 현재 몇 스테이지인지?
         val stageNum = intent.getIntExtra("stageNum", 0)
+
+        if (stageNum == 11) {
+            val intent = Intent(this, StoryActivity::class.java)
+            startActivity(intent)
+        }
+
         // Map Setting View Model과 bind 후 stageInfo 얻어오기
         binding.mapSettingVM = mMapSettingViewModel
 
