@@ -184,7 +184,7 @@ class RunModel : RunBaseModel() {
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             }else{
-                                moveView.postValue(-3)
+                                moveView.postValue(7)
                                 return
                             }
                         }
@@ -197,7 +197,7 @@ class RunModel : RunBaseModel() {
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             } else {
-                                moveView.postValue(-3)
+                                moveView.postValue(7)
                                 return
                             }
                         }
@@ -209,7 +209,7 @@ class RunModel : RunBaseModel() {
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             } else {
-                                moveView.postValue(-3)
+                                moveView.postValue(7)
                                 return
                             }
                         }
