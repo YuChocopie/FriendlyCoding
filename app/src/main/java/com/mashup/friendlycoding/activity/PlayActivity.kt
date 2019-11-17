@@ -67,6 +67,27 @@ class PlayActivity : BaseActivity() {
             binding.tvStateSet.isVisible = true
         }
 
+        when(stageNum){
+            21 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvState.setText("Book = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+            }
+            22 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
+                binding.tvState.setText("Mushroom = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+            }
+            23 -> {
+                binding.tvCount.setText("Count : ")
+                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvState.setText("Branch = ")
+                binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+            }
+        }
+
         // 코드 블록의 리사이클러 뷰 연결
         val mAdapter = CodeBlockAdapter(this, mRun.mCodeBlock.value!!, mCodeBlockViewModel)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -145,20 +166,27 @@ class PlayActivity : BaseActivity() {
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자","${mRun.changingViewAll}")
                     if((mRun.changingViewAll)%10 == 4){
-                        binding.tvCount.setText("Count : ")
                         binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
-                        binding.tvState.setText("Mushroom = ")
                         binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+                        if(mRun.mPrincess.mushroomCnt == 2){
+                            mPrincessViewModel.clear()
+                            mRun.moveView.postValue(7)
+                            binding.tvWin.isVisible = true
+                        }
                     }else if((mRun.changingViewAll)%10 == 5){
-                        binding.tvCount.setText("Count : ")
                         binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
-                        binding.tvState.setText("Book = ")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+                        mPrincessViewModel.clear()
+                        mRun.moveView.postValue(7)
+                        binding.tvWin.isVisible = true
                     }else if((mRun.changingViewAll)%10 == 6){
-                        binding.tvCount.setText("Count : ")
                         binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
-                        binding.tvState.setText("Branch = ")
                         binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+                        if(mRun.mPrincess.branchCnt == 3){
+                            mPrincessViewModel.clear()
+                            mRun.moveView.postValue(7)
+                            binding.tvWin.isVisible = true
+                        }
                     }
                 }
 
