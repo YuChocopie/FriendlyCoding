@@ -1,8 +1,6 @@
 package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
-import android.view.View
-import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 

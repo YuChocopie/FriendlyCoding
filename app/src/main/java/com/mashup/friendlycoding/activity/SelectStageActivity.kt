@@ -13,6 +13,9 @@ class SelectStageActivity : BaseActivity() {
         setContentView(R.layout.activity_select_stage)
 
         val actNum = intent.getIntExtra("actNum", 1)
+
+        act_title.text = "액트 " + (actNum/10).toString()
+
         val intent = Intent(this, PlayActivity::class.java)
         val listener = View.OnClickListener{
             when (it.id) {
