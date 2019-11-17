@@ -28,7 +28,7 @@ class MapSettingModel : MapSettingBaseModel() {
         Log.e("stageNum", "$stageNum")
 
         when (stageNum / 10) {
-            // Act 1
+            // Act 0
             0 -> {
                 // 맵 정보
                 // TODO : 아이템의 위치 랜덤하게
@@ -51,16 +51,20 @@ class MapSettingModel : MapSettingBaseModel() {
                 )
             }
 
+            // Act 1
             1 -> {
                 val mapList = mapListAct1
                 // 드로어블
-                val mDrawables =
-                    MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
-                mDrawables.monsterImg = R.drawable.monster
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
+                mDrawables.monsterImg = R.drawable.monster1
+                mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
+                mDrawables.item = arrayListOf(
+                    MapItem(R.drawable.ic_sunny, 34)
+                )
                 battleCodeBlock0.addAll(defaultBattleCodeBlock)
 
-
                 when (stageNum % 10) {
+                    // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.gate, 2),
@@ -126,16 +130,17 @@ class MapSettingModel : MapSettingBaseModel() {
                 defaultBattleCodeBlock.addAll(battleCodeBlock0)
                 when (stageNum % 10) {
                     1 -> {
-                        mapList = mapListAct2_1
+                        mapList = mapListAct2
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, 4)
+                            MapItem(R.drawable.ic_book, 5)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_1)
                     }
 
                     2 -> {
-                        mapList = mapListAct2_2
+                        mapList = mapListAct2
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom_poison, 8)
                         )
@@ -144,11 +149,11 @@ class MapSettingModel : MapSettingBaseModel() {
                     }
 
                     3 -> {
-                        mapList = mapListAct2_3
+                        mapList = mapListAct2
 
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, 4),
-                            MapItem(R.drawable.ic_mushroom_poison, 8)
+                            MapItem(R.drawable.ic_branch, 6),
+                            MapItem(R.drawable.ic_branch, 6)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }

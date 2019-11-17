@@ -63,7 +63,7 @@ open class RunBaseModel {
         insertBlockAt.postValue(-1)
         metBoss.value = false
         monsterAttack.value = -1
-        princessAction.value = 0
+        princessAction.value = -1
         compileError = false
     }
 
@@ -113,6 +113,7 @@ open class RunBaseModel {
         mCodeBlock.postValue(block)
         nowTerminated.postValue(IR)
         isBossAlive = false
+        princessAction.value = -1
         compileError = false
     }
 
