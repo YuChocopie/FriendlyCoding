@@ -37,6 +37,47 @@
         android:onClick="@{() -> codeBlockVM.insertBlockModeOff()}"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="end|center"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/tvStateSet"
+            app:layout_constraintRight_toLeftOf="@+id/tvCountSet"
+            app:layout_constraintBottom_toTopOf="@id/field"/>
+
+        <TextView
+            android:id="@+id/tvCountSet"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="start|center"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tvCount"
+            app:layout_constraintBottom_toTopOf="@id/field"/>
+
+        <TextView
+            android:id="@+id/tvState"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="end|center"
+            android:visibility="gone"
+            app:layout_constraintRight_toLeftOf="@+id/tvStateSet"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/field"/>
+
+        <TextView
+            android:id="@+id/tvStateSet"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="start|center"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/tvState"
+            app:layout_constraintRight_toLeftOf="@id/tvCount"
+            app:layout_constraintBottom_toTopOf="@id/field"/>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/field"
             android:layout_width="0dp"
@@ -44,7 +85,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@id/tvCount">
 
             <!-- 일반 코드 실행 부분 -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ededed">
+
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -82,6 +124,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
                 <ImageView
                     android:id="@+id/item_3"
                     android:layout_width="40dp"
@@ -89,6 +132,7 @@
                     android:layout_gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
                 <ImageView
                     android:id="@+id/item_4"
                     android:layout_width="40dp"
@@ -96,6 +140,7 @@
                     android:layout_gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
                 <ImageView
                     android:id="@+id/item_5"
                     android:layout_width="40dp"
@@ -103,6 +148,7 @@
                     android:layout_gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
                 <ImageView
                     android:id="@+id/item_6"
                     android:layout_width="40dp"
@@ -118,6 +164,7 @@
                     android:src="@{mapSettingVM.mDrawables.princessImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/tvWin"
                     android:layout_width="0dp"
@@ -141,12 +188,13 @@
                 android:id="@+id/bossField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/bossBackground"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:src="@{mapSettingVM.mDrawables.bossBattleBackgroundImg}"
                     android:scaleType="centerCrop"
+                    android:src="@{mapSettingVM.mDrawables.bossBattleBackgroundImg}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -285,8 +333,9 @@
             android:layout_marginTop="10dp"
             android:onClick="@{()->codeBlockVM.runBoss()}"
             android:text="@string/runBoss"
-            app:layout_constraintEnd_toEndOf="@+id/clear"
-            app:layout_constraintTop_toBottomOf="@+id/clear" />
+            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"
+            app:layout_constraintRight_toLeftOf="@+id/run"
+            app:layout_constraintTop_toBottomOf="@+id/run" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_input_code"

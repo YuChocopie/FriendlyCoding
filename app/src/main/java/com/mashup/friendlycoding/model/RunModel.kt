@@ -181,6 +181,7 @@ class RunModel : RunBaseModel() {
                             if(mMap.mapList!![y][x]%10 == 4){
                                 mPrincess.eatMushroom()
                                 changingView = mMap.mapList!![y][x]/10
+                                changingViewAll = mMap.mapList!![y][x]
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             }else{
