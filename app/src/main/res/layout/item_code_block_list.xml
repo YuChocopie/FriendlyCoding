@@ -10,15 +10,13 @@
 
         <TextView
             android:id="@+id/lineCount"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:bufferType="spannable"
-            android:lineSpacingExtra="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="8dp"
+            android:gravity="center"
             android:textColor="@color/CodeBolckLineGreen"
             android:textSize="20sp"
-            tools:text="1" />
+            tools:text="99" />
 
         <View
             android:layout_width="2dp"

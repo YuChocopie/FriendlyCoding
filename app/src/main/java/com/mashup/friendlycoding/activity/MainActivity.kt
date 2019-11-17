@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 //    private var mStageViewModel = StageViewModel()
-    var check = 0
+    var check = 1
     var key = "key"
     var up = -500F
 
@@ -25,11 +25,12 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         val list = arrayListOf(
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave"),
-            StageItem("R.drawable.cave")
+            StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
+            StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
+            StageItem(R.drawable.bg_stage_map_01,R.drawable.bg_stage_select_01),
+            StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
+            StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
+            StageItem(R.drawable.bg_stage_map_01,R.drawable.bg_stage_select_01)
         )
 //        binding.lifecycleOwner = this
 //        binding.stageVM = mStageViewModel
