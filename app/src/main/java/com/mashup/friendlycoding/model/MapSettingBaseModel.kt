@@ -19,9 +19,9 @@ open class MapSettingBaseModel {
         CodeBlock("turnLeft();"),
         CodeBlock("turnRight();"),
         CodeBlock("for(", type = 1),
-        CodeBlock("if()", type = 2),
-        CodeBlock("while()", type = 2),
-        CodeBlock("}", type = 4)
+        CodeBlock("if()", type = 2, argument =  -1),
+        CodeBlock("while()", type = 4, argument =  -1),
+        CodeBlock("}")
     )
 
     var stageCodeBlock0 = arrayListOf(
@@ -46,17 +46,19 @@ open class MapSettingBaseModel {
      * **/
 
     var defaultBattleCodeBlock = arrayListOf(
-        CodeBlock("if()", type = 2),
-        CodeBlock("while()", type = 2),
-        CodeBlock("for(", type = 1),
-        CodeBlock("}", type = 4),
+        CodeBlock("if()", type = 2, argument =  -1),
+        CodeBlock("while()", type = 4, argument =  -1),
+        CodeBlock("for(", type = 1, argument =  -1),
+        CodeBlock("}"),
         CodeBlock("attack();"),
         CodeBlock("isAlive()", type = 3, argument = 7)
     )
 
     var battleCodeBlock0 = arrayListOf(
         CodeBlock("detectedFire()", type = 3, argument = 0),
-        CodeBlock("detectedWater()", type = 3, argument = 1))
+        CodeBlock("detectedWater()", type = 3, argument = 1),
+        CodeBlock("iceShield();"),
+        CodeBlock("fireShield();"))
 
     val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),

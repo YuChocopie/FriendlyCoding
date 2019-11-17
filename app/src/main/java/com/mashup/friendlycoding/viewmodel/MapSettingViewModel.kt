@@ -49,7 +49,6 @@ class MapSettingViewModel :ViewModel(){
         iv.y = item.X.toFloat() * oneBlock
     }
 
-
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / 10 + width % 10).toFloat()

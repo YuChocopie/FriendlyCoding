@@ -25,6 +25,7 @@
             android:background="@color/CodeBolckYellowLike" />
 
         <TextView
+            android:fontFamily="@font/ubuntu_mono_regular"
             android:id="@+id/func_name"
             android:paddingStart="8dp"
             android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
             tools:text="1111111" />
 
         <EditText
+            android:fontFamily="@font/ubuntu_mono_regular"
             android:id="@+id/argument"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +53,7 @@
             android:visibility="gone" />
 
         <TextView
+            android:fontFamily="@font/ubuntu_mono_regular"
             android:id="@+id/end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
