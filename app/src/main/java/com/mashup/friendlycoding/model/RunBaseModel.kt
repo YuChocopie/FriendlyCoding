@@ -7,6 +7,7 @@ import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.ignoreBlanks
 import java.util.*
+import kotlin.collections.ArrayList
 
 open class RunBaseModel {
     // PrincessViewModel
@@ -23,6 +24,11 @@ open class RunBaseModel {
     var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
     var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
     var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
+
+    // 보스전 시 백업될 코드 블록 리스트
+    var backup : ArrayList<CodeBlock>? = null
+    var backIR : Int = 0
+    var bossKilled : Boolean = false
 
     // 공주의 좌표
     var x = 0 // x좌표
@@ -65,6 +71,8 @@ open class RunBaseModel {
         monsterAttack.value = -1
         princessAction.value = -1
         compileError = false
+        IR = 0
+        nowProcessing.value = 0
     }
 
     /***
@@ -98,6 +106,7 @@ open class RunBaseModel {
      * ***/
     fun clearBlock() {
         first =true
+        bossKilled = false
         x = mMapd.princessX
         y = mMapd.princessY
         direction = 1

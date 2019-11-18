@@ -127,6 +127,7 @@ class PrincessViewModel : ViewModel() {
 
         }
     }
+
     fun clear() {
         princessImg!!.x = oneBlock * mDrawables.princessX - oneBlock * 0.05f
         princessImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
