@@ -179,6 +179,8 @@ class CodeBlockAdapter(
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         try {
                             codeBlock.argument = s.toString().toInt()
+                            //view.argument?.text = Editable.Factory.getInstance().newEditable(s.toString())
+
                         }
                         catch (e: Exception) { }
                     }

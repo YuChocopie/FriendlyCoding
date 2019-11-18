@@ -30,11 +30,14 @@ class RunModel : RunBaseModel() {
     fun run(mapDrawable: MapDrawable) {
         iterator = 0
         compileError = false
-        if (first) {
-            x = mapDrawable.princessX
-            y = mapDrawable.princessY
-            first = false
+        if (!bossKilled) {
+            if (first) {
+                x = mapDrawable.princessX
+                y = mapDrawable.princessY
+                first = false
+            }
         }
+
         Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
         if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
             moveView.postValue(-5)
