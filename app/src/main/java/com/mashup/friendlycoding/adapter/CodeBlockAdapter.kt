@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
 class CodeBlockAdapter(
     private val mContext: Context,
-    private val CodeBlocks: ArrayList<CodeBlock>,
+     var CodeBlocks: ArrayList<CodeBlock>,
     private val mCodeBlockViewModel: CodeBlockViewModel
 ) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
@@ -179,6 +179,8 @@ class CodeBlockAdapter(
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         try {
                             codeBlock.argument = s.toString().toInt()
+                            //view.argument?.text = Editable.Factory.getInstance().newEditable(s.toString())
+
                         }
                         catch (e: Exception) { }
                     }

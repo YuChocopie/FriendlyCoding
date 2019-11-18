@@ -15,10 +15,11 @@ class RunModel : RunBaseModel() {
             } else if (mMap.mapList!![y][x] == 2) {
                 // 이겼다면 이겼다는 시그널 전송
                 return 8
-            } else if (y == mMonster?.y && x == mMonster?.x) {
-                metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
-                return 0
             }
+//            } else if (y == mMonster?.y && x == mMonster?.x) {
+//                metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
+//                return 0
+//            }
         } else {
             moveView.postValue(7)     // 인덱스를 넘어갈 시
             return 7
@@ -29,16 +30,23 @@ class RunModel : RunBaseModel() {
     fun run(mapDrawable: MapDrawable) {
         iterator = 0
         compileError = false
-        IR = 0
-        if (first) {
-            x = mapDrawable.princessX
-            y = mapDrawable.princessY
-            first = false
+        if (!bossKilled) {
+            if (first) {
+                x = mapDrawable.princessX
+                y = mapDrawable.princessY
+                first = false
+            }
         }
+
         Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
         if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
             moveView.postValue(-5)
             return
+        }
+
+        IR = backIR
+        if (!bossKilled) {
+            IR = 0
         }
         val run = RunThead()
         var open = 0
@@ -234,6 +242,17 @@ class RunModel : RunBaseModel() {
                         }
 
                         // 보스전 부분
+                        "fightBoss();" -> {
+                            if (mMap.mapList!![y][x]%10 == 7) {
+                                backup = arrayListOf()
+                                backup!!.addAll(mCodeBlock.value!!)
+                                backIR = IR + 1
+                                metBoss.postValue(true)
+                                nowTerminated.postValue(turnOff)
+                                return
+                            }
+                        }
+
                         "attack();" -> {
                             mMonster?.monsterAttacked(mPrincess.DPS)
                             monsterAttacked.postValue(true)
@@ -331,8 +350,11 @@ class RunModel : RunBaseModel() {
                                         if (!mMonster!!.isAlive()) {
                                             IR = jumpTo
                                             Log.e("죽었네!", "$jumpTo 로!")
+                                            bossKilled = true
                                             metBoss.postValue(false)
+                                            nowTerminated.postValue(turnOff)
                                             iterator = 0
+                                            return
                                         } else {
                                             iterator++
                                         }
