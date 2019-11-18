@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
 class CodeBlockAdapter(
     private val mContext: Context,
-    private val CodeBlocks: ArrayList<CodeBlock>,
+     var CodeBlocks: ArrayList<CodeBlock>,
     private val mCodeBlockViewModel: CodeBlockViewModel
 ) :
     RecyclerView.Adapter<CodeBlockAdapter.Holder>() {

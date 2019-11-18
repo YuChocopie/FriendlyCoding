@@ -57,10 +57,8 @@ class PlayActivity : BaseActivity() {
         val stageNum = intent.getIntExtra("stageNum", 0)
 
         if (stageNum == 11) {
-
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
-
         }
 
         // Map Setting View Model과 bind 후 stageInfo 얻어오기
@@ -144,11 +142,7 @@ class PlayActivity : BaseActivity() {
                     Log.e("실행 끝", "위로")
                     // 실행이 끝났으니 코드를 다시 수정가능하게 하자
                     clickableControl(true, mAdapter, mInputdapter)
-                    mCodeBlockViewModel.coloringNowTerminated(
-                        linearLayoutManager.findViewByPosition(
-                            mRun.nowProcessing.value!!
-                        )
-                    )
+                    mCodeBlockViewModel.coloringNowTerminated(linearLayoutManager.findViewByPosition(mRun.nowProcessing.value!!))
                 }
 
                 -4 -> {
@@ -312,11 +306,16 @@ class PlayActivity : BaseActivity() {
             boss.text = if (t) "OFF" else "보스"
             constraintLayout.isVisible = !t
             bossField.isVisible = t
-            mCodeBlockViewModel.clearBlock()
-            mPrincessViewModel.clear()
+//            mCodeBlockViewModel.clearBlock()
+//            mPrincessViewModel.clear()
+
             clickableControl(true, mAdapter, mInputdapter)
 
             if (t) {
+                val block = mRun.mCodeBlock.value
+                block!!.clear()
+                mRun.mCodeBlock.postValue(block)
+
                 mBattleViewModel = BattleViewModel(
                     binding.hpBar,
                     binding.princess,
@@ -336,9 +335,21 @@ class PlayActivity : BaseActivity() {
             } else {
                 mBattleViewModel = null
                 binding.battleVM = null
-                Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
-                rc_input_code.adapter =
-                    InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
+                rc_input_code.adapter = InputCodeBlockAdapter(mCodeBlockViewModel, mMapSettingViewModel.offeredBlock)
+
+                if (mRun.bossKilled) {
+                    Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
+                    val blockclear = mRun.mCodeBlock.value
+                    blockclear!!.clear()
+                    mRun.mCodeBlock.postValue(blockclear)
+
+                    val block = mRun.backup
+                    mRun.mCodeBlock.postValue(block)
+                    mAdapter.notifyDataSetChanged()
+                    mAdapter.CodeBlocks = block!!
+
+                    mCodeBlockViewModel.run()
+                }
             }
             rc_input_code.layoutManager = layoutManager
         })

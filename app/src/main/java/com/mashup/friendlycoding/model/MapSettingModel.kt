@@ -76,7 +76,6 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item[0].X = 9
                         mDrawables.item[0].Y = 4
                         mDrawables.item[0].visibility = View.VISIBLE
-                        mDrawables
 //                        (var backgroundImg : Int = R.drawable.bg_stage02,
 //                        var princessImg : Int = R.drawable.princess_right,
 //                        var princessX : Int=0,
@@ -98,8 +97,8 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item[1].X = 0
                         mDrawables.item[1].Y = 0
                         mDrawables.item[1].visibility = View.VISIBLE
-
                     }
+
                     3 -> {
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.circle, 2),
@@ -118,7 +117,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 return Stage(
                     Map(mapList, mDrawables),
                     Princess(),
-                    Monster(1, 100, 0, 0),
+                    Monster(1, 10, 0, 0),
                     defaultCodeBlock_tutorial,
                     battleCodeBlock0
                 )
@@ -139,7 +138,10 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mapList = mapListAct2
+                        mDrawables.monsterImg = R.drawable.monster1
+                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.monster1, 7),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom_poison, 8)
@@ -158,6 +160,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }
                 }
+
                 return Stage(
                     setMapRandimItem(mapList, mDrawables),
                     Princess(),
