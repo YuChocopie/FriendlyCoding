@@ -16,11 +16,6 @@ fun ImageView.imgload (resId : Int) {
     this.setImageResource(resId)
 }
 
-@BindingAdapter("android:isItem")
-fun TextView.booleanPrint(isIt : Boolean) {
-    this.text = if (isIt) "true" else "false"
-}
-
 // 위 아래로 움직이는 애니메이션
 @BindingAdapter("android:animation")
 fun ImageView.moveObjects(maxHeight : Int) {
