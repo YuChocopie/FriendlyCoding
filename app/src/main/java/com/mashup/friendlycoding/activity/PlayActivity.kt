@@ -30,7 +30,6 @@ class PlayActivity : BaseActivity() {
     private lateinit var layoutMainView: View
     private var itemNumber: Int = 0
     private var mp: MediaPlayer? = null
-    private val mStageViewModel = StageViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +64,17 @@ class PlayActivity : BaseActivity() {
         binding.mapSettingVM = mMapSettingViewModel
 
         val stageInfo = mMapSettingViewModel.mMapSettingModel.getStageInfo(stageNum)
-        val princessInfo = mPrincessViewModel.mMapSettingModel.getStageInfo(stageNum)
-        val pcodeInfo = mCodeBlockViewModel.mMapSettingModel.getStageInfo(stageNum)
+        val drawableInfo = stageInfo.map.drawables!!
+//        val princessInfo = mPrincessViewModel.mMapSettingModel.getStageInfo(stageNum)
+//        val codeInfo = stageInfo.offeredBlock
         mMapSettingViewModel.setStage(stageInfo, this)
-        mPrincessViewModel.setPrincessImage(princessInfo, this)
-        mCodeBlockViewModel.setSettingModel(pcodeInfo)
+        mPrincessViewModel.setPrincessImage(drawableInfo, this)
+        mCodeBlockViewModel.setSettingModel(drawableInfo)
 
         mRun.mMap = stageInfo.map
         mRun.mPrincess = stageInfo.princess
+        mRun.mClearCondition = stageInfo.clearCondition
+        mRun.mPrincessViewModel = mPrincessViewModel
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -84,22 +86,24 @@ class PlayActivity : BaseActivity() {
 
         when (stageNum) {
             21 -> {
-                binding.tvCount.setText("Count = ")
-                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
-                binding.tvState.setText("Book = ")
-                binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+                binding.tvCount.setText("bookCnt = ")
+              //  binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvState.setText("isBook = ")
+            //    binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
             }
+
             22 -> {
-                binding.tvCount.setText("Count = ")
-                binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
-                binding.tvState.setText("Mushroom = ")
-                binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+                binding.tvCount.setText("mushroomCnt = ")
+             //   binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
+             //   binding.tvState.setText("Mushroom = ")
+            //    binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
             }
+
             23 -> {
-                binding.tvCount.setText("Count = ")
-                binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+                binding.tvCount.setText("branchCnt = ")
+              //  binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
                 binding.tvState.setText("Branch = ")
-                binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+             //   binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
             }
         }
 
@@ -138,6 +142,7 @@ class PlayActivity : BaseActivity() {
                     // 실행 중에는 코드를 수정할 수 없다
                     clickableControl(false, mAdapter, mInputdapter)
                 }
+
                 -3 -> {
                     Log.e("실행 끝", "위로")
                     // 실행이 끝났으니 코드를 다시 수정가능하게 하자
@@ -172,42 +177,42 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 곡괭이의 습득
-                    itemNumber = resources.getIdentifier(
-                        "item_" + mRun.changingView.toString(),
-                        "id",
-                        packageName
-                    )
+                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
-                    if ((mRun.changingViewAll) % 10 == 4) {
-                        binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
-                        binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
-                        if (mRun.mPrincess.mushroomCnt == 2) {
-                            mPrincessViewModel.clear()
-                            mRun.moveView.postValue(7)
-                            binding.tvWin.isVisible = true
-                        }
-                    } else if ((mRun.changingViewAll) % 10 == 5) {
-                        Log.e("책", "먹음")
-                        binding.tvCountSet.setText("${mRun.mPrincess.bookCnt}")
-                        binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
-                        mPrincessViewModel.clear()
-                        mRun.moveView.postValue(7)
-                        binding.tvWin.isVisible = true
-                    } else if ((mRun.changingViewAll) % 10 == 6) {
-                        Log.e("브랜치", "먹음")
-                        binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
-                        binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
-                        if (mRun.mPrincess.branchCnt == 2) {
-                            mPrincessViewModel.clear()
-                            mRun.moveView.postValue(7)
-                            binding.tvWin.isVisible = true
-                            if(mStageViewModel.check == 1){
-                                mStageViewModel.check = 2
-                            }
-                        }
-                    }
+//                    if ((mRun.changingViewAll) % 10 == 4) {
+//                        binding.tvCountSet.setText("${mRun.mPrincess.mushroomCnt}")
+//                        binding.tvStateSet.setText("${mRun.mPrincess.isMushroom}")
+////                        if (mRun.mPrincess.mushroomCnt == 2) {
+////                            mPrincessViewModel.clear()
+////                            mRun.moveView.postValue(7)
+////                            binding.tvWin.isVisible = true
+////                        }
+//                    }
+//
+//                    else if ((mRun.changingViewAll) % 10 == 5) {
+//                        Log.e("책", "먹음")
+//                        binding.tvCountSet.setText("${mRun.mPrincess.bookCnt}")
+//                        binding.tvStateSet.setText("${mRun.mPrincess.isBook}")
+////                        mPrincessViewModel.clear()
+////                        mRun.moveView.postValue(7)
+////                        binding.tvWin.isVisible = true
+//                    }
+//
+//                    else if ((mRun.changingViewAll) % 10 == 6) {
+//                        Log.e("브랜치", "먹음")
+//                        binding.tvCountSet.setText("${mRun.mPrincess.branchCnt}")
+//                        binding.tvStateSet.setText("${mRun.mPrincess.isBranch}")
+////                        if (mRun.mPrincess.branchCnt == 2) {
+////                            mPrincessViewModel.clear()
+////                            mRun.moveView.postValue(7)
+//////                            binding.tvWin.isVisible = true
+//////                            if(mStageViewModel.check == 1){
+//////                                mStageViewModel.check = 2
+//////                            }
+////                        }
+//                    }
                 }
 
                 7 -> {  // 패배
@@ -219,17 +224,21 @@ class PlayActivity : BaseActivity() {
                 8 -> {  // 승리
                     binding.tvWin.isVisible = true
                 }
+
                 9 -> {  // 종료
                     finish()
                 }
 
-                else -> {
+                1 -> {
                     // 안 먹힘!
 //                    if (t == -1) {
 //                        Log.e("블록", "캐시 초기화")
 //                        rc_code_block_list.recycledViewPool.clear()
 //                    }
-                    mPrincessViewModel.move(t)
+                    mPrincessViewModel.move(true)
+                }
+                2->{
+                    mPrincessViewModel.move(false)
                 }
             }
         })
@@ -268,6 +277,7 @@ class PlayActivity : BaseActivity() {
                             )
                         )
                     }
+
                     1 -> {
                         binding.shield.setImageResource(
                             resources.getIdentifier(

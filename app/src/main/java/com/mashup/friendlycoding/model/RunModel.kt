@@ -5,22 +5,21 @@ import com.mashup.friendlycoding.ignoreBlanks
 
 class RunModel : RunBaseModel() {
     var turnOff : Int = 0
-    var c: Int = 1000000
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             if (mMap.mapList!![y][x] == 1) {
                 // 벽이라면 졌다는 시그널 전송
                 return 7
-            } else if (mMap.mapList!![y][x] == 2) {
-                // 이겼다면 이겼다는 시그널 전송
-                return 8
             }
-//            } else if (y == mMonster?.y && x == mMonster?.x) {
-//                metBoss.postValue(true)  // 보스를 만나면 보스를 만났다는 시그널 전송
-//                return 0
-//            }
-        } else {
+
+            else if (mMap.mapList!![y][x]%10 == 2) {
+                // 이겼다면 이겼다는 시그널 전송
+                return (if(mClearCondition!!(mPrincess)) 8 else 7)
+            }
+        }
+
+        else {
             moveView.postValue(7)     // 인덱스를 넘어갈 시
             return 7
         }
@@ -113,15 +112,14 @@ class RunModel : RunBaseModel() {
                          * sleep(speed)
                          * }
                          * ****/
-
                         "move();" -> {
                             movePrincess()
-                            moveView.postValue(direction)
-
-                            var signal = collisionCheck()
+                            moveView.postValue(1)
+                            Log.e("현 위치", "y : $y, x : $x, 발밑 : ${mMap.mapList!![y][x]}")
+                            val signal = collisionCheck()
                             if (signal != 0) {
                                 sleep(speed)
-                                moveView.postValue(signal)
+                                //moveView.postValue(signal)
                                 if (signal == 8) {
                                     sleep(speed)
                                     moveView.postValue(9)
@@ -129,17 +127,20 @@ class RunModel : RunBaseModel() {
                                 nowTerminated.postValue(IR)
                                 return
                             }
-
                         }
+
                         "turnLeft();" -> {
                             //moveView.value = 1
                             rotate(false)
-                            moveView.postValue(4)
+                            moveView.postValue(2)
+                            //moveView.postValue(4)
                         }
+
                         "turnRight();" -> {
                             //  moveView.value = 2
                             rotate(true)
-                            moveView.postValue(5)
+                            moveView.postValue(2)
+                            ///moveView.postValue(5)
                         }
 
                         "for(" -> {
@@ -203,8 +204,9 @@ class RunModel : RunBaseModel() {
                             if(mMap.mapList!![y][x]%10 == 4){
                                 mPrincess.eatMushroom()
                                 changingView = mMap.mapList!![y][x]/10
-                                changingViewAll = mMap.mapList!![y][x]
+                                //changingViewAll = mMap.mapList!![y][x]
                                 mMap.itemPicked(y, x)
+                                mPrincessViewModel.itemCount.postValue(mPrincess.mushroomCnt.toString())
                                 moveView.postValue(6)
                             }else{
                                 moveView.postValue(7)
@@ -217,10 +219,15 @@ class RunModel : RunBaseModel() {
                             if (mMap.mapList!![y][x]%10 == 5) {
                                 mPrincess.pickBook()
                                 changingView = mMap.mapList!![y][x]/10
-                                changingViewAll = mMap.mapList!![y][x]
+                                //changingViewAll = mMap.mapList!![y][x]
+                                mPrincessViewModel.itemCount.postValue(mPrincess.bookCnt.toString())
+                                mPrincessViewModel.isItem.postValue(mPrincess.isBook.toString())
+                                Log.e("책", mPrincessViewModel.itemCount.value!!)
+                                Log.e("책", mPrincessViewModel.isItem.value!!)
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
-                            } else {
+                            }
+                            else {
                                 moveView.postValue(7)
                                 return
                             }
@@ -232,7 +239,9 @@ class RunModel : RunBaseModel() {
                                 Log.e("됨","됨")
                                 mPrincess.pickBranch()
                                 changingView = mMap.mapList!![y][x]/10
-                                changingViewAll = mMap.mapList!![y][x]
+                                //changingViewAll = mMap.mapList!![y][x]
+                                mPrincessViewModel.itemCount.postValue(mPrincess.branchCnt.toString())
+                                mPrincessViewModel.isItem.postValue(mPrincess.isBranch.toString())
                                 mMap.itemPicked(y, x)
                                 moveView.postValue(6)
                             } else {
@@ -280,6 +289,7 @@ class RunModel : RunBaseModel() {
                                     //      }
                                     //  }
 
+                                    // TODO : 보스전 코드 정립되면 밑에 것도 빼버리기
                                     0 -> {
                                         if (mMonster != null) {
                                             if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
@@ -301,34 +311,38 @@ class RunModel : RunBaseModel() {
                                         }
                                     }
 
-                                    3 -> {  // 곡괭이
-                                        if (!mPrincess.isPickAxe) {
-                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
-
-                                    4 -> { //버섯
-                                        if (mPrincess.mushroomCnt < 2) {
-                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
-
-                                    5 -> { //책
-                                        if (!mPrincess.isBook) {
-                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
-
-                                    6 -> { //나무
-                                        if (mPrincess.branchCnt < 2) {
-                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-                                            IR = mCodeBlock.value!![IR].address
-                                        }
-                                    }
+//                                    3 -> {  // 곡괭이
+//                                        if (!mPrincess.isPickAxe) {
+//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+//                                            IR = mCodeBlock.value!![IR].address
+//                                        }
+//                                    }
+//
+//                                    4 -> { //버섯
+//                                        if (mPrincess.isMushroom) {
+//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+//                                            IR = mCodeBlock.value!![IR].address
+//                                        }
+//                                    }
+//
+//                                    5 -> { //책
+//                                        if (!mPrincess.isBook) {
+//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+//                                            IR = mCodeBlock.value!![IR].address
+//                                        }
+//                                    }
+//
+//                                    6 -> { //나무
+//                                        if (mPrincess.isBranch) {
+//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+//                                            IR = mCodeBlock.value!![IR].address
+//                                        }
+//                                    }
                                     else -> {
+                                        if (!type3Function(mCodeBlock.value!![IR].argument)(mPrincess)) {
+                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                            IR = mCodeBlock.value!![IR].address
+                                        }
                                     }
                                 }
                             }

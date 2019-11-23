@@ -3,29 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.mashup.friendlycoding.model.CodeBlock" />
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.MapSettingViewModel" />
-
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
-
         <variable
             name="princessVM"
             type="PrincessViewModel" />
-
         <variable
             name="battleVM"
             type="BattleViewModel" />
-
         <variable
             name="mapSettingVM"
             type="MapSettingViewModel" />
@@ -44,11 +35,12 @@
             android:layout_height="30dp"
             android:gravity="end|center"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toTopOf="@id/field"
             app:layout_constraintHorizontal_bias="0.605"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/tvCountSet"
@@ -56,10 +48,12 @@
             android:layout_height="30dp"
             android:textColor="@color/Red"
             android:textSize="16sp"
-
+            android:text="@{princessVM.itemCount}"
             android:gravity="start|center"
             app:layout_constraintBottom_toTopOf="@id/field"
-            app:layout_constraintStart_toEndOf="@+id/tvCount" />
+            app:layout_constraintStart_toEndOf="@+id/tvCount"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/tvState"
@@ -68,19 +62,19 @@
             android:gravity="start|center"
             android:layout_marginStart="20dp"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toTopOf="@id/field"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvStateSet"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:text="@{princessVM.isItem}"
             android:gravity="start|center"
             android:textColor="@color/Red"
             android:textSize="16sp"
-
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/tvState"
             app:layout_constraintBottom_toTopOf="@id/field"
             tools:layout_editor_absoluteX="205dp" />

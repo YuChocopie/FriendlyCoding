@@ -21,18 +21,13 @@ import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import kotlinx.android.synthetic.main.item_code_block_list.view.*
 
-class CodeBlockAdapter(
-    private val mContext: Context,
-    var CodeBlocks: ArrayList<CodeBlock>,
-    private val mCodeBlockViewModel: CodeBlockViewModel
-) :
-    RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
+class CodeBlockAdapter(private val mContext: Context, var CodeBlocks: ArrayList<CodeBlock>, private val mCodeBlockViewModel: CodeBlockViewModel) : RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     var clickable = true
-    lateinit var binding: ItemCodeBlockListBinding
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): Holder {
-        val view = LayoutInflater.from(mContext)
-            .inflate(R.layout.item_code_block_list, viewGroup, false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.item_code_block_list, viewGroup, false)
+
+
         return Holder(view)
     }
 
@@ -72,7 +67,6 @@ class CodeBlockAdapter(
         holder.apply {
             bind(listener, type2BlockListener, item)
             itemView.tag = item
-
             setCodingStyleColor(holder, item)
         }
     }
@@ -83,7 +77,6 @@ class CodeBlockAdapter(
         var str = holder.itemView.func_name
         val codeBlue = mContext.resources.getString(R.string.codeBlue)
         when (viewType) {
-
             1 -> {//for
                 val builder = SpannableStringBuilder(viewFuncName)
                 var length = viewFuncName.length
@@ -95,10 +88,9 @@ class CodeBlockAdapter(
                     length - 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
-
                 str.append(builder)
-
             }
+
             2 -> {//if
                 val builder = SpannableStringBuilder(viewFuncName)
                 var cnt = 0 //공백 카운트
@@ -115,11 +107,9 @@ class CodeBlockAdapter(
                     cnt + 2,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
-
-
                 str.append(builder)
-
             }
+
             4 -> {//while
                 val builder = SpannableStringBuilder(viewFuncName)
                 var cnt = 0 //공백 카운트
@@ -137,7 +127,6 @@ class CodeBlockAdapter(
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
 
-
                 str.append(builder)
 
             }
@@ -145,13 +134,8 @@ class CodeBlockAdapter(
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var view: View = itemView
-
-        fun bind(
-            listener: View.OnLongClickListener,
-            type2BlockListener: View.OnClickListener,
-            codeBlock: CodeBlock
-        ) {
+        private var view : View = itemView
+        fun bind(listener: View.OnLongClickListener, type2BlockListener: View.OnClickListener, codeBlock: CodeBlock) {
             view.func_name.text = codeBlock.funcName
             view.lineCount.text = (position + 1).toString()
             if (codeBlock.type == 2 || codeBlock.type == 4)

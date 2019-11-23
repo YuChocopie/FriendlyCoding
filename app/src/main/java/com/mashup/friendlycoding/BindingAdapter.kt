@@ -3,6 +3,7 @@ package com.mashup.friendlycoding
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import java.util.*
 
@@ -15,12 +16,17 @@ fun ImageView.imgload (resId : Int) {
     this.setImageResource(resId)
 }
 
+@BindingAdapter("android:isItem")
+fun TextView.booleanPrint(isIt : Boolean) {
+    this.text = if (isIt) "true" else "false"
+}
+
 // 위 아래로 움직이는 애니메이션
 @BindingAdapter("android:animation")
 fun ImageView.moveObjects(maxHeight : Int) {
     val timer = Timer()
     val handler = Handler()
-    val originalX = this.y
+    val originalX = this.x
     val originalY = this.y
     val view = this
     var direction = true

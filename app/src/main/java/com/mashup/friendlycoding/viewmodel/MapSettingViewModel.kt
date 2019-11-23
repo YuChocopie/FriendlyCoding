@@ -54,6 +54,4 @@ class MapSettingViewModel :ViewModel(){
         oneBlock = (width / 10 + width % 10).toFloat()
         setMapItem()
     }
-
-
 }

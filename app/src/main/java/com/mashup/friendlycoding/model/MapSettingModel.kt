@@ -47,7 +47,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     Princess(),
                     Monster(1, 100, 0, 0),
                     stageCodeBlock0,
-                    battleCodeBlock0
+                    battleCodeBlock0,
+                    conditionSelector(stageNum)
                 )
             }
 
@@ -82,6 +83,7 @@ class MapSettingModel : MapSettingBaseModel() {
 //                        var princessY : Int=9,
 //                        var stage : Int=0)
                     }
+
                     2 -> {
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.circle, 2),
@@ -106,6 +108,8 @@ class MapSettingModel : MapSettingBaseModel() {
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 0
+                        startX = 0
+                        startY = 0
                         mapList[0][0] = mDrawables.item[1].item_id
                         mDrawables.item[0].X = 0
                         mDrawables.item[0].Y = 0
@@ -115,11 +119,12 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 // 기본 제공되는 블록
                 return Stage(
-                    Map(mapList, mDrawables),
+                    Map(mapList, mDrawables, startX, startY),
                     Princess(),
                     Monster(1, 10, 0, 0),
                     defaultCodeBlock_tutorial,
-                    battleCodeBlock0
+                    battleCodeBlock0,
+                    conditionSelector(stageNum)
                 )
             }
 
@@ -131,9 +136,13 @@ class MapSettingModel : MapSettingBaseModel() {
                     1 -> {
                         mapList = mapListAct2
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.circle, 2),
                             MapItem(R.drawable.ic_book, 5)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_1)
+                        mDrawables.item[0].X = 9
+                        mDrawables.item[0].Y = 4
+                        mDrawables.item[0].visibility = View.VISIBLE
                     }
 
                     2 -> {
@@ -141,12 +150,12 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.monsterImg = R.drawable.monster1
                         mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.circle, 2),
                             MapItem(R.drawable.monster1, 7),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom_poison, 8)
                         )
-
                         defaultCodeBlock.addAll(stageCodeBlock2_2)
                     }
 
@@ -154,6 +163,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct2
 
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.circle, 2),
                             MapItem(R.drawable.ic_branch, 6),
                             MapItem(R.drawable.ic_branch, 6)
                         )
@@ -166,14 +176,13 @@ class MapSettingModel : MapSettingBaseModel() {
                     Princess(),
                     Monster(1, 100, 0, 0),
                     defaultCodeBlock,
-                    defaultBattleCodeBlock
+                    defaultBattleCodeBlock,
+                    conditionSelector(stageNum)
                 )
             }
 
             else -> {
-                return Stage(
-                    Map(),
-                    Princess(), null, arrayListOf())
+                return Stage(Map(), Princess(), null, arrayListOf(), null, conditionSelector(stageNum))
             }
         }
     }

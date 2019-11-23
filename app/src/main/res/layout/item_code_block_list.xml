@@ -1,6 +1,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
+        <variable
+            name="codeBlockVM"
+            type="CodeBlockViewModel"/>
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

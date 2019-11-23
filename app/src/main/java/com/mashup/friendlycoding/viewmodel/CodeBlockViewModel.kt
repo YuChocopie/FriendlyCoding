@@ -2,18 +2,19 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.model.*
 
 class CodeBlockViewModel : ViewModel() {
-    val mMapSettingModel = MapSettingModel()
     var mDrawables = MapDrawable()
     var mRun = RunModel()
 
-    fun setSettingModel(stageInfo: Stage) {
-        mDrawables = stageInfo.map.drawables!!
+    fun setSettingModel(drawable : MapDrawable) {
+        mDrawables = drawable
     }
+
     fun insertBlockModeOff() {
         mRun.insertBlockAt.postValue(-1)
         Log.e("해제", "${mRun.insertBlockAt.value}")
@@ -44,6 +45,7 @@ class CodeBlockViewModel : ViewModel() {
             return
         view.setBackgroundResource(R.color.Invisible)
     }
+
 //    @SuppressLint("SetTextI18n")
 //    fun insertBlock(view : View?, funcName: String) {
 //        if (view == null)
@@ -54,10 +56,6 @@ class CodeBlockViewModel : ViewModel() {
     fun run() {
         Log.e("RunModel", "실행")
         mRun.run(mDrawables)
-    }
-
-    fun changeBlockLevel(OpenOrClose: Boolean) {
-        mRun.changeBlockLevel(OpenOrClose)
     }
 
     fun runBoss() {
