@@ -205,6 +205,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/princess"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:animation="@{(500)}"
+                    android:src="@drawable/princess_boss"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="30dp"
+                    />
+
+                <ImageView
                     android:id="@+id/hp_bar"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -246,16 +257,6 @@
                     app:layout_constraintTop_toTopOf="@id/monster" />
 
                 <ImageView
-                    android:id="@+id/princess"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="30dp"
-                    android:animation="@{(500)}"
-                    android:src="@drawable/princess_boss"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <ImageView
                     android:id="@+id/shield"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -295,6 +296,7 @@
             android:id="@+id/rc_code_block_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:setVAdapter="@{codeBlockVM.getCodeBlockAdapter()}"
             android:onClick="@{() -> codeBlockVM.insertBlockModeOff()}"
             app:layout_constraintBottom_toTopOf="@id/rc_input_code"
             app:layout_constraintEnd_toEndOf="parent"
@@ -340,6 +342,7 @@
             app:layout_constraintTop_toBottomOf="@+id/run" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:setHAdapter="@{codeBlockVM.getInputCodeBlockAdapter()}"
             android:id="@+id/rc_input_code"
             android:layout_width="match_parent"
             android:layout_height="0dp"

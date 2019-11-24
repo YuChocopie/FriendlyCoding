@@ -13,10 +13,11 @@ import kotlin.collections.ArrayList
 
 open class RunBaseModel {
     // PrincessViewModel
+    lateinit var mPrincessViewModel : PrincessViewModel
     var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
-    lateinit var mPrincessViewModel : PrincessViewModel
+    lateinit var mCodeBlockViewModel: CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
     var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
     var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
@@ -36,7 +37,6 @@ open class RunBaseModel {
     // 공주의 좌표
     var x = 0 // x좌표
     var y = 9 // y좌표
-    var direction = 1 // 방향 : 0-> 위, 1-> 오른쪽, 2-> 아래, 3-> 왼쪽
 
     var mPrincess = Princess()
     var mMap = Map()
@@ -52,7 +52,7 @@ open class RunBaseModel {
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var coc = arrayOf(-1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
+    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
@@ -78,7 +78,7 @@ open class RunBaseModel {
         princessAction.value = -1
         compileError = false
         IR = 0
-        nowProcessing.value = 0
+        nowProcessing.value = -1
     }
 
     /***
@@ -118,6 +118,7 @@ open class RunBaseModel {
      * 코드블락 관련 코드
      * ***/
     fun clearBlock() {
+        mPrincessViewModel.clear()
         first =true
         bossKilled = false
         x = mMap.startX
@@ -126,7 +127,6 @@ open class RunBaseModel {
         iterator = 0
         jumpTo = 0
         blockLevel = 0
-        IR = 0
         moveView.postValue(-1)
         insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
@@ -134,6 +134,7 @@ open class RunBaseModel {
         bracketStack.clear()
         mCodeBlock.postValue(block)
         nowTerminated.postValue(IR)
+        IR = 0
         isBossAlive = false
         princessAction.value = -1
         compileError = false
@@ -171,10 +172,9 @@ open class RunBaseModel {
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
                 mCodeBlock.value!![insertBlockPosition].funcName = insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
-                insertBlockAt.postValue(insertBlockPosition)
+                //insertBlockAt.postValue(insertBlockPosition)
                 insertBlockPosition = -1
                 Log.e("${codeBlock.funcName} ", "${insertBlockAt.value}에 추가됨")
-
                 return
             }
             else

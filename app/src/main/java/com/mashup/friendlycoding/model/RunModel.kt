@@ -5,6 +5,7 @@ import com.mashup.friendlycoding.ignoreBlanks
 
 class RunModel : RunBaseModel() {
     var turnOff : Int = 0
+    var result : Int = 0
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
@@ -49,6 +50,7 @@ class RunModel : RunBaseModel() {
         }
         val run = RunThead()
         var open = 0
+
         while (open < mCodeBlock.value!!.size) {
             if (mCodeBlock.value!![open].type != 0) {
                 open = compile(open)
@@ -60,7 +62,21 @@ class RunModel : RunBaseModel() {
         }
         else
             run.start()
+
+        resultExecution()
     }
+
+    fun resultExecution() {
+        if (result == 0) {
+            return
+        }
+
+        else if (result == -6 || result == 7) {
+            mCodeBlockViewModel.clearBlock()
+            mPrincessViewModel.clear()
+        }
+    }
+
 
     inner class RunThead : Thread() {
         override fun run() {
@@ -83,6 +99,7 @@ class RunModel : RunBaseModel() {
 
                             if (coc[mMonster?.attackType!!] == -1) {   // 피하는 루틴이 없음
                                 moveView.postValue(-6)   // 사망
+                                result = -6
                                 return
                             } else {
                                 IR = coc[mMonster?.attackType!!]  // 해당하는 것을 막으러 가자.
@@ -119,7 +136,7 @@ class RunModel : RunBaseModel() {
                             val signal = collisionCheck()
                             if (signal != 0) {
                                 sleep(speed)
-                                //moveView.postValue(signal)
+                                moveView.postValue(signal)
                                 if (signal == 8) {
                                     sleep(speed)
                                     moveView.postValue(9)
@@ -130,25 +147,16 @@ class RunModel : RunBaseModel() {
                         }
 
                         "turnLeft();" -> {
-                            //moveView.value = 1
                             rotate(false)
                             moveView.postValue(2)
-                            //moveView.postValue(4)
                         }
 
                         "turnRight();" -> {
-                            //  moveView.value = 2
                             rotate(true)
                             moveView.postValue(2)
-                            ///moveView.postValue(5)
                         }
 
                         "for(" -> {
-//                            if (mCodeBlock.value!![IR].argument <= 0) {
-//                                moveView.postValue(-5)
-//                                nowTerminated.postValue(IR)
-//                                return
-//                            }
                             iterator = mCodeBlock.value!![IR].argument
                             iteratorStack.push(mCodeBlock.value!![IR].argument)
                             Log.e("반복", "${mCodeBlock.value!![IR].argument}")
@@ -256,8 +264,9 @@ class RunModel : RunBaseModel() {
                                 backup = arrayListOf()
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1
-                                metBoss.postValue(true)
                                 nowTerminated.postValue(turnOff)
+                                metBoss.postValue(true)
+                                //mCodeBlockViewModel.adapter.notifyDataSetChanged()
                                 return
                             }
                         }
@@ -278,71 +287,22 @@ class RunModel : RunBaseModel() {
                         else -> {
                             if (mCodeBlock.value!![IR].type == 2) {
                                 Log.e("if", "입니다, ${mCodeBlock.value!![IR].argument}")
-                                when (mCodeBlock.value!![IR].argument) {
-                                    // TODO : 3번 블록 (boolean형 반환 함수) 중 if에 들어간 블록
-                                    //  예)
-                                    //  argument -> {
-                                    //      if (...) {
-                                    //      }
-                                    //      else {
-                                    //          IR = mCodeBlock.value!![IR].address
-                                    //      }
-                                    //  }
 
-                                    // TODO : 보스전 코드 정립되면 밑에 것도 빼버리기
-                                    0 -> {
-                                        if (mMonster != null) {
-                                            if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
-                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                            }
-                                            else {
-                                                IR = mCodeBlock.value!![IR].address
-                                            }
+                                if (mCodeBlock.value!![IR].argument == 0 || mCodeBlock.value!![IR].argument == 1) { // 보스
+                                    if (mMonster != null) {
+                                        if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
+                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
                                         }
-                                    }
-
-                                    1 -> {
-                                        if (mMonster != null) {
-                                            if (isAttacking && mMonster!!.attackType == mCodeBlock.value!![IR].argument) {
-                                                Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-                                            } else {
-                                                IR = mCodeBlock.value!![IR].address
-                                            }
-                                        }
-                                    }
-
-//                                    3 -> {  // 곡괭이
-//                                        if (!mPrincess.isPickAxe) {
-//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-//                                            IR = mCodeBlock.value!![IR].address
-//                                        }
-//                                    }
-//
-//                                    4 -> { //버섯
-//                                        if (mPrincess.isMushroom) {
-//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-//                                            IR = mCodeBlock.value!![IR].address
-//                                        }
-//                                    }
-//
-//                                    5 -> { //책
-//                                        if (!mPrincess.isBook) {
-//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-//                                            IR = mCodeBlock.value!![IR].address
-//                                        }
-//                                    }
-//
-//                                    6 -> { //나무
-//                                        if (mPrincess.isBranch) {
-//                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
-//                                            IR = mCodeBlock.value!![IR].address
-//                                        }
-//                                    }
-                                    else -> {
-                                        if (!type3Function(mCodeBlock.value!![IR].argument)(mPrincess)) {
-                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                        else {
                                             IR = mCodeBlock.value!![IR].address
                                         }
+                                    }
+                                }
+
+                                else {
+                                    if (!type3Function(mCodeBlock.value!![IR].argument)(mPrincess)) {
+                                        Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
+                                        IR = mCodeBlock.value!![IR].address
                                     }
                                 }
                             }
@@ -350,23 +310,13 @@ class RunModel : RunBaseModel() {
                             else if (mCodeBlock.value!![IR].type == 4) {
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
-                                    // TODO : 3번 블록 (boolean형 반환 함수) 중 while에 들어간 블록
-                                    //  예)
-                                    //  argument -> {
-                                    //      if (...) {
-                                    //          IR = jumpTo
-                                    //          iterator++
-                                    //      }
-                                    //      else {
-                                    //      }
-                                    //  }
                                     7 -> {   // isAlive
                                         if (!mMonster!!.isAlive()) {
                                             IR = jumpTo
                                             Log.e("죽었네!", "$jumpTo 로!")
                                             bossKilled = true
-                                            metBoss.postValue(false)
                                             nowTerminated.postValue(turnOff)
+                                            metBoss.postValue(false)
                                             iterator = 0
                                             return
                                         } else {

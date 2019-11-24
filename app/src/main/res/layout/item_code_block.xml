@@ -3,6 +3,7 @@
 
     <data>
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
+        <import type="com.mashup.friendlycoding.adapter.CodeBlockAdapter"/>
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel"/>
@@ -12,11 +13,16 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/itemView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{()->codeBlockVM.insertBlock(position)}"
+        android:VM = "@{codeBlockVM}"
+        android:position = "@{position}"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:id="@+id/lineCount"
@@ -26,6 +32,7 @@
             android:gravity="end"
             android:paddingEnd="10dp"
             android:textColor="@color/CodeBolckLineGreen"
+            android:text="@{Integer.toString(position+1)}"
             android:textSize="20sp"
             tools:text="9" />
 
@@ -39,6 +46,8 @@
             android:id="@+id/func_name"
             android:paddingStart="8dp"
             android:layout_width="wrap_content"
+            android:text="@{codeBlockVM.getCodeBlock(position).funcName}"
+            android:codeColor="@{codeBlockVM.getCodeBlock(position)}"
             android:layout_height="wrap_content"
             android:bufferType="spannable"
             android:lineSpacingExtra="5dp"
@@ -58,9 +67,12 @@
             android:inputType="numberDecimal"
             android:lineSpacingExtra="5dp"
             android:textColor="@color/Black"
+            android:cursorVisible="false"
             android:textCursorDrawable="@null"
             android:textSize="20sp"
-            android:visibility="gone" />
+            android:argumentVM="@{codeBlockVM}"
+            android:argument_position="@{position}"
+            android:visibility="@{codeBlockVM.visibleControl(position)}" />
 
         <TextView
             android:fontFamily="@font/ubuntu_mono_regular"
@@ -69,7 +81,7 @@
             android:layout_height="wrap_content"
             android:bufferType="spannable"
             android:lineSpacingExtra="5dp"
-            android:text=""
+            android:text="@{codeBlockVM.getEndText(position)}"
             android:textColor="@color/Black"
             android:textSize="20sp"
             tools:text="333" />

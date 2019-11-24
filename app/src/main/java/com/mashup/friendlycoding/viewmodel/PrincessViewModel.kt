@@ -25,31 +25,6 @@ class PrincessViewModel : ViewModel() {
     var direction = 1
 
     fun move(i : Boolean) {
-//        when (i) {
-//            -1 -> clear()
-//            0 -> {
-//                go(0)
-//                direction = 0
-//            }// up
-//            1 -> {
-//                go(1)
-//                direction = 1
-//            }  // right
-//            2 -> {
-//                go(2)
-//                direction = 2
-//            }  // down
-//            3 -> {
-//                go(3)
-//                direction = 3
-//            }  // left
-//            4 -> {
-//                rotationLeft()
-//            }
-//            5 -> {
-//                rotationRight()
-//            }
- //       }
         if (i)
             go(direction)
         else
@@ -68,24 +43,8 @@ class PrincessViewModel : ViewModel() {
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
-        //this.princessImg?.height ?: oneBlock.toInt()
         clear()
     }
-//
-//    private fun rotationLeft() {
-//        direction -= 1
-//        if (direction < 0)
-//            direction += 4
-//
-//    }
-//
-//    private fun rotationRight() {
-//        if (direction == 3)
-//            direction = 0
-//        else direction++
-//
-//        //selectDirection()
-//    }
 
     fun selectImage() {
         when (direction) {
@@ -133,6 +92,5 @@ class PrincessViewModel : ViewModel() {
         princessImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
         princessImg!!.setImageResource(R.drawable.princess_right)
         direction = 1
-        //princessImg=tempPrincessImg
     }
 }

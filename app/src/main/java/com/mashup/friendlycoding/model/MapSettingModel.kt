@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.model
 
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import com.mashup.friendlycoding.Map
@@ -77,11 +78,6 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item[0].X = 9
                         mDrawables.item[0].Y = 4
                         mDrawables.item[0].visibility = View.VISIBLE
-//                        (var backgroundImg : Int = R.drawable.bg_stage02,
-//                        var princessImg : Int = R.drawable.princess_right,
-//                        var princessX : Int=0,
-//                        var princessY : Int=9,
-//                        var stage : Int=0)
                     }
 
                     2 -> {
@@ -124,13 +120,15 @@ class MapSettingModel : MapSettingBaseModel() {
                     Monster(1, 10, 0, 0),
                     defaultCodeBlock_tutorial,
                     battleCodeBlock0,
-                    conditionSelector(stageNum)
+                    conditionSelector(stageNum),
+                    princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
                 )
             }
 
             2 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 var mapList: Array<Array<Int>> = mapListActNull
+                var princessAction : ArrayList<Int>? = null
                 defaultBattleCodeBlock.addAll(battleCodeBlock0)
                 when (stageNum % 10) {
                     1 -> {
@@ -147,6 +145,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mapList = mapListAct2
+                        princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
                         mDrawables.monsterImg = R.drawable.monster1
                         mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                         mDrawables.item = arrayListOf(
@@ -177,7 +176,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     Monster(1, 100, 0, 0),
                     defaultCodeBlock,
                     defaultBattleCodeBlock,
-                    conditionSelector(stageNum)
+                    conditionSelector(stageNum),
+                    princessAction = princessAction
                 )
             }
 

@@ -8,12 +8,12 @@ import com.mashup.friendlycoding.activity.PlayActivity
 import com.mashup.friendlycoding.model.*
 import kotlinx.android.synthetic.main.activity_play.*
 
-class MapSettingViewModel :ViewModel(){
+open class MapSettingViewModel : ViewModel() {
     val mMapSettingModel = MapSettingModel()
     var mDrawables = MapDrawable()
     var offeredBlock = arrayListOf<CodeBlock>()
     var bossBattleBlock : ArrayList<CodeBlock>? = null
-    lateinit var playActivity: PlayActivity
+    lateinit var playActivity : PlayActivity
     var width = 0
     var oneBlock = 0f
 
