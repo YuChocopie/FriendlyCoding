@@ -1,0 +1,45 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <data>
+        <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
+        <import type="com.mashup.friendlycoding.viewmodel.MapSettingViewModel"/>
+        <import type="com.mashup.friendlycoding.adapter.InputCodeBlockAdapter"/>
+        <variable
+            name="codeBlockVM"
+            type="CodeBlockViewModel" />
+        <variable
+            name="mapSettingVM"
+            type="MapSettingViewModel" />
+        <variable
+            name="position"
+            type="Integer"/>
+        <variable
+            name="adapter"
+            type="InputCodeBlockAdapter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/itemView"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->codeBlockVM.addNewBlock(adapter.getCodeBlock(position))}"
+        >
+
+        <TextView
+            android:fontFamily="@font/ubuntu_mono_regular"
+            android:layout_margin="4dp"
+            android:background="@drawable/square_round5"
+            android:paddingStart="8dp"
+            android:text="@{adapter.getCodeBlock(position).funcName}"
+            android:paddingEnd="8dp"
+            android:padding="5dp"
+            android:id="@+id/input_code_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            />
+        <!--물결 속성 부여//android:background="?android:attr/selectableItemBackground"-->
+    </LinearLayout>
+</layout>

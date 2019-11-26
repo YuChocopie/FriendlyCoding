@@ -3,17 +3,34 @@ package com.mashup.friendlycoding.viewmodel
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.adapter.CodeBlockAdapter
+import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.model.*
 
 class CodeBlockViewModel : ViewModel() {
-    val mMapSettingModel = MapSettingModel()
     var mDrawables = MapDrawable()
     var mRun = RunModel()
+    lateinit var adapter : CodeBlockAdapter
+    lateinit var inputAdapter : InputCodeBlockAdapter
 
-    fun setSettingModel(stageInfo: Stage) {
-        mDrawables = stageInfo.map.drawables!!
+    fun setSettingModel(drawable : MapDrawable) {
+        mDrawables = drawable
     }
+
+    fun init() {
+        this.adapter = CodeBlockAdapter(R.layout.item_code_block, this)
+        this.adapter.notifyDataSetChanged()
+        this.inputAdapter = InputCodeBlockAdapter(R.layout.item_input_code, this)
+        this.inputAdapter.notifyDataSetChanged()
+    }
+
+    fun setOfferedBlock (offeredBlock: ArrayList<CodeBlock>) {
+        this.inputAdapter.setAddingBlock(offeredBlock)
+        this.inputAdapter.notifyDataSetChanged()
+    }
+
     fun insertBlockModeOff() {
         mRun.insertBlockAt.postValue(-1)
         Log.e("해제", "${mRun.insertBlockAt.value}")
@@ -22,45 +39,76 @@ class CodeBlockViewModel : ViewModel() {
     fun clearBlock() {
         Log.e("새로고침", " ")
         mRun.clearBlock()
+        this.adapter.notifyDataSetChanged()
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
+        this.adapter.notifyDataSetChanged()
     }
 
     fun deleteBlock(position : Int) {
         mRun.deleteBlock(position)
+        this.adapter.notifyItemRemoved(position)
+        this.adapter.notifyItemRangeChanged(position, mRun.mCodeBlock.value!!.size)
     }
 
-    fun coloringNowProcessing(view: View?) {
+    fun coloringNowProcessing(view : RecyclerView.ViewHolder?) {
         if (view == null)
             return
-        view.setBackgroundResource(R.color.processing)
+        view.itemView.setBackgroundResource(R.color.processing)
     }
 
-    fun coloringNowTerminated(view: View?) {
+    fun coloringNowTerminated(view: RecyclerView.ViewHolder?) {
         if (view == null)
             return
-        view.setBackgroundResource(R.color.Invisible)
+        view.itemView.setBackgroundResource(R.color.Invisible)
     }
-//    @SuppressLint("SetTextI18n")
-//    fun insertBlock(view : View?, funcName: String) {
-//        if (view == null)
-//            return
-//        view.findViewById<TextView>(R.id.insertedBlock).text = "$funcName()"
-//    }
 
     fun run() {
         Log.e("RunModel", "실행")
         mRun.run(mDrawables)
     }
 
-    fun changeBlockLevel(OpenOrClose: Boolean) {
-        mRun.changeBlockLevel(OpenOrClose)
-    }
-
     fun runBoss() {
         mRun.metBoss.value = !mRun.metBoss.value!!
+    }
+
+    fun getCodeBlock(position: Int) : CodeBlock {
+        return mRun.mCodeBlock.value!![position]
+    }
+
+    fun getCodeBlockAdapter() : CodeBlockAdapter {
+        return this.adapter
+    }
+
+    fun getInputCodeBlockAdapter() : InputCodeBlockAdapter {
+        return this.inputAdapter
+    }
+
+    fun getEndText(position : Int) : String {
+        val type = mRun.mCodeBlock.value!![position].type
+
+        if (type == 2 || type == 4)
+            return "{"
+        else if (type == 1)
+            return ") {"
+        else {
+            return ""
+        }
+    }
+
+    fun visibleControl (position : Int) : Int {
+        val type = mRun.mCodeBlock.value!![position].type
+
+        if (type == 1) {
+            return View.VISIBLE
+        } else
+            return View.GONE
+    }
+
+    fun insertBlock(position: Int) {
+        mRun.insertBlockPosition = position
     }
 }

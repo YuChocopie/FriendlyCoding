@@ -3,29 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.mashup.friendlycoding.model.CodeBlock" />
-
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
-
         <import type="com.mashup.friendlycoding.viewmodel.MapSettingViewModel" />
-
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
-
         <variable
             name="princessVM"
             type="PrincessViewModel" />
-
         <variable
             name="battleVM"
             type="BattleViewModel" />
-
         <variable
             name="mapSettingVM"
             type="MapSettingViewModel" />
@@ -44,11 +35,12 @@
             android:layout_height="30dp"
             android:gravity="end|center"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toTopOf="@id/field"
             app:layout_constraintHorizontal_bias="0.605"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/tvCountSet"
@@ -56,10 +48,12 @@
             android:layout_height="30dp"
             android:textColor="@color/Red"
             android:textSize="16sp"
-
+            android:text="@{princessVM.itemCount}"
             android:gravity="start|center"
             app:layout_constraintBottom_toTopOf="@id/field"
-            app:layout_constraintStart_toEndOf="@+id/tvCount" />
+            app:layout_constraintStart_toEndOf="@+id/tvCount"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/tvState"
@@ -68,19 +62,19 @@
             android:gravity="start|center"
             android:layout_marginStart="20dp"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toTopOf="@id/field"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvStateSet"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:text="@{princessVM.isItem}"
             android:gravity="start|center"
             android:textColor="@color/Red"
             android:textSize="16sp"
-
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/tvState"
             app:layout_constraintBottom_toTopOf="@id/field"
             tools:layout_editor_absoluteX="205dp" />
@@ -211,6 +205,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/princess"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:animation="@{(500)}"
+                    android:src="@drawable/princess_boss"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="30dp"
+                    />
+
+                <ImageView
                     android:id="@+id/hp_bar"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -252,16 +257,6 @@
                     app:layout_constraintTop_toTopOf="@id/monster" />
 
                 <ImageView
-                    android:id="@+id/princess"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="30dp"
-                    android:animation="@{(500)}"
-                    android:src="@drawable/princess_boss"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <ImageView
                     android:id="@+id/shield"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -301,6 +296,7 @@
             android:id="@+id/rc_code_block_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:setVAdapter="@{codeBlockVM.getCodeBlockAdapter()}"
             android:onClick="@{() -> codeBlockVM.insertBlockModeOff()}"
             app:layout_constraintBottom_toTopOf="@id/rc_input_code"
             app:layout_constraintEnd_toEndOf="parent"
@@ -346,6 +342,7 @@
             app:layout_constraintTop_toBottomOf="@+id/run" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:setHAdapter="@{codeBlockVM.getInputCodeBlockAdapter()}"
             android:id="@+id/rc_input_code"
             android:layout_width="match_parent"
             android:layout_height="0dp"

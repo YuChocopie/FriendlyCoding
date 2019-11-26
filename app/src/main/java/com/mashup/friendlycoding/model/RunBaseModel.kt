@@ -6,14 +6,18 @@ import com.mashup.friendlycoding.Map
 import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.ignoreBlanks
+import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
 open class RunBaseModel {
     // PrincessViewModel
+    lateinit var mPrincessViewModel : PrincessViewModel
     var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
+    lateinit var mCodeBlockViewModel: CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
     var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
     var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
@@ -33,11 +37,9 @@ open class RunBaseModel {
     // 공주의 좌표
     var x = 0 // x좌표
     var y = 9 // y좌표
-    var direction = 1 // 방향 : 0-> 위, 1-> 오른쪽, 2-> 아래, 3-> 왼쪽
 
     var mPrincess = Princess()
     var mMap = Map()
-    var mMapd = MapDrawable()
     var mMonster: Monster? = null
 
     var insertBlockPosition = 0
@@ -50,7 +52,7 @@ open class RunBaseModel {
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var coc = arrayOf(-1, -1, -1, -1, -1) // 행동 수칙이 있는가?
+    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
@@ -60,6 +62,10 @@ open class RunBaseModel {
     var openingBracket = 0
     var closingBracket = 0
     var first =true
+
+    // 클리어 조건
+    var mClearCondition : ((Princess) -> Boolean)? = null
+
     /***
      * inti()
      * ***/
@@ -72,15 +78,15 @@ open class RunBaseModel {
         princessAction.value = -1
         compileError = false
         IR = 0
-        nowProcessing.value = 0
+        nowProcessing.value = -1
     }
 
     /***
      * 공주 이동 관련 코드
      * ***/
     fun movePrincess() {
-        direction %= 4
-        when (direction) {
+        mPrincessViewModel.direction %= 4
+        when (mPrincessViewModel.direction) {
             //goint up
             0 -> y--
             //going right
@@ -93,11 +99,18 @@ open class RunBaseModel {
     }
 
     fun rotate(LeftOrRight: Boolean) {
-        direction = (direction + 4) % 4
-        if (!LeftOrRight) {   // 왼쪽으로
-            direction -= 1
-        } else {  // 오른쪽으로
-            direction++
+        if (!LeftOrRight) { // 왼쪽으로
+            if (mPrincessViewModel.direction > 0)
+                mPrincessViewModel.direction -= 1
+            else
+                mPrincessViewModel.direction = 3
+        }
+
+        else {  // 오른쪽으로
+            if (mPrincessViewModel.direction < 3)
+                mPrincessViewModel.direction++
+            else
+                mPrincessViewModel.direction = 0
         }
     }
 
@@ -105,15 +118,15 @@ open class RunBaseModel {
      * 코드블락 관련 코드
      * ***/
     fun clearBlock() {
+        mPrincessViewModel.clear()
         first =true
         bossKilled = false
-        x = mMapd.princessX
-        y = mMapd.princessY
-        direction = 1
+        x = mMap.startX
+        y = mMap.startY
+        mPrincessViewModel.direction = 1
         iterator = 0
         jumpTo = 0
         blockLevel = 0
-        IR = 0
         moveView.postValue(-1)
         insertBlockAt.postValue(-1)
         val block = mCodeBlock.value
@@ -121,6 +134,7 @@ open class RunBaseModel {
         bracketStack.clear()
         mCodeBlock.postValue(block)
         nowTerminated.postValue(IR)
+        IR = 0
         isBossAlive = false
         princessAction.value = -1
         compileError = false
@@ -158,8 +172,9 @@ open class RunBaseModel {
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
                 mCodeBlock.value!![insertBlockPosition].funcName = insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
-                insertBlockAt.postValue(insertBlockPosition)
+                //insertBlockAt.postValue(insertBlockPosition)
                 insertBlockPosition = -1
+                Log.e("${codeBlock.funcName} ", "${insertBlockAt.value}에 추가됨")
                 return
             }
             else
@@ -197,7 +212,8 @@ open class RunBaseModel {
         block!!.add(adding)
         mCodeBlock.postValue(block)
         insertBlockAt.postValue(-1)
-        Log.e("${adding.funcName} ", "${insertBlockAt.value}에 추가됨")
+
+        Log.e(codeBlock.funcName, "${bracketStack.size}")
     }
 
     fun deleteBlock(position : Int) {
@@ -219,6 +235,8 @@ open class RunBaseModel {
             this.changeBlockLevel(true)
         }
         mCodeBlock.value!!.removeAt(position)
+
+        Log.e("remove at $position", "${bracketStack.size}")
     }
 
     fun compile (open : Int) : Int {
@@ -246,5 +264,39 @@ open class RunBaseModel {
             mCodeBlock.value!![myself].address = ir
         }
         return ir
+    }
+
+    fun type3Function(num : Int) : (Princess) -> Boolean {
+        when (num) {
+            3 -> {
+                return (fun (mPrincess : Princess) : Boolean {
+                    return mPrincess.isPickAxe
+                })
+            }
+
+            4 -> {
+                return (fun (mPrincess : Princess) : Boolean {
+                    return mPrincess.isMushroom
+                })
+            }
+
+            5 -> {
+                return (fun (mPrincess : Princess) : Boolean {
+                    return mPrincess.isBook
+                })
+            }
+
+            6 -> {
+                return (fun (mPrincess : Princess) : Boolean {
+                    return mPrincess.isBranch
+                })
+            }
+
+            else -> {
+                return (fun (_ : Princess) : Boolean {
+                    return true
+                })
+            }
+        }
     }
 }
