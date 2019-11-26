@@ -60,8 +60,11 @@ class RunModel : RunBaseModel() {
         if (compileError) {
             moveView.postValue(-5)
         }
-        else
+        else {
+            mCodeBlockViewModel.isRunning.postValue(true)
             run.start()
+            mCodeBlockViewModel.isRunning.postValue(false)
+        }
 
         resultExecution()
     }

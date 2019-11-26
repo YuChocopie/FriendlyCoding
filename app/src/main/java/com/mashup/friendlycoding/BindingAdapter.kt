@@ -22,11 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
+import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.CodeBlock
-import com.mashup.friendlycoding.model.MapItem
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 @BindingAdapter ("android:src")
@@ -81,6 +80,16 @@ fun RecyclerView.bindHRC (adapter : RecyclerView.Adapter<InputCodeBlockAdapter.H
     this.setHasFixedSize(true)
     this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
     this.adapter = adapter
+}
+
+// 스테이지 어댑터
+@BindingAdapter("android:setSAdapter", "android:act")
+fun RecyclerView.bindSRC (adapter: RecyclerView.Adapter<SelectActAdapter.Holder>, act : Int) {
+    Log.e("act num", "$act")
+    this.setHasFixedSize(true)
+    this.layoutManager = LinearLayoutManager(this.context)
+    this.adapter = adapter
+    this.scrollToPosition(if (act == 5) 0 else 4 - act)
 }
 
 // 코드블록 삭제하는 롱클릭

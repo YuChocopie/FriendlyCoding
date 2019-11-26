@@ -21,18 +21,19 @@ class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
     private val mCodeBlockViewModel = CodeBlockViewModel()
     private val mMapSettingViewModel = MapSettingViewModel()
-    private var mBattleViewModel : BattleViewModel? = null
+    private var mBattleViewModel: BattleViewModel? = null
     private val mRun = mCodeBlockViewModel.mRun
     private lateinit var layoutMainView: View
-    private lateinit var stageInfo : Stage
+    private lateinit var stageInfo: Stage
     private var itemNumber: Int = 0
     private var mp: MediaPlayer? = null
-    private var stageNum : Int = 0
-    lateinit var binding : ActivityPlayBinding
+    private var stageNum: Int = 0
+    lateinit var binding: ActivityPlayBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
+        this.binding =
+            DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
         mp = MediaPlayer.create(this, R.raw.stage2)
         mp!!.isLooping = true
 
@@ -84,26 +85,31 @@ class PlayActivity : BaseActivity() {
         mRun.moveView.observe(this, Observer<Int> { t ->
             when (t) {
                 -2 -> {
+                    mCodeBlockViewModel.isRunning.postValue(true)
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                 }
 
                 -3 -> {
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 -4 -> {
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 -5 -> {
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     Log.e("compile", "error")
                     Toast.makeText(this, "컴파일 에러", Toast.LENGTH_SHORT).show()
                 }
 
                 -6 -> {
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
                     boss.text = "보스"
                     constraintLayout.isVisible = true
@@ -111,13 +117,18 @@ class PlayActivity : BaseActivity() {
                 }
 
                 6 -> {  // 아이템 습득
-                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
+                    itemNumber = resources.getIdentifier(
+                        "item_" + mRun.changingView.toString(),
+                        "id",
+                        packageName
+                    )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
                 7 -> {  // 패배
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     mCodeBlockViewModel.clearBlock()
                     mPrincessViewModel.clear()
                 }
@@ -134,7 +145,7 @@ class PlayActivity : BaseActivity() {
                     mPrincessViewModel.move(true)
                 }
 
-                2->{
+                2 -> {
                     mPrincessViewModel.move(false)
                 }
             }
@@ -145,12 +156,20 @@ class PlayActivity : BaseActivity() {
             Log.e("현재 실행 위치", "$t")
             if (t > 8)
                 rc_code_block_list.smoothScrollToPosition(t + 3)
-            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
+            mCodeBlockViewModel.coloringNowProcessing(
+                rc_code_block_list.findViewHolderForAdapterPosition(
+                    t
+                )
+            )
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
         mRun.nowTerminated.observe(this, Observer<Int> { t ->
-            mCodeBlockViewModel.coloringNowTerminated(rc_code_block_list.findViewHolderForAdapterPosition(t))
+            mCodeBlockViewModel.coloringNowTerminated(
+                rc_code_block_list.findViewHolderForAdapterPosition(
+                    t
+                )
+            )
         })
 
         mRun.princessAction.observe(this, Observer<Int> { t ->
@@ -173,7 +192,12 @@ class PlayActivity : BaseActivity() {
                 mRun.mCodeBlock.postValue(block)
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
 
-                mBattleViewModel = BattleViewModel(binding.hpBar, binding.princess, binding.monster, binding.princessAttackMotion)
+                mBattleViewModel = BattleViewModel(
+                    binding.hpBar,
+                    binding.princess,
+                    binding.monster,
+                    binding.princessAttackMotion
+                )
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.princessAction = stageInfo.princessAction
                 mBattleViewModel!!.init()
@@ -184,8 +208,7 @@ class PlayActivity : BaseActivity() {
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
 
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.bossBattleBlock!!)
-            }
-            else {
+            } else {
                 mBattleViewModel = null
                 binding.battleVM = null
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.offeredBlock)
@@ -232,7 +255,7 @@ class PlayActivity : BaseActivity() {
         this.binding.mapSettingVM = this.mMapSettingViewModel
     }
 
-    fun initStage(binding : ActivityPlayBinding) {
+    fun initStage(binding: ActivityPlayBinding) {
         this.layoutMainView = this.findViewById(R.id.constraintLayout)
 
         // Princess View Model과 bind

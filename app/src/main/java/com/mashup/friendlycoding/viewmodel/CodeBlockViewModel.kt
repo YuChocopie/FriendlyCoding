@@ -2,6 +2,7 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
@@ -14,6 +15,7 @@ class CodeBlockViewModel : ViewModel() {
     var mRun = RunModel()
     lateinit var adapter : CodeBlockAdapter
     lateinit var inputAdapter : InputCodeBlockAdapter
+    var isRunning = MutableLiveData<Boolean>()
 
     fun setSettingModel(drawable : MapDrawable) {
         mDrawables = drawable
@@ -24,6 +26,7 @@ class CodeBlockViewModel : ViewModel() {
         this.adapter.notifyDataSetChanged()
         this.inputAdapter = InputCodeBlockAdapter(R.layout.item_input_code, this)
         this.inputAdapter.notifyDataSetChanged()
+        isRunning.value = false
     }
 
     fun setOfferedBlock (offeredBlock: ArrayList<CodeBlock>) {
@@ -102,13 +105,17 @@ class CodeBlockViewModel : ViewModel() {
     fun visibleControl (position : Int) : Int {
         val type = mRun.mCodeBlock.value!![position].type
 
-        if (type == 1) {
-            return View.VISIBLE
+        return if (type == 1) {
+            View.VISIBLE
         } else
-            return View.GONE
+            View.GONE
     }
 
     fun insertBlock(position: Int) {
-        mRun.insertBlockPosition = position
+        val type = mRun.mCodeBlock.value!![position].type
+        if (type == 2 || type == 4)
+            mRun.insertBlockPosition = position
+        else
+            -1
     }
 }

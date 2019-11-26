@@ -308,6 +308,7 @@
             android:id="@+id/rc_code_block_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clickable="@{!codeBlockVM.isRunning}"
             android:setVAdapter="@{codeBlockVM.getCodeBlockAdapter()}"
             android:onClick="@{() -> codeBlockVM.insertBlockModeOff()}"
             app:layout_constraintBottom_toTopOf="@id/rc_input_code"

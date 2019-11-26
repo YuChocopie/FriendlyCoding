@@ -3,7 +3,6 @@
 
     <data>
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
-        <import type="com.mashup.friendlycoding.adapter.CodeBlockAdapter"/>
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel"/>
@@ -18,6 +17,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="@{()->codeBlockVM.insertBlock(position)}"
+        android:clickable="@{!codeBlockVM.isRunning}"
         android:VM = "@{codeBlockVM}"
         android:position = "@{position}"
         android:gravity="center_vertical"

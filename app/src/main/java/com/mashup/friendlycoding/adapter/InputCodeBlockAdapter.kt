@@ -46,9 +46,9 @@ class InputCodeBlockAdapter(@LayoutRes val layoutID : Int, val mCodeBlockViewMod
 
     inner class Holder(val binding : ItemInputCodeBinding) : RecyclerView.ViewHolder(binding.itemView) {
         fun bind(position : Int) {
-            binding.setVariable(BR.codeBlockVM, mCodeBlockViewModel)
-            binding.setVariable(BR.position, position)
-            binding.setVariable(BR.adapter, this@InputCodeBlockAdapter)
+            binding.codeBlockVM = mCodeBlockViewModel
+            binding.position = position
+            binding.adapter = this@InputCodeBlockAdapter
             binding.executePendingBindings()
         }
     }

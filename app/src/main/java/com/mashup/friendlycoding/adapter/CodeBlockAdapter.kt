@@ -35,8 +35,8 @@ class CodeBlockAdapter(@LayoutRes val layoutID : Int, val mCodeBlockViewModel: C
 
     inner class Holder(val binding : ItemCodeBlockBinding) : RecyclerView.ViewHolder(binding.itemView) {
         fun bind(mCodeBlockViewModel: CodeBlockViewModel, position : Int) {
-            binding.setVariable(BR.codeBlockVM, mCodeBlockViewModel)
-            binding.setVariable(BR.position, position)
+            binding.codeBlockVM = mCodeBlockViewModel
+            binding.position = position
             binding.executePendingBindings()
         }
     }
