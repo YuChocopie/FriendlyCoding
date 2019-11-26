@@ -3,23 +3,30 @@ package com.mashup.friendlycoding
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
+import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.model.CodeBlock
+import com.mashup.friendlycoding.model.MapItem
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 @BindingAdapter ("android:src")
@@ -169,6 +176,33 @@ fun TextView.bindColor(codeBlock : CodeBlock) {
             )
             this.text = builder
         }
+    }
+}
+
+@BindingAdapter("android:cloud")
+fun ImageView.animateCloud(up : Float) {
+//        val cloud: ImageView = findViewById(R.id.cloud)
+    val ani = TranslateAnimation(0F, 0F, 0F, up)
+    ani.duration = 2000
+    ani.fillAfter = true
+    ani.startOffset = 2000
+    this.startAnimation(ani)
+}
+
+@BindingAdapter("android:mapVM", "android:item_position")
+fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
+    if (vm.mDrawables.item.size <= pos) {
+        this.isVisible = false
+        return
+    }
+    else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.setImageResource(vm.mDrawables.item[pos].resourceId)
+        }
+        this.isVisible = true
+        Log.e("layout oneblock?", "${vm.oneBlock.value}, $pos")
+        this.x = vm.mDrawables.item[pos].Y.toFloat() * vm.oneBlock.value!!
+        this.y = vm.mDrawables.item[pos].X.toFloat() * vm.oneBlock.value!!
     }
 }
 

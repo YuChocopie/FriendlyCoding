@@ -10,16 +10,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.adapter.CodeBlockAdapter
-import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.model.Stage
 import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_play.*
-import java.lang.Thread.sleep
 
 class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
@@ -32,10 +28,11 @@ class PlayActivity : BaseActivity() {
     private var itemNumber: Int = 0
     private var mp: MediaPlayer? = null
     private var stageNum : Int = 0
+    lateinit var binding : ActivityPlayBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
+        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
         mp = MediaPlayer.create(this, R.raw.stage2)
         mp!!.isLooping = true
 
@@ -230,8 +227,9 @@ class PlayActivity : BaseActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         Log.e("Layout Width - ", "Width" + (layoutMainView.width))
-        mPrincessViewModel.setViewSize(layoutMainView.width)
-        mMapSettingViewModel.setViewSize(layoutMainView.width)
+        this.mPrincessViewModel.setViewSize(layoutMainView.width)
+        this.mMapSettingViewModel.setViewSize(layoutMainView.width)
+        this.binding.mapSettingVM = this.mMapSettingViewModel
     }
 
     fun initStage(binding : ActivityPlayBinding) {
@@ -245,14 +243,15 @@ class PlayActivity : BaseActivity() {
         this.mCodeBlockViewModel.init()
         this.mRun.init()
 
-        binding.mapSettingVM = this.mMapSettingViewModel
-
         this.stageInfo = this.mMapSettingViewModel.mMapSettingModel.getStageInfo(this.stageNum)
         val drawableInfo = this.stageInfo.map.drawables!!
         this.mMapSettingViewModel.setStage(this.stageInfo, this)
         this.mPrincessViewModel.setPrincessImage(drawableInfo, this)
         this.mCodeBlockViewModel.setSettingModel(drawableInfo)
         this.mCodeBlockViewModel.setOfferedBlock(this.mMapSettingViewModel.offeredBlock)
+
+        binding.mapSettingVM = this.mMapSettingViewModel
+        Log.e("layout mapSettingVM", "${this.mMapSettingViewModel.oneBlock.value}")
 
         this.mRun.mMap = this.stageInfo.map
         this.mRun.mPrincess = this.stageInfo.princess

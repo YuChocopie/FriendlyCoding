@@ -64,7 +64,6 @@ class SelectActAdapter(
 
                     }
                 }
-
             }
             3 -> {
                 when (position) {
@@ -77,8 +76,8 @@ class SelectActAdapter(
 
                     }
                 }
-
             }
+
             4 -> {
                 when (position) {
                     1, 2, 3, 4, 5 -> {
@@ -90,7 +89,6 @@ class SelectActAdapter(
 
                     }
                 }
-
             }
 //            5 -> {
 //                when (position) {

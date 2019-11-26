@@ -1,6 +1,5 @@
 package com.mashup.friendlycoding.activity
 
- 
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -27,8 +26,6 @@ class MainActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
-
         val list = arrayListOf(
             StageItem(R.drawable.bg_stage_map_03,R.drawable.bg_stage_select_03),
             StageItem(R.drawable.bg_stage_map_02,R.drawable.bg_stage_select_02),
@@ -55,42 +52,20 @@ class MainActivity : BaseActivity() {
             recyclerviewStage.scrollToPosition(list.size - 1)
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 1) {
-            cloud2.visibility = View.GONE
-            cloud6.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 2)
             up = -700F
-            animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 2) {
-            cloud2.visibility = View.GONE
-            cloud6.visibility = View.GONE
-            cloud3.visibility = View.GONE
-            cloud7.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 3)
             up = -1000F
-            animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 3) {
-            cloud2.visibility = View.GONE
-            cloud6.visibility = View.GONE
-            cloud3.visibility = View.GONE
-            cloud7.visibility = View.GONE
-            cloud4.visibility = View.GONE
-            cloud8.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -700F
-            animateCloud()
             recyclerviewStage.isLayoutFrozen = true
         } else if (check == 4) {
-            cloud2.visibility = View.GONE
-            cloud6.visibility = View.GONE
-            cloud3.visibility = View.GONE
-            cloud7.visibility = View.GONE
-            cloud4.visibility = View.GONE
-            cloud8.visibility = View.GONE
             recyclerviewStage.scrollToPosition(list.size - 5)
             up = -900F
-            animateCloud()
         }
         val animation =
             AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
@@ -122,14 +97,5 @@ class MainActivity : BaseActivity() {
         val editor = pref.edit()
         editor.putInt(key, value)
         editor.apply()
-    }
-
-    fun animateCloud() {
-//        val cloud: ImageView = findViewById(R.id.cloud)
-        val ani = TranslateAnimation(0F, 0F, 0F, up)
-        ani.duration = 2000
-        ani.fillAfter = true
-        ani.startOffset = 2000
-        cloud2.startAnimation(ani)
     }
 }
