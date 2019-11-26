@@ -33,7 +33,7 @@ fun ImageView.imgload (resId : Int) {
     this.setImageResource(resId)
 }
 
-// 위 아래로 움직이는 애니메이션
+// 위 아래로 움직이는 애니메이션 - 이는 attr/anim 으로 대체 가능 ?
 @BindingAdapter("android:animation")
 fun ImageView.moveObjects(maxHeight : Int) {
     val timer = Timer()
@@ -190,7 +190,6 @@ fun TextView.bindColor(codeBlock : CodeBlock) {
 
 @BindingAdapter("android:cloud")
 fun ImageView.animateCloud(up : Float) {
-//        val cloud: ImageView = findViewById(R.id.cloud)
     val ani = TranslateAnimation(0F, 0F, 0F, up)
     ani.duration = 2000
     ani.fillAfter = true
@@ -198,6 +197,7 @@ fun ImageView.animateCloud(up : Float) {
     this.startAnimation(ani)
 }
 
+// 아이템 위치 옮기는 거 죄다 바인딩
 @BindingAdapter("android:mapVM", "android:item_position")
 fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
     if (vm.mDrawables.item.size <= pos) {
@@ -209,7 +209,6 @@ fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
             this.setImageResource(vm.mDrawables.item[pos].resourceId)
         }
         this.isVisible = true
-        Log.e("layout oneblock?", "${vm.oneBlock.value}, $pos")
         this.x = vm.mDrawables.item[pos].Y.toFloat() * vm.oneBlock.value!!
         this.y = vm.mDrawables.item[pos].X.toFloat() * vm.oneBlock.value!!
     }
