@@ -10,31 +10,28 @@ import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 
-class CodeBlockAdapter(@LayoutRes val layoutID : Int, val mCodeBlockViewModel: CodeBlockViewModel) : RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
+class CodeBlockAdapter(@LayoutRes val layoutID: Int, val mCodeBlockViewModel: CodeBlockViewModel) :
+    RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val layoutInflater =  LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ItemCodeBlockBinding>(layoutInflater, viewType, parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding =
+            DataBindingUtil.inflate<ItemCodeBlockBinding>(layoutInflater, viewType, parent, false)
         return Holder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return mCodeBlockViewModel.mRun.mCodeBlock.value!!.size
-    }
+    override fun getItemCount(): Int = mCodeBlockViewModel.mRun.mCodeBlock.value!!.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(mCodeBlockViewModel, position)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return getLayoutIdForPosition(position)
-    }
+    override fun getItemViewType(position: Int): Int = getLayoutIdForPosition()
 
-    fun getLayoutIdForPosition(position : Int) : Int {
-        return layoutID
-    }
+    private fun getLayoutIdForPosition(): Int = layoutID
 
-    inner class Holder(val binding : ItemCodeBlockBinding) : RecyclerView.ViewHolder(binding.itemView) {
-        fun bind(mCodeBlockViewModel: CodeBlockViewModel, position : Int) {
+    inner class Holder(val binding: ItemCodeBlockBinding) :
+        RecyclerView.ViewHolder(binding.itemView) {
+        fun bind(mCodeBlockViewModel: CodeBlockViewModel, position: Int) {
             binding.codeBlockVM = mCodeBlockViewModel
             binding.position = position
             binding.executePendingBindings()
