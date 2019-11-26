@@ -38,7 +38,6 @@ fun ImageView.imgload (resId : Int) {
 fun ImageView.moveObjects(maxHeight : Int) {
     val timer = Timer()
     val handler = Handler()
-    val originalX = this.x
     val originalY = this.y
     val view = this
     var direction = true
