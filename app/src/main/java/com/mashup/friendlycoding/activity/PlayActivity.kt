@@ -213,6 +213,7 @@ class PlayActivity : BaseActivity() {
 
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.princessAction = stageInfo.princessAction
+                mBattleViewModel!!.bossAction = stageInfo.bossAction
                 mBattleViewModel!!.init()
                 mBattleViewModel!!.playActivity = this
 
