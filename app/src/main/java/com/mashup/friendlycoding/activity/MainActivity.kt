@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.bindSRC
 import com.mashup.friendlycoding.databinding.ActivityMainBinding
 import com.mashup.friendlycoding.viewmodel.SelectActViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,13 +19,14 @@ class MainActivity : BaseActivity() {
     lateinit var mSelectActViewModel : SelectActViewModel
     var check = 1
     var key = "key"
+    lateinit var binding : ActivityMainBinding
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.mSelectActViewModel = SelectActViewModel(this.application)
-        this.check = mSelectActViewModel.check
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        this.check = mSelectActViewModel.checkNum
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.stageVM = this.mSelectActViewModel
         this.mSelectActViewModel.init()
@@ -45,17 +48,17 @@ class MainActivity : BaseActivity() {
                 this.startActivity(intent)
             }
         })
+        Log.e("현재 check","$check")
+        saveStage(key,check)
     }
 
-    override fun onPause() {
-        super.onPause()
-        saveStage(key, check)
-    }
-
-    override fun onResume() {
-        super.onResume()
+    override fun onRestart() {
+        super.onRestart()
         val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
         check = pref.getInt(key, 0)
+        Log.e("Restart check","$check")
+        binding.stageVM = this.mSelectActViewModel
+        binding.stageRC
     }
 
     fun saveStage(key: String, value: Int) {

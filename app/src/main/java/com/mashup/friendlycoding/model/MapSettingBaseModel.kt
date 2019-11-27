@@ -63,6 +63,10 @@ open class MapSettingBaseModel {
         CodeBlock("isBranch()", type = 3, argument = IS_BRANCH),
         CodeBlock("pickBranch();")
     )
+    var stageCodeBlock3_1 = arrayListOf(
+        CodeBlock("crushRock();"),
+        CodeBlock("pickAxe();")
+    )
 
     /**
      * 보스 배틀 코드블락
@@ -145,6 +149,18 @@ open class MapSettingBaseModel {
     )
 
     var mapListAct2 = arrayOf(
+        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 1, 1, 1, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    )
+    var mapListAct31 = arrayOf(
         arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
         arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
         arrayOf(1, 1, 0, 0, 0, 0, 1, 1, 1, 1),

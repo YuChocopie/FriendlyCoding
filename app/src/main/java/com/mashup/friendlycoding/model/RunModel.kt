@@ -5,23 +5,21 @@ import com.mashup.friendlycoding.ignoreBlanks
 import kotlin.random.Random
 
 class RunModel : RunBaseModel() {
-    var turnOff : Int = 0
-    var result : Int = 0
+    var turnOff: Int = 0
+    var result: Int = 0
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
-            if (mMap.mapList!![y][x] == WALL) {
-                // 벽이라면 졌다는 시그널 전송
+            Log.e("충돌아직!! 원인은?!", "${mMap.mapList!![y][x]}")
+            if ((mMap.mapList!![y][x] == WALL) || (mMap.mapList!![y][x] % 10 == ROCK)) {
+                Log.e("충돌발생!! 원인은?!", "${mMap.mapList!![y][x]}")
+                // 돌 또는 벽이라면 졌다는 시그널 전송
                 return PLAYER_LOST
-            }
-
-            else if (mMap.mapList!![y][x]%10 == CLEAR) {
+            } else if (mMap.mapList!![y][x] % 10 == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
-                return (if(mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
+                return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
             }
-        }
-
-        else {
+        } else {
             moveView.postValue(PLAYER_LOST)     // 인덱스를 넘어갈 시
             return PLAYER_LOST
         }
@@ -62,8 +60,7 @@ class RunModel : RunBaseModel() {
 
         if (compileError) {
             moveView.postValue(COMPILE_ERROR)
-        }
-        else {
+        } else {
             mCodeBlockViewModel.isRunning.value = true
             run.start()
             mCodeBlockViewModel.isRunning.value = false
@@ -75,9 +72,7 @@ class RunModel : RunBaseModel() {
     fun resultExecution() {
         if (result == 0) {
             return
-        }
-
-        else if (result == LOST_BOSS_BATTLE || result == PLAYER_LOST) {
+        } else if (result == LOST_BOSS_BATTLE || result == PLAYER_LOST) {
             mCodeBlockViewModel.clearBlock()
             mPrincessViewModel.clear()
         }
@@ -134,7 +129,6 @@ class RunModel : RunBaseModel() {
                     Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
                     nowProcessing.postValue(IR)
                     turnOff = IR
-
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         // TODO : 0 유형 블록 (일반 함수)
                         /***
@@ -154,7 +148,7 @@ class RunModel : RunBaseModel() {
                                 moveView.postValue(signal)
                                 if (signal == PLAYER_WIN) {
                                     sleep(speed)
-                                    moveView.postValue(9)
+                                    moveView.postValue(9)//finish
                                 }
                                 nowTerminated.postValue(IR)
                                 return
@@ -197,14 +191,19 @@ class RunModel : RunBaseModel() {
                             }
 
                             if (mCodeBlock.value!![jumpTo].type == 1) {
-                                Log.e("for 가 날 열었어", "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}")
-                                if (mCodeBlock.value!![jumpTo].argument-- > 1) { nowTerminated.postValue(IR)
+                                Log.e(
+                                    "for 가 날 열었어",
+                                    "$jumpTo 의  ${mCodeBlock.value!![jumpTo].argument}"
+                                )
+                                if (mCodeBlock.value!![jumpTo].argument-- > 1) {
+                                    nowTerminated.postValue(IR)
                                     IR = jumpTo
-                                    Log.e("한 번 더!", "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}")
+                                    Log.e(
+                                        "한 번 더!",
+                                        "${mCodeBlock.value!![jumpTo].argument}   ${mCodeBlock.value!![IR].funcName}"
+                                    )
                                     iterator++
-                                }
-
-                                else {
+                                } else {
                                     //mCodeBlock.value!![jumpTo].argument = iterator
                                     //mCodeBlock.value!![IR].argument = iterator
                                     mCodeBlock.value!![jumpTo].argument = iteratorStack.peek()
@@ -230,9 +229,16 @@ class RunModel : RunBaseModel() {
                             itemPick(BRANCH, mPrincess::pickBranch)
                         }
 
+                        "crushRock();" -> {
+                            val e = Log.e("Rock", "andRoll")
+                            if (mPrincess.isPickAxe){
+                                cruchRock(ROCK, mPrincess::crushRock)
+                            }
+                            Log.e("Rock1", "andRoll222")
+                        }
                         // 보스전 부분
                         "fightBoss();" -> {
-                            if (mMap.mapList!![y][x]%10 == BOSS) {
+                            if (mMap.mapList!![y][x] % 10 == BOSS) {
                                 backup = arrayListOf()
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1
@@ -349,28 +355,22 @@ class RunModel : RunBaseModel() {
 
                                         if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
                                             Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
-
                                             if (!defenseSuccess(mMonster!!.attackType)) { // 공격 중이고, 해당하는 수단 있으나, 잘못된 방어 패턴
                                                 Log.e("아니네!", "${mCodeBlock.value!![jumpTo].argument} 공격")
                                                 moveView.postValue(LOST_BOSS_BATTLE)
                                             }
                                         }
-
                                         else { // 해당하는 방어, 회피 수단 있으나 아직 공격 중이지 않음.
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
-                                }
-
-                                else {
+                                } else {
                                     if (!type3Function(mCodeBlock.value!![IR].argument)(mPrincess)) {
                                         Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
                                         IR = mCodeBlock.value!![IR].address
                                     }
                                 }
-                            }
-
-                            else if (mCodeBlock.value!![IR].type == 4) { // while
+                            } else if (mCodeBlock.value!![IR].type == 4) { // while
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
                                     IS_ALIVE -> {   // isAlive
