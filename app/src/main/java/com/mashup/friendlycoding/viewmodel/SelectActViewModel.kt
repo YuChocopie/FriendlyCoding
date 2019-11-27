@@ -11,12 +11,14 @@ import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.StageItem
 
 class SelectActViewModel(application: Application) : AndroidViewModel(application){
-    var checkNum : Int = 0
+    var checkNum : Int = 1
     var check : Int = checkNum/10
     lateinit var adapter : SelectActAdapter
     val actToStart = MutableLiveData<Int>()
 
     val list = arrayListOf(
+        StageItem(R.drawable.bg_stage_map_05, R.drawable.bg_stage_select_05),
+        StageItem(R.drawable.bg_stage_map_04, R.drawable.bg_stage_select_04),
         StageItem(R.drawable.bg_stage_map_03, R.drawable.bg_stage_select_03),
         StageItem(R.drawable.bg_stage_map_02, R.drawable.bg_stage_select_02),
         StageItem(R.drawable.bg_stage_map_01, R.drawable.bg_stage_select_01)

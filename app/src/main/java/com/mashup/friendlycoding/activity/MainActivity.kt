@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     lateinit var mSelectActViewModel : SelectActViewModel
-    var check = 5
+    var check = 2
     var key = "key"
     lateinit var binding : ActivityMainBinding
 
@@ -34,12 +34,12 @@ class MainActivity : BaseActivity() {
             AnimationUtils.loadAnimation(this, R.anim.cloudanimation)
         val animation1 =
             AnimationUtils.loadAnimation(this, R.anim.cloudanimation1)
-        cloud2.startAnimation(animation)
-        cloud3.startAnimation(animation)
-        cloud4.startAnimation(animation)
-        cloud6.startAnimation(animation1)
-        cloud7.startAnimation(animation1)
-        cloud8.startAnimation(animation1) // TODO : 빼는 방법을 고안해보자
+//        cloud2.startAnimation(animation)
+//        cloud3.startAnimation(animation)
+//        cloud4.startAnimation(animation)
+//        cloud6.startAnimation(animation1)
+//        cloud7.startAnimation(animation1)
+//        cloud8.startAnimation(animation1) // TODO : 빼는 방법을 고안해보자
 
         mSelectActViewModel.actToStart.observe(this, Observer {
             if (it != -1) {
