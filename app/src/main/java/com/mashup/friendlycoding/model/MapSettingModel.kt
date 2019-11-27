@@ -181,6 +181,54 @@ class MapSettingModel : MapSettingBaseModel() {
                 )
             }
 
+            3 -> {
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                var mapList: Array<Array<Int>> = mapListActNull
+                var princessAction : ArrayList<Int>? = null
+
+                return Stage(
+                    setMapRandimItem(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 10, 0, 0),
+                    defaultCodeBlock,
+                    defaultBattleCodeBlock,
+                    conditionSelector(stageNum),
+                    princessAction = princessAction
+                )
+            }
+
+            4 -> {
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                var mapList: Array<Array<Int>> = mapListActNull
+                var princessAction : ArrayList<Int>? = null
+
+                return Stage(
+                    setMapRandimItem(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 10, 0, 0),
+                    defaultCodeBlock,
+                    defaultBattleCodeBlock,
+                    conditionSelector(stageNum),
+                    princessAction = princessAction
+                )
+            }
+
+            5 -> {
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                var mapList: Array<Array<Int>> = mapListActNull
+                var princessAction : ArrayList<Int>? = null
+
+                return Stage(
+                    setMapRandimItem(mapList, mDrawables),
+                    Princess(),
+                    Monster(1, 10, 0, 0),
+                    defaultCodeBlock,
+                    defaultBattleCodeBlock,
+                    conditionSelector(stageNum),
+                    princessAction = princessAction
+                )
+            }
+
             else -> {
                 return Stage(Map(), Princess(), null, arrayListOf(), null, conditionSelector(stageNum))
             }

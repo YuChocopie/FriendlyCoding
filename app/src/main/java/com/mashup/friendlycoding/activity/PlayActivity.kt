@@ -32,10 +32,7 @@ class PlayActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding =
-            DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
-        mp = MediaPlayer.create(this, R.raw.stage2)
-        mp!!.isLooping = true
+        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
         this.stageNum = intent.getIntExtra("stageNum", 0)
@@ -46,6 +43,11 @@ class PlayActivity : BaseActivity() {
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
         }
+
+        Log.e("stageNum", "$stageNum")
+        val soundSource = resources.getIdentifier("act${this.stageNum/10}", "raw", packageName)
+        mp = MediaPlayer.create(this, soundSource)
+        mp!!.isLooping = true
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -117,11 +119,7 @@ class PlayActivity : BaseActivity() {
                 }
 
                 ITEM_PICKED -> {  // 아이템 습득
-                    itemNumber = resources.getIdentifier(
-                        "item_" + mRun.changingView.toString(),
-                        "id",
-                        packageName
-                    )
+                    itemNumber = resources.getIdentifier("item_" + mRun.changingView.toString(), "id", packageName)
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
@@ -247,12 +245,12 @@ class PlayActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        //mp!!.start()
+        mp!!.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-       // mp!!.stop()
+        mp!!.stop()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
