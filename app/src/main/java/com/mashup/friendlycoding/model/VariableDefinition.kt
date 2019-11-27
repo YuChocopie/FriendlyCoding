@@ -40,6 +40,9 @@ package com.mashup.friendlycoding.model
     const val BOSS_GREENHAND = 7
     const val IS_BLACKHOLE = 8
 
+    const val SHIELD = 0
+    const val ATTACK = 1
+
     val IS_PICKAXE = 9
     val IS_MUSHROOM = 10
     val IS_BOOK = 11

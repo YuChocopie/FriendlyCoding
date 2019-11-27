@@ -136,9 +136,6 @@ class PlayActivity : BaseActivity() {
                     if (++mRun.changingView== PICKAXE){
                         mPrincessViewModel.axeImg!!.isVisible = true
                     }
-
-
-
                 }
                 CRUSH_ROCK -> {  // 아이템 습득
 
@@ -151,8 +148,6 @@ class PlayActivity : BaseActivity() {
 
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
-
-
                 }
 
                 PLAYER_LOST -> {  // 패배
@@ -164,14 +159,12 @@ class PlayActivity : BaseActivity() {
                 PLAYER_WIN -> {  // 승리
                     binding.tvWin.isVisible = true
                     val intent = Intent()
+                    Log.e("승리", "승리")
                     intent.putExtra("ok","ok")
                     setResult(Activity.RESULT_OK,intent)
-
                 }
 
-
                 9 -> {  // 종료
-
                     finish()
                 }
 
@@ -217,24 +210,48 @@ class PlayActivity : BaseActivity() {
             if (t) {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
-                //mRun.mCodeBlock.value = arrayListOf()
-                this.mRun.mCodeBlock.value = arrayListOf (
-                    CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-                    CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-                    CodeBlock("        wait();"),
-                    CodeBlock("        jump();"),
-                    CodeBlock("    }"),
-                    CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
-                    CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
-                    CodeBlock("            jump();"),
-                    CodeBlock("        }"),
-                    CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-                    CodeBlock("            dodge();"),
-                    CodeBlock("        }"),
-                    CodeBlock("    }"),
-                    CodeBlock("}")
-                    )
 
+//                if (stageNum == 51) {
+//                    this.mRun.mCodeBlock.value = arrayListOf (
+//                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+//                        CodeBlock("        wait();"),
+//                        CodeBlock("        jump();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
+//                        CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
+//                        CodeBlock("            for(3){", type = FOR, argument = 3),
+//                        CodeBlock("                jump();"),
+//                        CodeBlock("            }"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+//                        CodeBlock("            dodge();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    attack();"),
+//                        CodeBlock("}")
+//                    )
+//                }
+//
+//                if (stageNum == 52) {
+//                    this.mRun.mCodeBlock.value = arrayListOf(
+//                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
+//                        CodeBlock("        while(isBlackhole()) {", type = WHILE, argument = IS_BLACKHOLE),
+//                        CodeBlock("             grabTight();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
+//                        CodeBlock("        readySpell(shield);", argument = SHIELD),
+//                        CodeBlock("        wandSpell();"),
+//                        CodeBlock("        shoutSpell();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    readySpell(attack);", argument = ATTACK),
+//                        CodeBlock("    wandSpell();"),
+//                        CodeBlock("    shoutSpell();"),
+//                        CodeBlock("}"))
+//                }
+                this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 
@@ -256,7 +273,9 @@ class PlayActivity : BaseActivity() {
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
                 mCodeBlockViewModel.isRunning.value = false
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.bossBattleBlock!!)
-            } else {
+            }
+
+            else {
                 defineFightBoss.visibility = View.GONE
                 defineFightBossClose.visibility = View.GONE
 
@@ -270,13 +289,14 @@ class PlayActivity : BaseActivity() {
                     mRun.mCodeBlock.value = arrayListOf()
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
                     mRun.mCodeBlock.value = mRun.backup
-
-                    for (i in mRun.backup!!) {
-                        Log.e(i.funcName, mRun.backIR.toString())
-                    }
+//
+//                    for (i in mRun.backup!!) {
+//                        Log.e(i.funcName, mRun.backIR.toString())
+//                    }
 
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
-                    mCodeBlockViewModel.run()
+                    if (mRun.mCodeBlock.value != null)
+                        mCodeBlockViewModel.run()
                 }
             }
         })

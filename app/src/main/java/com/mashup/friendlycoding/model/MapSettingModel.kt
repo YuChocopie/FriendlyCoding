@@ -256,16 +256,26 @@ class MapSettingModel : MapSettingBaseModel() {
 
             5 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
-                val mapList: Array<Array<Int>> = mapListActNull
+                var mapList: Array<Array<Int>> = mapListActNull
                 val princessAction = arrayListOf(
                     R.drawable.attack_fire_shield,
-                    R.drawable.attack_ice_shield
+                    R.drawable.attack_ice_shield,
+                    R.drawable.wand,
+                    R.drawable.wand,
+                    R.drawable.attackspell,
+                    R.drawable.shieldspell
                 )
+                mapList = mapListAct2
+
+                mDrawables.item.add(MapItem(R.drawable.ic_circle, 2))
+                defaultCodeBlock.addAll(arrayListOf(
+                    CodeBlock("fightBoss();")
+                ))
 
                 val bossAction : ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
                     R.drawable.attack_ice,
-                    0,
+                    R.drawable.jump,
                     R.drawable.monster2_fistmoved,
                     R.drawable.monster2,
                     R.drawable.monster2_punch,
@@ -278,24 +288,24 @@ class MapSettingModel : MapSettingBaseModel() {
                     1 -> {
                         mDrawables.monsterImg = R.drawable.monster2
                         mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
-                        mDrawables.item = arrayListOf(MapItem(R.drawable.monster2, 7))
+                        mDrawables.item.add(MapItem(R.drawable.monster2, 7))
                         defaultBattleCodeBlock.addAll(battleCodeBlock2)
-                        type = 2
+                        type = 3
                     }
 
                     2 -> {
                         mDrawables.monsterImg = R.drawable.monster3
                         mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
-                        mDrawables.item = arrayListOf(MapItem(R.drawable.monster3, 7))
+                        mDrawables.item.add(MapItem(R.drawable.monster3, 7))
                         defaultBattleCodeBlock.addAll(battleCodeBlock3)
-                        type = 3
+                        type = 2
                     }
                 }
 
                 return Stage(
                     setMapRandomItem(mapList, mDrawables),
                     Princess(),
-                    Monster(type, 10, 0, 0),
+                    Monster(type, 50, 0, 0),
                     defaultCodeBlock,
                     defaultBattleCodeBlock,
                     conditionSelector(stageNum),
