@@ -268,25 +268,25 @@ open class RunBaseModel {
 
     fun type3Function(num : Int) : (Princess) -> Boolean {
         when (num) {
-            3 -> {
+            IS_PICKAXE -> {
                 return (fun (mPrincess : Princess) : Boolean {
                     return mPrincess.isPickAxe
                 })
             }
 
-            4 -> {
+            IS_MUSHROOM -> {
                 return (fun (mPrincess : Princess) : Boolean {
                     return mPrincess.isMushroom
                 })
             }
 
-            5 -> {
+            IS_BOOK -> {
                 return (fun (mPrincess : Princess) : Boolean {
                     return mPrincess.isBook
                 })
             }
 
-            6 -> {
+            IS_BRANCH -> {
                 return (fun (mPrincess : Princess) : Boolean {
                     return mPrincess.isBranch
                 })
@@ -297,6 +297,23 @@ open class RunBaseModel {
                     return true
                 })
             }
+        }
+    }
+
+    fun itemPick(item : Int, f : () -> Int) {
+        Log.e("아이템을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
+        if (mMap.mapList!![y][x]%10 == item) {
+            //mPrincess.pickBranch()
+            val cnt = f()
+            changingView = mMap.mapList!![y][x]/10
+            //changingViewAll = mMap.mapList!![y][x]
+            mPrincessViewModel.itemCount.postValue(cnt.toString())
+            mPrincessViewModel.isItem.postValue("true")
+            mMap.itemPicked(y, x)
+            moveView.postValue(ITEM_PICKED)
+        } else {
+            moveView.postValue(PLAYER_LOST)
+            return
         }
     }
 }
