@@ -1,6 +1,5 @@
 package com.mashup.friendlycoding.model
 
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import com.mashup.friendlycoding.Map
@@ -41,14 +40,14 @@ class MapSettingModel : MapSettingBaseModel() {
                 mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
                 // 기본 제공되는 블록
                 stageCodeBlock0.addAll(defaultCodeBlock)
-                battleCodeBlock0.addAll(defaultBattleCodeBlock)
+                battleCodeBlock1.addAll(defaultBattleCodeBlock)
 
                 return Stage(
                     setMapRandomItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 100, 0, 0),
                     stageCodeBlock0,
-                    battleCodeBlock0,
+                    battleCodeBlock1,
                     conditionSelector(stageNum)
                 )
             }
@@ -63,7 +62,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 mDrawables.item = arrayListOf(
                     MapItem(R.drawable.ic_sunny, 34)
                 )
-                battleCodeBlock0.addAll(defaultBattleCodeBlock)
+                battleCodeBlock1.addAll(defaultBattleCodeBlock)
 
                 when (stageNum % 10) {
                     // Stage 1
@@ -119,7 +118,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     Princess(),
                     Monster(1, 10, 0, 0),
                     defaultCodeBlock_tutorial,
-                    battleCodeBlock0,
+                    battleCodeBlock1,
                     conditionSelector(stageNum),
                     princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
                 )
@@ -129,7 +128,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 var mapList: Array<Array<Int>> = mapListActNull
                 var princessAction : ArrayList<Int>? = null
-                defaultBattleCodeBlock.addAll(battleCodeBlock0)
+                defaultBattleCodeBlock.addAll(battleCodeBlock1)
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct2
@@ -257,17 +256,51 @@ class MapSettingModel : MapSettingBaseModel() {
 
             5 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
-                var mapList: Array<Array<Int>> = mapListActNull
-                var princessAction : ArrayList<Int>? = null
+                val mapList: Array<Array<Int>> = mapListActNull
+                val princessAction = arrayListOf(
+                    R.drawable.fire_shield,
+                    R.drawable.ice_shield
+                )
+
+                val bossAction : ArrayList<Int>? = arrayListOf(
+                    R.drawable.attack_fire,
+                    R.drawable.attack_ice,
+                    0,
+                    R.drawable.fistmoved,
+                    R.drawable.monster2,
+                    R.drawable.punch,
+                    R.drawable.blackhole,
+                    R.drawable.monster3_attack
+                    )
+
+                var type = 2
+                when (stageNum % 10) {
+                    1 -> {
+                        mDrawables.monsterImg = R.drawable.monster2
+                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
+                        mDrawables.item = arrayListOf(MapItem(R.drawable.monster2, 7))
+                        defaultBattleCodeBlock.addAll(battleCodeBlock2)
+                        type = 2
+                    }
+
+                    2 -> {
+                        mDrawables.monsterImg = R.drawable.monster3
+                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
+                        mDrawables.item = arrayListOf(MapItem(R.drawable.monster3, 7))
+                        defaultBattleCodeBlock.addAll(battleCodeBlock3)
+                        type = 3
+                    }
+                }
 
                 return Stage(
                     setMapRandomItem(mapList, mDrawables),
                     Princess(),
-                    Monster(1, 10, 0, 0),
+                    Monster(type, 10, 0, 0),
                     defaultCodeBlock,
                     defaultBattleCodeBlock,
                     conditionSelector(stageNum),
-                    princessAction = princessAction
+                    princessAction = princessAction,
+                    bossAction = bossAction
                 )
             }
 

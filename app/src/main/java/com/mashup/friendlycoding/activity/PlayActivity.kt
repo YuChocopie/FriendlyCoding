@@ -119,6 +119,8 @@ class PlayActivity : BaseActivity() {
                     boss.text = "보스"
                     constraintLayout.isVisible = true
                     bossField.isVisible = false
+                    mCodeBlockViewModel.clearBlock()
+                    mPrincessViewModel.clear()
                 }
 
                 ITEM_PICKED -> {  // 아이템 습득
@@ -188,11 +190,7 @@ class PlayActivity : BaseActivity() {
             Log.e("현재 실행 위치", "$t")
             if (t > 8)
                 rc_code_block_list.smoothScrollToPosition(t + 3)
-            mCodeBlockViewModel.coloringNowProcessing(
-                rc_code_block_list.findViewHolderForAdapterPosition(
-                    t
-                )
-            )
+            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -219,7 +217,24 @@ class PlayActivity : BaseActivity() {
             if (t) {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
-                mRun.mCodeBlock.value = arrayListOf()
+                //mRun.mCodeBlock.value = arrayListOf()
+                this.mRun.mCodeBlock.value = arrayListOf (
+                    CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+                    CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+                    CodeBlock("        wait();"),
+                    CodeBlock("        jump();"),
+                    CodeBlock("    }"),
+                    CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
+                    CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
+                    CodeBlock("            jump();"),
+                    CodeBlock("        }"),
+                    CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+                    CodeBlock("            dodge();"),
+                    CodeBlock("        }"),
+                    CodeBlock("    }"),
+                    CodeBlock("}")
+                    )
+
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 
@@ -232,6 +247,7 @@ class PlayActivity : BaseActivity() {
 
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.princessAction = stageInfo.princessAction
+                mBattleViewModel!!.bossAction = stageInfo.bossAction
                 mBattleViewModel!!.init()
                 mBattleViewModel!!.playActivity = this
 

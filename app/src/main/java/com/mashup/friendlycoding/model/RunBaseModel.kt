@@ -56,7 +56,7 @@ open class RunBaseModel {
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
+    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
@@ -67,6 +67,11 @@ open class RunBaseModel {
     var closingBracket = 0
     var first = true
 
+    val rand = Random()
+
+    var bossAttackIterator = 0
+    var spellSequence = 3
+
     // 클리어 조건
     var mClearCondition: ((Princess) -> Boolean)? = null
 
@@ -74,7 +79,7 @@ open class RunBaseModel {
      * inti()
      * ***/
     fun init() {
-        mCodeBlock.value = ArrayList()
+        mCodeBlock.value = arrayListOf()
         insertBlockPosition = -1
         insertBlockAt.postValue(-1)
         metBoss.value = false
@@ -395,4 +400,62 @@ open class RunBaseModel {
             return
         }
     }
+
+    fun defenseSuccess(attackType: Int) : Boolean {
+        when (attackType) {
+            BOSS_FIRE_ATTACK -> {
+                return if (mCodeBlock.value!!.size > IR+1) {
+                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "iceShield();")
+                } else
+                    false
+            }
+
+            BOSS_WATER_ATTACK -> {
+                return if (mCodeBlock.value!!.size > IR+1) {
+                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "fireShield();")
+                } else
+                    false
+            }
+
+            BOSS_JUMPED -> {
+                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR+2}")
+                return if (this.mCodeBlock.value!!.size > IR+2) {
+                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR+2].funcName))
+                    (ignoreBlanks(this.mCodeBlock.value!![IR+2].funcName) == "jump();")
+                } else
+                    false
+            }
+
+            BOSS_FIST_MOVED -> {
+                return true
+            }
+
+            BOSS_FIST_DOWN -> {
+                return true
+            }
+
+            BOSS_PUNCH -> {
+                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR+1}")
+                return if (this.mCodeBlock.value!!.size > IR+1) {
+                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR+1].funcName))
+                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "dodge();")
+                } else
+                    false
+            }
+
+            BOSS_BLACKHOLE -> {
+                return true
+            }
+
+            BOSS_GREENHAND -> {
+                return true
+            }
+
+            else -> {
+                return true
+            }
+        }
+    }
+
+
 }
