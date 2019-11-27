@@ -10,5 +10,6 @@ class Stage(val map : Map,
             val offeredBlock : ArrayList<CodeBlock>,
             val bossBattleBlock : ArrayList<CodeBlock>? = null,
             val clearCondition : (Princess) -> Boolean,
-            val princessAction : ArrayList<Int>? = null
+            val princessAction : ArrayList<Int>? = null,
+            val bossAction : ArrayList<Int>? = null
             )

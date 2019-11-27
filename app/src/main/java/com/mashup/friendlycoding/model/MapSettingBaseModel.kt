@@ -47,20 +47,20 @@ open class MapSettingBaseModel {
 
     var stageCodeBlock0 = arrayListOf(
         CodeBlock("pickAxe();"),
-        CodeBlock("isPickAxe()", type = 3, argument = 3)
+        CodeBlock("isPickAxe()", type = 3, argument = IS_PICKAXE)
     )
 
     var stageCodeBlock2_1 = arrayListOf(
-        CodeBlock("isBook()", type = 3, argument = 5),
+        CodeBlock("isBook()", type = 3, argument = IS_BOOK),
         CodeBlock("pickBook();")
     )
     var stageCodeBlock2_2 = arrayListOf(
-        CodeBlock("isMushroom()", type = 3, argument = 4),
+        CodeBlock("isMushroom()", type = 3, argument = IS_MUSHROOM),
         CodeBlock("eatMushroom();"),
         CodeBlock("fightBoss();")
     )
     var stageCodeBlock2_3 = arrayListOf(
-        CodeBlock("isBranch()", type = 3, argument = 6),
+        CodeBlock("isBranch()", type = 3, argument = IS_BRANCH),
         CodeBlock("pickBranch();")
     )
 
@@ -74,15 +74,37 @@ open class MapSettingBaseModel {
         CodeBlock("for(", type = 1, argument = -1),
         CodeBlock("}"),
         CodeBlock("attack();"),
-        CodeBlock("isAlive()", type = 3, argument = 7)
+        CodeBlock("isAlive()", type = 3, argument = IS_ALIVE)
     )
 
-    var battleCodeBlock0 = arrayListOf(
+    var battleCodeBlock1 = arrayListOf(
         CodeBlock("detectedFire()", type = 3, argument = 0),
         CodeBlock("detectedWater()", type = 3, argument = 1),
         CodeBlock("iceShield();"),
         CodeBlock("fireShield();")
     )
+
+    var battleCodeBlock2 = arrayListOf(
+        CodeBlock("bossJumped()", type = 3, argument = BOSS_JUMPED),
+        CodeBlock("bossPunch()", type = 3, argument = BOSS_PUNCH),
+        CodeBlock("bossFistMoved()", type = 3, argument = BOSS_FIST_MOVED),
+        CodeBlock("bossFistDown()", type = 3, argument = BOSS_FIST_DOWN),
+        CodeBlock("wait();"),
+        CodeBlock("jump();"),
+        CodeBlock("dodge();")
+    )
+
+    var battleCodeBlock3 = arrayListOf(
+        CodeBlock("bossBlackhole()", type = 3, argument = BOSS_BLACKHOLE),
+        CodeBlock("isBlackhole()", type = 3, argument = IS_BLACKHOLE),
+        CodeBlock("bossGreenHand()", type = 3, argument = BOSS_GREENHAND),
+        CodeBlock("grabTight();"),
+        CodeBlock("readySpell();", type = 5),
+        CodeBlock("wandSpell();"),
+        CodeBlock("shoutSpell();"),
+        CodeBlock("attack"),
+        CodeBlock("shield")
+        )
 
     val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
