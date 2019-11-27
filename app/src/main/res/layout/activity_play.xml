@@ -186,7 +186,7 @@
                     android:layout_height="0dp"
                     android:background="#BC000000"
                     android:gravity="center"
-                    android:text="WIN!!!!!"
+                    android:text="CLEAR"
                     android:textColor="@color/White"
                     android:textSize="60sp"
                     android:textStyle="bold"

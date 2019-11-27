@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -63,11 +64,12 @@ class PlayActivity : BaseActivity() {
                 binding.tvState.setText("isBook = ")
             }
             22 -> {
+                binding.tvState.setText("isMushroom = ")
                 binding.tvCount.setText("mushroomCnt = ")
             }
             23 -> {
                 binding.tvCount.setText("branchCnt = ")
-                binding.tvState.setText("Branch = ")
+                binding.tvState.setText("isBranch = ")
             }
         }
 
@@ -133,9 +135,14 @@ class PlayActivity : BaseActivity() {
 
                 PLAYER_WIN -> {  // 승리
                     binding.tvWin.isVisible = true
+                    val intent = Intent()
+                    intent.putExtra("ok","ok")
+                    setResult(Activity.RESULT_OK,intent)
+
                 }
 
                 9 -> {  // 종료
+
                     finish()
                 }
 

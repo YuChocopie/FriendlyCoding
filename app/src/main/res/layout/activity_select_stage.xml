@@ -69,7 +69,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/act1">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/stage1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -105,7 +105,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/stage1Layout">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/stage2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -139,7 +139,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/stage2Layout">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/stage3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
