@@ -185,7 +185,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 var mapList: Array<Array<Int>> = mapListActNull
                 var princessAction : ArrayList<Int>? = null
 
-                defaultBattleCodeBlock.addAll(battleCodeBlock0)
+                defaultBattleCodeBlock.addAll(battleCodeBlock1)
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct31//테스트

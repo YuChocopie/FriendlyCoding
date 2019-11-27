@@ -55,8 +55,10 @@ class MainActivity : BaseActivity() {
     override fun onRestart() {
         super.onRestart()
         val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
-        check = pref.getInt(key, 0)
-        Log.e("Restart check","$check")
+        this.check = pref.getInt(key, 0)
+        Log.e("Restart check","${this.check}")
+        this.mSelectActViewModel.check = this.check
+        binding.stageVM!!.init()
         binding.stageVM = this.mSelectActViewModel
         binding.stageRC
     }

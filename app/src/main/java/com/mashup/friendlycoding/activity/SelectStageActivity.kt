@@ -20,6 +20,9 @@ class SelectStageActivity : BaseActivity() {
     var numberCheck = 10
     val mSelectStageViewModel = SelectStageViewModel()
     var check = 10
+    var save = 0
+    var checkTemp = 0
+    var saveTemp = 0
     lateinit var binding: ActivitySelectStageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,26 +47,54 @@ class SelectStageActivity : BaseActivity() {
             }
         })
 
+        mSelectStageViewModel.setColor(binding.stage1)
+        mSelectStageViewModel.grayColor(binding.stage2)
+        mSelectStageViewModel.grayColor(binding.stage3)
+
         //1. 초기화시 확인
         val sharedPreferences = getSharedPreferences("pref", Context.MODE_PRIVATE)
         check = sharedPreferences.getInt("key", 10)
 
-        when (check % 10) {
-            0 -> {
-                //아무것도 깨지 않았을 경우
-                mSelectStageViewModel.setColor(binding.stage1)
-                mSelectStageViewModel.grayColor(binding.stage2)
-                mSelectStageViewModel.grayColor(binding.stage3)
-            }
+        val sharedPreferencesSave = getSharedPreferences("prefSave", Context.MODE_PRIVATE)
+        save = sharedPreferencesSave.getInt("keySave", 0)
+        Log.e("save값:", "$save")
+        Log.e("actNum값:", "$actNum")
+
+        when (save) {
             1 -> {
-                mSelectStageViewModel.setColor(binding.stage1)
-                mSelectStageViewModel.setColor(binding.stage2)
-                mSelectStageViewModel.grayColor(binding.stage3)
+                if (actNum / 10 == 0) {
+                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.setColor(binding.stage2)
+                    mSelectStageViewModel.setColor(binding.stage3)
+                }
             }
             2 -> {
-                mSelectStageViewModel.setColor(binding.stage1)
-                mSelectStageViewModel.setColor(binding.stage2)
-                mSelectStageViewModel.setColor(binding.stage3)
+                if (actNum / 10 == 1) {
+                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.setColor(binding.stage2)
+                    mSelectStageViewModel.setColor(binding.stage3)
+                }
+            }
+            3 -> {
+                if (actNum / 10 == 1 || actNum / 10 == 2) {
+                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.setColor(binding.stage2)
+                    mSelectStageViewModel.setColor(binding.stage3)
+                }
+            }
+            4 -> {
+                if (actNum / 10 == 1 || actNum / 10 == 2 || actNum / 10 == 3) {
+                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.setColor(binding.stage2)
+                    mSelectStageViewModel.setColor(binding.stage3)
+                }
+            }
+            5 -> {
+                if (actNum / 10 == 1 || actNum / 10 == 2 || actNum / 10 == 3 || actNum / 10 == 4) {
+                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.setColor(binding.stage2)
+                    mSelectStageViewModel.setColor(binding.stage3)
+                }
             }
         }
     }
@@ -76,22 +107,39 @@ class SelectStageActivity : BaseActivity() {
                 1 -> {
                     mSelectStageViewModel.setColor(binding.stage2)
                     val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
-                    val editor = pref.edit()
-                    editor.putInt("key", numberCheck)
-                    editor.apply()
+                    this.checkTemp = pref.getInt("pref", 0)
+                    if (this.checkTemp < numberCheck) {
+                        val editor = pref.edit()
+                        editor.putInt("key", numberCheck)
+                        editor.apply()
+                    }
                 }
                 2 -> {
                     mSelectStageViewModel.setColor(binding.stage3)
                     val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
-                    val editor = pref.edit()
-                    editor.putInt("key", numberCheck)
-                    editor.apply()
+                    this.checkTemp = pref.getInt("pref", 0)
+                    if (this.checkTemp < numberCheck) {
+                        val editor = pref.edit()
+                        editor.putInt("key", numberCheck)
+                        editor.apply()
+                    }
                 }
                 3 -> {
                     val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
-                    val editor = pref.edit()
-                    editor.putInt("key", numberCheck + 7)
-                    editor.apply()
+                    this.checkTemp = pref.getInt("pref", 0)
+                    if (this.checkTemp < numberCheck) {
+                        val editor = pref.edit()
+                        editor.putInt("key", numberCheck + 7)
+                        editor.apply()
+                    }
+
+                    val prefSave = getSharedPreferences("prefSave", Context.MODE_PRIVATE)
+                    this.saveTemp = prefSave.getInt("prefSave",0)
+                    if(this.saveTemp < save){
+                        val editorSave = prefSave.edit()
+                        editorSave.putInt("keySave", (numberCheck + 7) / 10)
+                        editorSave.apply()
+                    }
                 }
             }
         }
