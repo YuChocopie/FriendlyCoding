@@ -1,6 +1,7 @@
 package com.mashup.friendlycoding.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.AndroidViewModel
@@ -10,7 +11,8 @@ import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.StageItem
 
 class SelectActViewModel(application: Application) : AndroidViewModel(application){
-    var check : Int = 5
+    var checkNum : Int = 2
+    var check : Int = checkNum/10
     lateinit var adapter : SelectActAdapter
     val actToStart = MutableLiveData<Int>()
 
