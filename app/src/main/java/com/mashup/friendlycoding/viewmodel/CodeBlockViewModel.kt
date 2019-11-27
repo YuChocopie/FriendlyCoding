@@ -46,12 +46,17 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
+        if (this.isRunning.value!!)
+            return
+
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
         this.adapter.notifyDataSetChanged()
     }
 
     fun deleteBlock(position : Int) {
+        if (this.isRunning.value!!)
+            return
         mRun.deleteBlock(position)
         this.adapter.notifyItemRemoved(position)
         this.adapter.notifyItemRangeChanged(position, mRun.mCodeBlock.value!!.size)
@@ -93,12 +98,12 @@ class CodeBlockViewModel : ViewModel() {
     fun getEndText(position : Int) : String {
         val type = mRun.mCodeBlock.value!![position].type
 
-        if (type == 2 || type == 4)
-            return "{"
+        return if (type == 2 || type == 4)
+            "{"
         else if (type == 1)
-            return ") {"
+            ") {"
         else {
-            return ""
+            ""
         }
     }
 
@@ -112,6 +117,9 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun insertBlock(position: Int) {
+        if (this.isRunning.value!!)
+            return
+
         val type = mRun.mCodeBlock.value!![position].type
         if (type == 2 || type == 4)
             mRun.insertBlockPosition = position

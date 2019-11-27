@@ -10,8 +10,7 @@ import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ItemCodeBlockBinding
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 
-class CodeBlockAdapter(@LayoutRes val layoutID: Int, val mCodeBlockViewModel: CodeBlockViewModel) :
-    RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
+class CodeBlockAdapter(@LayoutRes val layoutID: Int, val mCodeBlockViewModel: CodeBlockViewModel) : RecyclerView.Adapter<CodeBlockAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding =

@@ -48,6 +48,7 @@ class RunModel : RunBaseModel() {
         if (!bossKilled) {
             IR = 0
         }
+
         val run = RunThead()
         var open = 0
 
@@ -57,13 +58,14 @@ class RunModel : RunBaseModel() {
             }
             open++
         }
+
         if (compileError) {
             moveView.postValue(-5)
         }
         else {
-            mCodeBlockViewModel.isRunning.postValue(true)
+            mCodeBlockViewModel.isRunning.value = true
             run.start()
-            mCodeBlockViewModel.isRunning.postValue(false)
+            mCodeBlockViewModel.isRunning.value = false
         }
 
         resultExecution()
@@ -268,6 +270,7 @@ class RunModel : RunBaseModel() {
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1
                                 nowTerminated.postValue(turnOff)
+                                blockLevel++
                                 metBoss.postValue(true)
                                 //mCodeBlockViewModel.adapter.notifyDataSetChanged()
                                 return
@@ -310,7 +313,7 @@ class RunModel : RunBaseModel() {
                                 }
                             }
 
-                            else if (mCodeBlock.value!![IR].type == 4) {
+                            else if (mCodeBlock.value!![IR].type == 4) { // while
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
                                     7 -> {   // isAlive

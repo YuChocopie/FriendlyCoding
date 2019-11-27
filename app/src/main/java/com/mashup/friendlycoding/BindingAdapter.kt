@@ -117,8 +117,10 @@ fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : I
             } catch (e: Exception) {
             }
         }
+        override fun afterTextChanged(arg0: Editable) {
+            hint = arg0.toString()
 
-        override fun afterTextChanged(arg0: Editable) {}
+        }
         override fun beforeTextChanged(
             s: CharSequence,
             start: Int,
@@ -196,6 +198,8 @@ fun ImageView.animateCloud(up : Float) {
     this.startAnimation(ani)
 }
 
+
+
 // 아이템 위치 옮기는 거 죄다 바인딩
 @BindingAdapter("android:mapVM", "android:item_position")
 fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
@@ -220,6 +224,5 @@ fun ignoreBlanks(code: String): String {
         start++
         i++
     }
-
     return code.substring(start)
 }

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.bindVRC
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.model.Stage
@@ -187,10 +188,11 @@ class PlayActivity : BaseActivity() {
             bossField.isVisible = t
 
             if (t) {
-                val block = mRun.mCodeBlock.value
-                block!!.clear()
-                mRun.mCodeBlock.postValue(block)
+                defineFightBoss.isVisible = true
+                defineFightBossClose.isVisible = true
+                mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
+                mCodeBlockViewModel.isRunning.value = false
 
                 mBattleViewModel = BattleViewModel(
                     binding.hpBar,
@@ -198,6 +200,7 @@ class PlayActivity : BaseActivity() {
                     binding.monster,
                     binding.princessAttackMotion
                 )
+
                 mBattleViewModel!!.mRun = mRun
                 mBattleViewModel!!.princessAction = stageInfo.princessAction
                 mBattleViewModel!!.init()
@@ -206,22 +209,29 @@ class PlayActivity : BaseActivity() {
                 mRun.mMonster = stageInfo.monster
                 binding.battleVM = mBattleViewModel
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
-
+                mCodeBlockViewModel.isRunning.value = false
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.bossBattleBlock!!)
-            } else {
+            }
+
+            else {
+                defineFightBoss.visibility = View.GONE
+                defineFightBossClose.visibility = View.GONE
+
                 mBattleViewModel = null
                 binding.battleVM = null
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.offeredBlock)
+                mCodeBlockViewModel.isRunning.value = false
 
                 if (mRun.bossKilled) {
                     Toast.makeText(this, "보스를 물리쳤어요", Toast.LENGTH_SHORT).show()
-                    val blockclear = mRun.mCodeBlock.value
-                    blockclear!!.clear()
-                    mRun.mCodeBlock.postValue(blockclear)
+                    mRun.mCodeBlock.value = arrayListOf()
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
+                    mRun.mCodeBlock.value = mRun.backup
 
-                    val block = mRun.backup
-                    mRun.mCodeBlock.postValue(block)
+                    for (i in mRun.backup!!) {
+                        Log.e(i.funcName, mRun.backIR.toString())
+                    }
+
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
                     mCodeBlockViewModel.run()
                 }
@@ -240,12 +250,12 @@ class PlayActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        mp!!.start()
+        //mp!!.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mp!!.stop()
+       // mp!!.stop()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -269,7 +279,7 @@ class PlayActivity : BaseActivity() {
         this.stageInfo = this.mMapSettingViewModel.mMapSettingModel.getStageInfo(this.stageNum)
         val drawableInfo = this.stageInfo.map.drawables!!
         this.mMapSettingViewModel.setStage(this.stageInfo, this)
-        this.mPrincessViewModel.setPrincessImage(drawableInfo, this)
+        this.mPrincessViewModel.setPrincessImage(drawableInfo, ivPrincess, tvWin)
         this.mCodeBlockViewModel.setSettingModel(drawableInfo)
         this.mCodeBlockViewModel.setOfferedBlock(this.mMapSettingViewModel.offeredBlock)
 
