@@ -18,87 +18,16 @@
             android:id="@+id/stageRC"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:setSAdapter="@{stageVM.getSelectActAdapter()}"
-            android:act = "@{stageVM.check}"
+            android:act="@{stageVM.check}"
             android:clipToPadding="false"
             android:overScrollMode="never"
+            android:setSAdapter="@{stageVM.getSelectActAdapter()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_stage" />
 
-        <ImageView
-            android:id="@+id/cloud2"
-            android:layout_width="1000dp"
-            android:layout_height="500dp"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * stageVM.check)}"
-            android:visibility="@{stageVM.cloudVisibility(1)}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"/>
-        <ImageView
-            android:id="@+id/cloud3"
-            android:layout_width="1000dp"
-            android:layout_height="500dp"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * (stageVM.check + 1))}"
-            android:visibility="@{stageVM.cloudVisibility(2)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="500dp"/>
-
-        <ImageView
-            android:id="@+id/cloud4"
-            android:layout_width="1000dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * (stageVM.check + 2))}"
-            android:visibility="@{stageVM.cloudVisibility(3)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="500dp"/>
-
-        <ImageView
-            android:id="@+id/cloud6"
-            android:layout_width="1000dp"
-            android:layout_height="500dp"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * stageVM.check)}"
-            android:visibility="@{stageVM.cloudVisibility(1)}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="1000dp"
-            />
-        <ImageView
-            android:id="@+id/cloud7"
-            android:layout_width="1000dp"
-            android:layout_height="500dp"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * (stageVM.check + 1))}"
-            android:visibility="@{stageVM.cloudVisibility(2)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="500dp"
-            android:layout_marginStart="1000dp"
-            />
-
-        <ImageView
-            android:id="@+id/cloud8"
-            android:layout_width="1000dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_cloud"
-            android:cloud="@{(-500F * (stageVM.check + 2))}"
-            android:visibility="@{stageVM.cloudVisibility(3)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="500dp"
-            android:layout_marginStart="1000dp"
-            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -35,7 +35,8 @@ class StoryActivity : BaseActivity() {
 
                 }
                 if (t == 2) {
-                    binding.storyNext.setImageResource(R.drawable.go_to_play)
+                    //TODO :: 교준
+                    binding.storyNext.setImageResource(R.drawable.ic_arrow_forward_black_24dp)
                 }
                 else {
                     binding.storyNext.setImageResource(R.drawable.ic_arrow_forward_black_24dp)

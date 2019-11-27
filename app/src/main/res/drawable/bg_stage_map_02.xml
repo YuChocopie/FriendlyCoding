@@ -5,11 +5,11 @@
         <clip-path android:pathData="M533.21,-532.61h510.08v510.08h-510.08z M 0,0"/>
     </group>
     <group>
-        <clip-path android:pathData="M-4.28,1.21h516.28v509.59h-516.28z M 0,0"/>
-        <path android:pathData="M-4.58,-4.42h514.07v909.72h-514.07z">
+        <clip-path android:pathData="M-4.28,-3.12h516.28v515.12h-516.28z M 0,0"/>
+        <path android:pathData="M-4.58,-8.81h514.07v919.6h-514.07z">
             <aapt:attr name="android:fillColor">
-                <gradient android:endX="252.46" android:endY="905.3"
-                    android:startX="252.46" android:startY="-4.42" android:type="linear">
+                <gradient android:endX="252.46" android:endY="910.79"
+                    android:startX="252.46" android:startY="-8.81" android:type="linear">
                     <item android:color="#FFF5F4B4" android:offset="0.02"/>
                     <item android:color="#FFF4F4B6" android:offset="0.04"/>
                     <item android:color="#FFEDF2C4" android:offset="0.3"/>
