@@ -3,23 +3,29 @@ package com.mashup.friendlycoding
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
+import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
+import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import java.util.*
 
 @BindingAdapter ("android:src")
@@ -27,12 +33,11 @@ fun ImageView.imgload (resId : Int) {
     this.setImageResource(resId)
 }
 
-// 위 아래로 움직이는 애니메이션
+// 위 아래로 움직이는 애니메이션 - 이는 attr/anim 으로 대체 가능 ?
 @BindingAdapter("android:animation")
 fun ImageView.moveObjects(maxHeight : Int) {
     val timer = Timer()
     val handler = Handler()
-    val originalX = this.x
     val originalY = this.y
     val view = this
     var direction = true
@@ -76,6 +81,16 @@ fun RecyclerView.bindHRC (adapter : RecyclerView.Adapter<InputCodeBlockAdapter.H
     this.adapter = adapter
 }
 
+// 스테이지 어댑터
+@BindingAdapter("android:setSAdapter", "android:act")
+fun RecyclerView.bindSRC (adapter: RecyclerView.Adapter<SelectActAdapter.Holder>, act : Int) {
+    Log.e("act num", "$act")
+    this.setHasFixedSize(true)
+    this.layoutManager = LinearLayoutManager(this.context)
+    this.adapter = adapter
+    this.scrollToPosition(if (act == 5) 0 else 4 - act)
+}
+
 // 코드블록 삭제하는 롱클릭
 @BindingAdapter("android:VM", "android:position")
 fun View.bindClicker (mCodeBlockViewModel: CodeBlockViewModel, position : Int) {
@@ -102,8 +117,10 @@ fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : I
             } catch (e: Exception) {
             }
         }
+        override fun afterTextChanged(arg0: Editable) {
+            hint = arg0.toString()
 
-        override fun afterTextChanged(arg0: Editable) {}
+        }
         override fun beforeTextChanged(
             s: CharSequence,
             start: Int,
@@ -172,6 +189,34 @@ fun TextView.bindColor(codeBlock : CodeBlock) {
     }
 }
 
+@BindingAdapter("android:cloud")
+fun ImageView.animateCloud(up : Float) {
+    val ani = TranslateAnimation(0F, 0F, 0F, up)
+    ani.duration = 2000
+    ani.fillAfter = true
+    ani.startOffset = 2000
+    this.startAnimation(ani)
+}
+
+
+
+// 아이템 위치 옮기는 거 죄다 바인딩
+@BindingAdapter("android:mapVM", "android:item_position")
+fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
+    if (vm.mDrawables.item.size <= pos) {
+        this.isVisible = false
+        return
+    }
+    else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.setImageResource(vm.mDrawables.item[pos].resourceId)
+        }
+        this.isVisible = true
+        this.x = vm.mDrawables.item[pos].Y.toFloat() * vm.oneBlock.value!!
+        this.y = vm.mDrawables.item[pos].X.toFloat() * vm.oneBlock.value!!
+    }
+}
+
 fun ignoreBlanks(code: String): String {
     var i = 0
     var start = 0
@@ -179,6 +224,5 @@ fun ignoreBlanks(code: String): String {
         start++
         i++
     }
-
     return code.substring(start)
 }

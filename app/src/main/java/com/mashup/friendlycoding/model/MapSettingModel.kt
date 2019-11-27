@@ -173,7 +173,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 return Stage(
                     setMapRandimItem(mapList, mDrawables),
                     Princess(),
-                    Monster(1, 100, 0, 0),
+                    Monster(1, 10, 0, 0),
                     defaultCodeBlock,
                     defaultBattleCodeBlock,
                     conditionSelector(stageNum),

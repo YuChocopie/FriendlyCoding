@@ -4,29 +4,31 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.databinding.ActivityPlayBinding
+import com.mashup.friendlycoding.databinding.ActivitySelectStageBinding
+import com.mashup.friendlycoding.viewmodel.SelectStageViewModel
 import kotlinx.android.synthetic.main.activity_select_stage.*
 
 class SelectStageActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_stage)
-
         val actNum = intent.getIntExtra("actNum", 1)
+        val binding = DataBindingUtil.setContentView<ActivitySelectStageBinding>(this, R.layout.activity_select_stage)
+        binding.act = actNum
+        binding.lifecycleOwner = this
+        val mSelectStageViewModel = SelectStageViewModel()
+        mSelectStageViewModel.init()
+        binding.selectStageVM = mSelectStageViewModel
 
-        act_title.text = "액트 " + (actNum/10).toString()
-
-        val intent = Intent(this, PlayActivity::class.java)
-        val listener = View.OnClickListener{
-            when (it.id) {
-                R.id.stage1 -> intent.putExtra("stageNum", actNum+1)
-                R.id.stage2 -> intent.putExtra("stageNum", actNum+2)
-                R.id.stage3 -> intent.putExtra("stageNum", actNum+3)
+        mSelectStageViewModel.stageToStart.observe(this, Observer {
+            if (it != -1) {
+                val intent = Intent(this, PlayActivity::class.java)
+                intent.putExtra("stageNum", actNum+it)
+                startActivity(intent)
             }
-            startActivity(intent)
-        }
-        stage1.setOnClickListener(listener)
-        stage2.setOnClickListener(listener)
-        stage3.setOnClickListener(listener)
+        })
     }
 }

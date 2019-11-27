@@ -2,6 +2,7 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
@@ -14,6 +15,7 @@ class CodeBlockViewModel : ViewModel() {
     var mRun = RunModel()
     lateinit var adapter : CodeBlockAdapter
     lateinit var inputAdapter : InputCodeBlockAdapter
+    var isRunning = MutableLiveData<Boolean>()
 
     fun setSettingModel(drawable : MapDrawable) {
         mDrawables = drawable
@@ -24,6 +26,7 @@ class CodeBlockViewModel : ViewModel() {
         this.adapter.notifyDataSetChanged()
         this.inputAdapter = InputCodeBlockAdapter(R.layout.item_input_code, this)
         this.inputAdapter.notifyDataSetChanged()
+        isRunning.value = false
     }
 
     fun setOfferedBlock (offeredBlock: ArrayList<CodeBlock>) {
@@ -43,12 +46,17 @@ class CodeBlockViewModel : ViewModel() {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
+        if (this.isRunning.value!!)
+            return
+
         Log.e("${codeBlock.funcName} ", "ddddddd")
         mRun.addNewBlock(codeBlock)
         this.adapter.notifyDataSetChanged()
     }
 
     fun deleteBlock(position : Int) {
+        if (this.isRunning.value!!)
+            return
         mRun.deleteBlock(position)
         this.adapter.notifyItemRemoved(position)
         this.adapter.notifyItemRangeChanged(position, mRun.mCodeBlock.value!!.size)
@@ -90,25 +98,32 @@ class CodeBlockViewModel : ViewModel() {
     fun getEndText(position : Int) : String {
         val type = mRun.mCodeBlock.value!![position].type
 
-        if (type == 2 || type == 4)
-            return "{"
+        return if (type == 2 || type == 4)
+            "{"
         else if (type == 1)
-            return ") {"
+            ") {"
         else {
-            return ""
+            ""
         }
     }
 
     fun visibleControl (position : Int) : Int {
         val type = mRun.mCodeBlock.value!![position].type
 
-        if (type == 1) {
-            return View.VISIBLE
+        return if (type == 1) {
+            View.VISIBLE
         } else
-            return View.GONE
+            View.GONE
     }
 
     fun insertBlock(position: Int) {
-        mRun.insertBlockPosition = position
+        if (this.isRunning.value!!)
+            return
+
+        val type = mRun.mCodeBlock.value!![position].type
+        if (type == 2 || type == 4)
+            mRun.insertBlockPosition = position
+        else
+            -1
     }
 }

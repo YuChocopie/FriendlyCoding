@@ -15,7 +15,6 @@ class PrincessViewModel : ViewModel() {
     var itemCount = MutableLiveData<String>()
     var isItem = MutableLiveData<String>()
     var mDrawables = MapDrawable()
-    lateinit var playActivity: PlayActivity
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
@@ -31,10 +30,9 @@ class PrincessViewModel : ViewModel() {
             selectImage()
     }
 
-    fun setPrincessImage(drawable: MapDrawable, playActivity: PlayActivity) {
-        this.playActivity = playActivity
-        this.princessImg = playActivity.ivPrincess
-        this.win = playActivity.tvWin
+    fun setPrincessImage(drawable: MapDrawable, ivPrincess: ImageView, tvWin : TextView) {
+        this.princessImg = ivPrincess
+        this.win = tvWin
         mDrawables = drawable
         itemCount.value = "0"
         isItem.value = "false"

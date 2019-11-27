@@ -3,7 +3,6 @@
 
     <data>
         <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
-        <import type="com.mashup.friendlycoding.adapter.CodeBlockAdapter"/>
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel"/>
@@ -20,6 +19,7 @@
         android:onClick="@{()->codeBlockVM.insertBlock(position)}"
         android:VM = "@{codeBlockVM}"
         android:position = "@{position}"
+        android:clickable="@{codeBlockVM.isRunning}"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
