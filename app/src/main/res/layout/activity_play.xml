@@ -179,6 +179,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/ivAxe"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@{mapSettingVM.mDrawables.axeImg}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tvWin"
