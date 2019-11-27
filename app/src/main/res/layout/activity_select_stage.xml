@@ -1,117 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_stage_map_01"
-    android:gravity="center_horizontal"
+    tools:context=".activity.SelectStageActivity"
     android:orientation="vertical"
-    tools:context=".activity.SelectStageActivity">
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_stage_map_01">
 
-
-    <ImageView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="130dp"
-        android:layout_margin="80dp"
-        android:src="@drawable/act"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvActTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="액트 1"
-        android:textColor="@color/White"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/title"
-        app:layout_constraintEnd_toEndOf="@id/title"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toTopOf="@id/title" />
-
-    <ImageButton
-        android:id="@+id/ivActStage1"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
         android:layout_height="100dp"
-        android:background="@color/Invisible"
-        android:scaleType="fitXY"
-        android:src="@drawable/stage_title"
-        android:textSize="20sp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintBottom_toTopOf="@id/ivActStage2"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp">
 
-    <TextView
-        android:id="@+id/tvActStage1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="스테이지 1"
-        android:textColor="@color/Black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivActStage1"
-        app:layout_constraintEnd_toEndOf="@+id/ivActStage1"
-        app:layout_constraintStart_toStartOf="@+id/ivActStage1"
-        app:layout_constraintTop_toTopOf="@+id/ivActStage1" />
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/act"/>
 
-    <ImageButton
-        android:id="@+id/ivActStage2"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/act_title"
+            android:text="액트 1"
+            android:textSize="30sp"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
         android:layout_height="100dp"
-        android:background="@color/Invisible"
-        android:scaleType="fitXY"
-        android:src="@drawable/stage_title"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/ivActStage3"
-        app:layout_constraintTop_toBottomOf="@id/ivActStage1"
-        app:layout_constraintEnd_toEndOf="@id/ivActStage1"
-        app:layout_constraintStart_toStartOf="@id/ivActStage1" />
+        android:layout_margin="10dp">
+        <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/stage1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="@color/Invisible"
+            android:src="@drawable/stage_title"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/stage1"
+            app:layout_constraintEnd_toEndOf="@+id/stage1"
+            app:layout_constraintStart_toStartOf="@+id/stage1"
+            app:layout_constraintBottom_toBottomOf="@id/stage1"
+            android:text="스테이지 1"
+            android:textColor="@color/Black"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvActStage2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="스테이지 2"
-        android:textColor="@color/Black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivActStage2"
-        app:layout_constraintEnd_toEndOf="@+id/ivActStage2"
-        app:layout_constraintStart_toStartOf="@+id/ivActStage2"
-        app:layout_constraintTop_toTopOf="@+id/ivActStage2" />
-
-    <ImageButton
-        android:id="@+id/ivActStage3"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
         android:layout_height="100dp"
-        android:background="@color/Invisible"
-        android:scaleType="fitXY"
-        android:src="@drawable/stage_title"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivActStage2"
-        app:layout_constraintEnd_toEndOf="@id/ivActStage1"
-        app:layout_constraintStart_toStartOf="@id/ivActStage1" />
+        android:layout_margin="10dp">
+        <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/stage2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="@color/Invisible"
+            android:src="@drawable/stage_title"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/stage2"
+            app:layout_constraintEnd_toEndOf="@+id/stage2"
+            app:layout_constraintStart_toStartOf="@+id/stage2"
+            app:layout_constraintBottom_toBottomOf="@id/stage2"
+            android:text="스테이지 2"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/Black"
+            android:textSize="20sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvActStage3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="스테이지 3"
-        android:textColor="@color/Black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivActStage3"
-        app:layout_constraintEnd_toEndOf="@+id/ivActStage3"
-        app:layout_constraintStart_toStartOf="@+id/ivActStage3"
-        app:layout_constraintTop_toTopOf="@+id/ivActStage3" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp">
+        <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/stage3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="@color/Invisible"
+            android:src="@drawable/stage_title"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/stage3"
+            app:layout_constraintEnd_toEndOf="@+id/stage3"
+            app:layout_constraintStart_toStartOf="@+id/stage3"
+            app:layout_constraintBottom_toBottomOf="@id/stage3"
+            android:text="스테이지 3"
+            android:textColor="@color/Black"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+</LinearLayout>

@@ -12,80 +12,39 @@ import com.mashup.friendlycoding.model.Stage
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PrincessViewModel : ViewModel() {
-    val mMapSettingModel = MapSettingModel()
+    var itemCount = MutableLiveData<String>()
+    var isItem = MutableLiveData<String>()
     var mDrawables = MapDrawable()
-    var metBoss = MutableLiveData<Boolean>()
-    lateinit var playActivity: PlayActivity
     private var princessImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
     private val n = 10
     var width = 0
 
+    var direction = 1
 
-    private var direction = 0
-
-    fun move(i: Int) {
-        when (i) {
-            -1 -> clear()
-            0 -> {
-                go(0)
-                direction = 0
-            }// up
-            1 -> {
-                go(1)
-                direction = 1
-            }  // right
-            2 -> {
-                go(2)
-                direction = 2
-            }  // down
-            3 -> {
-                go(3)
-                direction = 3
-            }  // left
-            4 -> {
-                rotationLeft()
-            }
-            5 -> {
-                rotationRight()
-            }
-        }
-        selectImage()
-
+    fun move(i : Boolean) {
+        if (i)
+            go(direction)
+        else
+            selectImage()
     }
 
-    fun setPrincessImage(stageInfo: Stage, playActivity: PlayActivity) {
-        this.playActivity = playActivity
-        this.princessImg = playActivity.ivPrincess
-        this.win = playActivity.tvWin
-        mDrawables = stageInfo.map.drawables!!
-        metBoss.value = false
+    fun setPrincessImage(drawable: MapDrawable, ivPrincess: ImageView, tvWin : TextView) {
+        this.princessImg = ivPrincess
+        this.win = tvWin
+        mDrawables = drawable
+        itemCount.value = "0"
+        isItem.value = "false"
     }
 
     fun setViewSize(width: Int) {
         this.width = width
         oneBlock = (width / n + width % n).toFloat()
-        //this.princessImg?.height ?: oneBlock.toInt()
         clear()
     }
 
-    private fun rotationLeft() {
-        direction -= 1
-        if (direction < 0)
-            direction += 4
-
-    }
-
-    private fun rotationRight() {
-        if (direction == 3)
-            direction = 0
-        else direction++
-
-        //selectDirection()
-    }
-
-    private fun selectImage() {
+    fun selectImage() {
         when (direction) {
             0 -> {
                 princessImg!!.setImageResource(R.drawable.princess_up)
@@ -101,7 +60,6 @@ class PrincessViewModel : ViewModel() {
             }
         }
     }
-
 
     private fun go(direction: Int) {
         val one = oneBlock
@@ -124,16 +82,13 @@ class PrincessViewModel : ViewModel() {
             3 -> {
                 princessImg!!.x = (princessImg!!.x - one)
             }
-
         }
     }
+
     fun clear() {
         princessImg!!.x = oneBlock * mDrawables.princessX - oneBlock * 0.05f
         princessImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
         princessImg!!.setImageResource(R.drawable.princess_right)
         direction = 1
-        //princessImg=tempPrincessImg
     }
-
-
 }

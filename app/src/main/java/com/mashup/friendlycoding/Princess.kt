@@ -7,26 +7,28 @@ class Princess {
     var isBook = false
     var isMushroom = false
     var isBranch = false
+    var pickAxeCnt = 0
     var mushroomCnt = 0
     var branchCnt = 0
     var bookCnt = 0
 
-    fun pickAxe() {
+    fun pickAxe() : Int {
         this.isPickAxe = true
+        return ++this.pickAxeCnt
     }
 
-    fun pickBook() {
-        ++this.bookCnt
+    fun pickBook() : Int{
         this.isBook = true
+        return ++this.bookCnt
     }
 
-    fun eatMushroom() {
-        ++this.mushroomCnt
+    fun eatMushroom() : Int{
         this.isMushroom = true
+        return ++this.mushroomCnt
     }
 
-    fun pickBranch() {
-        ++this.branchCnt
+    fun pickBranch() : Int{
         this.isBranch = true
+        return ++this.branchCnt
     }
 }

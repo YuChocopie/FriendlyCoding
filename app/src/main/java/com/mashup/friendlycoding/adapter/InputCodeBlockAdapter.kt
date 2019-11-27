@@ -3,49 +3,52 @@ package com.mashup.friendlycoding.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.mashup.friendlycoding.BR
 import com.mashup.friendlycoding.R
+import com.mashup.friendlycoding.databinding.ItemCodeBlockBinding
+import com.mashup.friendlycoding.databinding.ItemInputCodeBinding
 import com.mashup.friendlycoding.model.CodeBlock
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
-import kotlinx.android.synthetic.main.item_input_code_list.view.*
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
+import kotlinx.android.synthetic.main.item_input_code.view.*
 
-class InputCodeBlockAdapter(
-    private val mCodeBlockViewModel: CodeBlockViewModel,
-    var inputCodeBlock: ArrayList<CodeBlock>
-) : RecyclerView.Adapter<InputCodeBlockAdapter.ViewHolder>() {
-    var clickable = true
+class InputCodeBlockAdapter(@LayoutRes val layoutID: Int, val mCodeBlockViewModel: CodeBlockViewModel) :
+    RecyclerView.Adapter<InputCodeBlockAdapter.Holder>() {
+    lateinit var offeredBlock: ArrayList<CodeBlock>
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            ViewHolder {
-        //보여줄 아이템 개수만큼 View를 생성
-        val inflatedView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_input_code_list, parent, false)
-        return ViewHolder(inflatedView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding =
+            DataBindingUtil.inflate<ItemInputCodeBinding>(layoutInflater, viewType, parent, false)
+        return Holder(binding)
     }
 
-    override fun getItemCount() = inputCodeBlock.size
+    override fun getItemCount(): Int = this.offeredBlock.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = inputCodeBlock[position]
-        val listener = View.OnClickListener {
-            if (clickable) {
-                mCodeBlockViewModel.addNewBlock(item)
-            }
-        }
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bind(position)
+    }
 
-        holder.apply {
-            bind(listener, item)
-            itemView.tag = item
+    override fun getItemViewType(position: Int): Int = getLayoutIdForPosition()
+
+    private fun getLayoutIdForPosition(): Int = layoutID
+
+    fun setAddingBlock(addingBlock: ArrayList<CodeBlock>) {
+        this.offeredBlock = addingBlock
+    }
+
+    inner class Holder(val binding: ItemInputCodeBinding) :
+        RecyclerView.ViewHolder(binding.itemView) {
+        fun bind(position: Int) {
+            binding.codeBlockVM = mCodeBlockViewModel
+            binding.position = position
+            binding.adapter = this@InputCodeBlockAdapter
+            binding.executePendingBindings()
         }
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        //ViewHolder 단위 객체로 View의 데이터를 설정
-        private var view: View = v
-
-        fun bind(listener: View.OnClickListener, item: CodeBlock) {
-            view.input_code_name.text = item.funcName
-            view.setOnClickListener(listener)
-        }
-    }
+    fun getCodeBlock(position: Int): CodeBlock = this.offeredBlock[position]
 }

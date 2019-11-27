@@ -1,11 +1,32 @@
 package com.mashup.friendlycoding.model
 
+import com.mashup.friendlycoding.Princess
 import java.util.*
 
 open class MapSettingBaseModel {
     var random = Random()
-    fun rand(from: Int, to: Int) : Int {
+
+    var startX = 0
+    var startY = 9
+
+    fun rand(from: Int, to: Int): Int {
         return random.nextInt(to - from) + from
+    }
+
+    fun conditionSelector(stageNum: Int): (Princess) -> Boolean {
+        when (stageNum) {
+            21 -> return (fun(mPrincess: Princess): Boolean {
+                return mPrincess.isBook
+            })
+
+            22 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.mushroomCnt == 2)
+            })
+
+            else -> return (fun(_: Princess): Boolean {
+                return true
+            })
+        }
     }
 
     // Act 마다 반복되는 거 있으면 알아서 빼주세용
@@ -19,14 +40,15 @@ open class MapSettingBaseModel {
         CodeBlock("turnLeft();"),
         CodeBlock("turnRight();"),
         CodeBlock("for(", type = 1),
-        CodeBlock("if()", type = 2, argument =  -1),
-        CodeBlock("while()", type = 4, argument =  -1),
+        CodeBlock("if()", type = 2, argument = -1),
+        CodeBlock("while()", type = 4, argument = -1),
         CodeBlock("}")
     )
 
     var stageCodeBlock0 = arrayListOf(
         CodeBlock("pickAxe();"),
-        CodeBlock("isPickAxe()", type = 3, argument = 3))
+        CodeBlock("isPickAxe()", type = 3, argument = 3)
+    )
 
     var stageCodeBlock2_1 = arrayListOf(
         CodeBlock("isBook()", type = 3, argument = 5),
@@ -34,7 +56,8 @@ open class MapSettingBaseModel {
     )
     var stageCodeBlock2_2 = arrayListOf(
         CodeBlock("isMushroom()", type = 3, argument = 4),
-        CodeBlock("eatMushroom();")
+        CodeBlock("eatMushroom();"),
+        CodeBlock("fightBoss();")
     )
     var stageCodeBlock2_3 = arrayListOf(
         CodeBlock("isBranch()", type = 3, argument = 6),
@@ -46,9 +69,9 @@ open class MapSettingBaseModel {
      * **/
 
     var defaultBattleCodeBlock = arrayListOf(
-        CodeBlock("if()", type = 2, argument =  -1),
-        CodeBlock("while()", type = 4, argument =  -1),
-        CodeBlock("for(", type = 1, argument =  -1),
+        CodeBlock("if()", type = 2, argument = -1),
+        CodeBlock("while()", type = 4, argument = -1),
+        CodeBlock("for(", type = 1, argument = -1),
         CodeBlock("}"),
         CodeBlock("attack();"),
         CodeBlock("isAlive()", type = 3, argument = 7)
@@ -58,7 +81,8 @@ open class MapSettingBaseModel {
         CodeBlock("detectedFire()", type = 3, argument = 0),
         CodeBlock("detectedWater()", type = 3, argument = 1),
         CodeBlock("iceShield();"),
-        CodeBlock("fireShield();"))
+        CodeBlock("fireShield();")
+    )
 
     val mapListActNull = arrayOf(
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -71,7 +95,8 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        )
+    )
+
     var mapListAct0 = arrayOf(
         arrayOf(0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
         arrayOf(1, 1, 0, 0, 1, 0, 1, 1, 1, 1),
@@ -96,6 +121,7 @@ open class MapSettingBaseModel {
         arrayOf(0, 1, 1, 1, 1, 1, 0, 1, 1, 1),
         arrayOf(0, 0, 0, 0, 2, 1, 0, 0, 0, 2)  // 4는 버섯
     )
+
     var mapListAct2 = arrayOf(
         arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
         arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
@@ -106,6 +132,6 @@ open class MapSettingBaseModel {
         arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
         arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 2)  // 5는 책
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     )
 }

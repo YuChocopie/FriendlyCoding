@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="stageVM"
-            type="com.mashup.friendlycoding.viewmodel.StageViewModel" />
+            type="com.mashup.friendlycoding.viewmodel.SelectActViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,9 +15,11 @@
         tools:context=".activity.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewStage"
+            android:id="@+id/stageRC"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:setSAdapter="@{stageVM.getSelectActAdapter()}"
+            android:act = "@{stageVM.check}"
             android:clipToPadding="false"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -29,6 +30,8 @@
             android:layout_width="1000dp"
             android:layout_height="500dp"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * stageVM.check)}"
+            android:visibility="@{stageVM.cloudVisibility(1)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +41,8 @@
             android:layout_width="1000dp"
             android:layout_height="500dp"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * (stageVM.check + 1))}"
+            android:visibility="@{stageVM.cloudVisibility(2)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +53,8 @@
             android:layout_width="1000dp"
             android:layout_height="wrap_content"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * (stageVM.check + 2))}"
+            android:visibility="@{stageVM.cloudVisibility(3)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +65,8 @@
             android:layout_width="1000dp"
             android:layout_height="500dp"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * stageVM.check)}"
+            android:visibility="@{stageVM.cloudVisibility(1)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +78,13 @@
             android:layout_width="1000dp"
             android:layout_height="500dp"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * (stageVM.check + 1))}"
+            android:visibility="@{stageVM.cloudVisibility(2)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="500dp"
-            android:layout_marginLeft="1000dp"
+            android:layout_marginStart="1000dp"
             />
 
         <ImageView
@@ -81,18 +92,13 @@
             android:layout_width="1000dp"
             android:layout_height="wrap_content"
             android:src="@drawable/cloud"
+            android:cloud="@{(-500F * (stageVM.check + 2))}"
+            android:visibility="@{stageVM.cloudVisibility(3)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="500dp"
-            android:layout_marginLeft="1000dp"
+            android:layout_marginStart="1000dp"
             />
-<!--        <EditText-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="ddd"-->
-<!--            android:id="@+id/et_test"-->
-<!--            ></EditText>-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

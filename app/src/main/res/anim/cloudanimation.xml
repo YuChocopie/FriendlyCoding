@@ -1,12 +1,10 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillAfter="true"
     >
-
     <translate
         android:repeatCount="infinite"
         android:duration="50000"
         android:fromXDelta="0%p"
         android:toXDelta="-150%p" />
-
 </set>
 
