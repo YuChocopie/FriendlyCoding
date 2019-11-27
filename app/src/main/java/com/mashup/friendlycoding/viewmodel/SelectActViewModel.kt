@@ -25,12 +25,6 @@ class SelectActViewModel(application: Application) : AndroidViewModel(applicatio
     )
 
     fun init() {
-        if (this.check >= 3) {
-            list.add(0, StageItem(R.drawable.bg_stage_map_01, R.drawable.bg_stage_select_01)) // 액트 4의 배경과 버튼
-        }
-        if (this.check >= 4) {
-            list.add(0, StageItem(R.drawable.bg_stage_map_02, R.drawable.bg_stage_select_02)) // 액트 5의 배경과 버튼
-        }
         this.adapter = SelectActAdapter(R.layout.item_stage, this)
         actToStart.value = -1
     }
@@ -56,7 +50,7 @@ class SelectActViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun setLR (act : Int) : ImageView.ScaleType {
-        if (this.check >= 4 && act == 0) return ImageView.ScaleType.CENTER
+        if (act == 0) return ImageView.ScaleType.FIT_CENTER
         return if (act == this.list.size - 1 || act == this.list.size - 3) ImageView.ScaleType.FIT_START else ImageView.ScaleType.FIT_END
     }
 }
