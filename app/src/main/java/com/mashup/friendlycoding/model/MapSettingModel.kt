@@ -37,7 +37,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mDrawables =
                     MapDrawable(backgroundImg = R.drawable.bg_stage00, princessX = 0, princessY = 9)
                 mDrawables.monsterImg = R.drawable.monster
-                mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
+                mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
                 // 기본 제공되는 블록
                 stageCodeBlock0.addAll(defaultCodeBlock)
                 battleCodeBlock1.addAll(defaultBattleCodeBlock)
@@ -58,7 +58,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 // 드로어블
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
                 mDrawables.monsterImg = R.drawable.monster1
-                mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
+                mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
                 mDrawables.item = arrayListOf(
                     MapItem(R.drawable.ic_sunny, 34)
                 )
@@ -68,8 +68,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
-                            MapItem(R.drawable.circle, 2)
+                            MapItem(R.drawable.ic_circle, 2),
+                            MapItem(R.drawable.ic_circle, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -81,8 +81,8 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
-                            MapItem(R.drawable.circle, 2)
+                            MapItem(R.drawable.ic_circle, 2),
+                            MapItem(R.drawable.ic_circle, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -98,7 +98,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     3 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.ic_sunny, 2)
                         )
                         mDrawables.princessX = 0
@@ -120,7 +120,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     defaultCodeBlock_tutorial,
                     battleCodeBlock1,
                     conditionSelector(stageNum),
-                    princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
+                    princessAction = arrayListOf(R.drawable.attack_fire_shield, R.drawable.attack_ice_shield)
                 )
             }
 
@@ -133,7 +133,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     1 -> {
                         mapList = mapListAct2
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.ic_book, 5)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock2_1)
@@ -144,11 +144,11 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mapList = mapListAct2
-                        princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
+                        princessAction = arrayListOf(R.drawable.attack_fire_shield, R.drawable.attack_ice_shield)
                         mDrawables.monsterImg = R.drawable.monster1
-                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.monster1, 7),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom, 4),
@@ -161,7 +161,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct2
 
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.ic_branch, 6),
                             MapItem(R.drawable.ic_branch, 6)
                         )
@@ -191,7 +191,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct31//테스트
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_mushroom, ROCK),
-                            MapItem(R.drawable.pick_axe,PICKAXE)
+                            MapItem(R.drawable.ic_pick_axe,PICKAXE)
                         )
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
                         mDrawables.item[0].X = 9
@@ -201,11 +201,11 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mapList = mapListAct2
-                        princessAction = arrayListOf(R.drawable.fire_shield, R.drawable.ice_shield)
+                        princessAction = arrayListOf(R.drawable.attack_fire_shield, R.drawable.attack_ice_shield)
                         mDrawables.monsterImg = R.drawable.monster1
-                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.monster1, 7),
                             MapItem(R.drawable.ic_mushroom, 4),
                             MapItem(R.drawable.ic_mushroom, 4),
@@ -218,7 +218,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct2
 
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.circle, 2),
+                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.ic_branch, 6),
                             MapItem(R.drawable.ic_branch, 6)
                         )
@@ -258,18 +258,18 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
                 val mapList: Array<Array<Int>> = mapListActNull
                 val princessAction = arrayListOf(
-                    R.drawable.fire_shield,
-                    R.drawable.ice_shield
+                    R.drawable.attack_fire_shield,
+                    R.drawable.attack_ice_shield
                 )
 
                 val bossAction : ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
                     R.drawable.attack_ice,
                     0,
-                    R.drawable.fistmoved,
+                    R.drawable.monster2_fistmoved,
                     R.drawable.monster2,
-                    R.drawable.punch,
-                    R.drawable.blackhole,
+                    R.drawable.monster2_punch,
+                    R.drawable.ic_blackhole,
                     R.drawable.monster3_attack
                     )
 
@@ -277,7 +277,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 when (stageNum % 10) {
                     1 -> {
                         mDrawables.monsterImg = R.drawable.monster2
-                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
                         mDrawables.item = arrayListOf(MapItem(R.drawable.monster2, 7))
                         defaultBattleCodeBlock.addAll(battleCodeBlock2)
                         type = 2
@@ -285,7 +285,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mDrawables.monsterImg = R.drawable.monster3
-                        mDrawables.bossBattleBackgroundImg = R.drawable.demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle // TODO : 배경 변경 유정이 화이팅!!^^
                         mDrawables.item = arrayListOf(MapItem(R.drawable.monster3, 7))
                         defaultBattleCodeBlock.addAll(battleCodeBlock3)
                         type = 3

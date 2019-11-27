@@ -283,7 +283,7 @@
                     android:layout_height="100dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="30dp"
-                    android:src="@drawable/ice_shield"
+                    android:src="@drawable/attack_ice_shield"
                     android:visibility="gone"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"

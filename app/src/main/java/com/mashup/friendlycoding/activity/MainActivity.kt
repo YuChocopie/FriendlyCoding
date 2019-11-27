@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     lateinit var mSelectActViewModel : SelectActViewModel
-    var check = 1
+    var check = 5
     var key = "key"
     lateinit var binding : ActivityMainBinding
 

@@ -106,7 +106,7 @@ class PrincessViewModel : ViewModel() {
 
         axeImg!!.x = oneBlock * mDrawables.princessX - oneBlock * 0.05f
         axeImg!!.y = oneBlock * mDrawables.princessY + oneBlock * 0.1f
-        axeImg!!.setImageResource(R.drawable.pick_axe)
+        axeImg!!.setImageResource(R.drawable.ic_pick_axe)
         axeImg!!.isVisible = false
         direction = 1
 
