@@ -1,128 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.SelectStageActivity"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="@drawable/bg_stage_map_01">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.mashup.friendlycoding.viewmodel.SelectStageViewModel" />
+
+        <variable
+            name="selectStageVM"
+            type="SelectStageViewModel" />
+
+        <variable
+            name="act"
+            type="Integer" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="80dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_stage_map_01">
+
 
         <ImageView
+            android:id="@+id/act1"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="80dp"
             android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/act"/>
+            android:src="@drawable/act"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/act_title"
-            android:text="액트 1"
-            android:textSize="30sp"
-            android:textColor="@color/White"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            android:text='@{selectStageVM.getActTitle(act)}'
+            android:textColor="@color/White"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/act1"
+            app:layout_constraintEnd_toEndOf="@id/act1"
+            app:layout_constraintStart_toStartOf="@id/act1"
+            app:layout_constraintTop_toTopOf="@id/act1"
+            tools:text="acrrr" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
         <ImageButton
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/stage1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
             android:background="@color/Invisible"
+            android:onClick="@{() -> selectStageVM.goToStage(1)}"
+            android:scaleType="fitXY"
             android:src="@drawable/stage_title"
             android:textSize="20sp"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/act1"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/act1"
+            app:layout_constraintTop_toBottomOf="@+id/act_title"
+            app:layout_constraintVertical_bias="0.139" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/stage1"
-            app:layout_constraintEnd_toEndOf="@+id/stage1"
-            app:layout_constraintStart_toStartOf="@+id/stage1"
-            app:layout_constraintBottom_toBottomOf="@id/stage1"
+            android:layout_marginBottom="10dp"
             android:text="스테이지 1"
             android:textColor="@color/Black"
-            android:layout_marginBottom="10dp"
             android:textSize="20sp"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintBottom_toBottomOf="@id/stage1"
+            app:layout_constraintEnd_toEndOf="@+id/stage1"
+            app:layout_constraintStart_toStartOf="@+id/stage1"
+            app:layout_constraintTop_toTopOf="@+id/stage1" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
         <ImageButton
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/stage2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:background="@color/Invisible"
+            android:onClick="@{() -> selectStageVM.goToStage(2)}"
+            android:scaleType="fitXY"
             android:src="@drawable/stage_title"
             android:textSize="20sp"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/stage1"
+            app:layout_constraintHorizontal_bias="0.412"
+            app:layout_constraintStart_toStartOf="@+id/stage1"
+            app:layout_constraintTop_toBottomOf="@+id/stage1" />
+
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/stage2"
+            android:layout_marginBottom="10dp"
+            android:text="스테이지 2"
+            android:textColor="@color/Black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/stage2"
             app:layout_constraintEnd_toEndOf="@+id/stage2"
             app:layout_constraintStart_toStartOf="@+id/stage2"
-            app:layout_constraintBottom_toBottomOf="@id/stage2"
-            android:text="스테이지 2"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/Black"
-            android:textSize="20sp"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@+id/stage2" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
+
         <ImageButton
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/stage3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:background="@color/Invisible"
+            android:onClick="@{() -> selectStageVM.goToStage(3)}"
+            android:scaleType="fitXY"
             android:src="@drawable/stage_title"
             android:textSize="20sp"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/stage2"
+            app:layout_constraintStart_toStartOf="@+id/stage2"
+            app:layout_constraintTop_toBottomOf="@+id/stage2" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/stage3"
-            app:layout_constraintEnd_toEndOf="@+id/stage3"
-            app:layout_constraintStart_toStartOf="@+id/stage3"
-            app:layout_constraintBottom_toBottomOf="@id/stage3"
+            android:layout_marginBottom="10dp"
             android:text="스테이지 3"
             android:textColor="@color/Black"
-            android:layout_marginBottom="10dp"
             android:textSize="20sp"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/stage3"
+            app:layout_constraintEnd_toEndOf="@+id/stage3"
+            app:layout_constraintStart_toStartOf="@+id/stage3"
+            app:layout_constraintTop_toTopOf="@+id/stage3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
+</layout>

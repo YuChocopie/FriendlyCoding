@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_play.*
 class BattleViewModel(private val hpBar : View, var princessImg : View, var monsterImg : View, var princessAttackImg : View) : ViewModel() {
     var mRun = RunModel()
     var princessAction : ArrayList<Int>? = null
+    var bossAction : ArrayList<Int>? = null
     private lateinit var param : ConstraintLayout.LayoutParams
     lateinit var playActivity : PlayActivity
 
@@ -39,18 +40,18 @@ class BattleViewModel(private val hpBar : View, var princessImg : View, var mons
     }
 
     fun bossAttackOn (type : Int) {
-        when (type) {
-            0 -> {
-                playActivity.attack_fire.isVisible = true
+        if (type == 2) {
+            return
+        }
+
+        if (type == -1) {
+            playActivity.boss_attack.isVisible = false
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                playActivity.boss_attack.setImageDrawable(playActivity.getDrawable(bossAction!![type]))
             }
-            1 -> {
-                playActivity.attack_ice.isVisible = true
-            }
-            -1 -> {
-                Log.e("몬스터", "공격 끌게요!")
-                playActivity.attack_fire.isVisible = false
-                playActivity.attack_ice.isVisible = false
-            }
+            playActivity.boss_attack.isVisible = true
         }
     }
 }
