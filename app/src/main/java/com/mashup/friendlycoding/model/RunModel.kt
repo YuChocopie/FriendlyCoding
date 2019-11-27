@@ -9,20 +9,20 @@ class RunModel : RunBaseModel() {
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
-            if (mMap.mapList!![y][x] == 1) {
+            if (mMap.mapList!![y][x] == WALL) {
                 // 벽이라면 졌다는 시그널 전송
-                return 7
+                return PLAYER_LOST
             }
 
-            else if (mMap.mapList!![y][x]%10 == 2) {
+            else if (mMap.mapList!![y][x]%10 == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
-                return (if(mClearCondition!!(mPrincess)) 8 else 7)
+                return (if(mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
             }
         }
 
         else {
-            moveView.postValue(7)     // 인덱스를 넘어갈 시
-            return 7
+            moveView.postValue(PLAYER_LOST)     // 인덱스를 넘어갈 시
+            return PLAYER_LOST
         }
         return 0
     }
@@ -40,7 +40,7 @@ class RunModel : RunBaseModel() {
 
         Log.e("괄호", "isEmpty : ${bracketStack.empty()}")
         if (bracketStack.isNotEmpty() || closingBracket != openingBracket) {
-            moveView.postValue(-5)
+            moveView.postValue(COMPILE_ERROR)
             return
         }
 
@@ -60,7 +60,7 @@ class RunModel : RunBaseModel() {
         }
 
         if (compileError) {
-            moveView.postValue(-5)
+            moveView.postValue(COMPILE_ERROR)
         }
         else {
             mCodeBlockViewModel.isRunning.value = true
@@ -76,17 +76,16 @@ class RunModel : RunBaseModel() {
             return
         }
 
-        else if (result == -6 || result == 7) {
+        else if (result == LOST_BOSS_BATTLE || result == PLAYER_LOST) {
             mCodeBlockViewModel.clearBlock()
             mPrincessViewModel.clear()
         }
     }
 
-
     inner class RunThead : Thread() {
         override fun run() {
             try {
-                moveView.postValue(-2)
+                moveView.postValue(START_RUN)
                 sleep(speed)
 
                 while (IR < mCodeBlock.value!!.size) {
@@ -97,14 +96,14 @@ class RunModel : RunBaseModel() {
                         monsterAttack.postValue(mMonster?.attackType)
                         if (mMonster?.attackType != -1) {
                             when (mMonster?.attackType) {
-                                0 -> Log.e("몬스터의", "불 공격!!!")
-                                1 -> Log.e("몬스터의", "물 공격!!!")
+                                DETECTED_FIRE -> Log.e("몬스터의", "불 공격!!!")
+                                DETECTED_WATER -> Log.e("몬스터의", "물 공격!!!")
                             }
                             sleep(speed)
 
                             if (coc[mMonster?.attackType!!] == -1) {   // 피하는 루틴이 없음
-                                moveView.postValue(-6)   // 사망
-                                result = -6
+                                moveView.postValue(LOST_BOSS_BATTLE)   // 사망
+                                result = LOST_BOSS_BATTLE
                                 return
                             } else {
                                 IR = coc[mMonster?.attackType!!]  // 해당하는 것을 막으러 가자.
@@ -117,7 +116,7 @@ class RunModel : RunBaseModel() {
 
                     if (iterator > 30) {
                         // 이런 게임 깨는데 루프를 30번 넘게 돌진 않겠지?
-                        moveView.postValue(-4)
+                        moveView.postValue(INFINITE_LOOP)
                         return
                     }
 
@@ -136,13 +135,13 @@ class RunModel : RunBaseModel() {
                          * ****/
                         "move();" -> {
                             movePrincess()
-                            moveView.postValue(1)
+                            moveView.postValue(PRINCESS_MOVE)
                             Log.e("현 위치", "y : $y, x : $x, 발밑 : ${mMap.mapList!![y][x]}")
                             val signal = collisionCheck()
                             if (signal != 0) {
                                 sleep(speed)
                                 moveView.postValue(signal)
-                                if (signal == 8) {
+                                if (signal == PLAYER_WIN) {
                                     sleep(speed)
                                     moveView.postValue(9)
                                 }
@@ -153,12 +152,12 @@ class RunModel : RunBaseModel() {
 
                         "turnLeft();" -> {
                             rotate(false)
-                            moveView.postValue(2)
+                            moveView.postValue(PRINCESS_TURN)
                         }
 
                         "turnRight();" -> {
                             rotate(true)
-                            moveView.postValue(2)
+                            moveView.postValue(PRINCESS_TURN)
                         }
 
                         "for(" -> {
@@ -201,71 +200,24 @@ class RunModel : RunBaseModel() {
 
                         // 아이템 습득 부분
                         "pickAxe();" -> {
-                            if (mMap.mapList!![y][x] == 3) {
-                                mPrincess.pickAxe()
-                                mMap.itemPicked(y, x)
-                                moveView.postValue(6)
-                            } else {
-                                moveView.postValue(-3)
-                                return
-                            }
-                            sleep(speed)
+                            itemPick(PICKAXE, mPrincess::pickAxe)
                         }
 
                         "eatMushroom();" -> {
-                            Log.e("현재 좌표 = $y, $x" , "발밑 ${mMap.mapList!![y][x]}")
-                            if(mMap.mapList!![y][x]%10 == 4){
-                                mPrincess.eatMushroom()
-                                changingView = mMap.mapList!![y][x]/10
-                                //changingViewAll = mMap.mapList!![y][x]
-                                mMap.itemPicked(y, x)
-                                mPrincessViewModel.itemCount.postValue(mPrincess.mushroomCnt.toString())
-                                moveView.postValue(6)
-                            }else{
-                                moveView.postValue(7)
-                                return
-                            }
+                            itemPick(MUSHROOM, mPrincess::eatMushroom)
                         }
 
                         "pickBook();" -> {
-                            Log.e("책을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-                            if (mMap.mapList!![y][x]%10 == 5) {
-                                mPrincess.pickBook()
-                                changingView = mMap.mapList!![y][x]/10
-                                //changingViewAll = mMap.mapList!![y][x]
-                                mPrincessViewModel.itemCount.postValue(mPrincess.bookCnt.toString())
-                                mPrincessViewModel.isItem.postValue(mPrincess.isBook.toString())
-                                Log.e("책", mPrincessViewModel.itemCount.value!!)
-                                Log.e("책", mPrincessViewModel.isItem.value!!)
-                                mMap.itemPicked(y, x)
-                                moveView.postValue(6)
-                            }
-                            else {
-                                moveView.postValue(7)
-                                return
-                            }
+                            itemPick(BOOK, mPrincess::pickBook)
                         }
 
                         "pickBranch();" -> {
-                            Log.e("나무을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-                            if (mMap.mapList!![y][x]%10 == 6) {
-                                Log.e("됨","됨")
-                                mPrincess.pickBranch()
-                                changingView = mMap.mapList!![y][x]/10
-                                //changingViewAll = mMap.mapList!![y][x]
-                                mPrincessViewModel.itemCount.postValue(mPrincess.branchCnt.toString())
-                                mPrincessViewModel.isItem.postValue(mPrincess.isBranch.toString())
-                                mMap.itemPicked(y, x)
-                                moveView.postValue(6)
-                            } else {
-                                moveView.postValue(7)
-                                return
-                            }
+                            itemPick(BRANCH, mPrincess::pickBranch)
                         }
 
                         // 보스전 부분
                         "fightBoss();" -> {
-                            if (mMap.mapList!![y][x]%10 == 7) {
+                            if (mMap.mapList!![y][x]%10 == BOSS) {
                                 backup = arrayListOf()
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1

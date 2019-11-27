@@ -13,8 +13,7 @@ import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.bindVRC
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
-import com.mashup.friendlycoding.model.CodeBlock
-import com.mashup.friendlycoding.model.Stage
+import com.mashup.friendlycoding.model.*
 import com.mashup.friendlycoding.viewmodel.*
 import kotlinx.android.synthetic.main.activity_play.*
 
@@ -85,31 +84,31 @@ class PlayActivity : BaseActivity() {
         // 코드 실행 - 객체의 움직임 - View Model 호출
         mRun.moveView.observe(this, Observer<Int> { t ->
             when (t) {
-                -2 -> {
+                START_RUN -> {
                     mCodeBlockViewModel.isRunning.postValue(true)
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                 }
 
-                -3 -> {
+                END_RUN -> {
                     mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
-                -4 -> {
+                INFINITE_LOOP -> {
                     mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
-                -5 -> {
+                COMPILE_ERROR -> {
                     mCodeBlockViewModel.isRunning.postValue(false)
                     Log.e("compile", "error")
                     Toast.makeText(this, "컴파일 에러", Toast.LENGTH_SHORT).show()
                 }
 
-                -6 -> {
+                LOST_BOSS_BATTLE -> {
                     mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
                     boss.text = "보스"
@@ -117,7 +116,7 @@ class PlayActivity : BaseActivity() {
                     bossField.isVisible = false
                 }
 
-                6 -> {  // 아이템 습득
+                ITEM_PICKED -> {  // 아이템 습득
                     itemNumber = resources.getIdentifier(
                         "item_" + mRun.changingView.toString(),
                         "id",
@@ -128,13 +127,13 @@ class PlayActivity : BaseActivity() {
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
-                7 -> {  // 패배
+                PLAYER_LOST -> {  // 패배
                     mCodeBlockViewModel.isRunning.postValue(false)
                     mCodeBlockViewModel.clearBlock()
                     mPrincessViewModel.clear()
                 }
 
-                8 -> {  // 승리
+                PLAYER_WIN -> {  // 승리
                     binding.tvWin.isVisible = true
                 }
 
@@ -142,11 +141,11 @@ class PlayActivity : BaseActivity() {
                     finish()
                 }
 
-                1 -> {
+                PRINCESS_MOVE -> {
                     mPrincessViewModel.move(true)
                 }
 
-                2 -> {
+                PRINCESS_TURN -> {
                     mPrincessViewModel.move(false)
                 }
             }
@@ -167,9 +166,7 @@ class PlayActivity : BaseActivity() {
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
         mRun.nowTerminated.observe(this, Observer<Int> { t ->
             mCodeBlockViewModel.coloringNowTerminated(
-                rc_code_block_list.findViewHolderForAdapterPosition(
-                    t
-                )
+                rc_code_block_list.findViewHolderForAdapterPosition(t)
             )
         })
 
