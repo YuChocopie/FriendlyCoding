@@ -99,6 +99,12 @@ class SelectStageActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == numberCheck) {
+            if (data == null) {
+                return
+            }
+            else if (data.getStringExtra("ok") != "ok") {
+                return
+            }
             Log.e("성공하고 돌아옴", "$numberCheck")
             when (numberCheck % 10) {
                 1 -> {
