@@ -2,7 +2,7 @@ package com.mashup.friendlycoding
 
 import java.util.*
 
-class Monster(val type: Int, private val maxHP: Int, val x: Int, val y: Int) {
+class Monster(val type: Int, private val maxHP: Int, val x: Int=0, val y: Int=0) {
     private var hp = this.maxHP  // 보스의 현재 체력
     private var rand = Random()  // 보스가 공격을 할 지 말 지, 혹은 어떤 공격을 할 지 정하는 난수
     private var det = 0   // rand에서 뽑힌 수

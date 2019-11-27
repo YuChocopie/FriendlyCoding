@@ -2,7 +2,6 @@ package com.mashup.friendlycoding.model
 
 import android.util.Log
 import android.view.View
-import com.mashup.friendlycoding.Map
 import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.R
@@ -68,7 +67,6 @@ class MapSettingModel : MapSettingBaseModel() {
                     // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, 2),
                             MapItem(R.drawable.ic_circle, 2)
                         )
                         mDrawables.princessX = 0
@@ -99,16 +97,17 @@ class MapSettingModel : MapSettingBaseModel() {
                     3 -> {
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, 2),
-                            MapItem(R.drawable.ic_sunny, 2)
+                            MapItem(R.drawable.ic_circle, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 0
                         startX = 0
                         startY = 0
-                        mapList[0][0] = mDrawables.item[1].item_id
+                        mapList[9][9] = mDrawables.item[1].item_id
                         mDrawables.item[0].X = 0
                         mDrawables.item[0].Y = 0
-                        mDrawables.item[0].visibility = View.VISIBLE
+                        mDrawables.item[1].X = 9
+                        mDrawables.item[1].Y = 9
                     }
                 }
 
@@ -190,13 +189,17 @@ class MapSettingModel : MapSettingBaseModel() {
                     1 -> {
                         mapList = mapListAct31//테스트
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_mushroom, ROCK),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_pick_axe,PICKAXE)
                         )
-                        defaultCodeBlock.addAll(stageCodeBlock3_1)
+                        mapList[9][3] = mDrawables.item[0].item_id
+                        mapList[9][1] = mDrawables.item[1].item_id
                         mDrawables.item[0].X = 9
-                        mDrawables.item[0].Y = 4
-                        mDrawables.item[0].visibility = View.VISIBLE
+                        mDrawables.item[0].Y = 3
+                        mDrawables.item[1].X = 9
+                        mDrawables.item[1].Y = 1
+                        defaultCodeBlock.addAll(stageCodeBlock3_1)
+
                     }
 
                     2 -> {
@@ -228,7 +231,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
 
                 return Stage(
-                    setMapRandomItem(mapList, mDrawables),
+                    Map(mapList, mDrawables, startX, startY),
                     Princess(),
                     Monster(1, 10, 0, 0),
                     defaultCodeBlock,
@@ -243,7 +246,31 @@ class MapSettingModel : MapSettingBaseModel() {
                 var mapList: Array<Array<Int>> = mapListActNull
                 var princessAction : ArrayList<Int>? = null
 
-                return Stage(
+                when (stageNum % 10) {
+                    // Stage 1
+                    1 -> {
+                        mDrawables.backgroundImg = R.drawable.bg_stage04_1
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_circle, 2)
+                        )
+                        mDrawables.princessX = 4
+                        mDrawables.princessY = 9
+                    }
+
+                    2 -> {
+                        mDrawables.backgroundImg = R.drawable.bg_stage04_2
+
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_circle, 2),
+                            MapItem(R.drawable.ic_circle, 2)
+                        )
+                        mDrawables.princessX = 0
+                        mDrawables.princessY = 9
+
+                    }
+                }
+
+                    return Stage(
                     setMapRandomItem(mapList, mDrawables),
                     Princess(),
                     Monster(1, 10, 0, 0),
