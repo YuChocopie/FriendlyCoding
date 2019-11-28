@@ -1,6 +1,5 @@
 package com.mashup.friendlycoding.model
 
-import com.mashup.friendlycoding.Map
 import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 

@@ -12,11 +12,14 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.bindVRC
 import com.mashup.friendlycoding.databinding.ActivityPlayBinding
 import com.mashup.friendlycoding.model.*
-import com.mashup.friendlycoding.viewmodel.*
+import com.mashup.friendlycoding.viewmodel.BattleViewModel
+import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
+import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
+import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_play.*
+
 
 class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
@@ -31,16 +34,23 @@ class PlayActivity : BaseActivity() {
     private var stageNum: Int = 0
     lateinit var binding: ActivityPlayBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding =
-            DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
+            DataBindingUtil.setContentView<ActivityPlayBinding>(
+                this,
+                com.mashup.friendlycoding.R.layout.activity_play
+            )
 
         // 현재 몇 스테이지인지?
         this.stageNum = intent.getIntExtra("stageNum", 0)
         binding.lifecycleOwner = this
         initStage(binding)
 
+        btnClear.setOnClickListener {
+            restart()
+        }
         if (this.stageNum == 11) {
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
@@ -114,8 +124,8 @@ class PlayActivity : BaseActivity() {
                 }
 
                 LOST_BOSS_BATTLE -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
+                    mCodeBlockViewModel.isRunning.postValue(false)
                     boss.text = "보스"
                     constraintLayout.isVisible = true
                     bossField.isVisible = false
@@ -133,8 +143,11 @@ class PlayActivity : BaseActivity() {
 
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
-                    if (++mRun.changingView== PICKAXE){
-                        mPrincessViewModel.axeImg!!.isVisible = true
+                    for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
+                        Log.e("i를알아보자", "$i")
+                        if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
+                            mPrincessViewModel.axeImg!!.isVisible = true
+                        }
                     }
                 }
                 CRUSH_ROCK -> {  // 아이템 습득
@@ -145,21 +158,20 @@ class PlayActivity : BaseActivity() {
                         packageName
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
-
                     findViewById<ImageView>(itemNumber).isVisible = false
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
                 PLAYER_LOST -> {  // 패배
                     mCodeBlockViewModel.isRunning.postValue(false)
-                    mCodeBlockViewModel.clearBlock()
-                    mPrincessViewModel.clear()
+//                    mCodeBlockViewModel.clearBlock()
+//                    mPrincessViewModel.clear()
+                    restart()
                 }
 
                 PLAYER_WIN -> {  // 승리
                     binding.tvWin.isVisible = true
                     val intent = Intent()
-                    Log.e("승리", "승리")
                     intent.putExtra("ok","ok")
                     setResult(Activity.RESULT_OK,intent)
                 }
@@ -183,7 +195,11 @@ class PlayActivity : BaseActivity() {
             Log.e("현재 실행 위치", "$t")
             if (t > 8)
                 rc_code_block_list.smoothScrollToPosition(t + 3)
-            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
+            mCodeBlockViewModel.coloringNowProcessing(
+                rc_code_block_list.findViewHolderForAdapterPosition(
+                    t
+                )
+            )
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -311,6 +327,11 @@ class PlayActivity : BaseActivity() {
         })
     }
 
+    private fun restart() {
+        finish()
+        startActivity(intent)
+    }
+
     override fun onResume() {
         super.onResume()
         mp!!.start()
@@ -342,7 +363,7 @@ class PlayActivity : BaseActivity() {
         this.stageInfo = this.mMapSettingViewModel.mMapSettingModel.getStageInfo(this.stageNum)
         val drawableInfo = this.stageInfo.map.drawables!!
         this.mMapSettingViewModel.setStage(this.stageInfo, this)
-        this.mPrincessViewModel.setPrincessImage(drawableInfo, ivPrincess,ivAxe, tvWin)
+        this.mPrincessViewModel.setPrincessImage(drawableInfo, ivPrincess, ivAxe, tvWin)
         this.mCodeBlockViewModel.setSettingModel(drawableInfo)
         this.mCodeBlockViewModel.setOfferedBlock(this.mMapSettingViewModel.offeredBlock)
 
