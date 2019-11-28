@@ -105,11 +105,11 @@ open class MapSettingBaseModel {
         CodeBlock("isBlackhole()", type = 3, argument = IS_BLACKHOLE),
         CodeBlock("bossGreenHand()", type = 3, argument = BOSS_GREENHAND),
         CodeBlock("grabTight();"),
-        CodeBlock("readySpell();", type = 5),
+        CodeBlock("readySpell();"),
         CodeBlock("wandSpell();"),
         CodeBlock("shoutSpell();"),
-        CodeBlock("attack"),
-        CodeBlock("shield")
+        CodeBlock("attack", argument = ATTACK),
+        CodeBlock("shield", argument = SHIELD)
         )
 
     val mapListActNull = arrayOf(

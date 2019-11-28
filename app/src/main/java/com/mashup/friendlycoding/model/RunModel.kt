@@ -349,7 +349,6 @@ class RunModel : RunBaseModel() {
                                         spellSequence--
                                         spell = mCodeBlock.value!![IR].argument
                                         princessAction.postValue(2)
-
                                     }
                                 }
                             }

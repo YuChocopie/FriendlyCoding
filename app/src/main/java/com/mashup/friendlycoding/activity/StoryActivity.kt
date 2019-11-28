@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -20,7 +21,8 @@ class StoryActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.storyVM = mStoryViewModel
 
-        mStoryViewModel.init()
+        val stageNum = intent.getIntExtra("stageNum", 11)
+        mStoryViewModel.init(stageNum)
 
         mStoryViewModel.page.observe(this, Observer<Int> { t ->
             Log.e("페이지", "$t")

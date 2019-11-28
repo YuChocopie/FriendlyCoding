@@ -37,11 +37,7 @@ class PlayActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding =
-            DataBindingUtil.setContentView<ActivityPlayBinding>(
-                this,
-                com.mashup.friendlycoding.R.layout.activity_play
-            )
+        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
         this.stageNum = intent.getIntExtra("stageNum", 0)
@@ -52,15 +48,11 @@ class PlayActivity : BaseActivity() {
 //            restart()
 //        }
 
-        if (this.stageNum == 11) {
-            val intent = Intent(this, StoryActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this, StoryActivity::class.java)
+        intent.putExtra("stageNum", this.stageNum)
+        startActivity(intent)
 
         Log.e("stageNum", "$stageNum")
-        val soundSource = resources.getIdentifier("act${this.stageNum / 10}", "raw", packageName)
-        mp = MediaPlayer.create(this, soundSource)
-        mp!!.isLooping = true
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -137,7 +129,6 @@ class PlayActivity : BaseActivity() {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
 
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
                         if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
@@ -157,7 +148,6 @@ class PlayActivity : BaseActivity() {
                     if (itemNumber != 0) {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
                 PLAYER_LOST -> {  // 패배
@@ -345,18 +335,20 @@ class PlayActivity : BaseActivity() {
         })
     }
 
-    private fun restart() {
-        finish()
-        startActivity(intent)
+    override fun onStart() {
+        super.onStart()
+        val soundSource = resources.getIdentifier("act${this.stageNum / 10}", "raw", packageName)
+        this.mp = MediaPlayer.create(this, soundSource)
+        this.mp!!.isLooping = true
     }
 
     override fun onResume() {
         super.onResume()
-        mp!!.start()
+        if (!super.isMute) mp!!.start()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         mp!!.stop()
     }
 
