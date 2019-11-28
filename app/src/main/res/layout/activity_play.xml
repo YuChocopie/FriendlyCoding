@@ -419,12 +419,12 @@
             app:layout_constraintTop_toTopOf="@+id/rc_code_block_list" />
 
         <ImageButton
-            android:id="@+id/btnClear"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:background="@color/White"
             android:scaleType="centerCrop"
+            android:onClick="@{()->codeBlockVM.clearBlock()}"
             android:src="@drawable/ic_replay"
             android:tint="@color/icon_color"
             app:layout_constraintEnd_toEndOf="@+id/run"

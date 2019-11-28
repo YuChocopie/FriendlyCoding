@@ -31,4 +31,8 @@ open class MapSettingViewModel : ViewModel() {
         this.oneBlock.value = ((width / 10 + width % 10).toFloat())
         Log.e("layout now?", "$width, ${this.oneBlock.value}")
     }
+
+    fun itemSize() : Int {
+        return mDrawables.item.size
+    }
 }

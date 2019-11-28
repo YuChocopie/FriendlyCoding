@@ -198,8 +198,6 @@ fun ImageView.animateCloud(up : Float) {
     this.startAnimation(ani)
 }
 
-
-
 // 아이템 위치 옮기는 거 죄다 바인딩
 @BindingAdapter("android:mapVM", "android:item_position")
 fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {

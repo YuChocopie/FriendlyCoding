@@ -44,6 +44,19 @@ class Princess {
         } else {
             this.rockCnt
         }
+    }
 
+    fun clear() {
+        isPickAxe = false
+        isBook = false
+        isMushroom = false
+        isBranch = false
+        isRock = false
+        pickAxeCnt = 0
+        mushroomCnt = 0
+        branchCnt = 0
+        bookCnt = 0
+        rockCnt = 0
+        killedBoss = false
     }
 }

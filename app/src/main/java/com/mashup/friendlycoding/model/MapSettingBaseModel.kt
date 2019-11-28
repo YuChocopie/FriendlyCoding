@@ -5,7 +5,6 @@ import java.util.*
 
 open class MapSettingBaseModel {
     var random = Random()
-
     var startX = 0
     var startY = 9
 
