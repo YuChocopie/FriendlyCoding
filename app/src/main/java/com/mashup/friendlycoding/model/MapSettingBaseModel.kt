@@ -59,12 +59,11 @@ open class MapSettingBaseModel {
         CodeBlock("pickBook();")
     )
     var stageCodeBlock2_2 = arrayListOf(
-        CodeBlock("isMushroom()", type = 3, argument = IS_MUSHROOM),
-        CodeBlock("eatMushroom();"),
-        CodeBlock("fightBoss();")
+        CodeBlock("isNotPoisoned()", type = 3, argument = IS_MUSHROOM),
+        CodeBlock("eatMushroom();")
     )
     var stageCodeBlock2_3 = arrayListOf(
-        CodeBlock("isBranch()", type = 3, argument = IS_BRANCH),
+        CodeBlock("isNotBroken()", type = 3, argument = IS_BRANCH),
         CodeBlock("pickBranch();")
     )
     var stageCodeBlock3_1 = arrayListOf(

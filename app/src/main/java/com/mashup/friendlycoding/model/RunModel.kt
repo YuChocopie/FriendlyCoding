@@ -323,7 +323,7 @@ class RunModel : RunBaseModel() {
                                     }
                                     mMonster!!.monsterAttacked(10)
                                     princessAction.postValue(4)
-
+                                    monsterAttacked.postValue(true)
                                 }
                                 else if (spell == SHIELD) {
                                     princessAction.postValue(5)

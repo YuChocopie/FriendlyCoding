@@ -9,6 +9,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.activity.PlayActivity
+import com.mashup.friendlycoding.model.BOSS_FIST_DOWN
+import com.mashup.friendlycoding.model.BOSS_GREENHAND
+import com.mashup.friendlycoding.model.BOSS_JUMPED
 import com.mashup.friendlycoding.model.RunModel
 import kotlinx.android.synthetic.main.activity_play.*
 
@@ -57,12 +60,13 @@ class BattleViewModel(private val hpBar : View, var princessImg : View, var mons
     }
 
     fun bossAttackOn (type : Int) {
-        if (type == 2) {
+        if (type == BOSS_JUMPED) {
             val ani = TranslateAnimation(0F, 0F, 0F, -500F)
             ani.duration = 500
             ani.fillAfter = false
             ani.startOffset = 500
-            playActivity.boss_attack.startAnimation(ani)
+            playActivity.monster.startAnimation(ani)
+            return
         }
 
         if (type == -1) {
@@ -75,14 +79,14 @@ class BattleViewModel(private val hpBar : View, var princessImg : View, var mons
             }
         }
 
-        else if (type in 3..5 || type == 7) {
+        else if (type in 3..5 || type == BOSS_GREENHAND) {
             Log.e("보스 이미지를", "바꿉니다")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 playActivity.monster.setImageDrawable(playActivity.getDrawable(bossAction!![type]))
             }
             playActivity.monster.isVisible = true
 
-            if (type == 4) {
+            if (type == BOSS_FIST_DOWN) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     playActivity.boss_attack.setImageDrawable(playActivity.getDrawable(bossAction!![2]))
                 }
