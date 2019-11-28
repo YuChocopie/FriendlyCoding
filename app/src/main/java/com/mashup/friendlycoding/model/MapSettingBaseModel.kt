@@ -23,6 +23,10 @@ open class MapSettingBaseModel {
                 return (mPrincess.mushroomCnt == 2)
             })
 
+            51, 52 -> return (fun(mPrincess : Princess) : Boolean {
+                return mPrincess.killedBoss
+            })
+
             else -> return (fun(_: Princess): Boolean {
                 return true
             })

@@ -66,7 +66,7 @@ open class RunBaseModel {
     var first = true
 
     val rand = Random()
-
+    var spell = -1
     var bossAttackIterator = 0
     var spellSequence = 3
 
@@ -364,7 +364,6 @@ open class RunBaseModel {
             }
             3->{
                 if (mMap.mapList!![y][x-1] % 10 == item){
-
                     val cnt = f()
                     changingView = mMap.mapList!![y][x-1] / 10
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
@@ -377,8 +376,6 @@ open class RunBaseModel {
                 }
             }
         }
-
-
     }
 
     fun itemPick(item: Int, f: () -> Int) {

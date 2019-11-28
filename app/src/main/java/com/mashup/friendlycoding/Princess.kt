@@ -15,6 +15,7 @@ class Princess {
     var branchCnt = 0
     var bookCnt = 0
     var rockCnt = 0
+    var killedBoss = false
 
     fun pickAxe(): Int {
         this.isPickAxe = true
