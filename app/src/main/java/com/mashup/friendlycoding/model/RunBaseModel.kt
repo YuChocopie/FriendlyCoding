@@ -1,9 +1,7 @@
 package com.mashup.friendlycoding.model
 
 import android.util.Log
-import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
-import com.mashup.friendlycoding.Map
 import com.mashup.friendlycoding.Monster
 import com.mashup.friendlycoding.Princess
 import com.mashup.friendlycoding.ignoreBlanks
