@@ -67,14 +67,6 @@ class RunModel : RunBaseModel() {
         }
     }
 
-//    fun resultExecution() {
-//        if (result == 0) {
-//            return
-//        } else if (result == PLAYER_LOST || result == PLAYER_LOST) {
-//
-//        }
-//    }
-
     inner class RunThead : Thread() {
         override fun run() {
             try {
