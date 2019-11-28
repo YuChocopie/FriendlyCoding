@@ -13,7 +13,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val a = rand(0, 10)
                 val b = rand(0, 10)
                 if (mapList[a][b] == 0) {
-                    mapList[a][b] = (i+1) * 10 + mDrawables.item[i].item_id
+                    mapList[a][b] = (i + 1) * BASE + mDrawables.item[i].item_id
                     mDrawables.item[i].X = a
                     mDrawables.item[i].Y = b
                     mDrawables.item[i].visibility = View.VISIBLE
@@ -23,6 +23,26 @@ class MapSettingModel : MapSettingBaseModel() {
         }
         return Map(mapList, mapList, mDrawables)
     }
+
+    private fun setMapItem(
+        arr: Array<Array<Int>>,
+        mapList: Array<Array<Int>>,
+        mDrawables: MapDrawable
+    ) {
+        for (i in 0 until mDrawables.item.size) {
+            for (j in 0 until mDrawables.item.size - 1) {
+                var x = arr[i][j]
+                var y = arr[i][j + 1]
+                mapList[x][y] = (i + 1) * BASE + mDrawables.item[i].item_id
+                mDrawables.item[i].X = x
+                mDrawables.item[i].Y = y
+                mDrawables.item[i].visibility = View.VISIBLE
+
+            }
+
+        }
+    }
+
     fun getStageInfo(stageNum: Int): Stage {
         Log.e("stageNum", "$stageNum")
 
@@ -54,6 +74,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val mapList = mapListAct1
                 // 드로어블
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
+
                 mDrawables.item = arrayListOf(
                     MapItem(R.drawable.ic_sunny, 34)
                 )
@@ -121,7 +142,6 @@ class MapSettingModel : MapSettingBaseModel() {
                 var mapList: Array<Array<Int>> = mapListAct2
                 defaultCodeBlock.removeAt(3)
                 defaultCodeBlock.removeAt(4)
-
                 when (stageNum % 10) {
                     1 -> {
                         mapList = mapListAct2
@@ -153,7 +173,7 @@ class MapSettingModel : MapSettingBaseModel() {
                             MapItem(R.drawable.ic_branch, BRANCH),
                             MapItem(R.drawable.ic_branch, BRANCH),
                             MapItem(R.drawable.ic_branch, BROKEN_BRANCH)
-                            )
+                        )
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }
                 }
@@ -175,14 +195,18 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct31//테스트
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_crystal_blue, ROCK),
-                            MapItem(R.drawable.ic_pick_axe,PICKAXE)
+                            MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
-                        mapList[9][3] = mDrawables.item[0].item_id
-                        mapList[9][1] = mDrawables.item[1].item_id
-                        mDrawables.item[0].X = 9
-                        mDrawables.item[0].Y = 3
-                        mDrawables.item[1].X = 9
-                        mDrawables.item[1].Y = 1
+
+
+                        val arr = arrayOf(//넣고싶은 위치선택
+                            arrayOf(9, 3),
+                            arrayOf(9, 1)
+                        )
+                        setMapItem(arr, mapList, mDrawables)
+
+
+
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
 
                     }
@@ -205,7 +229,7 @@ class MapSettingModel : MapSettingBaseModel() {
                             MapItem(R.drawable.ic_branch, BRANCH),
                             MapItem(R.drawable.ic_branch, BROKEN_BRANCH),
                             MapItem(R.drawable.ic_branch, BRANCH)
-                            )
+                        )
                         defaultCodeBlock.addAll(stageCodeBlock2_3)
                     }
                 }
@@ -228,6 +252,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val bossAction : ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
                     R.drawable.attack_ice)
+
 
                 when (stageNum % 10) {
                     // Stage 1
@@ -263,6 +288,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         princessAction,
                         bossAction
                         )
+
             }
 
             5 -> {
@@ -282,7 +308,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     CodeBlock("fightBoss();")
                 )
 
-                val bossAction : ArrayList<Int>? = arrayListOf(
+                val bossAction: ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
                     R.drawable.attack_ice,
                     R.drawable.jump,
@@ -291,7 +317,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     R.drawable.monster2_punch,
                     R.drawable.ic_blackhole,
                     R.drawable.monster3_attack
-                    )
+                )
 
                 var type = 2
                 when (stageNum % 10) {
@@ -301,7 +327,9 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item.addAll(
                             arrayListOf(
                                 MapItem(R.drawable.monster2, BOSS),
-                                MapItem(R.drawable.ic_circle, CLEAR)))
+                                MapItem(R.drawable.ic_circle, CLEAR)
+                            )
+                        )
                         defaultBattleCodeBlock.addAll(battleCodeBlock2)
                         type = 2
                     }
@@ -312,7 +340,9 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item.addAll(
                             arrayListOf(
                                 MapItem(R.drawable.monster3, BOSS),
-                                MapItem(R.drawable.ic_circle, CLEAR)))
+                                MapItem(R.drawable.ic_circle, CLEAR)
+                            )
+                        )
                         defaultBattleCodeBlock.addAll(battleCodeBlock3)
                         type = 3
                     }
