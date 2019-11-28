@@ -67,7 +67,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, 2)
+                            MapItem(R.drawable.ic_gate, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -79,7 +79,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, 2),
+                            MapItem(R.drawable.ic_gate, 2),
                             MapItem(R.drawable.ic_circle, 2)
                         )
                         mDrawables.princessX = 0
@@ -97,7 +97,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     3 -> {
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, 2),
-                            MapItem(R.drawable.ic_circle, 2)
+                            MapItem(R.drawable.ic_gate, 2)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 0
@@ -242,7 +242,7 @@ class MapSettingModel : MapSettingBaseModel() {
             }
 
             4 -> {
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage04_1)
                 var mapList: Array<Array<Int>> = mapListActNull
                 var princessAction : ArrayList<Int>? = null
 
@@ -282,7 +282,7 @@ class MapSettingModel : MapSettingBaseModel() {
             }
 
             5 -> {
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage02)
+                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage05)
                 val mapList: Array<Array<Int>> = mapListActNull
                 val princessAction = arrayListOf(
                     R.drawable.attack_fire_shield,
