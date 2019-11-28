@@ -228,47 +228,47 @@ class PlayActivity : BaseActivity() {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
 
-//                if (stageNum == 51) {
-//                    this.mRun.mCodeBlock.value = arrayListOf (
-//                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
-//                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-//                        CodeBlock("        wait();"),
-//                        CodeBlock("        jump();"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
-//                        CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
-//                        CodeBlock("            for(3){", type = FOR, argument = 3),
-//                        CodeBlock("                jump();"),
-//                        CodeBlock("            }"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-//                        CodeBlock("            dodge();"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    attack();"),
-//                        CodeBlock("}")
-//                    )
-//                }
-//
-//                if (stageNum == 52) {
-//                    this.mRun.mCodeBlock.value = arrayListOf(
-//                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-//                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
-//                        CodeBlock("        while(isBlackhole()) {", type = WHILE, argument = IS_BLACKHOLE),
-//                        CodeBlock("             grabTight();"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
-//                        CodeBlock("        readySpell(shield);", argument = SHIELD),
-//                        CodeBlock("        wandSpell();"),
-//                        CodeBlock("        shoutSpell();"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    readySpell(attack);", argument = ATTACK),
-//                        CodeBlock("    wandSpell();"),
-//                        CodeBlock("    shoutSpell();"),
-//                        CodeBlock("}"))
-//                }
-                this.mRun.mCodeBlock.value = arrayListOf()
+                if (stageNum == 51) {
+                    this.mRun.mCodeBlock.value = arrayListOf (
+                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
+                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+                        CodeBlock("        wait();"),
+                        CodeBlock("        jump();"),
+                        CodeBlock("    }"),
+                        CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
+                        CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
+                        CodeBlock("            for(3){", type = FOR, argument = 3),
+                        CodeBlock("                jump();"),
+                        CodeBlock("            }"),
+                        CodeBlock("        }"),
+                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+                        CodeBlock("            dodge();"),
+                        CodeBlock("        }"),
+                        CodeBlock("    }"),
+                        CodeBlock("    attack();"),
+                        CodeBlock("}")
+                    )
+                }
+
+                if (stageNum == 52) {
+                    this.mRun.mCodeBlock.value = arrayListOf(
+                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
+                        CodeBlock("        while(isBlackhole()) {", type = WHILE, argument = IS_BLACKHOLE),
+                        CodeBlock("             grabTight();"),
+                        CodeBlock("        }"),
+                        CodeBlock("    }"),
+                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
+                        CodeBlock("        readySpell(shield);", argument = SHIELD),
+                        CodeBlock("        wandSpell();"),
+                        CodeBlock("        shoutSpell();"),
+                        CodeBlock("    }"),
+                        CodeBlock("    readySpell(attack);", argument = ATTACK),
+                        CodeBlock("    wandSpell();"),
+                        CodeBlock("    shoutSpell();"),
+                        CodeBlock("}"))
+                }
+                //this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 

@@ -60,6 +60,7 @@ package com.mashup.friendlycoding.model
     val MUSHROOM = 4
     val BOOK = 5
     val BRANCH = 6
-    val BOSS = 7
-    val POISONMUSHROOM = 8
-    val ROCK = 9
+    val BROKEN_BRANCH = 7
+    val BOSS = 8
+    val POISONMUSHROOM = 9
+    val ROCK = 10
