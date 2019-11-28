@@ -430,16 +430,16 @@
             app:layout_constraintEnd_toEndOf="@+id/run"
             app:layout_constraintTop_toBottomOf="@+id/run" />
 
-        <Button
-            android:id="@+id/boss"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:onClick="@{()->codeBlockVM.runBoss()}"
-            android:text="@string/runBoss"
-            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"
-            app:layout_constraintRight_toLeftOf="@+id/run"
-            app:layout_constraintTop_toBottomOf="@+id/run" />
+<!--        <Button-->
+<!--            android:id="@+id/boss"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:onClick="@{()->codeBlockVM.runBoss()}"-->
+<!--            android:text="@string/runBoss"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"-->
+<!--            app:layout_constraintRight_toLeftOf="@+id/run"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/run" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:setHAdapter="@{codeBlockVM.getInputCodeBlockAdapter()}"

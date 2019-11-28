@@ -280,7 +280,7 @@ open class RunBaseModel {
                 })
             }
 
-            IS_MUSHROOM -> {
+            IS_NOT_POISONED -> {
                 return (fun(mPrincess: Princess): Boolean {
                     return mPrincess.isMushroom
                 })
@@ -292,7 +292,7 @@ open class RunBaseModel {
                 })
             }
 
-            IS_BRANCH -> {
+            IS_NOT_BROKEN -> {
                 return (fun(mPrincess: Princess): Boolean {
                     return mPrincess.isBranch
                 })
@@ -389,7 +389,7 @@ open class RunBaseModel {
         }
     }
 
-    fun itemPick(item: Int, f: () -> Int) {
+    fun itemPick(item: Int, f: () -> Int) : Boolean {
         Log.e("아이템을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
         if (mMap.mapList!![y][x] % BASE == item) {
             //mPrincess.pickBranch()
@@ -404,9 +404,10 @@ open class RunBaseModel {
 
             mMap.itemPicked(y, x)
             moveView.postValue(ITEM_PICKED)
+            return true
         } else {
             moveView.postValue(PLAYER_LOST)
-            return
+            return false
         }
     }
 

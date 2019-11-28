@@ -45,9 +45,9 @@ const val SHIELD = 0
 const val ATTACK = 1
 
 val IS_PICKAXE = 9
-val IS_MUSHROOM = 10
+val IS_NOT_POISONED = 10
 val IS_BOOK = 11
-val IS_BRANCH = 12
+val IS_NOT_BROKEN = 12
 val IS_ROCK = 13
 val IS_POISONED = 14
 

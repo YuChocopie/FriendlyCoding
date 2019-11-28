@@ -212,19 +212,19 @@ class RunModel : RunBaseModel() {
 
                         // 아이템 습득 부분
                         "pickAxe();" -> {
-                            itemPick(PICKAXE, mPrincess::pickAxe)
+                            if (!itemPick(PICKAXE, mPrincess::pickAxe)) return
                         }
 
                         "eatMushroom();" -> {
-                            itemPick(MUSHROOM, mPrincess::eatMushroom)
+                            if (itemPick(MUSHROOM, mPrincess::eatMushroom)) return
                         }
 
                         "pickBook();" -> {
-                            itemPick(BOOK, mPrincess::pickBook)
+                            if (itemPick(BOOK, mPrincess::pickBook))return
                         }
 
                         "pickBranch();" -> {
-                            itemPick(BRANCH, mPrincess::pickBranch)
+                            if (itemPick(BRANCH, mPrincess::pickBranch))return
                         }
 
                         "crushRock();" -> {

@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:fontFamily="@font/cookie_run_bold"
-            android:text="Bomin Kim the &quot;Bach In Our Time&quot;"
+            android:text="Bomin Kim &quot;The Bach In Our Time&quot;"
             android:textSize="20sp"
             />
 
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cookie_run_bold"
-            android:text="Danielle Paoletti the &quot;Creator&quot;"
+            android:text="Danielle Paoletti &quot;The Creator&quot;"
             android:textSize="20sp"
             />
 

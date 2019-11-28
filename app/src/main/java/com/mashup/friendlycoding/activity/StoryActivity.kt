@@ -32,7 +32,7 @@ class StoryActivity : BaseActivity() {
             }
             else {
                 try {
-                    binding.princessScript.text = mStoryViewModel.script[t]
+                    binding.princessScript.text = mStoryViewModel.script!![t]
                 }catch (e:ArrayIndexOutOfBoundsException ){
 
                 }
