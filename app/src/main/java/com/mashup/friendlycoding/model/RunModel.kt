@@ -7,7 +7,6 @@ import kotlin.random.Random
 class RunModel : RunBaseModel() {
     var turnOff: Int = 0
     var result: Int = 0
-
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
             Log.e("충돌아직!! 원인은?!", "${(mMap.mapList!![y][x]) % BASE}")
@@ -72,7 +71,7 @@ class RunModel : RunBaseModel() {
             try {
                 moveView.postValue(START_RUN)
                 sleep(speed)
-
+                var attackCnt = 0
                 while (IR < mCodeBlock.value!!.size) {
                     if (isAttacking) {
                         Log.e("몬스터 공격 중", "   ")
@@ -229,14 +228,20 @@ class RunModel : RunBaseModel() {
                         }
 
                         "crushRock();" -> {
-
-                            val e = Log.e("Rock", "andRoll")
+                            attackCnt++
+                            Log.e("attackCnt", "$attackCnt")
                             if (mPrincess.isPickAxe) {
-                                cruchRock(ROCK, mPrincess::crushRock)
+                                //mMap.drawables!!.item[attackCnt-1]=MapItem(R.drawable.ic_crystal_red, ROCK)
+                                if (attackCnt >= CRUSH_ROCK_COUNT) {
+                                    cruchRock(ROCK, mPrincess::crushRock)
+                                    attackCnt=0
+                                }
                             }
+
+
+
                             Log.e("Rock1", "andRoll222")
                         }
-
                         // 보스전 부분
                         "fightBoss();" -> {
                             if (mMap.mapList!![y][x] % BASE == BOSS) {

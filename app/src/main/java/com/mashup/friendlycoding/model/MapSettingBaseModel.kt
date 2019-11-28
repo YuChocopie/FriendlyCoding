@@ -22,6 +22,10 @@ open class MapSettingBaseModel {
                 return (mPrincess.mushroomCnt == 2)
             })
 
+            31 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.isRock)
+            })
+
             51, 52 -> return (fun(mPrincess : Princess) : Boolean {
                 return mPrincess.killedBoss
             })
@@ -66,6 +70,14 @@ open class MapSettingBaseModel {
         CodeBlock("pickBranch();")
     )
     var stageCodeBlock3_1 = arrayListOf(
+        CodeBlock("crushRock();"),
+        CodeBlock("pickAxe();")
+    )
+    var stageCodeBlock3_2 = arrayListOf(
+        CodeBlock("crushRock();"),
+        CodeBlock("pickAxe();")
+    )
+    var stageCodeBlock3_3 = arrayListOf(
         CodeBlock("crushRock();"),
         CodeBlock("pickAxe();")
     )
@@ -162,16 +174,16 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     )
-    var mapListAct31 = arrayOf(
-        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    var mapListAct3 = arrayOf(
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1)
     )
 }

@@ -30,16 +30,13 @@ class MapSettingModel : MapSettingBaseModel() {
         mDrawables: MapDrawable
     ) {
         for (i in 0 until mDrawables.item.size) {
-            for (j in 0 until mDrawables.item.size - 1) {
-                var x = arr[i][j]
-                var y = arr[i][j + 1]
-                mapList[x][y] = (i + 1) * BASE + mDrawables.item[i].item_id
-                mDrawables.item[i].X = x
-                mDrawables.item[i].Y = y
-                mDrawables.item[i].visibility = View.VISIBLE
-
-            }
-
+            var j = 0
+            var x = arr[i][j]
+            var y = arr[i][j + 1]
+            mapList[x][y] = (i + 1) * BASE + mDrawables.item[i].item_id
+            mDrawables.item[i].X = x
+            mDrawables.item[i].Y = y
+            mDrawables.item[i].visibility = View.VISIBLE
         }
     }
 
@@ -189,40 +186,52 @@ class MapSettingModel : MapSettingBaseModel() {
             3 -> {
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage03)//배경
                 var mapList: Array<Array<Int>> = mapListActNull
+                var princessAction: ArrayList<Int>? = null
+
                 defaultBattleCodeBlock.addAll(battleCodeBlock1)
                 when (stageNum % 10) {
                     1 -> {
-                        mapList = mapListAct31//테스트
+                        mapList = mapListAct3//테스트
                         mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_circle, CLEAR),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
 
-
                         val arr = arrayOf(//넣고싶은 위치선택
+                            arrayOf(9, 4),
                             arrayOf(9, 3),
+                            arrayOf(9, 2),
                             arrayOf(9, 1)
                         )
                         setMapItem(arr, mapList, mDrawables)
-
-
 
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
 
                     }
 
                     2 -> {
-                        mapList = mapListAct2
+                        mapList = mapListAct3
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_mushroom, MUSHROOM),
-                            MapItem(R.drawable.ic_mushroom, MUSHROOM)
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
+                            MapItem(R.drawable.ic_pick_axe, PICKAXE)
+
+
                         )
-                        defaultCodeBlock.addAll(stageCodeBlock2_2)
+
+                        val arr = arrayOf(//넣고싶은 위치선택
+                            arrayOf(9, 3),
+                            arrayOf(9, 1)
+
+
+                        )
+                        setMapItem(arr, mapList, mDrawables)
+                        defaultCodeBlock.addAll(stageCodeBlock3_2)
                     }
 
                     3 -> {
-                        mapList = mapListAct2
+                        mapList = mapListAct3
 
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
@@ -230,9 +239,10 @@ class MapSettingModel : MapSettingBaseModel() {
                             MapItem(R.drawable.ic_branch, BROKEN_BRANCH),
                             MapItem(R.drawable.ic_branch, BRANCH)
                         )
-                        defaultCodeBlock.addAll(stageCodeBlock2_3)
+                        defaultCodeBlock.addAll(stageCodeBlock3_3)
                     }
                 }
+
 
                 return Stage(
                     Map(mapList, mapList, mDrawables, startX, startY),

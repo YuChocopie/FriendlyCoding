@@ -13,17 +13,20 @@ import kotlin.collections.ArrayList
 open class RunBaseModel {
     // PrincessViewModel
     lateinit var mPrincessViewModel: PrincessViewModel
-    var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
+    var moveView =
+        MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
     lateinit var mCodeBlockViewModel: CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
     var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
-    var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
+    var mCodeBlock =
+        MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
     var insertBlockAt = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 코드 블록이 어디에 삽입될 지를 알려준다.
 
     // BattleViewModel
-    var metBoss = MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
+    var metBoss =
+        MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
     var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
     var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
     var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
@@ -337,12 +340,8 @@ open class RunBaseModel {
         }
     }
 
+
     fun cruchRock(item: Int, f: () -> Int) {
-        Log.e("돌을 부숩니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-
-        Log.e("어디보냐", "난 ${mPrincessViewModel.direction} 을 보고있어")
-        //Log.e("($y, $x)의 앞에는", "공주 앞엔 ${mMap.mapList!![y][x+1]}, 나눈것 : ${mMap.mapList!![y][x+1] % BASE}")
-
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
 
             0 -> {
@@ -351,7 +350,11 @@ open class RunBaseModel {
                     val cnt = f()
                     changingView = mMap.mapList!![y - 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+
                     mMap.itemPicked(y - 1, x)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
@@ -360,19 +363,18 @@ open class RunBaseModel {
                 }
             }
             1 -> {
-                Log.e(
-                    "돌을 부숩니다.$y, $x",
-                    "공주 앞엔 ${mMap.mapList!![y][x + 1]}, 나눈것 : ${mMap.mapList!![y][x + 1] % BASE}"
-                )
+
                 if (mMap.mapList!![y][x + 1] % BASE == item) {
                     Log.e("item", "${mMap.mapList!![y][x + 1] % BASE}")
                     val cnt = f()
                     Log.e("cnt", "$cnt")
                     changingView = mMap.mapList!![y][x + 1] / BASE
-
                     Log.e("changing", "$changingView")
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
                     mMap.itemPicked(y, x + 1)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
@@ -386,7 +388,10 @@ open class RunBaseModel {
                     val cnt = f()
                     changingView = mMap.mapList!![y + 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
                     mMap.itemPicked(y + 1, x)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
@@ -399,7 +404,10 @@ open class RunBaseModel {
                     val cnt = f()
                     changingView = mMap.mapList!![y][x - 1] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
                     mMap.itemPicked(y, x - 1)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
@@ -415,12 +423,14 @@ open class RunBaseModel {
         if (mMap.mapList!![y][x] % BASE == item) {
             //mPrincess.pickBranch()
             val cnt = f()
-
             changingView = mMap.mapList!![y][x] / BASE
-            Log.e("chaaa", "${mMap.mapList!![y][x]}")
+            Log.e("chaaa", "${mMap.mapList!![y][x] % BASE}")
             //changingViewAll = mMap.mapList!![y][x]
-            mPrincessViewModel.itemCount.postValue(cnt.toString())
-            mPrincessViewModel.isItem.postValue("true")
+            if (mMap.mapList!![y][x] % BASE != PICKAXE) {
+                mPrincessViewModel.itemCount.postValue(cnt.toString())
+                mPrincessViewModel.isItem.postValue("true")
+            }
+
             mMap.itemPicked(y, x)
             moveView.postValue(ITEM_PICKED)
         } else {

@@ -83,6 +83,10 @@ class PlayActivity : BaseActivity() {
                 binding.tvCount.setText("branchCnt = ")
                 binding.tvState.setText("isBranch = ")
             }
+            31 -> {
+                binding.tvCount.text = "rockCnt = "
+                binding.tvState.text = "isRock = "
+            }
         }
 
         bossField.isVisible = false
@@ -137,7 +141,7 @@ class PlayActivity : BaseActivity() {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
 
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
+
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
                         if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
@@ -153,7 +157,6 @@ class PlayActivity : BaseActivity() {
                         packageName
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
-
                     if (itemNumber != 0) {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
@@ -167,7 +170,13 @@ class PlayActivity : BaseActivity() {
                     bossField.isVisible = false
                     val itemSize = mMapSettingViewModel.itemSize()
                     for (i in 0 until itemSize) {
-                        findViewById<ImageView>(resources.getIdentifier("item_" + (i+1).toString(), "id", packageName)).isVisible = true
+                        findViewById<ImageView>(
+                            resources.getIdentifier(
+                                "item_" + (i + 1).toString(),
+                                "id",
+                                packageName
+                            )
+                        ).isVisible = true
                     }
                     mPrincessViewModel.clear()
                     mRun.mMap.clear()
