@@ -52,7 +52,6 @@ class MapSettingModel : MapSettingBaseModel() {
                 // 드로어블
                 val mDrawables =
                     MapDrawable(backgroundImg = R.drawable.bg_stage00, princessX = 0, princessY = 9)
-                mDrawables.monsterImg = R.drawable.monster
                 mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
                 // 기본 제공되는 블록
                 stageCodeBlock0.addAll(defaultCodeBlock)
@@ -206,7 +205,6 @@ class MapSettingModel : MapSettingBaseModel() {
                             arrayOf(9, 1)
                         )
                         setMapItem(arr, mapList, mDrawables)
-
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
 
                     }
