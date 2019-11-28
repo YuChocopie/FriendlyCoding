@@ -60,7 +60,6 @@ class MainActivity : BaseActivity() {
         this.mSelectActViewModel.check = this.check
         binding.stageVM!!.init()
         binding.stageVM = this.mSelectActViewModel
-        binding.stageRC
     }
 
     fun saveStage(key: String, value: Int) {
