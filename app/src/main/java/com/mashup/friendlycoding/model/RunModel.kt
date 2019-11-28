@@ -10,12 +10,12 @@ class RunModel : RunBaseModel() {
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
-            Log.e("충돌아직!! 원인은?!", "${mMap.mapList!![y][x]}")
-            if ((mMap.mapList!![y][x] == WALL) || (mMap.mapList!![y][x] % 10 == ROCK)) {
-                Log.e("충돌발생!! 원인은?!", "${mMap.mapList!![y][x]}")
+            Log.e("충돌아직!! 원인은?!", "${(mMap.mapList!![y][x]) % BASE}")
+            if ((mMap.mapList!![y][x] == WALL) || ((mMap.mapList!![y][x]) % BASE == ROCK)) {
+                Log.e("충돌발생!! 원인은?!", "${(mMap.mapList!![y][x]) % BASE}")
                 // 돌 또는 벽이라면 졌다는 시그널 전송
                 return PLAYER_LOST
-            } else if (mMap.mapList!![y][x] % 10 == CLEAR) {
+            } else if (mMap.mapList!![y][x] % BASE == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
                 return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
             }
@@ -69,7 +69,7 @@ class RunModel : RunBaseModel() {
         resultExecution()
     }
 
-    fun resultExecution() {
+    private fun resultExecution() {
         if (result == 0) {
             return
         } else if (result == LOST_BOSS_BATTLE || result == PLAYER_LOST) {
@@ -126,7 +126,10 @@ class RunModel : RunBaseModel() {
                         return
                     }
 
-                    Log.e("실행 중 : ", mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}")
+                    Log.e(
+                        "실행 중 : ",
+                        mCodeBlock.value!![IR].funcName + " ${mCodeBlock.value!![IR].type}"
+                    )
                     nowProcessing.postValue(IR)
                     turnOff = IR
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
@@ -175,7 +178,12 @@ class RunModel : RunBaseModel() {
                             turnOff = IR
                             jumpTo = mCodeBlock.value!![IR].address
                             Log.e("오프너", mCodeBlock.value!![jumpTo].funcName)
-                            Log.e("jumpTo", "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(mCodeBlock.value!![jumpTo].funcName)}")
+                            Log.e(
+                                "jumpTo",
+                                "$jumpTo, $iterator to ${mCodeBlock.value!![jumpTo].argument} , ${ignoreBlanks(
+                                    mCodeBlock.value!![jumpTo].funcName
+                                )}"
+                            )
 
                             if (mCodeBlock.value!![jumpTo].type == 4) {
                                 Log.e("요건", "while문")
@@ -187,7 +195,7 @@ class RunModel : RunBaseModel() {
                                 monsterAttack.postValue(-1)
                                 if ((mCodeBlock.value!![jumpTo].argument != BOSS_FIST_MOVED || mCodeBlock.value!![jumpTo].argument != BOSS_PUNCH || mCodeBlock.value!![jumpTo].argument != BOSS_BLACKHOLE) && bossAttackIterator <= 0)
                                     Log.e("다시 공격 가능", "다시")
-                                    isAttacking = false
+                                isAttacking = false
                             }
 
                             if (mCodeBlock.value!![jumpTo].type == 1) {
@@ -233,14 +241,14 @@ class RunModel : RunBaseModel() {
 
                         "crushRock();" -> {
                             val e = Log.e("Rock", "andRoll")
-                            if (mPrincess.isPickAxe){
+                            if (mPrincess.isPickAxe) {
                                 cruchRock(ROCK, mPrincess::crushRock)
                             }
                             Log.e("Rock1", "andRoll222")
                         }
                         // 보스전 부분
                         "fightBoss();" -> {
-                            if (mMap.mapList!![y][x] % 10 == BOSS) {
+                            if (mMap.mapList!![y][x] % BASE == BOSS) {
                                 backup = arrayListOf()
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1
@@ -278,9 +286,7 @@ class RunModel : RunBaseModel() {
                             princessAction.postValue(6)
                             if (bossAttackIterator > 0) {
                                 bossAttackIterator--
-                            }
-
-                            else if (mMonster!!.attackType == BOSS_FIST_DOWN && bossAttackIterator <= 0) {
+                            } else if (mMonster!!.attackType == BOSS_FIST_DOWN && bossAttackIterator <= 0) {
                                 moveView.postValue(LOST_BOSS_BATTLE)
                             }
                             // TODO : 점프 애니메이션
@@ -324,8 +330,7 @@ class RunModel : RunBaseModel() {
                                     mMonster!!.monsterAttacked(10)
                                     princessAction.postValue(4)
                                     monsterAttacked.postValue(true)
-                                }
-                                else if (spell == SHIELD) {
+                                } else if (spell == SHIELD) {
                                     princessAction.postValue(5)
                                 }
                             }
@@ -333,18 +338,25 @@ class RunModel : RunBaseModel() {
 
                         else -> {
                             if (ignoreBlanks(mCodeBlock.value!![IR].funcName).length > 10) {
-                                Log.e("나는, ", ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 10))
-                                if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 10) == "readySpell") {
+                                Log.e(
+                                    "나는, ",
+                                    ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(0, 10)
+                                )
+                                if (ignoreBlanks(mCodeBlock.value!![IR].funcName).substring(
+                                        0,
+                                        10
+                                    ) == "readySpell"
+                                ) {
                                     if (spellSequence != 3)
                                         moveView.postValue(LOST_BOSS_BATTLE)
                                     else {
 //                                        if (isAttacking && mCodeBlock.value!![IR].argument != SHIELD) {
 //                                            moveView.postValue(LOST_BOSS_BATTLE)
 //                                        }
-                                         // TODO : 주문 준비 모션
-                                            spellSequence--
-                                            spell = mCodeBlock.value!![IR].argument
-                                            princessAction.postValue(2)
+                                        // TODO : 주문 준비 모션
+                                        spellSequence--
+                                        spell = mCodeBlock.value!![IR].argument
+                                        princessAction.postValue(2)
 
                                     }
                                 }
@@ -357,7 +369,10 @@ class RunModel : RunBaseModel() {
                                     if (mMonster != null) {
                                         if (isAttacking && mMonster!!.type == 2 && mMonster!!.attackType == BOSS_FIST_MOVED) {
                                             mMonster!!.attackType = rand.nextInt(2) + 4
-                                            Log.e("몬스터!!", if (mMonster!!.attackType == BOSS_FIST_DOWN) "내려찍기" else "펀치")
+                                            Log.e(
+                                                "몬스터!!",
+                                                if (mMonster!!.attackType == BOSS_FIST_DOWN) "내려찍기" else "펀치"
+                                            )
                                             monsterAttack.postValue(mMonster!!.attackType)
 
                                             if (mMonster!!.attackType == BOSS_FIST_DOWN) {
@@ -367,29 +382,33 @@ class RunModel : RunBaseModel() {
                                             if (coc[mMonster!!.attackType] <= -1) {
                                                 // 해당 하는 방어 수단 없음
                                                 moveView.postValue(LOST_BOSS_BATTLE)
-                                            }
-                                            else if (coc[mMonster!!.attackType] < IR || coc[mMonster!!.attackType] > mCodeBlock.value!![IR].address) {
+                                            } else if (coc[mMonster!!.attackType] < IR || coc[mMonster!!.attackType] > mCodeBlock.value!![IR].address) {
                                                 // 잘못된 if 접근
                                                 moveView.postValue(LOST_BOSS_BATTLE)
-                                            }
-                                            else {
-                                                Log.e("막으러 가자", mCodeBlock.value!![coc[mMonster!!.attackType]].funcName)
+                                            } else {
+                                                Log.e(
+                                                    "막으러 가자",
+                                                    mCodeBlock.value!![coc[mMonster!!.attackType]].funcName
+                                                )
                                                 IR = coc[mMonster!!.attackType]
                                             }
-                                        }
-
-                                        else if (isAttacking && mMonster!!.type == 3 && mMonster!!.attackType == BOSS_BLACKHOLE) {
+                                        } else if (isAttacking && mMonster!!.type == 3 && mMonster!!.attackType == BOSS_BLACKHOLE) {
                                             bossAttackIterator = rand.nextInt(5) + 3
                                         }
 
                                         if (isAttacking && (mMonster!!.attackType == mCodeBlock.value!![IR].argument)) {
-                                            Log.e("막았다!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                            Log.e(
+                                                "막았다!",
+                                                "${mCodeBlock.value!![jumpTo].argument} 공격"
+                                            )
                                             if (!defenseSuccess(mMonster!!.attackType)) { // 공격 중이고, 해당하는 수단 있으나, 잘못된 방어 패턴
-                                                Log.e("아니네!", "${mCodeBlock.value!![jumpTo].argument} 공격")
+                                                Log.e(
+                                                    "아니네!",
+                                                    "${mCodeBlock.value!![jumpTo].argument} 공격"
+                                                )
                                                 moveView.postValue(LOST_BOSS_BATTLE)
                                             }
-                                        }
-                                        else { // 해당하는 방어, 회피 수단 있으나 아직 공격 중이지 않음.
+                                        } else { // 해당하는 방어, 회피 수단 있으나 아직 공격 중이지 않음.
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
@@ -421,9 +440,7 @@ class RunModel : RunBaseModel() {
                                         if (bossAttackIterator <= 0) {
                                             IR = jumpTo
                                             Log.e("블랙홀 끝!!", "$jumpTo 로!")
-                                        }
-
-                                        else {
+                                        } else {
                                             bossAttackIterator--
                                         }
                                     }
@@ -433,7 +450,12 @@ class RunModel : RunBaseModel() {
                     }
 
                     if (bossAttackIterator > 0 && mCodeBlock.value!![turnOff].type == 0 && mMonster != null) {
-                        if (ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "}" && ((mMonster!!.attackType == BOSS_BLACKHOLE && ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "grabTight();") || (mMonster!!.attackType == BOSS_FIST_DOWN && ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "jump();"))) {
+                        if (ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "}" && ((mMonster!!.attackType == BOSS_BLACKHOLE && ignoreBlanks(
+                                mCodeBlock.value!![turnOff].funcName
+                            ) != "grabTight();") || (mMonster!!.attackType == BOSS_FIST_DOWN && ignoreBlanks(
+                                mCodeBlock.value!![turnOff].funcName
+                            ) != "jump();"))
+                        ) {
                             Log.e("블랙홀, 점프 파동", "진행 중")
                             Log.e("근데 ", ignoreBlanks(mCodeBlock.value!![turnOff].funcName))
                             moveView.postValue(LOST_BOSS_BATTLE)

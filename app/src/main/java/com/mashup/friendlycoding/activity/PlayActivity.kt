@@ -141,7 +141,11 @@ class PlayActivity : BaseActivity() {
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
 
-                    findViewById<ImageView>(itemNumber).isVisible = false
+
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
+
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
@@ -158,7 +162,9 @@ class PlayActivity : BaseActivity() {
                         packageName
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
-                    findViewById<ImageView>(itemNumber).isVisible = false
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
                     Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
@@ -173,8 +179,8 @@ class PlayActivity : BaseActivity() {
                     binding.tvWin.isVisible = true
                     val intent = Intent()
                     Log.e("승리", "승리")
-                    intent.putExtra("ok","ok")
-                    setResult(Activity.RESULT_OK,intent)
+                    intent.putExtra("ok", "ok")
+                    setResult(Activity.RESULT_OK, intent)
                 }
 
                 9 -> {  // 종료
@@ -229,14 +235,22 @@ class PlayActivity : BaseActivity() {
                 defineFightBossClose.isVisible = true
 
                 if (stageNum == 51) {
-                    this.mRun.mCodeBlock.value = arrayListOf (
+                    this.mRun.mCodeBlock.value = arrayListOf(
                         CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
                         CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
                         CodeBlock("        wait();"),
                         CodeBlock("        jump();"),
                         CodeBlock("    }"),
-                        CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
-                        CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
+                        CodeBlock(
+                            "    if(bossFistMoved()){",
+                            type = IF,
+                            argument = BOSS_FIST_MOVED
+                        ),
+                        CodeBlock(
+                            "        if(bossFistDown()){",
+                            type = IF,
+                            argument = BOSS_FIST_DOWN
+                        ),
                         CodeBlock("            for(3){", type = FOR, argument = 3),
                         CodeBlock("                jump();"),
                         CodeBlock("            }"),
@@ -254,7 +268,11 @@ class PlayActivity : BaseActivity() {
                     this.mRun.mCodeBlock.value = arrayListOf(
                         CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
                         CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
-                        CodeBlock("        while(isBlackhole()) {", type = WHILE, argument = IS_BLACKHOLE),
+                        CodeBlock(
+                            "        while(isBlackhole()) {",
+                            type = WHILE,
+                            argument = IS_BLACKHOLE
+                        ),
                         CodeBlock("             grabTight();"),
                         CodeBlock("        }"),
                         CodeBlock("    }"),
@@ -266,7 +284,8 @@ class PlayActivity : BaseActivity() {
                         CodeBlock("    readySpell(attack);", argument = ATTACK),
                         CodeBlock("    wandSpell();"),
                         CodeBlock("    shoutSpell();"),
-                        CodeBlock("}"))
+                        CodeBlock("}")
+                    )
                 }
                 //this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
@@ -290,9 +309,7 @@ class PlayActivity : BaseActivity() {
                 Toast.makeText(this, "보스를 만났어요", Toast.LENGTH_SHORT).show()
                 mCodeBlockViewModel.isRunning.value = false
                 mCodeBlockViewModel.setOfferedBlock(mMapSettingViewModel.bossBattleBlock!!)
-            }
-
-            else {
+            } else {
                 defineFightBoss.visibility = View.GONE
                 defineFightBossClose.visibility = View.GONE
 

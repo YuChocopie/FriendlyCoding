@@ -51,6 +51,7 @@ package com.mashup.friendlycoding.model
     val IS_POISONED = 14
 
     const val IS_ALIVE = 15
+    const val BASE=16
 
     // item numbers
     val PATH = 0
