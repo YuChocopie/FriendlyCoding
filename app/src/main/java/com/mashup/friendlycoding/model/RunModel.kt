@@ -10,12 +10,12 @@ class RunModel : RunBaseModel() {
 
     fun collisionCheck(): Int {   // 벽이나 보스와의 충돌 감지
         if (x < 10 && x > -1 && y < 10 && y > -1) {
-            Log.e("충돌아직!! 원인은?!", "${(mMap.mapList!![y][x]) % 10}")
-            if ((mMap.mapList!![y][x] == WALL) || ((mMap.mapList!![y][x]) % 10 == ROCK)) {
-                Log.e("충돌발생!! 원인은?!", "${(mMap.mapList!![y][x]) % 10}")
+            Log.e("충돌아직!! 원인은?!", "${(mMap.mapList!![y][x]) % BASE}")
+            if ((mMap.mapList!![y][x] == WALL) || ((mMap.mapList!![y][x]) % BASE == ROCK)) {
+                Log.e("충돌발생!! 원인은?!", "${(mMap.mapList!![y][x]) % BASE}")
                 // 돌 또는 벽이라면 졌다는 시그널 전송
                 return PLAYER_LOST
-            } else if (mMap.mapList!![y][x] % 10 == CLEAR) {
+            } else if (mMap.mapList!![y][x] % BASE == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
                 return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
             }
@@ -248,7 +248,7 @@ class RunModel : RunBaseModel() {
                         }
                         // 보스전 부분
                         "fightBoss();" -> {
-                            if (mMap.mapList!![y][x] % 10 == BOSS) {
+                            if (mMap.mapList!![y][x] % BASE == BOSS) {
                                 backup = arrayListOf()
                                 backup!!.addAll(mCodeBlock.value!!)
                                 backIR = IR + 1

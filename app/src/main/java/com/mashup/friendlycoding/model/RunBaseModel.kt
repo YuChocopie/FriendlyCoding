@@ -343,15 +343,15 @@ open class RunBaseModel {
         Log.e("돌을 부숩니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
 
         Log.e("어디보냐", "난 ${mPrincessViewModel.direction} 을 보고있어")
-        //Log.e("($y, $x)의 앞에는", "공주 앞엔 ${mMap.mapList!![y][x+1]}, 나눈것 : ${mMap.mapList!![y][x+1] % 10}")
+        //Log.e("($y, $x)의 앞에는", "공주 앞엔 ${mMap.mapList!![y][x+1]}, 나눈것 : ${mMap.mapList!![y][x+1] % BASE}")
 
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
 
             0 -> {
-                if (mMap.mapList!![y - 1][x] % 10 == item) {
+                if (mMap.mapList!![y - 1][x] % BASE == item) {
 
                     val cnt = f()
-                    changingView = mMap.mapList!![y - 1][x] / 10
+                    changingView = mMap.mapList!![y - 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
                     mPrincessViewModel.isItem.postValue("true")
                     mMap.itemPicked(y - 1, x)
@@ -364,13 +364,13 @@ open class RunBaseModel {
             1 -> {
                 Log.e(
                     "돌을 부숩니다.$y, $x",
-                    "공주 앞엔 ${mMap.mapList!![y][x + 1]}, 나눈것 : ${mMap.mapList!![y][x + 1] % 10}"
+                    "공주 앞엔 ${mMap.mapList!![y][x + 1]}, 나눈것 : ${mMap.mapList!![y][x + 1] % BASE}"
                 )
-                if (mMap.mapList!![y][x + 1] / 2 == item) {
-                    Log.e("item", "${mMap.mapList!![y][x + 1] % 10}")
+                if (mMap.mapList!![y][x + 1] % BASE == item) {
+                    Log.e("item", "${mMap.mapList!![y][x + 1] % BASE}")
                     val cnt = f()
                     Log.e("cnt", "$cnt")
-                    changingView = mMap.mapList!![y][x + 1] / 10
+                    changingView = mMap.mapList!![y][x + 1] / BASE
 
                     Log.e("changing", "$changingView")
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
@@ -383,10 +383,10 @@ open class RunBaseModel {
                 }
             }
             2 -> {
-                if (mMap.mapList!![y + 1][x] % 10 == item) {
+                if (mMap.mapList!![y + 1][x] % BASE == item) {
 
                     val cnt = f()
-                    changingView = mMap.mapList!![y + 1][x] / 10
+                    changingView = mMap.mapList!![y + 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
                     mPrincessViewModel.isItem.postValue("true")
                     mMap.itemPicked(y + 1, x)
@@ -397,9 +397,9 @@ open class RunBaseModel {
                 }
             }
             3 -> {
-                if (mMap.mapList!![y][x - 1] % 10 == item) {
+                if (mMap.mapList!![y][x - 1] % BASE == item) {
                     val cnt = f()
-                    changingView = mMap.mapList!![y][x - 1] / 10
+                    changingView = mMap.mapList!![y][x - 1] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
                     mPrincessViewModel.isItem.postValue("true")
                     mMap.itemPicked(y, x - 1)
@@ -414,10 +414,10 @@ open class RunBaseModel {
 
     fun itemPick(item: Int, f: () -> Int) {
         Log.e("아이템을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-        if (mMap.mapList!![y][x] % 10 == item) {
+        if (mMap.mapList!![y][x] % BASE == item) {
             //mPrincess.pickBranch()
             val cnt = f()
-            changingView = mMap.mapList!![y][x] / 10
+            changingView = mMap.mapList!![y][x] / BASE
             Log.e("chaaa", "${mMap.mapList!![y][x]}")
             //changingViewAll = mMap.mapList!![y][x]
             mPrincessViewModel.itemCount.postValue(cnt.toString())

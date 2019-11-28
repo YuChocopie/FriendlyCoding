@@ -13,7 +13,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 val a = rand(0, 10)
                 val b = rand(0, 10)
                 if (mapList[a][b] == 0) {
-                    mapList[a][b] = (i + 1) * 10 + mDrawables.item[i].item_id
+                    mapList[a][b] = (i + 1) * BASE + mDrawables.item[i].item_id
                     mDrawables.item[i].X = a
                     mDrawables.item[i].Y = b
                     mDrawables.item[i].visibility = View.VISIBLE
@@ -33,7 +33,7 @@ class MapSettingModel : MapSettingBaseModel() {
             for (j in 0 until mDrawables.item.size - 1) {
                 var x = arr[i][j]
                 var y = arr[i][j + 1]
-                mapList[x][y] = (i + 1) * 10 + mDrawables.item[i].item_id
+                mapList[x][y] = (i + 1) * BASE + mDrawables.item[i].item_id
                 mDrawables.item[i].X = x
                 mDrawables.item[i].Y = y
                 mDrawables.item[i].visibility = View.VISIBLE
