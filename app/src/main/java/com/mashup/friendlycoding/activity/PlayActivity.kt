@@ -225,7 +225,7 @@ class PlayActivity : BaseActivity() {
 
         // 공주가 보스를 만남
         mRun.metBoss.observe(this, Observer<Boolean> { t ->
-            boss.text = if (t) "OFF" else "보스"
+            //boss.text = if (t) "OFF" else "보스"
             constraintLayout.isVisible = !t
             bossField.isVisible = t
 
