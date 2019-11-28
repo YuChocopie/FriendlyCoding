@@ -76,7 +76,7 @@ class SelectStageActivity : BaseActivity() {
                     }
                 }
                 if(actNum >= 20){
-                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.grayColor(binding.stage1)
                     mSelectStageViewModel.grayColor(binding.stage2)
                     mSelectStageViewModel.grayColor(binding.stage3)
                 }
@@ -102,7 +102,7 @@ class SelectStageActivity : BaseActivity() {
                     }
                 }
                 if(actNum >= 30){
-                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.grayColor(binding.stage1)
                     mSelectStageViewModel.grayColor(binding.stage2)
                     mSelectStageViewModel.grayColor(binding.stage3)
                 }
@@ -128,7 +128,7 @@ class SelectStageActivity : BaseActivity() {
                     }
                 }
                 if(actNum >= 40){
-                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.grayColor(binding.stage1)
                     mSelectStageViewModel.grayColor(binding.stage2)
                     mSelectStageViewModel.grayColor(binding.stage3)
                 }
@@ -154,7 +154,7 @@ class SelectStageActivity : BaseActivity() {
                     }
                 }
                 if(actNum >= 50){
-                    mSelectStageViewModel.setColor(binding.stage1)
+                    mSelectStageViewModel.grayColor(binding.stage1)
                     mSelectStageViewModel.grayColor(binding.stage2)
                     mSelectStageViewModel.grayColor(binding.stage3)
                 }
