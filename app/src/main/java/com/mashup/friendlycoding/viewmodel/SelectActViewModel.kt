@@ -41,19 +41,6 @@ class SelectActViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun banClick (act : Int) : Boolean {
         Log.e("backClick","this.list.size : ${this.list.size}, act: $act , this.check : ${this.check}")
-        if(check < 10){
-            return (this.list.size - act) - 1 <= 0
-        }else if(check < 20){
-            return (this.list.size - act) - 1 <= 2
-        }else if(check < 30){
-            return (this.list.size - act) - 1 <= 3
-        }else if(check < 40){
-            return (this.list.size - act) - 1 <= 4
-        }else if(check < 50){
-            return (this.list.size - act) - 1 <= 5
-        }else if(check < 60){
-            return (this.list.size - act) -1 <= 6
-        }
         return true
     }
 
