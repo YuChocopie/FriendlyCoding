@@ -48,9 +48,10 @@ class PlayActivity : BaseActivity() {
         binding.lifecycleOwner = this
         initStage(binding)
 
-        btnClear.setOnClickListener {
-            restart()
-        }
+//        btnClear.setOnClickListener {
+//            restart()
+//        }
+
         if (this.stageNum == 11) {
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
@@ -100,37 +101,27 @@ class PlayActivity : BaseActivity() {
         mRun.moveView.observe(this, Observer<Int> { t ->
             when (t) {
                 START_RUN -> {
-                    mCodeBlockViewModel.isRunning.postValue(true)
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                 }
 
                 END_RUN -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 INFINITE_LOOP -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 COMPILE_ERROR -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Log.e("compile", "error")
                     Toast.makeText(this, "컴파일 에러", Toast.LENGTH_SHORT).show()
                 }
 
                 LOST_BOSS_BATTLE -> {
                     Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
-                    mCodeBlockViewModel.isRunning.postValue(false)
-                    boss.text = "보스"
-                    constraintLayout.isVisible = true
-                    bossField.isVisible = false
-                    mCodeBlockViewModel.clearBlock()
-                    mPrincessViewModel.clear()
                 }
 
                 ITEM_PICKED -> {  // 아이템 습득
@@ -142,7 +133,6 @@ class PlayActivity : BaseActivity() {
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
 
                     findViewById<ImageView>(itemNumber).isVisible = false
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
                         if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
@@ -150,8 +140,8 @@ class PlayActivity : BaseActivity() {
                         }
                     }
                 }
-                CRUSH_ROCK -> {  // 아이템 습득
 
+                CRUSH_ROCK -> {  // 아이템 습득
                     itemNumber = resources.getIdentifier(
                         "item_" + mRun.changingView.toString(),
                         "id",
@@ -159,14 +149,21 @@ class PlayActivity : BaseActivity() {
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
                     findViewById<ImageView>(itemNumber).isVisible = false
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
                 }
 
                 PLAYER_LOST -> {  // 패배
-                    mCodeBlockViewModel.isRunning.postValue(false)
-//                    mCodeBlockViewModel.clearBlock()
-//                    mPrincessViewModel.clear()
-                    restart()
+                    //restart()
+                    Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
+                    constraintLayout.isVisible = true
+                    bossField.isVisible = false
+                    val itemSize = mMapSettingViewModel.itemSize()
+                    for (i in 0 until itemSize) {
+                        findViewById<ImageView>(resources.getIdentifier("item_" + (i+1).toString(), "id", packageName)).isVisible = true
+                    }
+                    mPrincessViewModel.clear()
+                    mRun.mMap.clear()
+                    mRun.mPrincess.clear()
+                    mCodeBlockViewModel.isRunning.value = false
                 }
 
                 PLAYER_WIN -> {  // 승리

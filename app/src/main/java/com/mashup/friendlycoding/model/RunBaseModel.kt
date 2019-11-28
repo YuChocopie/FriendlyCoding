@@ -13,20 +13,17 @@ import kotlin.collections.ArrayList
 open class RunBaseModel {
     // PrincessViewModel
     lateinit var mPrincessViewModel: PrincessViewModel
-    var moveView =
-        MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
+    var moveView = MutableLiveData<Int>()    // MainActivity에게 보내는 시그널 - 진행 중 상황. 코드 실행의 시작, 종료, 공주의 움직임 등.
 
     // CodeBlockViewModel
     lateinit var mCodeBlockViewModel: CodeBlockViewModel
     var nowProcessing = MutableLiveData<Int>()   // MainActivity에게 보내는 시그널 - 현재 진행 중인 코드 번호
     var nowTerminated = MutableLiveData<Int>()   // MainActiivty에게 보내는 시그널 - 현재 진행 종료된 코드 번호
-    var mCodeBlock =
-        MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
+    var mCodeBlock = MutableLiveData<ArrayList<CodeBlock>>()    // 코드 블록, MainActivity가 보고 뷰의 수정과 스크롤이 일어남
     var insertBlockAt = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 코드 블록이 어디에 삽입될 지를 알려준다.
 
     // BattleViewModel
-    var metBoss =
-        MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
+    var metBoss = MutableLiveData<Boolean>()  // MainActivity에게 보내는 시그널 - 플레이어가 보스를 만났는지 여부. 만났으면 뷰와 인풋코드블록을 바꾼다.
     var monsterAttack = MutableLiveData<Int>()  // MainActivity에게 보내는 시그널 - 보스의 공격 유형
     var princessAction = MutableLiveData<Int>() // MainActivity에게 보내는 시그널 - 보스전에서의 공주의 행동
     var monsterAttacked = MutableLiveData<Boolean>()    // MainActivity에게 보내는 시그널 - 보스가 공격당했는지 여부
@@ -47,7 +44,6 @@ open class RunBaseModel {
     var insertBlockPosition = 0
     var insertedBlock: String? = null   // 삽입된 코드 블록의 이름
     var changingView: Int = 0    // 아이템을 주웠거나 아이템이 파괴됐을시 해당 아이템의 ID를 MainActivity에게 알려준다.
-    var changingViewAll: Int = 0
 
     var jumpTo = 0 // jump 할 주소
     var IR = 0  // 명령어 실행할 주소
@@ -72,6 +68,7 @@ open class RunBaseModel {
 
     // 클리어 조건
     var mClearCondition: ((Princess) -> Boolean)? = null
+    var stageClear = false
 
     /***
      * inti()
@@ -123,17 +120,17 @@ open class RunBaseModel {
      * 코드블락 관련 코드
      * ***/
     fun clearBlock() {
-        mPrincessViewModel.clear()
+        //mPrincessViewModel.clear()
         first = true
         bossKilled = false
         x = mMap.startX
         y = mMap.startY
-        mPrincessViewModel.direction = 1
+        //mPrincessViewModel.direction = 1
         iterator = 0
         jumpTo = 0
         blockLevel = 0
         moveView.postValue(-1)
-        insertBlockAt.postValue(-1)
+        insertBlockAt.value = -1
         val block = mCodeBlock.value
         block!!.clear()
         bracketStack.clear()
@@ -143,6 +140,7 @@ open class RunBaseModel {
         isBossAlive = false
         princessAction.value = -1
         compileError = false
+        moveView.postValue(PLAYER_LOST)
     }
 
     fun changeBlockLevel(OpenOrClose: Boolean) {
@@ -385,7 +383,6 @@ open class RunBaseModel {
             val cnt = f()
             changingView = mMap.mapList!![y][x] / 10
             Log.e("chaaa","${mMap.mapList!![y][x]}")
-            //changingViewAll = mMap.mapList!![y][x]
             mPrincessViewModel.itemCount.postValue(cnt.toString())
             mPrincessViewModel.isItem.postValue("true")
             mMap.itemPicked(y, x)

@@ -12,7 +12,7 @@ import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.StageItem
 
 class SelectActViewModel(application: Application) : AndroidViewModel(application){
-    var checkNum : Int = 0
+    var checkNum : Int = 53
     var check : Int = checkNum/10
     var scroll : Int = check / 10
     lateinit var adapter : SelectActAdapter

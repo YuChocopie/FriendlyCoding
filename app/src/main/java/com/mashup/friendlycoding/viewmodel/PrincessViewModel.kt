@@ -110,6 +110,7 @@ class PrincessViewModel : ViewModel() {
         axeImg!!.isVisible = false
         direction = 1
 
-
+        itemCount.value = "0"
+        isItem.value = "false"
     }
 }
