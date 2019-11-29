@@ -51,8 +51,11 @@ val IS_BOOK = 11
 val IS_NOT_BROKEN = 12
 val IS_ROCK = 13
 val IS_BAT=17
-val IS_POISONED = 14
+//val IS_POISONED = 14
 val KILL_BAT = 11
+val IS_RIGHT_LOAD = 14
+val IS_CLEAR = 22
+
 
 const val IS_ALIVE = 15
 const val BASE = 16

@@ -47,7 +47,6 @@ class MapSettingModel : MapSettingBaseModel() {
             // Act 0
             0 -> {
                 // 맵 정보
-                // TODO : 아이템의 위치 랜덤하게
                 val mapList = mapListAct0
                 // 드로어블
                 val mDrawables =
@@ -126,11 +125,11 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 // 기본 제공되는 블록
                 return Stage(
-                        Map(mapList, mapList, mDrawables, startX, startY),
-                        Princess(),
-                        offeredBlock = defaultCodeBlock_tutorial,
-                        clearCondition = conditionSelector(stageNum)
-                        )
+                    Map(mapList, mapList, mDrawables, startX, startY),
+                    Princess(),
+                    offeredBlock = defaultCodeBlock_tutorial,
+                    clearCondition = conditionSelector(stageNum)
+                )
             }
 
             2 -> {
@@ -262,49 +261,59 @@ class MapSettingModel : MapSettingBaseModel() {
             4 -> {
                 val mDrawables = MapDrawable()
                 var mapList: Array<Array<Int>> = mapListActNull
-                var princessAction : ArrayList<Int>? = arrayListOf(
+                var princessAction: ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire_shield,
                     R.drawable.attack_ice_shield)
 
-                val bossAction : ArrayList<Int>? = arrayListOf(
+                val bossAction: ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
                     R.drawable.attack_ice)
-
 
                 when (stageNum % 10) {
                     // Stage 1
                     1 -> {
+                        mapList = mapListAct4_1
+                        defaultCodeBlock.add(
+                            CodeBlock("fightBoss();")
+                        )
                         mDrawables.backgroundImg = R.drawable.bg_stage04_1
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR)
+                            MapItem(R.drawable.monster1, BOSS)
                         )
+                        mDrawables.item[0].X = 5
+                        mDrawables.item[0].Y = 5
                         mDrawables.princessX = 4
                         mDrawables.princessY = 9
+                        mapList[6][5] = mDrawables.item[0].item_id
+                        mDrawables.monsterImg = R.drawable.monster1
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
+                        defaultBattleCodeBlock.addAll(battleCodeBlock2)
                     }
-
                     2 -> {
+                        mapList = mapListAct4_2
                         mDrawables.backgroundImg = R.drawable.bg_stage04_2
-
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_circle, CLEAR)
+                            MapItem(R.drawable.ic_gate, CLEAR)
                         )
+                        defaultCodeBlock.addAll(stageCodeBlock4_2)
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
-
+                        mDrawables.item[0].X = 4
+                        mDrawables.item[0].Y = 4
+                        mapList[4][4] = mDrawables.item[0].item_id
                     }
                 }
 
-                    return Stage(
-                        setMapRandomItem(mapList, mDrawables),
-                        Princess(),
-                        defaultCodeBlock,
-                        conditionSelector(stageNum),
-                        Monster(1, 100, 0, 0),
-                        defaultBattleCodeBlock,
-                        princessAction,
-                        bossAction
-                        )
+
+                return Stage(
+                    Map(mapList, mapList, mDrawables, startX, startY),
+                    Princess(),
+                    defaultCodeBlock,
+                    conditionSelector(stageNum),
+                    Monster(1, 100, 0, 0),
+                    defaultBattleCodeBlock,
+                    princessAction,
+                    bossAction)
 
             }
 

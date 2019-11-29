@@ -84,6 +84,10 @@ open class MapSettingBaseModel {
         CodeBlock("crushRock();"),
         CodeBlock("pickAxe();")
     )
+    var stageCodeBlock4_2 = arrayListOf(
+        CodeBlock("isRightLoad()", type = 3, argument = IS_RIGHT_LOAD),
+        CodeBlock("isClear()", type = 3, argument = IS_CLEAR)
+    )
 
     /**
      * 보스 배틀 코드블락
@@ -188,5 +192,29 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1)
+    )
+    var mapListAct4_1 = arrayOf(
+        arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    )
+    var mapListAct4_2 = arrayOf(
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 0),
+        arrayOf(0, 1, 0, 0, 0, 0, 0, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 1, 1, 1, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 0, 1, 1, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 0, 1, 1, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 0, 1, 1, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 0, 0, 0, 0, 1, 0),
+        arrayOf(0, 1, 0, 1, 1, 1, 1, 1, 1, 0),
+        arrayOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0)
     )
 }

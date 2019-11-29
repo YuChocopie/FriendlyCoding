@@ -8,7 +8,6 @@ import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 open class RunBaseModel {
     // PrincessViewModel
@@ -272,8 +271,37 @@ open class RunBaseModel {
         return ir
     }
 
-    fun type3Function(num: Int) : Boolean {
+    fun type3Function(num: Int): Boolean {
+        Log.e("123123", "num " + num)
+
         when (num) {
+            IS_RIGHT_LOAD -> {
+                when (mPrincessViewModel.direction % 4) {
+                    0 -> {
+                        Log.e("123123", "0 " + mMap.mapList!![y][x + 1])
+                        return (mMap.mapList!![y][x + 1] == 0)
+                    }
+                    1 -> {
+                        Log.e("123123","1"+ (mMap.mapList!![y + 1][x] == 0) )
+                        if (mMap.mapList!![y + 1][x] == 0) {
+                            return true
+                        }
+                    }
+                    2 -> {
+                        Log.e("123123","2"+(mMap.mapList!![y][x - 1] == 0))
+                        if (mMap.mapList!![y][x - 1] == 0) {
+                            return true
+                        }
+                    }
+                    3 -> {
+                        Log.e("123123","3"+ (mMap.mapList!![y - 1][x] == 0) )
+                        if (mMap.mapList!![y - 1][x] == 0) {
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
             IS_PICKAXE -> {
                 return mMap.mapList!![y][x] % BASE == PICKAXE
             }
@@ -293,10 +321,13 @@ open class RunBaseModel {
                 return mPrincess.isRock
             }
             IS_BAT -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBat
-                })
+                return mPrincess.isBat
             }
+            IS_CLEAR -> {
+
+                return mMap.mapList!![y][x] != 2
+            }
+
             else -> {
                 return true
             }
@@ -378,6 +409,7 @@ open class RunBaseModel {
             }
         }
     }
+
     //TODO:cruchRock 함수 호출 시 itemCount의 값이 스테이지별로 전달되고 안되고 구분하기
     fun cruchRock(item: Int, f: () -> Int) {
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
@@ -389,9 +421,9 @@ open class RunBaseModel {
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }
-                    Log.e("삭제전","ㅇㅇ")
+                    Log.e("삭제전", "ㅇㅇ")
                     mMap.itemPicked(y - 1, x)
-                    Log.e("삭제 후", "${y-1}, $x")
+                    Log.e("삭제 후", "${y - 1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
@@ -407,9 +439,9 @@ open class RunBaseModel {
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }
-                    Log.e("삭제전","ㅇㅇ")
+                    Log.e("삭제전", "ㅇㅇ")
                     mMap.itemPicked(y, x + 1)
-                    Log.e("삭제 후", "${y-1}, $x")
+                    Log.e("삭제 후", "${y - 1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
@@ -452,7 +484,7 @@ open class RunBaseModel {
         }
     }
 
-    fun itemPick(item: Int, f: () -> Int) : Boolean {
+    fun itemPick(item: Int, f: () -> Int): Boolean {
         Log.e("아이템을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
         if (mMap.mapList!![y][x] % BASE == item) {
             //mPrincess.pickBranch()
