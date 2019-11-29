@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.activity.PlayActivity
 import com.mashup.friendlycoding.model.MapDrawable
+import kotlinx.android.synthetic.main.activity_play.*
 
 class PrincessViewModel : ViewModel() {
     var itemCount = MutableLiveData<String>()

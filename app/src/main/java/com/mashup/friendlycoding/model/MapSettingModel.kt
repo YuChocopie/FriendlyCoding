@@ -306,7 +306,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
 
                 return Stage(
-                    Map(mapList, mapList, mDrawables, startX, startY),
+                    Map(mapList, mDrawables, startX, startY),
                     Princess(),
                     defaultCodeBlock,
                     conditionSelector(stageNum),

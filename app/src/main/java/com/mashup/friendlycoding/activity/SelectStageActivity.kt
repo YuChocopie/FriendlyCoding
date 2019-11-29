@@ -32,7 +32,8 @@ class SelectStageActivity : BaseActivity() {
             R.layout.activity_select_stage
         )
         binding.act = actNum
-        if (actNum > 3) {
+        Log.e("actNum",""+actNum)
+        if (actNum > 30) {
             stage3.visibility = View.INVISIBLE
             tvStage3.visibility= View.INVISIBLE
         }
