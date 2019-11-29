@@ -19,6 +19,14 @@ import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_play.*
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import android.widget.TextView
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.app.Dialog
+import kotlinx.android.synthetic.main.tinkerbell.*
+import java.util.*
 
 
 class PlayActivity : BaseActivity() {
@@ -33,10 +41,12 @@ class PlayActivity : BaseActivity() {
     private var mp: MediaPlayer? = null
     var stageNum: Int = 0
     lateinit var binding: ActivityPlayBinding
-
+    lateinit var dialog: Dialog
+    lateinit var tinkScript : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
@@ -44,15 +54,15 @@ class PlayActivity : BaseActivity() {
         binding.lifecycleOwner = this
         initStage(binding)
 
-//        btnClear.setOnClickListener {
-//            restart()
-//        }
-
         val intent = Intent(this, StoryActivity::class.java)
         intent.putExtra("stageNum", this.stageNum)
         startActivity(intent)
 
         Log.e("stageNum", "$stageNum")
+
+        this.dialog = Dialog(this)
+        this.dialog.setContentView(R.layout.tinkerbell)
+        tinkSaying()
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -68,19 +78,19 @@ class PlayActivity : BaseActivity() {
                 binding.tvState.text = "isBook = "
             }
             22 -> {
-                binding.tvState.setText("isMushroom = ")
-                binding.tvCount.setText("mushroomCnt = ")
+                binding.tvState.text = "isMushroom = "
+                binding.tvCount.text = "mushroomCnt = "
             }
             23 -> {
-                binding.tvCount.setText("branchCnt = ")
-                binding.tvState.setText("isBranch = ")
+                binding.tvCount.text = "branchCnt = "
+                binding.tvState.text = "isBranch = "
             }
             31 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isRock = "
             }
             32 -> {
-                binding.tvCount.text = "batCnt = "
+                binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isBat = "
             }
         }
@@ -171,6 +181,7 @@ class PlayActivity : BaseActivity() {
                 PLAYER_LOST -> {  // 패배
                     //restart()
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
+                    mCodeBlockViewModel.coloringNowTerminated(rc_code_block_list.findViewHolderForAdapterPosition(mRun.IR))
                     constraintLayout.isVisible = true
                     bossField.isVisible = false
                     val itemSize = mMapSettingViewModel.itemSize()
@@ -187,6 +198,7 @@ class PlayActivity : BaseActivity() {
                     mRun.mMap.clear()
                     mRun.mPrincess.clear()
                     mCodeBlockViewModel.isRunning.value = false
+                    binding.codeBlockVM = this.mCodeBlockViewModel
                 }
 
                 PLAYER_WIN -> {  // 승리
@@ -214,13 +226,9 @@ class PlayActivity : BaseActivity() {
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             Log.e("현재 실행 위치", "$t")
-            if (t > 8)
-                rc_code_block_list.smoothScrollToPosition(t + 3)
-            mCodeBlockViewModel.coloringNowProcessing(
-                rc_code_block_list.findViewHolderForAdapterPosition(
-                    t
-                )
-            )
+            if (t > 0)
+            rc_code_block_list.smoothScrollToPosition(t)
+            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -248,60 +256,60 @@ class PlayActivity : BaseActivity() {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
 
-                if (stageNum == 51) {
-                    this.mRun.mCodeBlock.value = arrayListOf(
-                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
-                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-                        CodeBlock("        wait();"),
-                        CodeBlock("        jump();"),
-                        CodeBlock("    }"),
-                        CodeBlock(
-                            "    if(bossFistMoved()){",
-                            type = IF,
-                            argument = BOSS_FIST_MOVED
-                        ),
-                        CodeBlock(
-                            "        if(bossFistDown()){",
-                            type = IF,
-                            argument = BOSS_FIST_DOWN
-                        ),
-                        CodeBlock("            for(3){", type = FOR, argument = 3),
-                        CodeBlock("                jump();"),
-                        CodeBlock("            }"),
-                        CodeBlock("        }"),
-                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-                        CodeBlock("            dodge();"),
-                        CodeBlock("        }"),
-                        CodeBlock("    }"),
-                        CodeBlock("    attack();"),
-                        CodeBlock("}")
-                    )
-                }
-
-                if (stageNum == 52) {
-                    this.mRun.mCodeBlock.value = arrayListOf(
-                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
-                        CodeBlock(
-                            "        while(isBlackhole()) {",
-                            type = WHILE,
-                            argument = IS_BLACKHOLE
-                        ),
-                        CodeBlock("             grabTight();"),
-                        CodeBlock("        }"),
-                        CodeBlock("    }"),
-                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
-                        CodeBlock("        readySpell(shield);", argument = SHIELD),
-                        CodeBlock("        wandSpell();"),
-                        CodeBlock("        shoutSpell();"),
-                        CodeBlock("    }"),
-                        CodeBlock("    readySpell(attack);", argument = ATTACK),
-                        CodeBlock("    wandSpell();"),
-                        CodeBlock("    shoutSpell();"),
-                        CodeBlock("}")
-                    )
-                }
-                //this.mRun.mCodeBlock.value = arrayListOf()
+//                if (stageNum == 51) {
+//                    this.mRun.mCodeBlock.value = arrayListOf(
+//                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+//                        CodeBlock("        wait();"),
+//                        CodeBlock("        jump();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock(
+//                            "    if(bossFistMoved()){",
+//                            type = IF,
+//                            argument = BOSS_FIST_MOVED
+//                        ),
+//                        CodeBlock(
+//                            "        if(bossFistDown()){",
+//                            type = IF,
+//                            argument = BOSS_FIST_DOWN
+//                        ),
+//                        CodeBlock("            for(3){", type = FOR, argument = 3),
+//                        CodeBlock("                jump();"),
+//                        CodeBlock("            }"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+//                        CodeBlock("            dodge();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    attack();"),
+//                        CodeBlock("}")
+//                    )
+//                }
+//
+//                if (stageNum == 52) {
+//                    this.mRun.mCodeBlock.value = arrayListOf(
+//                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
+//                        CodeBlock(
+//                            "        while(isBlackhole()) {",
+//                            type = WHILE,
+//                            argument = IS_BLACKHOLE
+//                        ),
+//                        CodeBlock("             grabTight();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
+//                        CodeBlock("        readySpell(shield);", argument = SHIELD),
+//                        CodeBlock("        wandSpell();"),
+//                        CodeBlock("        shoutSpell();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    readySpell(attack);", argument = ATTACK),
+//                        CodeBlock("    wandSpell();"),
+//                        CodeBlock("    shoutSpell();"),
+//                        CodeBlock("}")
+//                    )
+//                }
+                this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 
@@ -357,6 +365,13 @@ class PlayActivity : BaseActivity() {
                 princess_attack_motion.isVisible = false
             }
         })
+
+        tink.setOnClickListener{
+            this.dialog.setTitle("팅커벨")
+            val rand = Random()
+            this.dialog.tink_script.text = this.tinkScript[rand.nextInt(this.tinkScript.size)]
+            this.dialog.show()
+        }
     }
 
     override fun onStart() {
@@ -404,10 +419,35 @@ class PlayActivity : BaseActivity() {
         binding.mapSettingVM = this.mMapSettingViewModel
         Log.e("layout mapSettingVM", "${this.mMapSettingViewModel.oneBlock.value}")
 
+        this.stageInfo.map.save()
         this.mRun.mMap = this.stageInfo.map
         this.mRun.mPrincess = this.stageInfo.princess
         this.mRun.mClearCondition = this.stageInfo.clearCondition
         this.mRun.mPrincessViewModel = this.mPrincessViewModel
         this.mRun.mCodeBlockViewModel = this.mCodeBlockViewModel
     }
+
+    fun tinkSaying() {
+        this.tinkScript =
+        when (this.stageNum) {
+            11-> arrayOf ("포탈에 들어가면 통과할 수 있어!")
+            12-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "모든 것엔 순서가 있어")
+            13-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "공주의 방향을 예측해야 해", "틀렸다면, 어디서 틀렸는지 확인해 보자!")
+            21-> arrayOf("마법서는 언젠가 요긴하게 쓰일 거야!", "책을 주우면 위의 변수가 증가해!", "변수는 계산할 때 쓰자!")
+            22-> arrayOf("몇몇 버섯은 독버섯이야!", "독버섯인지 아닌지 확인을 하자", "if 를 써봐!")
+            23-> arrayOf("가지가 부러졌는지 확인해야해", "호수를 건너야 해", "가지가 부러졌을 예외를 생각해보자")
+            31-> arrayOf("여기다가", "팅커벨 설명을", "넣으시오")
+            //...
+
+            41-> arrayOf("지금까지 배운 것을 활용해 봐", "순서에 맞게 해야 돼", "모든 것엔 순서가 있어")
+            // ...
+
+            51-> arrayOf("조건을 잘 걸어야 해!", "if 를 잘 써야 해", "주먹을 든 후에, 내려치거나 펀치를 해", "보스가 점프하면 한 템포 기다렸다 점프해")
+            52-> arrayOf("모든 것엔 순서가 있어", "공격/수비 주문을 준비하고, 마법봉에 건 뒤 외치는 거야", "readySpell(); 을 클릭해 봐!", "블랙홀이 언제까지 지속될지 몰라. 꽉 잡아야 해!")
+            else->arrayOf("여기다가 설명을 넣으시오")
+        }
+    }
+
+
+
 }

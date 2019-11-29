@@ -172,15 +172,15 @@ open class RunBaseModel {
 
     fun addNewBlock(codeBlock: CodeBlock) {
         if (insertBlockPosition != -1) {
-            if (codeBlock.type == 3) {
-                Log.e(
-                    "블록을 추가합니다",
-                    "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}"
-                )
+            if (codeBlock.type == 3 || codeBlock.funcName == "attack" || codeBlock.funcName == "shield") {
+                Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
                 mCodeBlock.value!![insertBlockPosition].funcName =
                     insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
+
+                if (codeBlock.type == 0)
+                    mCodeBlock.value!![insertBlockPosition].funcName += ";"
                 //insertBlockAt.postValue(insertBlockPosition)
                 insertBlockPosition = -1
                 Log.e("${codeBlock.funcName} ", "${insertBlockAt.value}에 추가됨")
@@ -191,7 +191,7 @@ open class RunBaseModel {
             return
         }
 
-        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
+        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type, argument = codeBlock.argument)
         if (adding.funcName == "}") {
             if (bracketStack.empty()) {
                 return
@@ -320,14 +320,16 @@ open class RunBaseModel {
             IS_ROCK -> {
                 return mPrincess.isRock
             }
+
             IS_BAT -> {
                 return mPrincess.isBat
             }
             IS_CLEAR -> {
-
                 return mMap.mapList!![y][x] != 2
             }
-
+            IS_NOT_BOSS -> {
+                return mMap.mapList!![y][x] % BASE != BOSS
+            }
             else -> {
                 return true
             }
@@ -335,13 +337,13 @@ open class RunBaseModel {
     }
 
     fun killBat(item: Int, f: () -> Int) {
-        when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
+        when (mPrincessViewModel.direction) {//바라보고있는 방향에 박쥐가 있을 경우
             0 -> {
                 if (mMap.mapList!![y - 1][x] % BASE == item) {
 
                     val cnt = f()
                     changingView = mMap.mapList!![y - 1][x] / BASE
-                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    //mPrincessViewModel.itemCount.postValue(cnt.toString())
                     Log.e("cnt_killBat", "$cnt")
 
                     mPrincessViewModel.isItem.postValue("true")
@@ -362,7 +364,7 @@ open class RunBaseModel {
                     Log.e("cnt_killBat", "$cnt")
                     changingView = mMap.mapList!![y][x + 1] / BASE
                     Log.e("changing", "$changingView")
-                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    //mPrincessViewModel.itemCount.postValue(cnt.toString())
                     Log.e("cnt", "$cnt")
 
                     mPrincessViewModel.isItem.postValue("true")
@@ -379,7 +381,7 @@ open class RunBaseModel {
 
                     val cnt = f()
                     changingView = mMap.mapList!![y + 1][x] / BASE
-                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    //mPrincessViewModel.itemCount.postValue(cnt.toString())
                     Log.e("cnt", "$cnt")
 
                     mPrincessViewModel.isItem.postValue("true")
@@ -395,7 +397,7 @@ open class RunBaseModel {
                 if (mMap.mapList!![y][x - 1] % BASE == item) {
                     val cnt = f()
                     changingView = mMap.mapList!![y][x - 1] / BASE
-                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    //mPrincessViewModel.itemCount.postValue(cnt.toString())
                     Log.e("cnt", "$cnt")
 
                     mPrincessViewModel.isItem.postValue("true")
@@ -411,13 +413,15 @@ open class RunBaseModel {
     }
 
     //TODO:cruchRock 함수 호출 시 itemCount의 값이 스테이지별로 전달되고 안되고 구분하기
-    fun cruchRock(item: Int, f: () -> Int) {
+    fun crushRock(item: Int, f: () -> Int) {
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
             0 -> {
                 if (mMap.mapList!![y - 1][x] % BASE == item) {
                     val cnt = f()
                     changingView = mMap.mapList!![y - 1][x] / BASE
+
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
+
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }

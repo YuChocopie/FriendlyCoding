@@ -16,9 +16,12 @@ class RunModel : RunBaseModel() {
                 return PLAYER_LOST
             } else if (mMap.mapList!![y][x] % BASE == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
-                return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
+                if (IR == mCodeBlock.value!!.size - 1) {
+                    return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
+                }
             }
-        } else {
+        }
+        else {
             moveView.postValue(PLAYER_LOST)     // 인덱스를 넘어갈 시
             return PLAYER_LOST
         }
@@ -216,15 +219,15 @@ class RunModel : RunBaseModel() {
                         }
 
                         "eatMushroom();" -> {
-                            if (itemPick(MUSHROOM, mPrincess::eatMushroom)) return
+                            if (!itemPick(MUSHROOM, mPrincess::eatMushroom)) return
                         }
 
                         "pickBook();" -> {
-                            if (itemPick(BOOK, mPrincess::pickBook)) return
+                            if (!itemPick(BOOK, mPrincess::pickBook)) return
                         }
 
                         "pickBranch();" -> {
-                            if (itemPick(BRANCH, mPrincess::pickBranch)) return
+                            if (!itemPick(BRANCH, mPrincess::pickBranch)) return
                         }
 
                         "crushRock();" -> {
@@ -233,7 +236,7 @@ class RunModel : RunBaseModel() {
                             if (mPrincess.isPickAxe) {
                                 //mMap.drawables!!.item[attackCnt-1]=MapItem(R.drawable.ic_crystal_red, ROCK)
                                 if (attackCnt >= CRUSH_ROCK_COUNT) {
-                                    cruchRock(ROCK, mPrincess::crushRock)
+                                    crushRock(ROCK, mPrincess::crushRock)
                                     attackCnt = 0
                                 }
                             }
@@ -243,6 +246,7 @@ class RunModel : RunBaseModel() {
                             Log.e("Rock1", "andRoll222")
                         }
                         "killBat();" -> {
+
                             if (mPrincess.isPickAxe) {
                                 //mMap.drawables!!.item[attackCnt-1]=MapItem(R.drawable.ic_crystal_red, ROCK)
                                 killBat(BAT, mPrincess::killBat)
@@ -434,7 +438,8 @@ class RunModel : RunBaseModel() {
                             else if (mCodeBlock.value!![IR].type == 4) { // while
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
-                                    IS_ALIVE -> {   // isAlive
+                                    IS_ALIVE -> {
+                                        // isAlive
                                         if (!mMonster!!.isAlive()) {
                                             IR = jumpTo
                                             Log.e("죽었네!", "$jumpTo 로!")
@@ -444,8 +449,6 @@ class RunModel : RunBaseModel() {
                                             metBoss.postValue(false)
                                             iterator = 0
                                             return
-                                        } else {
-                                            iterator++
                                         }
                                     }
 
@@ -457,7 +460,14 @@ class RunModel : RunBaseModel() {
                                             bossAttackIterator--
                                         }
                                     }
+
+                                    IS_NOT_BOSS -> {
+                                        if (mMap.mapList!![y][x] % BASE == BOSS) {
+                                            IR = jumpTo
+                                        }
+                                    }
                                 }
+                                iterator++
                             }
                         }
                     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 class SelectStageViewModel : ViewModel() {
     val stageToStart = MutableLiveData<Int>()
     var matrix = ColorMatrix()
+    var stageNum = 0
 
     fun init() {
         this.stageToStart.value = -1
