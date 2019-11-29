@@ -2,17 +2,12 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
-import com.mashup.friendlycoding.activity.PlayActivity
 import com.mashup.friendlycoding.model.MapDrawable
-import com.mashup.friendlycoding.model.MapSettingModel
-import com.mashup.friendlycoding.model.Stage
-import kotlinx.android.synthetic.main.activity_play.*
+
 
 class PrincessViewModel : ViewModel() {
     var itemCount = MutableLiveData<String>()

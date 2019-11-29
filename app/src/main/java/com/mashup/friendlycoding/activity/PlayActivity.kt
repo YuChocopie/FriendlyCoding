@@ -67,19 +67,19 @@ class PlayActivity : BaseActivity() {
                 binding.tvState.text = "isBook = "
             }
             22 -> {
-                binding.tvState.setText("isMushroom = ")
-                binding.tvCount.setText("mushroomCnt = ")
+                binding.tvState.text = "isMushroom = "
+                binding.tvCount.text = "mushroomCnt = "
             }
             23 -> {
-                binding.tvCount.setText("branchCnt = ")
-                binding.tvState.setText("isBranch = ")
+                binding.tvCount.text = "branchCnt = "
+                binding.tvState.text = "isBranch = "
             }
             31 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isRock = "
             }
             32 -> {
-                binding.tvCount.text = "batCnt = "
+                binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isBat = "
             }
         }
