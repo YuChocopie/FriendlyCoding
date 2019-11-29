@@ -321,8 +321,10 @@ class MapSettingModel : MapSettingBaseModel() {
                 )
                 mapList = mapListAct2
 
-                defaultCodeBlock.add(
-                    CodeBlock("fightBoss();")
+                defaultCodeBlock.addAll(
+                    arrayListOf(
+                    CodeBlock("fightBoss();"),
+                    CodeBlock("isNotBoss()", type = BOOLEAN, argument = IS_NOT_BOSS))
                 )
 
                 val bossAction: ArrayList<Int>? = arrayListOf(
