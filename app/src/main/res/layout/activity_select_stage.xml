@@ -3,19 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.mashup.friendlycoding.viewmodel.SelectStageViewModel" />
-
         <variable
             name="selectStageVM"
             type="SelectStageViewModel" />
-
         <variable
             name="act"
             type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ivSelectStage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:story_bg="@{act}">

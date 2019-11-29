@@ -2,13 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical"
-    >
+    android:background="@drawable/round_20">
 
     <ImageView
+        android:layout_margin="20dp"
         android:id="@+id/iv_tink"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -16,10 +17,11 @@
         />
 
     <TextView
+        android:textColor="@color/White"
         android:id="@+id/tink_script"
         android:fontFamily="@font/cookie_run_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="dsdsadasd" />
+        android:text="dsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasddsdsadasd" />
 </LinearLayout>

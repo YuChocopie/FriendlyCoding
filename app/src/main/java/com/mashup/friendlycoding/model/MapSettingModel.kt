@@ -70,16 +70,13 @@ class MapSettingModel : MapSettingBaseModel() {
                 // 드로어블
                 val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
 
-                mDrawables.item = arrayListOf(
-                    MapItem(R.drawable.ic_sunny, 34)
-                )
                 battleCodeBlock1.addAll(defaultBattleCodeBlock)
 
                 when (stageNum % 10) {
                     // Stage 1
                     1 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR)
+                            MapItem(R.drawable.ic_gate, CLEAR)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -91,8 +88,8 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     2 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_circle, CLEAR)
+                            MapItem(R.drawable.ic_gate, CLEAR),
+                            MapItem(R.drawable.ic_gate, CLEAR)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 9
@@ -108,8 +105,8 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     3 -> {
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_circle, CLEAR)
+                            MapItem(R.drawable.ic_gate, CLEAR),
+                            MapItem(R.drawable.ic_gate, CLEAR)
                         )
                         mDrawables.princessX = 0
                         mDrawables.princessY = 0
@@ -325,8 +322,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     R.drawable.attack_ice_shield,
                     R.drawable.wand,
                     R.drawable.wand,
-                    R.drawable.attackspell,
-                    R.drawable.shieldspell
+                    R.drawable.boss_attackspell,
+                    R.drawable.boss_shieldspell
                 )
                 mapList = mapListAct2
 

@@ -229,11 +229,11 @@ fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
 fun ConstraintLayout.setBG(stageNum : Int) {
     this.setBackgroundResource(
         when (stageNum/10) {
-            1-> R.drawable.bg_stage_map_01
-            2-> R.drawable.bg_stage_map_02
-            3-> R.drawable.bg_stage_map_03
-            4-> R.drawable.bg_stage_map_04
-            5-> R.drawable.bg_stage_map_05
+            1-> R.drawable.ic_bg_castle
+            2-> R.drawable.ic_bg_forest
+            3-> R.drawable.ic_bg_cave
+            4-> R.drawable.ic_bg_village
+            5-> R.drawable.ic_bg_demoncastle
             else -> R.drawable.bg_stage_map_01
         }
     )

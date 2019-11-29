@@ -2,9 +2,11 @@ package com.mashup.friendlycoding.activity
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
@@ -21,6 +23,7 @@ class SelectStageActivity : BaseActivity() {
     var saveTemp = 0
     lateinit var binding: ActivitySelectStageBinding
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_stage)
@@ -32,7 +35,14 @@ class SelectStageActivity : BaseActivity() {
             R.layout.activity_select_stage
         )
         binding.act = actNum
-        Log.e("actNum",""+actNum)
+//        when (actNum/10){
+//            2 ->ivSelectStage.background= getDrawable(R.drawable.ic_bg_forest)
+//            3 ->ivSelectStage.background= getDrawable(R.drawable.ic_bg_cave)
+//            4 ->ivSelectStage.background= getDrawable(R.drawable.ic_bg_village)
+//            5 ->ivSelectStage.background= getDrawable(R.drawable.ic_bg_demoncastle)
+//            else ->ivSelectStage.background= getDrawable(R.drawable.ic_bg_castle)
+//
+//        }
         if (actNum > 30) {
             stage3.visibility = View.INVISIBLE
             tvStage3.visibility= View.INVISIBLE

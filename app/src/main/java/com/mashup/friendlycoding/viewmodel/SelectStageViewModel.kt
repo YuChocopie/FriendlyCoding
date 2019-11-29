@@ -2,9 +2,11 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.media.Image
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mashup.friendlycoding.R
 
 class SelectStageViewModel : ViewModel() {
     val stageToStart = MutableLiveData<Int>()

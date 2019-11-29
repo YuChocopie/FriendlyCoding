@@ -50,7 +50,7 @@ class StoryActivity : BaseActivity() {
                     if (stageNum == 21) {
                         princess.isVisible = false
                         how_to.isVisible = true
-                        how_to.setImageResource(R.drawable.variable)
+                        how_to.setImageResource(R.drawable.how_to_variable)
                     }
 
                     else if (stageNum == 22) {
