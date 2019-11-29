@@ -53,8 +53,7 @@ val IS_POISONED = 14
 const val IS_ALIVE = 15
 const val IS_NOT_BOSS = 18
 val IS_BAT=17
-
-val KILL_BAT = 11
+val KILL_BAT = 18
 
 const val BASE = 16
 const val CRUSH_ROCK_COUNT = 2//몇번 쳐야 깨지는지 횟수

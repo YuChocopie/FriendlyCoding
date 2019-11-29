@@ -236,7 +236,7 @@ class RunModel : RunBaseModel() {
                             if (mPrincess.isPickAxe) {
                                 //mMap.drawables!!.item[attackCnt-1]=MapItem(R.drawable.ic_crystal_red, ROCK)
                                 if (attackCnt >= CRUSH_ROCK_COUNT) {
-                                    cruchRock(ROCK, mPrincess::crushRock)
+                                    crushRock(ROCK, mPrincess::crushRock)
                                     attackCnt = 0
                                 }
                             }
@@ -246,6 +246,7 @@ class RunModel : RunBaseModel() {
                             Log.e("Rock1", "andRoll222")
                         }
                         "killBat();" -> {
+
                             if (mPrincess.isPickAxe) {
                                 //mMap.drawables!!.item[attackCnt-1]=MapItem(R.drawable.ic_crystal_red, ROCK)
                                 killBat(BAT, mPrincess::killBat)
