@@ -23,7 +23,7 @@ open class MapSettingBaseModel {
             })
 
             31 -> return (fun(mPrincess: Princess): Boolean {
-                return (mPrincess.isRock)
+                return (mPrincess.rockCnt==GET_ROCK_COUNT)
             })
             32 -> return (fun(mPrincess: Princess): Boolean {
                 return (mPrincess.batCnt==1)
