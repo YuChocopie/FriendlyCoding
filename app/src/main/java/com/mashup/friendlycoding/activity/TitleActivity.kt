@@ -11,6 +11,8 @@ import com.mashup.friendlycoding.databinding.ActivityTitleBinding
 import com.mashup.friendlycoding.viewmodel.TitleViewModel
 import kotlinx.android.synthetic.main.activity_title.*
 
+var isMute = false
+
 class TitleActivity : BaseActivity() {
     val mTitleViewModel = TitleViewModel()
     lateinit var mp : MediaPlayer
@@ -29,8 +31,8 @@ class TitleActivity : BaseActivity() {
                 }
 
                 1 -> { // 음소거
-                    super.isMute = !super.isMute
-                    if (super.isMute) {
+                    isMute = !isMute
+                    if (isMute) {
                         sound.setImageResource(R.drawable.mute)
                         mp.pause()
                     }
@@ -58,7 +60,7 @@ class TitleActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!super.isMute) this.mp.start()
+        if (!isMute) this.mp.start()
     }
 
     override fun onPause() {

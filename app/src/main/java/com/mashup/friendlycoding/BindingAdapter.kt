@@ -15,7 +15,9 @@ import android.view.View
 import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -213,6 +215,20 @@ fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
         this.x = vm.mDrawables.item[pos].Y.toFloat() * vm.oneBlock.value!!
         this.y = vm.mDrawables.item[pos].X.toFloat() * vm.oneBlock.value!!
     }
+}
+
+@BindingAdapter("android:story_bg")
+fun LinearLayout.setBG(stageNum : Int) {
+    this.setBackgroundResource(
+        when (stageNum/10) {
+            1-> R.drawable.bg_stage_map_01
+            2-> R.drawable.bg_stage_map_02
+            3-> R.drawable.bg_stage_map_03
+            4-> R.drawable.bg_stage_map_04
+            5-> R.drawable.bg_stage_map_05
+            else -> R.drawable.bg_stage_map_01
+        }
+    )
 }
 
 fun ignoreBlanks(code: String): String {
