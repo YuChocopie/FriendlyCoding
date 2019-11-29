@@ -173,15 +173,15 @@ open class RunBaseModel {
 
     fun addNewBlock(codeBlock: CodeBlock) {
         if (insertBlockPosition != -1) {
-            if (codeBlock.type == 3) {
-                Log.e(
-                    "블록을 추가합니다",
-                    "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}"
-                )
+            if (codeBlock.type == 3 || codeBlock.funcName == "attack" || codeBlock.funcName == "shield") {
+                Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
                 insertedBlock = codeBlock.funcName
                 mCodeBlock.value!![insertBlockPosition].funcName =
                     insertBlock(mCodeBlock.value!![insertBlockPosition].funcName, insertedBlock!!)
+
+                if (codeBlock.type == 0)
+                    mCodeBlock.value!![insertBlockPosition].funcName += ";"
                 //insertBlockAt.postValue(insertBlockPosition)
                 insertBlockPosition = -1
                 Log.e("${codeBlock.funcName} ", "${insertBlockAt.value}에 추가됨")
@@ -192,7 +192,7 @@ open class RunBaseModel {
             return
         }
 
-        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type)
+        val adding = CodeBlock(codeBlock.funcName, address = IR, type = codeBlock.type, argument = codeBlock.argument)
         if (adding.funcName == "}") {
             if (bracketStack.empty()) {
                 return
@@ -293,9 +293,7 @@ open class RunBaseModel {
                 return mPrincess.isRock
             }
             IS_BAT -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBat
-                })
+                return mPrincess.isBat
             }
             else -> {
                 return true

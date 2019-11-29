@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.adapter.CodeBlockAdapter
 import com.mashup.friendlycoding.adapter.InputCodeBlockAdapter
+import com.mashup.friendlycoding.ignoreBlanks
 import com.mashup.friendlycoding.model.*
 
 class CodeBlockViewModel : ViewModel() {
@@ -79,10 +80,6 @@ class CodeBlockViewModel : ViewModel() {
         mRun.run(mDrawables)
     }
 
-    fun runBoss() {
-        mRun.metBoss.value = !mRun.metBoss.value!!
-    }
-
     fun getCodeBlock(position: Int) : CodeBlock {
         return mRun.mCodeBlock.value!![position]
     }
@@ -121,8 +118,10 @@ class CodeBlockViewModel : ViewModel() {
             return
 
         val type = mRun.mCodeBlock.value!![position].type
-        if (type == 2 || type == 4 || mRun.mCodeBlock.value!![position].funcName == "readySpell();")
+        if (type == 2 || type == 4 || type == 5) {
+            Log.e("스펠", "추가")
             mRun.insertBlockPosition = position
+        }
         else
             -1
     }

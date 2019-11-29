@@ -21,7 +21,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 }
             }
         }
-        return Map(mapList, mapList, mDrawables)
+        return Map(mapList, mDrawables)
     }
 
     private fun setMapItem(
@@ -126,7 +126,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 // 기본 제공되는 블록
                 return Stage(
-                        Map(mapList, mapList, mDrawables, startX, startY),
+                        Map(mapList, mDrawables, startX, startY),
                         Princess(),
                         offeredBlock = defaultCodeBlock_tutorial,
                         clearCondition = conditionSelector(stageNum)
@@ -252,7 +252,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
 
                 return Stage(
-                    Map(mapList, mapList, mDrawables, startX, startY),
+                    Map(mapList, mDrawables, startX, startY),
                     Princess(),
                     defaultCodeBlock,
                     conditionSelector(stageNum)
@@ -377,7 +377,7 @@ class MapSettingModel : MapSettingBaseModel() {
                 mDrawables.item[1].visibility = View.VISIBLE
 
                 return Stage(
-                    Map(mapList, mapList, mDrawables, startX, startY),
+                    Map(mapList, mDrawables, startX, startY),
                     Princess(),
                     defaultCodeBlock,
                     conditionSelector(stageNum),

@@ -16,9 +16,12 @@ class RunModel : RunBaseModel() {
                 return PLAYER_LOST
             } else if (mMap.mapList!![y][x] % BASE == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
-                return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
+                if (IR == mCodeBlock.value!!.size - 1) {
+                    return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
+                }
             }
-        } else {
+        }
+        else {
             moveView.postValue(PLAYER_LOST)     // 인덱스를 넘어갈 시
             return PLAYER_LOST
         }
@@ -216,15 +219,15 @@ class RunModel : RunBaseModel() {
                         }
 
                         "eatMushroom();" -> {
-                            if (itemPick(MUSHROOM, mPrincess::eatMushroom)) return
+                            if (!itemPick(MUSHROOM, mPrincess::eatMushroom)) return
                         }
 
                         "pickBook();" -> {
-                            if (itemPick(BOOK, mPrincess::pickBook)) return
+                            if (!itemPick(BOOK, mPrincess::pickBook)) return
                         }
 
                         "pickBranch();" -> {
-                            if (itemPick(BRANCH, mPrincess::pickBranch)) return
+                            if (!itemPick(BRANCH, mPrincess::pickBranch)) return
                         }
 
                         "crushRock();" -> {
