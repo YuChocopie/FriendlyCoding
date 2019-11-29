@@ -107,6 +107,7 @@ fun View.bindClicker (mCodeBlockViewModel: CodeBlockViewModel, position : Int) {
 @BindingAdapter("android:argumentVM", "android:argument_position")
 fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : Int) {
     val codeBlock = mCodeBlockViewModel.mRun.mCodeBlock.value!![position]
+
     this.addTextChangedListener(object : TextWatcher {
         override fun onTextChanged(
             s: CharSequence,
@@ -115,13 +116,11 @@ fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : I
             count: Int
         ) {
             try {
-                codeBlock.argument = s.toString().toInt()
             } catch (e: Exception) {
             }
         }
         override fun afterTextChanged(arg0: Editable) {
-            hint = arg0.toString()
-
+            codeBlock.argument = arg0.toString().toInt()
         }
         override fun beforeTextChanged(
             s: CharSequence,
@@ -131,6 +130,15 @@ fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : I
         ) {
         }
     })
+
+    if (codeBlock.argument > 0) {
+        this.hint = codeBlock.argument.toString()
+        this.setHintTextColor(resources.getColor(R.color.Black))
+    }
+
+    else {
+        this.hint = "?"
+    }
 }
 
 // 코드에 컬러 입히기
@@ -218,7 +226,7 @@ fun ImageView.settingImg(vm : MapSettingViewModel, pos: Int) {
 }
 
 @BindingAdapter("android:story_bg")
-fun LinearLayout.setBG(stageNum : Int) {
+fun ConstraintLayout.setBG(stageNum : Int) {
     this.setBackgroundResource(
         when (stageNum/10) {
             1-> R.drawable.bg_stage_map_01

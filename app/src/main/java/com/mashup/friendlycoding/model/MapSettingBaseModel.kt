@@ -120,7 +120,7 @@ open class MapSettingBaseModel {
         CodeBlock("isBlackhole()", type = 3, argument = IS_BLACKHOLE),
         CodeBlock("bossGreenHand()", type = 3, argument = BOSS_GREENHAND),
         CodeBlock("grabTight();"),
-        CodeBlock("readySpell();"),
+        CodeBlock("readySpell();", type = 5),
         CodeBlock("wandSpell();"),
         CodeBlock("shoutSpell();"),
         CodeBlock("attack", argument = ATTACK),

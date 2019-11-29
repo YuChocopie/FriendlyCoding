@@ -18,8 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_stage_map_01">
-
+        android:story_bg="@{act}">
 
         <ImageView
             android:id="@+id/act1"
@@ -38,6 +37,7 @@
         <TextView
             android:id="@+id/act_title"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/cookie_run_bold"
             android:layout_height="wrap_content"
             android:text='@{selectStageVM.getActTitle(act)}'
             android:textColor="@color/White"
@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="@id/act1"
             app:layout_constraintStart_toStartOf="@id/act1"
             app:layout_constraintTop_toTopOf="@id/act1"
-            tools:text="acrrr" />
+            tools:text="ACT 1" />
 
 
         <ImageButton
@@ -73,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:fontFamily="@font/cookie_run_regular"
             android:text="스테이지 1"
             android:textColor="@color/Black"
             android:textSize="20sp"
@@ -102,6 +103,7 @@
             android:layout_marginBottom="10dp"
             android:text="스테이지 2"
             android:textColor="@color/Black"
+            android:fontFamily="@font/cookie_run_regular"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/stage2"
             app:layout_constraintEnd_toEndOf="@+id/stage2"
@@ -128,6 +130,7 @@
             android:layout_marginBottom="10dp"
             android:text="스테이지 3"
             android:textColor="@color/Black"
+            android:fontFamily="@font/cookie_run_regular"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/stage3"
             app:layout_constraintEnd_toEndOf="@+id/stage3"

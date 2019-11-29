@@ -44,7 +44,6 @@ const val IS_BLACKHOLE = 8
 const val SHIELD = 0
 const val ATTACK = 1
 
-
 val IS_PICKAXE = 9
 val IS_NOT_POISONED = 10
 val IS_BOOK = 11

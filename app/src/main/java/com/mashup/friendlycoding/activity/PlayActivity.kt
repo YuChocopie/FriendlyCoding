@@ -44,13 +44,12 @@ class PlayActivity : BaseActivity() {
         binding.lifecycleOwner = this
         initStage(binding)
 
-//        btnClear.setOnClickListener {
-//            restart()
-//        }
-
         val intent = Intent(this, StoryActivity::class.java)
         intent.putExtra("stageNum", this.stageNum)
         startActivity(intent)
+
+        if (this.stageNum == 53)
+            finish()
 
         Log.e("stageNum", "$stageNum")
 
@@ -171,6 +170,7 @@ class PlayActivity : BaseActivity() {
                 PLAYER_LOST -> {  // 패배
                     //restart()
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
+                    mCodeBlockViewModel.coloringNowTerminated(rc_code_block_list.findViewHolderForAdapterPosition(mRun.IR))
                     constraintLayout.isVisible = true
                     bossField.isVisible = false
                     val itemSize = mMapSettingViewModel.itemSize()
@@ -187,6 +187,7 @@ class PlayActivity : BaseActivity() {
                     mRun.mMap.clear()
                     mRun.mPrincess.clear()
                     mCodeBlockViewModel.isRunning.value = false
+                    binding.codeBlockVM = this.mCodeBlockViewModel
                 }
 
                 PLAYER_WIN -> {  // 승리
@@ -214,13 +215,9 @@ class PlayActivity : BaseActivity() {
         // 코드 실행 - 현재 실행 중인 블록의 배경 색칠하기
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             Log.e("현재 실행 위치", "$t")
-            if (t > 8)
-                rc_code_block_list.smoothScrollToPosition(t + 3)
-            mCodeBlockViewModel.coloringNowProcessing(
-                rc_code_block_list.findViewHolderForAdapterPosition(
-                    t
-                )
-            )
+            if (t > 0)
+            rc_code_block_list.smoothScrollToPosition(t)
+            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -248,60 +245,60 @@ class PlayActivity : BaseActivity() {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
 
-                if (stageNum == 51) {
-                    this.mRun.mCodeBlock.value = arrayListOf(
-                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
-                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-                        CodeBlock("        wait();"),
-                        CodeBlock("        jump();"),
-                        CodeBlock("    }"),
-                        CodeBlock(
-                            "    if(bossFistMoved()){",
-                            type = IF,
-                            argument = BOSS_FIST_MOVED
-                        ),
-                        CodeBlock(
-                            "        if(bossFistDown()){",
-                            type = IF,
-                            argument = BOSS_FIST_DOWN
-                        ),
-                        CodeBlock("            for(3){", type = FOR, argument = 3),
-                        CodeBlock("                jump();"),
-                        CodeBlock("            }"),
-                        CodeBlock("        }"),
-                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-                        CodeBlock("            dodge();"),
-                        CodeBlock("        }"),
-                        CodeBlock("    }"),
-                        CodeBlock("    attack();"),
-                        CodeBlock("}")
-                    )
-                }
-
-                if (stageNum == 52) {
-                    this.mRun.mCodeBlock.value = arrayListOf(
-                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
-                        CodeBlock(
-                            "        while(isBlackhole()) {",
-                            type = WHILE,
-                            argument = IS_BLACKHOLE
-                        ),
-                        CodeBlock("             grabTight();"),
-                        CodeBlock("        }"),
-                        CodeBlock("    }"),
-                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
-                        CodeBlock("        readySpell(shield);", argument = SHIELD),
-                        CodeBlock("        wandSpell();"),
-                        CodeBlock("        shoutSpell();"),
-                        CodeBlock("    }"),
-                        CodeBlock("    readySpell(attack);", argument = ATTACK),
-                        CodeBlock("    wandSpell();"),
-                        CodeBlock("    shoutSpell();"),
-                        CodeBlock("}")
-                    )
-                }
-                //this.mRun.mCodeBlock.value = arrayListOf()
+//                if (stageNum == 51) {
+//                    this.mRun.mCodeBlock.value = arrayListOf(
+//                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+//                        CodeBlock("        wait();"),
+//                        CodeBlock("        jump();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock(
+//                            "    if(bossFistMoved()){",
+//                            type = IF,
+//                            argument = BOSS_FIST_MOVED
+//                        ),
+//                        CodeBlock(
+//                            "        if(bossFistDown()){",
+//                            type = IF,
+//                            argument = BOSS_FIST_DOWN
+//                        ),
+//                        CodeBlock("            for(3){", type = FOR, argument = 3),
+//                        CodeBlock("                jump();"),
+//                        CodeBlock("            }"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+//                        CodeBlock("            dodge();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    attack();"),
+//                        CodeBlock("}")
+//                    )
+//                }
+//
+//                if (stageNum == 52) {
+//                    this.mRun.mCodeBlock.value = arrayListOf(
+//                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+//                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
+//                        CodeBlock(
+//                            "        while(isBlackhole()) {",
+//                            type = WHILE,
+//                            argument = IS_BLACKHOLE
+//                        ),
+//                        CodeBlock("             grabTight();"),
+//                        CodeBlock("        }"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
+//                        CodeBlock("        readySpell(shield);", argument = SHIELD),
+//                        CodeBlock("        wandSpell();"),
+//                        CodeBlock("        shoutSpell();"),
+//                        CodeBlock("    }"),
+//                        CodeBlock("    readySpell(attack);", argument = ATTACK),
+//                        CodeBlock("    wandSpell();"),
+//                        CodeBlock("    shoutSpell();"),
+//                        CodeBlock("}")
+//                    )
+//                }
+                this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 
@@ -404,6 +401,7 @@ class PlayActivity : BaseActivity() {
         binding.mapSettingVM = this.mMapSettingViewModel
         Log.e("layout mapSettingVM", "${this.mMapSettingViewModel.oneBlock.value}")
 
+        this.stageInfo.map.save()
         this.mRun.mMap = this.stageInfo.map
         this.mRun.mPrincess = this.stageInfo.princess
         this.mRun.mClearCondition = this.stageInfo.clearCondition
