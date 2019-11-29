@@ -128,7 +128,6 @@ class PlayActivity : BaseActivity() {
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
 
-
                     if (itemNumber != 0) {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
@@ -353,7 +352,7 @@ class PlayActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!super.isMute) mp!!.start()
+        if (!isMute) mp!!.start()
     }
 
     override fun onPause() {

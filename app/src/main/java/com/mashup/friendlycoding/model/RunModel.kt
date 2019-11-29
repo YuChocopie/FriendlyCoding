@@ -407,13 +407,17 @@ class RunModel : RunBaseModel() {
                                             IR = mCodeBlock.value!![IR].address
                                         }
                                     }
-                                } else {
-                                    if (!type3Function(mCodeBlock.value!![IR].argument)(mPrincess)) {
+                                }
+
+                                else {
+                                    if (!type3Function(mCodeBlock.value!![IR].argument)) {
                                         Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
                                         IR = mCodeBlock.value!![IR].address
                                     }
                                 }
-                            } else if (mCodeBlock.value!![IR].type == 4) { // while
+                            }
+
+                            else if (mCodeBlock.value!![IR].type == 4) { // while
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
                                     IS_ALIVE -> {   // isAlive

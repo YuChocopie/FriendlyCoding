@@ -53,7 +53,7 @@ open class RunBaseModel {
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
+    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
@@ -272,45 +272,32 @@ open class RunBaseModel {
         return ir
     }
 
-    fun type3Function(num: Int): (Princess) -> Boolean {
+    fun type3Function(num: Int) : Boolean {
         when (num) {
             IS_PICKAXE -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isPickAxe
-                })
+                return mMap.mapList!![y][x] % BASE == PICKAXE
             }
 
             IS_NOT_POISONED -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isMushroom
-                })
+                return mMap.mapList!![y][x] % BASE == MUSHROOM
             }
 
             IS_BOOK -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBook
-                })
+                return mMap.mapList!![y][x] % BASE == BOOK
             }
 
             IS_NOT_BROKEN -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBranch
-                })
+                return mMap.mapList!![y][x] % BASE == BRANCH
             }
             IS_ROCK -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isRock
-                })
+                return mPrincess.isRock
             }
 
             else -> {
-                return (fun(_: Princess): Boolean {
-                    return true
-                })
+                return true
             }
         }
     }
-
 
     fun cruchRock(item: Int, f: () -> Int) {
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
@@ -466,6 +453,4 @@ open class RunBaseModel {
             }
         }
     }
-
-
 }

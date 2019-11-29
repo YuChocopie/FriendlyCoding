@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ActivityStoryBinding
 import com.mashup.friendlycoding.viewmodel.StoryViewModel
+import kotlinx.android.synthetic.main.activity_story.*
 import java.lang.Thread.sleep
 
 class StoryActivity : BaseActivity() {
@@ -23,7 +24,6 @@ class StoryActivity : BaseActivity() {
 
         val stageNum = intent.getIntExtra("stageNum", 11)
         mStoryViewModel.init(stageNum)
-
         mStoryViewModel.page.observe(this, Observer<Int> { t ->
             Log.e("페이지", "$t")
             if (t == 3) {
