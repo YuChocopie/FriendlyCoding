@@ -25,7 +25,9 @@ open class MapSettingBaseModel {
             31 -> return (fun(mPrincess: Princess): Boolean {
                 return (mPrincess.isRock)
             })
-
+            32 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.batCnt==1)
+            })
             51, 52 -> return (fun(mPrincess : Princess) : Boolean {
                 return mPrincess.killedBoss
             })
@@ -75,7 +77,8 @@ open class MapSettingBaseModel {
     )
     var stageCodeBlock3_2 = arrayListOf(
         CodeBlock("crushRock();"),
-        CodeBlock("pickAxe();")
+        CodeBlock("pickAxe();"),
+        CodeBlock("killBat();")
     )
     var stageCodeBlock3_3 = arrayListOf(
         CodeBlock("crushRock();"),
@@ -184,6 +187,6 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
-        arrayOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1)
+        arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1)
     )
 }

@@ -44,12 +44,15 @@ const val IS_BLACKHOLE = 8
 const val SHIELD = 0
 const val ATTACK = 1
 
+
 val IS_PICKAXE = 9
 val IS_NOT_POISONED = 10
 val IS_BOOK = 11
 val IS_NOT_BROKEN = 12
 val IS_ROCK = 13
+val IS_BAT=17
 val IS_POISONED = 14
+val KILL_BAT = 11
 
 const val IS_ALIVE = 15
 const val BASE = 16
@@ -68,3 +71,6 @@ val BROKEN_BRANCH = 7
 val BOSS = 8
 val POISONMUSHROOM = 9
 val ROCK = 10
+val BAT = 11
+
+
