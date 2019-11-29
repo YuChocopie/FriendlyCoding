@@ -1,30 +1,29 @@
 package com.mashup.friendlycoding.viewmodel
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.activity.PlayActivity
 import com.mashup.friendlycoding.model.MapDrawable
-import com.mashup.friendlycoding.model.MapSettingModel
-import com.mashup.friendlycoding.model.Stage
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PrincessViewModel : ViewModel() {
     var itemCount = MutableLiveData<String>()
+    var isTopVisible = View.VISIBLE
     var isItem = MutableLiveData<String>()
     var mDrawables = MapDrawable()
     private var princessImg: ImageView? = null
     var axeImg: ImageView? = null
     private var win: TextView? = null
     private var oneBlock = 0f
+    private var stageNum = 0
     private val n = 10
     var width = 0
-
+    lateinit var playActivity: PlayActivity
     var direction = 1
 
     fun move(i: Boolean) {
@@ -35,17 +34,15 @@ class PrincessViewModel : ViewModel() {
     }
 
     fun setPrincessImage(
-        drawable: MapDrawable,
-        ivPrincess: ImageView,
-        ivAxe: ImageView,
-        tvWin: TextView
+        drawableInfo: MapDrawable,
+        playActivity: PlayActivity
     ) {
-        this.princessImg = ivPrincess
-        this.axeImg = ivAxe
-        this.win = tvWin
-        mDrawables = drawable
-        itemCount.value = "0"
-        isItem.value = "false"
+        this.playActivity = playActivity
+        this.princessImg = playActivity.ivPrincess
+        this.axeImg = playActivity.ivAxe
+        this.win = playActivity.tvWin
+        mDrawables = drawableInfo
+        this.stageNum = playActivity.stageNum
     }
 
     fun setViewSize(width: Int) {
@@ -109,8 +106,12 @@ class PrincessViewModel : ViewModel() {
         axeImg!!.setImageResource(R.drawable.ic_pick_axe)
         axeImg!!.isVisible = false
         direction = 1
-
-        itemCount.value = "0"
-        isItem.value = "false"
+        if (stageNum in 21..32) {
+            isTopVisible = View.VISIBLE
+            itemCount.value = "0"
+            isItem.value = "false"
+        } else {
+            isTopVisible = View.GONE
+        }
     }
 }

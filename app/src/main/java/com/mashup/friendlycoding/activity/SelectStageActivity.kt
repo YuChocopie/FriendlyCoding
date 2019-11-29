@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ActivitySelectStageBinding
 import com.mashup.friendlycoding.viewmodel.SelectStageViewModel
+import kotlinx.android.synthetic.main.activity_select_stage.*
 
 class SelectStageActivity : BaseActivity() {
     var numberCheck = 10
@@ -30,6 +32,10 @@ class SelectStageActivity : BaseActivity() {
             R.layout.activity_select_stage
         )
         binding.act = actNum
+        if (actNum > 3) {
+            stage3.visibility = View.INVISIBLE
+            tvStage3.visibility= View.INVISIBLE
+        }
         binding.lifecycleOwner = this
         mSelectStageViewModel.init()
         binding.selectStageVM = mSelectStageViewModel
@@ -43,7 +49,6 @@ class SelectStageActivity : BaseActivity() {
                 startActivityForResult(intent, numberCheck)
             }
         })
-
         //1. 초기화시 확인
         val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
         check = pref.getInt("key", 10)

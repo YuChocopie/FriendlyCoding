@@ -31,7 +31,7 @@ class PlayActivity : BaseActivity() {
     private lateinit var stageInfo: Stage
     private var itemNumber: Int = 0
     private var mp: MediaPlayer? = null
-    private var stageNum: Int = 0
+    var stageNum: Int = 0
     lateinit var binding: ActivityPlayBinding
 
 
@@ -397,7 +397,7 @@ class PlayActivity : BaseActivity() {
         this.stageInfo = this.mMapSettingViewModel.mMapSettingModel.getStageInfo(this.stageNum)
         val drawableInfo = this.stageInfo.map.drawables!!
         this.mMapSettingViewModel.setStage(this.stageInfo, this)
-        this.mPrincessViewModel.setPrincessImage(drawableInfo, ivPrincess, ivAxe, tvWin)
+        this.mPrincessViewModel.setPrincessImage(drawableInfo,this)
         this.mCodeBlockViewModel.setSettingModel(drawableInfo)
         this.mCodeBlockViewModel.setOfferedBlock(this.mMapSettingViewModel.offeredBlock)
 

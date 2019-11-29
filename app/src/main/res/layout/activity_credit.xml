@@ -4,81 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CreditActivity"
-    android:background="@drawable/bg_stage_map_01">
+    android:background="@drawable/bg_stage_map_01"
+    tools:context=".activity.CreditActivity">
 
     <LinearLayout
         android:id="@+id/title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:text="Developed by"
-            android:fontFamily="@font/cookie_run_bold"
-            android:textSize="40sp"
-            android:textColor="#485AB8"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cookie_run_bold"
+            android:text="Developed by"
+            android:textColor="#485AB8"
+            android:textSize="40sp" />
 
         <TextView
-            android:textAlignment="center"
-            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cookie_run_bold"
             android:text="@string/dev_by"
-            />
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="30dp"/>
-
-        <TextView
-            android:text="Sound Directed by"
-            android:fontFamily="@font/cookie_run_bold"
-            android:textSize="40sp"
-            android:textColor="#485AB8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:fontFamily="@font/cookie_run_bold"
+            android:text="Sound Directed by"
+            android:textColor="#485AB8"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/cookie_run_bold"
             android:text="Bomin Kim &quot;Bach of Our Time&quot;"
-            android:textSize="20sp"
-            />
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="30dp"/>
+            android:layout_height="30dp" />
 
         <TextView
-            android:text="Ilustrated by"
-            android:fontFamily="@font/cookie_run_bold"
-            android:textSize="40sp"
-            android:textColor="#485AB8"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cookie_run_bold"
+            android:text="Ilustrated by"
+            android:textColor="#485AB8"
+            android:textSize="40sp" />
 
         <TextView
-            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cookie_run_bold"
             android:text="Danielle Paoletti &quot;The Creator&quot;\nJeong-in Lee &quot;The Princess&quot;"
-            android:textSize="20sp"
-            />
+            android:textAlignment="center"
+            android:textSize="20sp" />
     </LinearLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
