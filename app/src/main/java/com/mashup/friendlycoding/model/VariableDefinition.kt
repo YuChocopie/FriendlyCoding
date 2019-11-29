@@ -49,11 +49,13 @@ val IS_NOT_POISONED = 10
 val IS_BOOK = 11
 val IS_NOT_BROKEN = 12
 val IS_ROCK = 13
-val IS_BAT=17
 val IS_POISONED = 14
+const val IS_ALIVE = 15
+const val IS_NOT_BOSS = 18
+val IS_BAT=17
+
 val KILL_BAT = 11
 
-const val IS_ALIVE = 15
 const val BASE = 16
 const val CRUSH_ROCK_COUNT = 2//몇번 쳐야 깨지는지 횟수
 const val GET_ROCK_COUNT = 2//얻어야 하는 돌의 갯수

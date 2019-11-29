@@ -19,6 +19,14 @@ import com.mashup.friendlycoding.viewmodel.CodeBlockViewModel
 import com.mashup.friendlycoding.viewmodel.MapSettingViewModel
 import com.mashup.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_play.*
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import android.widget.TextView
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.app.Dialog
+import kotlinx.android.synthetic.main.tinkerbell.*
+import java.util.*
 
 
 class PlayActivity : BaseActivity() {
@@ -33,10 +41,12 @@ class PlayActivity : BaseActivity() {
     private var mp: MediaPlayer? = null
     private var stageNum: Int = 0
     lateinit var binding: ActivityPlayBinding
-
+    lateinit var dialog: Dialog
+    lateinit var tinkScript : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
@@ -48,10 +58,11 @@ class PlayActivity : BaseActivity() {
         intent.putExtra("stageNum", this.stageNum)
         startActivity(intent)
 
-        if (this.stageNum == 53)
-            finish()
-
         Log.e("stageNum", "$stageNum")
+
+        this.dialog = Dialog(this)
+        this.dialog.setContentView(R.layout.tinkerbell)
+        tinkSaying()
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -354,6 +365,13 @@ class PlayActivity : BaseActivity() {
                 princess_attack_motion.isVisible = false
             }
         })
+
+        tink.setOnClickListener{
+            this.dialog.setTitle("팅커벨")
+            val rand = Random()
+            this.dialog.tink_script.text = this.tinkScript[rand.nextInt(this.tinkScript.size)]
+            this.dialog.show()
+        }
     }
 
     override fun onStart() {
@@ -408,4 +426,28 @@ class PlayActivity : BaseActivity() {
         this.mRun.mPrincessViewModel = this.mPrincessViewModel
         this.mRun.mCodeBlockViewModel = this.mCodeBlockViewModel
     }
+
+    fun tinkSaying() {
+        this.tinkScript =
+        when (this.stageNum) {
+            11-> arrayOf ("포탈에 들어가면 통과할 수 있어!")
+            12-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "모든 것엔 순서가 있어")
+            13-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "공주의 방향을 예측해야 해", "틀렸다면, 어디서 틀렸는지 확인해 보자!")
+            21-> arrayOf("마법서는 언젠가 요긴하게 쓰일 거야!", "책을 주우면 위의 변수가 증가해!", "변수는 계산할 때 쓰자!")
+            22-> arrayOf("몇몇 버섯은 독버섯이야!", "독버섯인지 아닌지 확인을 하자", "if 를 써봐!")
+            23-> arrayOf("가지가 부러졌는지 확인해야해", "호수를 건너야 해", "가지가 부러졌을 예외를 생각해보자")
+            31-> arrayOf("여기다가", "팅커벨 설명을", "넣으시오")
+            //...
+
+            41-> arrayOf("지금까지 배운 것을 활용해 봐", "순서에 맞게 해야 돼", "모든 것엔 순서가 있어")
+            // ...
+
+            51-> arrayOf("조건을 잘 걸어야 해!", "if 를 잘 써야 해", "주먹을 든 후에, 내려치거나 펀치를 해", "보스가 점프하면 한 템포 기다렸다 점프해")
+            52-> arrayOf("모든 것엔 순서가 있어", "공격/수비 주문을 준비하고, 마법봉에 건 뒤 외치는 거야", "readySpell(); 을 클릭해 봐!", "블랙홀이 언제까지 지속될지 몰라. 꽉 잡아야 해!")
+            else->arrayOf("여기다가 설명을 넣으시오")
+        }
+    }
+
+
+
 }

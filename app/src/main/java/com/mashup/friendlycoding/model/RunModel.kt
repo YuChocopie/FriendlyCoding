@@ -437,7 +437,8 @@ class RunModel : RunBaseModel() {
                             else if (mCodeBlock.value!![IR].type == 4) { // while
                                 jumpTo = mCodeBlock.value!![IR].address
                                 when (mCodeBlock.value!![IR].argument) {
-                                    IS_ALIVE -> {   // isAlive
+                                    IS_ALIVE -> {
+                                        // isAlive
                                         if (!mMonster!!.isAlive()) {
                                             IR = jumpTo
                                             Log.e("죽었네!", "$jumpTo 로!")
@@ -447,8 +448,6 @@ class RunModel : RunBaseModel() {
                                             metBoss.postValue(false)
                                             iterator = 0
                                             return
-                                        } else {
-                                            iterator++
                                         }
                                     }
 
@@ -460,7 +459,14 @@ class RunModel : RunBaseModel() {
                                             bossAttackIterator--
                                         }
                                     }
+
+                                    IS_NOT_BOSS -> {
+                                        if (mMap.mapList!![y][x] % BASE == BOSS) {
+                                            IR = jumpTo
+                                        }
+                                    }
                                 }
+                                iterator++
                             }
                         }
                     }

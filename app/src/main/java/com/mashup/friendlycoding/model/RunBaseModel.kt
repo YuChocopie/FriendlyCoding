@@ -292,9 +292,15 @@ open class RunBaseModel {
             IS_ROCK -> {
                 return mPrincess.isRock
             }
+
             IS_BAT -> {
                 return mPrincess.isBat
             }
+
+            IS_NOT_BOSS -> {
+                return mMap.mapList!![y][x] % BASE != BOSS
+            }
+
             else -> {
                 return true
             }

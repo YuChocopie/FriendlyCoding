@@ -35,12 +35,17 @@ class SelectStageActivity : BaseActivity() {
         binding.selectStageVM = mSelectStageViewModel
 
         mSelectStageViewModel.stageToStart.observe(this, Observer {
-            if (it != -1) {
+            if (it != -1 && actNum + it != 53) {
                 val intent = Intent(this, PlayActivity::class.java)
                 intent.putExtra("stageNum", actNum + it)
                 Log.e("stagenumber", "${actNum}+$it")
                 numberCheck = actNum + it
                 startActivityForResult(intent, numberCheck)
+            }
+            else if (actNum + it == 53) {
+                val intent = Intent(this, StoryActivity::class.java)
+                intent.putExtra("stageNum", 53)
+                startActivity(intent)
             }
         })
 

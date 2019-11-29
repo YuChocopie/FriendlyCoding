@@ -1,15 +1,16 @@
 package com.mashup.friendlycoding.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ActivityStoryBinding
 import com.mashup.friendlycoding.viewmodel.StoryViewModel
 import kotlinx.android.synthetic.main.activity_story.*
-import java.lang.Thread.sleep
 
 class StoryActivity : BaseActivity() {
     private var mStoryViewModel = StoryViewModel()
@@ -26,24 +27,68 @@ class StoryActivity : BaseActivity() {
         mStoryViewModel.init(stageNum)
         mStoryViewModel.page.observe(this, Observer<Int> { t ->
             Log.e("페이지", "$t")
-            if (t == 3) {
-                //sleep(500)
+            if (t == mStoryViewModel.script!!.size) {
                 finish()
             }
-            else {
-                try {
-                    binding.princessScript.text = mStoryViewModel.script!![t]
-                }catch (e:ArrayIndexOutOfBoundsException ){
 
+            else {
+                if (t == mStoryViewModel.script!!.size - 2) {
+                    if (stageNum == 11) {
+                        makeGIF(0)
+                    }
                 }
-                if (t == 2) {
-                    //TODO :: 교준
-                    binding.storyNext.setImageResource(R.drawable.ic_arrow_forward_black_24dp)
+
+                if (t == mStoryViewModel.script!!.size - 1) {
+                    if (stageNum == 53) {
+
+                    }
+
+                    if (stageNum == 11) {
+                        makeGIF(stageNum)
+                    }
+
+                    if (stageNum == 21) {
+                        princess.isVisible = false
+                        how_to.isVisible = true
+                        how_to.setImageResource(R.drawable.variable)
+                    }
+
+                    else if (stageNum == 22) {
+                        makeGIF(stageNum)
+                    }
+
+                    else if (stageNum == 31) {
+                        makeGIF(stageNum)
+                    }
                 }
+
                 else {
-                    binding.storyNext.setImageResource(R.drawable.ic_arrow_forward_black_24dp)
+                    if (t != mStoryViewModel.script!!.size - 2 || stageNum != 11) {
+                        princess.isVisible = true
+                        how_to.isVisible = false
+                    }
+                }
+
+                try {
+                    princess_script.text = mStoryViewModel.script!![t]
+                }
+                    catch (e:ArrayIndexOutOfBoundsException){
                 }
             }
         })
+    }
+
+    fun makeGIF(stageNum : Int) {
+        princess.isVisible = false
+        how_to.isVisible = true
+        val gifImage = GlideDrawableImageViewTarget(how_to)
+        val ins = when (stageNum) {
+            11 -> "delete"
+            22 -> "how_to_if"
+            31 -> "how_to_for"
+            else -> "add"
+        }
+        val slide = resources.getIdentifier(ins, "drawable", this.packageName)
+        Glide.with(this).load(slide).into(gifImage)
     }
 }
