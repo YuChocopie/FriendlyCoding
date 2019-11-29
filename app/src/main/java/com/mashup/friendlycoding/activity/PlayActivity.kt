@@ -157,18 +157,17 @@ class PlayActivity : BaseActivity() {
                     }
                 }
 
-//                KILL_BAT->{
-//                    itemNumber = resources.getIdentifier(
-//                        "item_" + mRun.changingView.toString(),
-//                        "id",
-//                        packageName
-//                    )
-//                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
-//                    if (itemNumber != 0) {
-//                        findViewById<ImageView>(itemNumber).isVisible = false
-//                    }
-//                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
-//                }
+                KILL_BAT->{
+                    itemNumber = resources.getIdentifier(
+                        "item_" + mRun.changingView.toString(),
+                        "id",
+                        packageName
+                    )
+                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
+                }
 
                 PLAYER_LOST -> {  // 패배
                     //restart()

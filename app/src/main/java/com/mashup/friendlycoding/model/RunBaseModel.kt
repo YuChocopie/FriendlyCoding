@@ -339,7 +339,7 @@ open class RunBaseModel {
             1 -> {
 
                 if (mMap.mapList!![y][x + 1] % BASE == item) {
-                    Log.e("item", "${mMap.mapList!![y][x + 1] % BASE}")
+                    Log.e("killBat_item", "${mMap.mapList!![y][x + 1] % BASE}")
                     val cnt = f()
                     Log.e("cnt_killBat", "$cnt")
                     changingView = mMap.mapList!![y][x + 1] / BASE
@@ -402,7 +402,9 @@ open class RunBaseModel {
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }
+                    Log.e("삭제전","ㅇㅇ")
                     mMap.itemPicked(y - 1, x)
+                    Log.e("삭제 후", "${y-1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
@@ -418,7 +420,9 @@ open class RunBaseModel {
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }
+                    Log.e("삭제전","ㅇㅇ")
                     mMap.itemPicked(y, x + 1)
+                    Log.e("삭제 후", "${y-1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
