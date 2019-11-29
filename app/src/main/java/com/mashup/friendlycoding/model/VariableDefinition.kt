@@ -22,6 +22,7 @@ val ITEM_PICKED = 6
 val PLAYER_LOST = 7
 val PLAYER_WIN = 8
 val CRUSH_ROCK = 10
+val KILL_BAT = 11
 
 // type 3 argument
 
@@ -45,16 +46,20 @@ const val SHIELD = 0
 const val ATTACK = 1
 
 val IS_PICKAXE = 9
-val IS_NOT_POISONED = 10
+val IS_MUSHROOM = 10
 val IS_BOOK = 11
-val IS_NOT_BROKEN = 12
+val IS_BRANCH = 12
 val IS_ROCK = 13
 val IS_POISONED = 14
-
 const val IS_ALIVE = 15
 const val BASE = 16
+val IS_BAT=17
+val IS_NOT_POISONED=18
+val IS_NOT_BROKEN=19
+
 const val CRUSH_ROCK_COUNT = 2//몇번 쳐야 깨지는지 횟수
 const val GET_ROCK_COUNT = 2//얻어야 하는 돌의 갯수
+
 
 // item numbers
 val PATH = 0
@@ -68,3 +73,4 @@ val BROKEN_BRANCH = 7
 val BOSS = 8
 val POISONMUSHROOM = 9
 val ROCK = 10
+val BAT = 11

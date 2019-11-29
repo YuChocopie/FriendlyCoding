@@ -302,7 +302,11 @@ open class RunBaseModel {
                     return mPrincess.isRock
                 })
             }
-
+            IS_BAT -> {
+                return (fun(mPrincess: Princess): Boolean {
+                    return mPrincess.isBat
+                })
+            }
             else -> {
                 return (fun(_: Princess): Boolean {
                     return true
@@ -311,23 +315,22 @@ open class RunBaseModel {
         }
     }
 
+    fun killBat(item: Int, f: () -> Int) {
 
-    fun cruchRock(item: Int, f: () -> Int) {
         when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
-
             0 -> {
                 if (mMap.mapList!![y - 1][x] % BASE == item) {
 
                     val cnt = f()
                     changingView = mMap.mapList!![y - 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    Log.e("cnt", "$cnt")
-                    if (cnt >= CRUSH_ROCK_COUNT) {
-                        mPrincessViewModel.isItem.postValue("true")
-                    }
+                    Log.e("cnt_killBat", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
 
                     mMap.itemPicked(y - 1, x)
-                    moveView.postValue(CRUSH_ROCK)
+                    moveView.postValue(KILL_BAT)
                 } else {
                     moveView.postValue(PLAYER_LOST)
                     return
@@ -338,11 +341,80 @@ open class RunBaseModel {
                 if (mMap.mapList!![y][x + 1] % BASE == item) {
                     Log.e("item", "${mMap.mapList!![y][x + 1] % BASE}")
                     val cnt = f()
-                    Log.e("cnt", "$cnt")
+                    Log.e("cnt_killBat", "$cnt")
                     changingView = mMap.mapList!![y][x + 1] / BASE
                     Log.e("changing", "$changingView")
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
                     Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y, x + 1)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            2 -> {
+                if (mMap.mapList!![y + 1][x] % BASE == item) {
+
+                    val cnt = f()
+                    changingView = mMap.mapList!![y + 1][x] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y + 1, x)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            3 -> {
+                if (mMap.mapList!![y][x - 1] % BASE == item) {
+                    val cnt = f()
+                    changingView = mMap.mapList!![y][x - 1] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y, x - 1)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+        }
+    }
+    //TODO:cruchRock 함수 호출 시 itemCount의 값이 스테이지별로 전달되고 안되고 구분하기
+    fun cruchRock(item: Int, f: () -> Int) {
+        when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
+            0 -> {
+                if (mMap.mapList!![y - 1][x] % BASE == item) {
+                    val cnt = f()
+                    changingView = mMap.mapList!![y - 1][x] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+                    mMap.itemPicked(y - 1, x)
+                    moveView.postValue(CRUSH_ROCK)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            1 -> {
+
+                if (mMap.mapList!![y][x + 1] % BASE == item) {
+                    val cnt = f()
+                    changingView = mMap.mapList!![y][x + 1] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
                     if (cnt >= CRUSH_ROCK_COUNT) {
                         mPrincessViewModel.isItem.postValue("true")
                     }

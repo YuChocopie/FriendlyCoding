@@ -54,133 +54,133 @@ class SelectStageActivity : BaseActivity() {
         Log.e("check값:", "$check")
         Log.e("actNum값:", "$actNum")
 
-        when (save) {
-            0 -> {
-                if (check / 10 == 0) {
-                    mSelectStageViewModel.setColor(binding.stage1)
-                    mSelectStageViewModel.grayColor(binding.stage2)
-                    mSelectStageViewModel.grayColor(binding.stage3)
-                } else if (check / 10 == 1) {
-                    if (check % 10 == 0) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.grayColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 1) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 2) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.setColor(binding.stage3)
-                    }
-                }
-                if(actNum >= 20){
-                    mSelectStageViewModel.grayColor(binding.stage1)
-                    mSelectStageViewModel.grayColor(binding.stage2)
-                    mSelectStageViewModel.grayColor(binding.stage3)
-                }
-            }
-            2 -> {
-                if (actNum < 20) {
-                    mSelectStageViewModel.setColor(binding.stage1)
-                    mSelectStageViewModel.setColor(binding.stage2)
-                    mSelectStageViewModel.setColor(binding.stage3)
-                } else if (check / 10 == 2) {
-                    if (check % 10 == 0) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.grayColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 1) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 2) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.setColor(binding.stage3)
-                    }
-                }
-                if(actNum >= 30){
-                    mSelectStageViewModel.grayColor(binding.stage1)
-                    mSelectStageViewModel.grayColor(binding.stage2)
-                    mSelectStageViewModel.grayColor(binding.stage3)
-                }
-            }
-            3 -> {
-                if (actNum < 30) {
-                    mSelectStageViewModel.setColor(binding.stage1)
-                    mSelectStageViewModel.setColor(binding.stage2)
-                    mSelectStageViewModel.setColor(binding.stage3)
-                } else if (check / 10 == 3) {
-                    if (check % 10 == 0) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.grayColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 1) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 2) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.setColor(binding.stage3)
-                    }
-                }
-                if(actNum >= 40){
-                    mSelectStageViewModel.grayColor(binding.stage1)
-                    mSelectStageViewModel.grayColor(binding.stage2)
-                    mSelectStageViewModel.grayColor(binding.stage3)
-                }
-            }
-            4 -> {
-                if (actNum < 40) {
-                    mSelectStageViewModel.setColor(binding.stage1)
-                    mSelectStageViewModel.setColor(binding.stage2)
-                    mSelectStageViewModel.setColor(binding.stage3)
-                } else if (check / 10 == 4) {
-                    if (check % 10 == 0) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.grayColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 1) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 2) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.setColor(binding.stage3)
-                    }
-                }
-                if(actNum >= 50){
-                    mSelectStageViewModel.grayColor(binding.stage1)
-                    mSelectStageViewModel.grayColor(binding.stage2)
-                    mSelectStageViewModel.grayColor(binding.stage3)
-                }
-            }
-            5 -> {
-                if (actNum < 50) {
-                    mSelectStageViewModel.setColor(binding.stage1)
-                    mSelectStageViewModel.setColor(binding.stage2)
-                    mSelectStageViewModel.setColor(binding.stage3)
-                } else if (check / 10 == 5) {
-                    if (check % 10 == 0) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.grayColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 1) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.grayColor(binding.stage3)
-                    } else if (check % 10 == 2) {
-                        mSelectStageViewModel.setColor(binding.stage1)
-                        mSelectStageViewModel.setColor(binding.stage2)
-                        mSelectStageViewModel.setColor(binding.stage3)
-                    }
-                }
-            }
-        }
+//        when (save) {
+//            0 -> {
+//                if (check / 10 == 0) {
+//                    mSelectStageViewModel.setColor(binding.stage1)
+//                    mSelectStageViewModel.grayColor(binding.stage2)
+//                    mSelectStageViewModel.grayColor(binding.stage3)
+//                } else if (check / 10 == 1) {
+//                    if (check % 10 == 0) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.grayColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 1) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 2) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.setColor(binding.stage3)
+//                    }
+//                }
+//                if(actNum >= 20){
+//                    mSelectStageViewModel.grayColor(binding.stage1)
+//                    mSelectStageViewModel.grayColor(binding.stage2)
+//                    mSelectStageViewModel.grayColor(binding.stage3)
+//                }
+//            }
+//            2 -> {
+//                if (actNum < 20) {
+//                    mSelectStageViewModel.setColor(binding.stage1)
+//                    mSelectStageViewModel.setColor(binding.stage2)
+//                    mSelectStageViewModel.setColor(binding.stage3)
+//                } else if (check / 10 == 2) {
+//                    if (check % 10 == 0) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.grayColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 1) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 2) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.setColor(binding.stage3)
+//                    }
+//                }
+//                if(actNum >= 30){
+//                    mSelectStageViewModel.grayColor(binding.stage1)
+//                    mSelectStageViewModel.grayColor(binding.stage2)
+//                    mSelectStageViewModel.grayColor(binding.stage3)
+//                }
+//            }
+//            3 -> {
+//                if (actNum < 30) {
+//                    mSelectStageViewModel.setColor(binding.stage1)
+//                    mSelectStageViewModel.setColor(binding.stage2)
+//                    mSelectStageViewModel.setColor(binding.stage3)
+//                } else if (check / 10 == 3) {
+//                    if (check % 10 == 0) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.grayColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 1) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 2) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.setColor(binding.stage3)
+//                    }
+//                }
+//                if(actNum >= 40){
+//                    mSelectStageViewModel.grayColor(binding.stage1)
+//                    mSelectStageViewModel.grayColor(binding.stage2)
+//                    mSelectStageViewModel.grayColor(binding.stage3)
+//                }
+//            }
+//            4 -> {
+//                if (actNum < 40) {
+//                    mSelectStageViewModel.setColor(binding.stage1)
+//                    mSelectStageViewModel.setColor(binding.stage2)
+//                    mSelectStageViewModel.setColor(binding.stage3)
+//                } else if (check / 10 == 4) {
+//                    if (check % 10 == 0) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.grayColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 1) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 2) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.setColor(binding.stage3)
+//                    }
+//                }
+//                if(actNum >= 50){
+//                    mSelectStageViewModel.grayColor(binding.stage1)
+//                    mSelectStageViewModel.grayColor(binding.stage2)
+//                    mSelectStageViewModel.grayColor(binding.stage3)
+//                }
+//            }
+//            5 -> {
+//                if (actNum < 50) {
+//                    mSelectStageViewModel.setColor(binding.stage1)
+//                    mSelectStageViewModel.setColor(binding.stage2)
+//                    mSelectStageViewModel.setColor(binding.stage3)
+//                } else if (check / 10 == 5) {
+//                    if (check % 10 == 0) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.grayColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 1) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.grayColor(binding.stage3)
+//                    } else if (check % 10 == 2) {
+//                        mSelectStageViewModel.setColor(binding.stage1)
+//                        mSelectStageViewModel.setColor(binding.stage2)
+//                        mSelectStageViewModel.setColor(binding.stage3)
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

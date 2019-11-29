@@ -79,6 +79,10 @@ class PlayActivity : BaseActivity() {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isRock = "
             }
+            32 -> {
+                binding.tvCount.text = "batCnt = "
+                binding.tvState.text = "isBat = "
+            }
         }
 
         bossField.isVisible = false
@@ -135,7 +139,7 @@ class PlayActivity : BaseActivity() {
 
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
-                        if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
+                        if (mMapSettingViewModel.mDrawables.item[i].item_id%BASE == PICKAXE) {
                             mPrincessViewModel.axeImg!!.isVisible = true
                         }
                     }
@@ -152,6 +156,19 @@ class PlayActivity : BaseActivity() {
                         findViewById<ImageView>(itemNumber).isVisible = false
                     }
                 }
+
+//                KILL_BAT->{
+//                    itemNumber = resources.getIdentifier(
+//                        "item_" + mRun.changingView.toString(),
+//                        "id",
+//                        packageName
+//                    )
+//                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
+//                    if (itemNumber != 0) {
+//                        findViewById<ImageView>(itemNumber).isVisible = false
+//                    }
+//                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
+//                }
 
                 PLAYER_LOST -> {  // 패배
                     //restart()
