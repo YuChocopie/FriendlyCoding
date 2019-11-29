@@ -8,4 +8,9 @@
 
     <!--    codeBlock Color-->
     <string name="codeBlue">#0000FF</string>
+    <string name="dev_by">
+        Yujeong Kim \"The Leader\"\n
+        Kyojun Jin \"The Architect\"\n
+        Jeehoon Kang \"The Animator\"\n
+        Hyeogdo Sim \"The UI Expert\"</string>
 </resources>

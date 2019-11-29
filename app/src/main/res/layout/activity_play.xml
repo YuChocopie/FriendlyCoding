@@ -260,7 +260,7 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginBottom="30dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     android:animation="@{(10000)}"
                     android:src="@{mapSettingVM.mDrawables.monsterImg}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -419,27 +419,27 @@
             app:layout_constraintTop_toTopOf="@+id/rc_code_block_list" />
 
         <ImageButton
-            android:id="@+id/btnClear"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:background="@color/White"
             android:scaleType="centerCrop"
+            android:onClick="@{()->codeBlockVM.clearBlock()}"
             android:src="@drawable/ic_replay"
             android:tint="@color/icon_color"
             app:layout_constraintEnd_toEndOf="@+id/run"
             app:layout_constraintTop_toBottomOf="@+id/run" />
 
-        <Button
-            android:id="@+id/boss"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:onClick="@{()->codeBlockVM.runBoss()}"
-            android:text="@string/runBoss"
-            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"
-            app:layout_constraintRight_toLeftOf="@+id/run"
-            app:layout_constraintTop_toBottomOf="@+id/run" />
+<!--        <Button-->
+<!--            android:id="@+id/boss"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:onClick="@{()->codeBlockVM.runBoss()}"-->
+<!--            android:text="@string/runBoss"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/rc_code_block_list"-->
+<!--            app:layout_constraintRight_toLeftOf="@+id/run"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/run" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:setHAdapter="@{codeBlockVM.getInputCodeBlockAdapter()}"

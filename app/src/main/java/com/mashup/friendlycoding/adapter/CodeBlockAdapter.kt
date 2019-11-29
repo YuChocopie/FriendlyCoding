@@ -18,7 +18,7 @@ class CodeBlockAdapter(@LayoutRes val layoutID: Int, val mCodeBlockViewModel: Co
         return Holder(binding)
     }
 
-    override fun getItemCount(): Int = mCodeBlockViewModel.mRun.mCodeBlock.value!!.size
+    override fun getItemCount(): Int = if (mCodeBlockViewModel.mRun.mCodeBlock.value != null) mCodeBlockViewModel.mRun.mCodeBlock.value!!.size else 0
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(mCodeBlockViewModel, position)

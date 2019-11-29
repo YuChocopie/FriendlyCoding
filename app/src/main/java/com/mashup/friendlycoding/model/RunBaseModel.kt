@@ -47,14 +47,13 @@ open class RunBaseModel {
     var insertBlockPosition = 0
     var insertedBlock: String? = null   // 삽입된 코드 블록의 이름
     var changingView: Int = 0    // 아이템을 주웠거나 아이템이 파괴됐을시 해당 아이템의 ID를 MainActivity에게 알려준다.
-    var changingViewAll: Int = 0
 
     var jumpTo = 0 // jump 할 주소
     var IR = 0  // 명령어 실행할 주소
     var iterator = 0 // 반복자
     var blockLevel = 0 // 들여쓰기 정도.
     var bracketStack = Stack<Int>()  // 괄호 체크, 그와 동시에 jump 할 명령어 주소 얻기 위함
-    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
+    var coc = arrayOf(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1) // 행동 수칙이 있는가?
     var isAttacking = false  // 몬스터가 공격 중에 있는지
     var isBossAlive = false
     var speed = 500L
@@ -66,12 +65,13 @@ open class RunBaseModel {
     var first = true
 
     val rand = Random()
-
+    var spell = -1
     var bossAttackIterator = 0
     var spellSequence = 3
 
     // 클리어 조건
     var mClearCondition: ((Princess) -> Boolean)? = null
+    var stageClear = false
 
     /***
      * inti()
@@ -123,17 +123,17 @@ open class RunBaseModel {
      * 코드블락 관련 코드
      * ***/
     fun clearBlock() {
-        mPrincessViewModel.clear()
+        //mPrincessViewModel.clear()
         first = true
         bossKilled = false
         x = mMap.startX
         y = mMap.startY
-        mPrincessViewModel.direction = 1
+        //mPrincessViewModel.direction = 1
         iterator = 0
         jumpTo = 0
         blockLevel = 0
         moveView.postValue(-1)
-        insertBlockAt.postValue(-1)
+        insertBlockAt.value = -1
         val block = mCodeBlock.value
         block!!.clear()
         bracketStack.clear()
@@ -143,6 +143,7 @@ open class RunBaseModel {
         isBossAlive = false
         princessAction.value = -1
         compileError = false
+        moveView.postValue(PLAYER_LOST)
     }
 
     fun changeBlockLevel(OpenOrClose: Boolean) {
@@ -271,105 +272,177 @@ open class RunBaseModel {
         return ir
     }
 
-    fun type3Function(num: Int): (Princess) -> Boolean {
+    fun type3Function(num: Int) : Boolean {
         when (num) {
             IS_PICKAXE -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isPickAxe
-                })
+                return mMap.mapList!![y][x] % BASE == PICKAXE
             }
 
-            IS_MUSHROOM -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isMushroom
-                })
+            IS_NOT_POISONED -> {
+                return mMap.mapList!![y][x] % BASE == MUSHROOM
             }
 
             IS_BOOK -> {
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBook
-                })
+                return mMap.mapList!![y][x] % BASE == BOOK
             }
 
-            IS_BRANCH -> {
+            IS_NOT_BROKEN -> {
+                return mMap.mapList!![y][x] % BASE == BRANCH
+            }
+            IS_ROCK -> {
+                return mPrincess.isRock
+            }
+            IS_BAT -> {
                 return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isBranch
+                    return mPrincess.isBat
                 })
             }
-            IS_ROCK->{
-                return (fun(mPrincess: Princess): Boolean {
-                    return mPrincess.isRock
-                })
-            }
-
             else -> {
-                return (fun(_: Princess): Boolean {
-                    return true
-                })
+                return true
             }
         }
     }
 
+    fun killBat(item: Int, f: () -> Int) {
+        when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
+            0 -> {
+                if (mMap.mapList!![y - 1][x] % BASE == item) {
+
+                    val cnt = f()
+                    changingView = mMap.mapList!![y - 1][x] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt_killBat", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+
+                    mMap.itemPicked(y - 1, x)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            1 -> {
+
+                if (mMap.mapList!![y][x + 1] % BASE == item) {
+                    Log.e("killBat_item", "${mMap.mapList!![y][x + 1] % BASE}")
+                    val cnt = f()
+                    Log.e("cnt_killBat", "$cnt")
+                    changingView = mMap.mapList!![y][x + 1] / BASE
+                    Log.e("changing", "$changingView")
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y, x + 1)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            2 -> {
+                if (mMap.mapList!![y + 1][x] % BASE == item) {
+
+                    val cnt = f()
+                    changingView = mMap.mapList!![y + 1][x] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y + 1, x)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+            3 -> {
+                if (mMap.mapList!![y][x - 1] % BASE == item) {
+                    val cnt = f()
+                    changingView = mMap.mapList!![y][x - 1] / BASE
+                    mPrincessViewModel.itemCount.postValue(cnt.toString())
+                    Log.e("cnt", "$cnt")
+
+                    mPrincessViewModel.isItem.postValue("true")
+
+                    mMap.itemPicked(y, x - 1)
+                    moveView.postValue(KILL_BAT)
+                } else {
+                    moveView.postValue(PLAYER_LOST)
+                    return
+                }
+            }
+        }
+    }
+    //TODO:cruchRock 함수 호출 시 itemCount의 값이 스테이지별로 전달되고 안되고 구분하기
     fun cruchRock(item: Int, f: () -> Int) {
-        Log.e("돌을 부숩니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-
-        Log.e("어디보냐","난 ${mPrincessViewModel.direction} 을 보고있어")
-
-        when(mPrincessViewModel.direction ){//바라보고있는 방향에 돌이 존재 할 경우
-
-            0->{
-                if (mMap.mapList!![y-1][x] % 10 == item){
-
+        when (mPrincessViewModel.direction) {//바라보고있는 방향에 돌이 존재 할 경우
+            0 -> {
+                if (mMap.mapList!![y - 1][x] % BASE == item) {
                     val cnt = f()
-                    changingView = mMap.mapList!![y-1][x] / 10
+                    changingView = mMap.mapList!![y - 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
-                    mMap.itemPicked(y-1, x)
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+                    Log.e("삭제전","ㅇㅇ")
+                    mMap.itemPicked(y - 1, x)
+                    Log.e("삭제 후", "${y-1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
                     return
                 }
             }
-            1->{
-                if (mMap.mapList!![y][x+1] % 10 == item){
-                    Log.e("item","${mMap.mapList!![y][x+1] % 10}")
-                    val cnt = f()
-                    Log.e("cnt","$cnt")
-                    changingView = mMap.mapList!![y][x+1] / 10
+            1 -> {
 
-                    Log.e("changing","$changingView")
+                if (mMap.mapList!![y][x + 1] % BASE == item) {
+                    val cnt = f()
+                    changingView = mMap.mapList!![y][x + 1] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
-                    mMap.itemPicked(y, x+1)
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+                    Log.e("삭제전","ㅇㅇ")
+                    mMap.itemPicked(y, x + 1)
+                    Log.e("삭제 후", "${y-1}, $x")
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
                     return
                 }
             }
-            2->{
-                if (mMap.mapList!![y+1][x] % 10 == item){
+            2 -> {
+                if (mMap.mapList!![y + 1][x] % BASE == item) {
 
                     val cnt = f()
-                    changingView = mMap.mapList!![y+1][x] / 10
+                    changingView = mMap.mapList!![y + 1][x] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
-                    mMap.itemPicked(y+1, x)
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+                    mMap.itemPicked(y + 1, x)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
                     return
                 }
             }
-            3->{
-                if (mMap.mapList!![y][x-1] % 10 == item){
-
+            3 -> {
+                if (mMap.mapList!![y][x - 1] % BASE == item) {
                     val cnt = f()
-                    changingView = mMap.mapList!![y][x-1] / 10
+                    changingView = mMap.mapList!![y][x - 1] / BASE
                     mPrincessViewModel.itemCount.postValue(cnt.toString())
-                    mPrincessViewModel.isItem.postValue("true")
-                    mMap.itemPicked(y, x-1)
+                    Log.e("cnt", "$cnt")
+                    if (cnt >= CRUSH_ROCK_COUNT) {
+                        mPrincessViewModel.isItem.postValue("true")
+                    }
+                    mMap.itemPicked(y, x - 1)
                     moveView.postValue(CRUSH_ROCK)
                 } else {
                     moveView.postValue(PLAYER_LOST)
@@ -377,49 +450,51 @@ open class RunBaseModel {
                 }
             }
         }
-
-
     }
 
-    fun itemPick(item: Int, f: () -> Int) {
+    fun itemPick(item: Int, f: () -> Int) : Boolean {
         Log.e("아이템을 줍습니다.$y, $x", "공주 밑엔 ${mMap.mapList!![y][x]}")
-        if (mMap.mapList!![y][x] % 10 == item) {
+        if (mMap.mapList!![y][x] % BASE == item) {
             //mPrincess.pickBranch()
             val cnt = f()
-            changingView = mMap.mapList!![y][x] / 10
-            Log.e("chaaa","${mMap.mapList!![y][x]}")
+            changingView = mMap.mapList!![y][x] / BASE
+            Log.e("chaaa", "${mMap.mapList!![y][x] % BASE}")
             //changingViewAll = mMap.mapList!![y][x]
-            mPrincessViewModel.itemCount.postValue(cnt.toString())
-            mPrincessViewModel.isItem.postValue("true")
+            if (mMap.mapList!![y][x] % BASE != PICKAXE) {
+                mPrincessViewModel.itemCount.postValue(cnt.toString())
+                mPrincessViewModel.isItem.postValue("true")
+            }
+
             mMap.itemPicked(y, x)
             moveView.postValue(ITEM_PICKED)
+            return true
         } else {
             moveView.postValue(PLAYER_LOST)
-            return
+            return false
         }
     }
 
-    fun defenseSuccess(attackType: Int) : Boolean {
+    fun defenseSuccess(attackType: Int): Boolean {
         when (attackType) {
             BOSS_FIRE_ATTACK -> {
-                return if (mCodeBlock.value!!.size > IR+1) {
-                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "iceShield();")
+                return if (mCodeBlock.value!!.size > IR + 1) {
+                    (ignoreBlanks(mCodeBlock.value!![IR + 1].funcName) == "iceShield();")
                 } else
                     false
             }
 
             BOSS_WATER_ATTACK -> {
-                return if (mCodeBlock.value!!.size > IR+1) {
-                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "fireShield();")
+                return if (mCodeBlock.value!!.size > IR + 1) {
+                    (ignoreBlanks(mCodeBlock.value!![IR + 1].funcName) == "fireShield();")
                 } else
                     false
             }
 
             BOSS_JUMPED -> {
-                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR+2}")
-                return if (this.mCodeBlock.value!!.size > IR+2) {
-                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR+2].funcName))
-                    (ignoreBlanks(this.mCodeBlock.value!![IR+2].funcName) == "jump();")
+                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR + 2}")
+                return if (this.mCodeBlock.value!!.size > IR + 2) {
+                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR + 2].funcName))
+                    (ignoreBlanks(this.mCodeBlock.value!![IR + 2].funcName) == "jump();")
                 } else
                     false
             }
@@ -433,10 +508,10 @@ open class RunBaseModel {
             }
 
             BOSS_PUNCH -> {
-                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR+1}")
-                return if (this.mCodeBlock.value!!.size > IR+1) {
-                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR+1].funcName))
-                    (ignoreBlanks(mCodeBlock.value!![IR+1].funcName) == "dodge();")
+                Log.e("현재 코드 블록", "${this.mCodeBlock.value!!.size}, ${IR + 1}")
+                return if (this.mCodeBlock.value!!.size > IR + 1) {
+                    Log.e("피하는 방법?", ignoreBlanks(mCodeBlock.value!![IR + 1].funcName))
+                    (ignoreBlanks(mCodeBlock.value!![IR + 1].funcName) == "dodge();")
                 } else
                     false
             }
@@ -454,6 +529,4 @@ open class RunBaseModel {
             }
         }
     }
-
-
 }

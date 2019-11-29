@@ -9,10 +9,11 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/story_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.StoryActivity"
-        android:background="@drawable/bg_stage_map_01"
+        android:story_bg="@{storyVM.stageNum}"
         android:orientation="vertical"
         android:weightSum="3"
         >
@@ -27,8 +28,8 @@
             android:layout_width="200dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:src="@drawable/princess_story" />
-
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_princess_normal" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

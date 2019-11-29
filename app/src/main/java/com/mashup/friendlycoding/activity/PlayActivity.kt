@@ -37,29 +37,22 @@ class PlayActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding =
-            DataBindingUtil.setContentView<ActivityPlayBinding>(
-                this,
-                com.mashup.friendlycoding.R.layout.activity_play
-            )
+        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
         this.stageNum = intent.getIntExtra("stageNum", 0)
         binding.lifecycleOwner = this
         initStage(binding)
 
-        btnClear.setOnClickListener {
-            restart()
-        }
-        if (this.stageNum == 11) {
-            val intent = Intent(this, StoryActivity::class.java)
-            startActivity(intent)
-        }
+//        btnClear.setOnClickListener {
+//            restart()
+//        }
+
+        val intent = Intent(this, StoryActivity::class.java)
+        intent.putExtra("stageNum", this.stageNum)
+        startActivity(intent)
 
         Log.e("stageNum", "$stageNum")
-        val soundSource = resources.getIdentifier("act${this.stageNum / 10}", "raw", packageName)
-        mp = MediaPlayer.create(this, soundSource)
-        mp!!.isLooping = true
 
         // stageNum 20 넘을 때 visible로 변경
         if (stageNum / 10 > 1) {
@@ -82,6 +75,14 @@ class PlayActivity : BaseActivity() {
                 binding.tvCount.setText("branchCnt = ")
                 binding.tvState.setText("isBranch = ")
             }
+            31 -> {
+                binding.tvCount.text = "rockCnt = "
+                binding.tvState.text = "isRock = "
+            }
+            32 -> {
+                binding.tvCount.text = "batCnt = "
+                binding.tvState.text = "isBat = "
+            }
         }
 
         bossField.isVisible = false
@@ -100,37 +101,27 @@ class PlayActivity : BaseActivity() {
         mRun.moveView.observe(this, Observer<Int> { t ->
             when (t) {
                 START_RUN -> {
-                    mCodeBlockViewModel.isRunning.postValue(true)
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                 }
 
                 END_RUN -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 INFINITE_LOOP -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Toast.makeText(this, "무한 루프", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
                 }
 
                 COMPILE_ERROR -> {
-                    mCodeBlockViewModel.isRunning.postValue(false)
                     Log.e("compile", "error")
                     Toast.makeText(this, "컴파일 에러", Toast.LENGTH_SHORT).show()
                 }
 
                 LOST_BOSS_BATTLE -> {
                     Toast.makeText(this, "보스에게 패배하였습니다.", Toast.LENGTH_SHORT).show()
-                    mCodeBlockViewModel.isRunning.postValue(false)
-                    boss.text = "보스"
-                    constraintLayout.isVisible = true
-                    bossField.isVisible = false
-                    mCodeBlockViewModel.clearBlock()
-                    mPrincessViewModel.clear()
                 }
 
                 ITEM_PICKED -> {  // 아이템 습득
@@ -141,48 +132,72 @@ class PlayActivity : BaseActivity() {
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
 
-                    findViewById<ImageView>(itemNumber).isVisible = false
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
+
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
-                        if (mMapSettingViewModel.mDrawables.item[i].item_id == PICKAXE) {
+                        if (mMapSettingViewModel.mDrawables.item[i].item_id%BASE == PICKAXE) {
                             mPrincessViewModel.axeImg!!.isVisible = true
                         }
                     }
-
                 }
-                CRUSH_ROCK -> {  // 아이템 습득
 
+                CRUSH_ROCK -> {  // 아이템 습득
                     itemNumber = resources.getIdentifier(
                         "item_" + mRun.changingView.toString(),
                         "id",
                         packageName
                     )
                     Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
-                    findViewById<ImageView>(itemNumber).isVisible = false
-                    Log.e("좌표를알아보자", "${mRun.changingViewAll}")
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
+                }
 
-
+                KILL_BAT->{
+                    itemNumber = resources.getIdentifier(
+                        "item_" + mRun.changingView.toString(),
+                        "id",
+                        packageName
+                    )
+                    Log.e("습득된 아이템", "item_" + mRun.changingView.toString())
+                    if (itemNumber != 0) {
+                        findViewById<ImageView>(itemNumber).isVisible = false
+                    }
                 }
 
                 PLAYER_LOST -> {  // 패배
-                    mCodeBlockViewModel.isRunning.postValue(false)
-//                    mCodeBlockViewModel.clearBlock()
-//                    mPrincessViewModel.clear()
-                    restart()
+                    //restart()
+                    Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
+                    constraintLayout.isVisible = true
+                    bossField.isVisible = false
+                    val itemSize = mMapSettingViewModel.itemSize()
+                    for (i in 0 until itemSize) {
+                        findViewById<ImageView>(
+                            resources.getIdentifier(
+                                "item_" + (i + 1).toString(),
+                                "id",
+                                packageName
+                            )
+                        ).isVisible = true
+                    }
+                    mPrincessViewModel.clear()
+                    mRun.mMap.clear()
+                    mRun.mPrincess.clear()
+                    mCodeBlockViewModel.isRunning.value = false
                 }
 
                 PLAYER_WIN -> {  // 승리
                     binding.tvWin.isVisible = true
                     val intent = Intent()
+                    Log.e("승리", "승리")
                     intent.putExtra("ok", "ok")
                     setResult(Activity.RESULT_OK, intent)
-
                 }
 
-
                 9 -> {  // 종료
-
                     finish()
                 }
 
@@ -225,31 +240,68 @@ class PlayActivity : BaseActivity() {
 
         // 공주가 보스를 만남
         mRun.metBoss.observe(this, Observer<Boolean> { t ->
-            boss.text = if (t) "OFF" else "보스"
+            //boss.text = if (t) "OFF" else "보스"
             constraintLayout.isVisible = !t
             bossField.isVisible = t
 
             if (t) {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
-                //mRun.mCodeBlock.value = arrayListOf()
-                this.mRun.mCodeBlock.value = arrayListOf(
-                    CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-                    CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-                    CodeBlock("        wait();"),
-                    CodeBlock("        jump();"),
-                    CodeBlock("    }"),
-                    CodeBlock("    if(bossFistMoved()){", type = IF, argument = BOSS_FIST_MOVED),
-                    CodeBlock("        if(bossFistDown()){", type = IF, argument = BOSS_FIST_DOWN),
-                    CodeBlock("            jump();"),
-                    CodeBlock("        }"),
-                    CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-                    CodeBlock("            dodge();"),
-                    CodeBlock("        }"),
-                    CodeBlock("    }"),
-                    CodeBlock("}")
-                )
 
+                if (stageNum == 51) {
+                    this.mRun.mCodeBlock.value = arrayListOf(
+                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
+                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
+                        CodeBlock("        wait();"),
+                        CodeBlock("        jump();"),
+                        CodeBlock("    }"),
+                        CodeBlock(
+                            "    if(bossFistMoved()){",
+                            type = IF,
+                            argument = BOSS_FIST_MOVED
+                        ),
+                        CodeBlock(
+                            "        if(bossFistDown()){",
+                            type = IF,
+                            argument = BOSS_FIST_DOWN
+                        ),
+                        CodeBlock("            for(3){", type = FOR, argument = 3),
+                        CodeBlock("                jump();"),
+                        CodeBlock("            }"),
+                        CodeBlock("        }"),
+                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
+                        CodeBlock("            dodge();"),
+                        CodeBlock("        }"),
+                        CodeBlock("    }"),
+                        CodeBlock("    attack();"),
+                        CodeBlock("}")
+                    )
+                }
+
+                if (stageNum == 52) {
+                    this.mRun.mCodeBlock.value = arrayListOf(
+                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
+                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
+                        CodeBlock(
+                            "        while(isBlackhole()) {",
+                            type = WHILE,
+                            argument = IS_BLACKHOLE
+                        ),
+                        CodeBlock("             grabTight();"),
+                        CodeBlock("        }"),
+                        CodeBlock("    }"),
+                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
+                        CodeBlock("        readySpell(shield);", argument = SHIELD),
+                        CodeBlock("        wandSpell();"),
+                        CodeBlock("        shoutSpell();"),
+                        CodeBlock("    }"),
+                        CodeBlock("    readySpell(attack);", argument = ATTACK),
+                        CodeBlock("    wandSpell();"),
+                        CodeBlock("    shoutSpell();"),
+                        CodeBlock("}")
+                    )
+                }
+                //this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
 
@@ -285,13 +337,14 @@ class PlayActivity : BaseActivity() {
                     mRun.mCodeBlock.value = arrayListOf()
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
                     mRun.mCodeBlock.value = mRun.backup
-
-                    for (i in mRun.backup!!) {
-                        Log.e(i.funcName, mRun.backIR.toString())
-                    }
+//
+//                    for (i in mRun.backup!!) {
+//                        Log.e(i.funcName, mRun.backIR.toString())
+//                    }
 
                     mCodeBlockViewModel.adapter.notifyDataSetChanged()
-                    mCodeBlockViewModel.run()
+                    if (mRun.mCodeBlock.value != null)
+                        mCodeBlockViewModel.run()
                 }
             }
         })
@@ -306,18 +359,20 @@ class PlayActivity : BaseActivity() {
         })
     }
 
-    private fun restart() {
-        finish()
-        startActivity(intent)
+    override fun onStart() {
+        super.onStart()
+        val soundSource = resources.getIdentifier("act${this.stageNum / 10}", "raw", packageName)
+        this.mp = MediaPlayer.create(this, soundSource)
+        this.mp!!.isLooping = true
     }
 
     override fun onResume() {
         super.onResume()
-        mp!!.start()
+        if (!isMute) mp!!.start()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         mp!!.stop()
     }
 

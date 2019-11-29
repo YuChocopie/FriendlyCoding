@@ -1,5 +1,6 @@
 package com.mashup.friendlycoding.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -7,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.mashup.friendlycoding.R
 import com.mashup.friendlycoding.databinding.ActivityStoryBinding
 import com.mashup.friendlycoding.viewmodel.StoryViewModel
+import kotlinx.android.synthetic.main.activity_story.*
 import java.lang.Thread.sleep
 
 class StoryActivity : BaseActivity() {
@@ -20,8 +22,8 @@ class StoryActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.storyVM = mStoryViewModel
 
-        mStoryViewModel.init()
-
+        val stageNum = intent.getIntExtra("stageNum", 11)
+        mStoryViewModel.init(stageNum)
         mStoryViewModel.page.observe(this, Observer<Int> { t ->
             Log.e("페이지", "$t")
             if (t == 3) {
@@ -30,7 +32,7 @@ class StoryActivity : BaseActivity() {
             }
             else {
                 try {
-                    binding.princessScript.text = mStoryViewModel.script[t]
+                    binding.princessScript.text = mStoryViewModel.script!![t]
                 }catch (e:ArrayIndexOutOfBoundsException ){
 
                 }

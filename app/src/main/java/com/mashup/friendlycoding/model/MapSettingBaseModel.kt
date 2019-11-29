@@ -5,7 +5,6 @@ import java.util.*
 
 open class MapSettingBaseModel {
     var random = Random()
-
     var startX = 0
     var startY = 9
 
@@ -21,6 +20,16 @@ open class MapSettingBaseModel {
 
             22 -> return (fun(mPrincess: Princess): Boolean {
                 return (mPrincess.mushroomCnt == 2)
+            })
+
+            31 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.isRock)
+            })
+            32 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.batCnt==1)
+            })
+            51, 52 -> return (fun(mPrincess : Princess) : Boolean {
+                return mPrincess.killedBoss
             })
 
             else -> return (fun(_: Princess): Boolean {
@@ -55,15 +64,23 @@ open class MapSettingBaseModel {
         CodeBlock("pickBook();")
     )
     var stageCodeBlock2_2 = arrayListOf(
-        CodeBlock("isMushroom()", type = 3, argument = IS_MUSHROOM),
-        CodeBlock("eatMushroom();"),
-        CodeBlock("fightBoss();")
+        CodeBlock("isNotPoisoned()", type = 3, argument = IS_NOT_POISONED),
+        CodeBlock("eatMushroom();")
     )
     var stageCodeBlock2_3 = arrayListOf(
-        CodeBlock("isBranch()", type = 3, argument = IS_BRANCH),
+        CodeBlock("isNotBroken()", type = 3, argument = IS_NOT_BROKEN),
         CodeBlock("pickBranch();")
     )
     var stageCodeBlock3_1 = arrayListOf(
+        CodeBlock("crushRock();"),
+        CodeBlock("pickAxe();")
+    )
+    var stageCodeBlock3_2 = arrayListOf(
+        CodeBlock("crushRock();"),
+        CodeBlock("pickAxe();"),
+        CodeBlock("killBat();")
+    )
+    var stageCodeBlock3_3 = arrayListOf(
         CodeBlock("crushRock();"),
         CodeBlock("pickAxe();")
     )
@@ -103,11 +120,11 @@ open class MapSettingBaseModel {
         CodeBlock("isBlackhole()", type = 3, argument = IS_BLACKHOLE),
         CodeBlock("bossGreenHand()", type = 3, argument = BOSS_GREENHAND),
         CodeBlock("grabTight();"),
-        CodeBlock("readySpell();", type = 5),
+        CodeBlock("readySpell();"),
         CodeBlock("wandSpell();"),
         CodeBlock("shoutSpell();"),
-        CodeBlock("attack"),
-        CodeBlock("shield")
+        CodeBlock("attack", argument = ATTACK),
+        CodeBlock("shield", argument = SHIELD)
         )
 
     val mapListActNull = arrayOf(
@@ -160,16 +177,16 @@ open class MapSettingBaseModel {
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
         arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     )
-    var mapListAct31 = arrayOf(
-        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 1, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 1, 1, 1, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(1, 1, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    var mapListAct3 = arrayOf(
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayOf(1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+        arrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1)
     )
 }

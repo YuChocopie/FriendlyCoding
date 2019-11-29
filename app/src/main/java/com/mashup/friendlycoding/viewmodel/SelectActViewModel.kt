@@ -2,6 +2,7 @@ package com.mashup.friendlycoding.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.AndroidViewModel
@@ -11,8 +12,9 @@ import com.mashup.friendlycoding.adapter.SelectActAdapter
 import com.mashup.friendlycoding.model.StageItem
 
 class SelectActViewModel(application: Application) : AndroidViewModel(application){
-    var checkNum : Int = 20
+    var checkNum : Int = 30
     var check : Int = checkNum/10
+    var scroll : Int = check / 10
     lateinit var adapter : SelectActAdapter
     val actToStart = MutableLiveData<Int>()
 
@@ -38,7 +40,8 @@ class SelectActViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun banClick (act : Int) : Boolean {
-        return (this.list.size - act) - 1 <= this.check
+        Log.e("backClick","this.list.size : ${this.list.size}, act: $act , this.check : ${this.check}")
+        return true
     }
 
     fun goToStageSelector (act : Int) {

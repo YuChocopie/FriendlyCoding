@@ -121,7 +121,7 @@ class CodeBlockViewModel : ViewModel() {
             return
 
         val type = mRun.mCodeBlock.value!![position].type
-        if (type == 2 || type == 4)
+        if (type == 2 || type == 4 || mRun.mCodeBlock.value!![position].funcName == "readySpell();")
             mRun.insertBlockPosition = position
         else
             -1
