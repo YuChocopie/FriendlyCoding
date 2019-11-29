@@ -239,13 +239,23 @@ class MapSettingModel : MapSettingBaseModel() {
 
                     3 -> {
                         mapList = mapListAct3
-
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_branch, BRANCH),
-                            MapItem(R.drawable.ic_branch, BROKEN_BRANCH),
-                            MapItem(R.drawable.ic_branch, BRANCH)
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
+                            MapItem(R.drawable.ic_bat, BAT),
+                            MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
+
+                        val arr = arrayOf(//넣고싶은 위치선택
+                            arrayOf(0, 9),
+                            arrayOf(4, 3),
+                            arrayOf(3, 4),
+                            arrayOf(3, 3),
+                            arrayOf(9, 3)
+
+                        )
+                        setMapItem(arr, mapList, mDrawables)
                         defaultCodeBlock.addAll(stageCodeBlock3_3)
                     }
                 }
