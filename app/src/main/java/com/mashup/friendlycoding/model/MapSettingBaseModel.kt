@@ -22,12 +22,14 @@ open class MapSettingBaseModel {
                 return (mPrincess.mushroomCnt == 2)
             })
 
-            31 -> return (fun(mPrincess: Princess): Boolean {
+            31, 33 -> return (fun(mPrincess: Princess): Boolean {
                 return (mPrincess.rockCnt==GET_ROCK_COUNT)
             })
+
             32 -> return (fun(mPrincess: Princess): Boolean {
-                return (mPrincess.batCnt==1 && mPrincess.rockCnt==GET_ROCK_COUNT)
+                return (mPrincess.batCnt == 3)
             })
+
             51, 52 -> return (fun(mPrincess : Princess) : Boolean {
                 return mPrincess.killedBoss
             })
@@ -76,16 +78,17 @@ open class MapSettingBaseModel {
         CodeBlock("pickAxe();")
     )
     var stageCodeBlock3_2 = arrayListOf(
-        CodeBlock("crushRock();"),
         CodeBlock("pickAxe();"),
         CodeBlock("killBat();")
     )
+
     var stageCodeBlock3_3 = arrayListOf(
         CodeBlock("crushRock();"),
         CodeBlock("pickAxe();"),
         CodeBlock("killBat();"),
         CodeBlock("isRock();")
     )
+
     var stageCodeBlock4_2 = arrayListOf(
         CodeBlock("isRightLoad()", type = 3, argument = IS_RIGHT_LOAD),
         CodeBlock("isClear()", type = 3, argument = IS_CLEAR)

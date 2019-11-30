@@ -28,7 +28,6 @@ import android.app.Dialog
 import kotlinx.android.synthetic.main.tinkerbell.*
 import java.util.*
 
-
 class PlayActivity : BaseActivity() {
     private var mPrincessViewModel = PrincessViewModel()
     private val mCodeBlockViewModel = CodeBlockViewModel()
@@ -256,59 +255,6 @@ class PlayActivity : BaseActivity() {
                 defineFightBoss.isVisible = true
                 defineFightBossClose.isVisible = true
 
-//                if (stageNum == 51) {
-//                    this.mRun.mCodeBlock.value = arrayListOf(
-//                        CodeBlock("while(isAlive){", type = WHILE, argument = IS_ALIVE),
-//                        CodeBlock("    if(bossJumped()){", type = IF, argument = BOSS_JUMPED),
-//                        CodeBlock("        wait();"),
-//                        CodeBlock("        jump();"),
-//                        CodeBlock("    }"),
-//                        CodeBlock(
-//                            "    if(bossFistMoved()){",
-//                            type = IF,
-//                            argument = BOSS_FIST_MOVED
-//                        ),
-//                        CodeBlock(
-//                            "        if(bossFistDown()){",
-//                            type = IF,
-//                            argument = BOSS_FIST_DOWN
-//                        ),
-//                        CodeBlock("            for(3){", type = FOR, argument = 3),
-//                        CodeBlock("                jump();"),
-//                        CodeBlock("            }"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("        if(bossPunch()){", type = IF, argument = BOSS_PUNCH),
-//                        CodeBlock("            dodge();"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    attack();"),
-//                        CodeBlock("}")
-//                    )
-//                }
-//
-//                if (stageNum == 52) {
-//                    this.mRun.mCodeBlock.value = arrayListOf(
-//                        CodeBlock("while(isAlive) {", type = WHILE, argument = IS_ALIVE),
-//                        CodeBlock("    if(bossBlackhole()){", type = IF, argument = BOSS_BLACKHOLE),
-//                        CodeBlock(
-//                            "        while(isBlackhole()) {",
-//                            type = WHILE,
-//                            argument = IS_BLACKHOLE
-//                        ),
-//                        CodeBlock("             grabTight();"),
-//                        CodeBlock("        }"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    if(bossGreenHand()){", type = IF, argument = BOSS_GREENHAND),
-//                        CodeBlock("        readySpell(shield);", argument = SHIELD),
-//                        CodeBlock("        wandSpell();"),
-//                        CodeBlock("        shoutSpell();"),
-//                        CodeBlock("    }"),
-//                        CodeBlock("    readySpell(attack);", argument = ATTACK),
-//                        CodeBlock("    wandSpell();"),
-//                        CodeBlock("    shoutSpell();"),
-//                        CodeBlock("}")
-//                    )
-//                }
                 this.mRun.mCodeBlock.value = arrayListOf()
                 mCodeBlockViewModel.adapter.notifyDataSetChanged()
                 mCodeBlockViewModel.isRunning.value = false
@@ -441,6 +387,8 @@ class PlayActivity : BaseActivity() {
             //...
 
             41-> arrayOf("지금까지 배운 것을 활용해 봐", "순서에 맞게 해야 돼", "모든 것엔 순서가 있어")
+            42-> arrayOf("반복을 얼마나 할 지 잘 생각해 봐", "방향도 잘 계산해야 해", "코드는 거짓말을 하지 않아")
+            43-> arrayOf("물은 불로, 불은 물로 막아야 해", "그냥 공격은 안 돼. 보스를 물리칠 때까지야!")
             // ...
 
             51-> arrayOf("조건을 잘 걸어야 해!", "if 를 잘 써야 해", "주먹을 든 후에, 내려치거나 펀치를 해", "보스가 점프하면 한 템포 기다렸다 점프해")

@@ -59,7 +59,7 @@ val KILL_BAT = 18
 
 const val BASE = 16
 const val CRUSH_ROCK_COUNT = 2//몇번 쳐야 깨지는지 횟수
-const val GET_ROCK_COUNT = 2//얻어야 하는 돌의 갯수
+const val GET_ROCK_COUNT = 3//얻어야 하는 돌의 갯수
 
 // item numbers
 val PATH = 0
