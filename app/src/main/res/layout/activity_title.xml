@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.mashup.friendlycoding.viewmodel.TitleViewModel" />
+        <import type="com.smu.friendlycoding.viewmodel.TitleViewModel" />
 
         <variable
             name="titleVM"

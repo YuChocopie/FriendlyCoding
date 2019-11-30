@@ -6,7 +6,7 @@
     <data>
         <variable
             name="stageVM"
-            type="com.mashup.friendlycoding.viewmodel.SelectActViewModel" />
+            type="com.smu.friendlycoding.viewmodel.SelectActViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

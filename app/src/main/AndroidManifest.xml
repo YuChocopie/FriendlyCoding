@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.mashup.friendlycoding">
+    package="com.smu.friendlycoding">
 
     <application
         android:allowBackup="true"
@@ -12,20 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.CreditActivity" />
-        <activity android:name=".activity.SelectStageActivity" />
-        <activity android:name=".activity.TutorialActivity" />
-        <activity android:name=".activity.StoryActivity" />
-        <activity android:name=".activity.TitleActivity"></activity>
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name="com.smu.friendlycoding.activity.MainActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.CreditActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.SelectStageActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.TutorialActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.StoryActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.TitleActivity"></activity>
+        <activity android:name="com.smu.friendlycoding.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PlayActivity" />
+        <activity android:name="com.smu.friendlycoding.activity.PlayActivity" />
     </application>
 
 </manifest>

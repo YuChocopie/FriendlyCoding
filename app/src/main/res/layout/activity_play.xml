@@ -4,15 +4,15 @@
 
     <data>
 
-        <import type="com.mashup.friendlycoding.model.CodeBlock" />
+        <import type="com.smu.friendlycoding.model.CodeBlock" />
 
-        <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel" />
+        <import type="com.smu.friendlycoding.viewmodel.CodeBlockViewModel" />
 
-        <import type="com.mashup.friendlycoding.viewmodel.PrincessViewModel" />
+        <import type="com.smu.friendlycoding.viewmodel.PrincessViewModel" />
 
-        <import type="com.mashup.friendlycoding.viewmodel.BattleViewModel" />
+        <import type="com.smu.friendlycoding.viewmodel.BattleViewModel" />
 
-        <import type="com.mashup.friendlycoding.viewmodel.MapSettingViewModel" />
+        <import type="com.smu.friendlycoding.viewmodel.MapSettingViewModel" />
 
         <variable
             name="codeBlockVM"

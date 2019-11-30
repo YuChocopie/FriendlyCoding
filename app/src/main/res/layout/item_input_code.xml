@@ -2,9 +2,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <data>
-        <import type="com.mashup.friendlycoding.viewmodel.CodeBlockViewModel"/>
-        <import type="com.mashup.friendlycoding.viewmodel.MapSettingViewModel"/>
-        <import type="com.mashup.friendlycoding.adapter.InputCodeBlockAdapter"/>
+        <import type="com.smu.friendlycoding.viewmodel.CodeBlockViewModel"/>
+        <import type="com.smu.friendlycoding.viewmodel.MapSettingViewModel"/>
+        <import type="com.smu.friendlycoding.adapter.InputCodeBlockAdapter"/>
         <variable
             name="codeBlockVM"
             type="CodeBlockViewModel" />
