@@ -36,12 +36,13 @@ class PlayActivity : BaseActivity() {
     var stageNum: Int = 0
     lateinit var binding: ActivityPlayBinding
     lateinit var dialog: Dialog
-    lateinit var tinkScript : Array<String>
+    lateinit var tinkScript: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.binding = DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
+        this.binding =
+            DataBindingUtil.setContentView<ActivityPlayBinding>(this, R.layout.activity_play)
 
         // 현재 몇 스테이지인지?
         this.stageNum = intent.getIntExtra("stageNum", 0)
@@ -86,6 +87,10 @@ class PlayActivity : BaseActivity() {
             32 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isBat = "
+            }
+            33 -> {
+                binding.tvCount.text = "rockCnt = "
+                binding.tvState.text = "isRock = "
             }
         }
 
@@ -142,7 +147,7 @@ class PlayActivity : BaseActivity() {
 
                     for (i in 0 until mMapSettingViewModel.mDrawables.item.size) {
                         Log.e("i를알아보자", "$i")
-                        if (mMapSettingViewModel.mDrawables.item[i].item_id%BASE == PICKAXE) {
+                        if (mMapSettingViewModel.mDrawables.item[i].item_id % BASE == PICKAXE) {
                             mPrincessViewModel.axeImg!!.isVisible = true
                         }
                     }
@@ -160,7 +165,7 @@ class PlayActivity : BaseActivity() {
                     }
                 }
 
-                KILL_BAT->{
+                KILL_BAT -> {
                     itemNumber = resources.getIdentifier(
                         "item_" + mRun.changingView.toString(),
                         "id",
@@ -175,7 +180,11 @@ class PlayActivity : BaseActivity() {
                 PLAYER_LOST -> {  // 패배
                     //restart()
                     Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
-                    mCodeBlockViewModel.coloringNowTerminated(rc_code_block_list.findViewHolderForAdapterPosition(mRun.IR))
+                    mCodeBlockViewModel.coloringNowTerminated(
+                        rc_code_block_list.findViewHolderForAdapterPosition(
+                            mRun.IR
+                        )
+                    )
                     constraintLayout.isVisible = true
                     bossField.isVisible = false
                     val itemSize = mMapSettingViewModel.itemSize()
@@ -221,8 +230,12 @@ class PlayActivity : BaseActivity() {
         mRun.nowProcessing.observe(this, Observer<Int> { t ->
             Log.e("현재 실행 위치", "$t")
             if (t > 0)
-            rc_code_block_list.smoothScrollToPosition(t)
-            mCodeBlockViewModel.coloringNowProcessing(rc_code_block_list.findViewHolderForAdapterPosition(t))
+                rc_code_block_list.smoothScrollToPosition(t)
+            mCodeBlockViewModel.coloringNowProcessing(
+                rc_code_block_list.findViewHolderForAdapterPosition(
+                    t
+                )
+            )
         })
 
         // 코드 실행 - 현재 실행이 끝난 블록의 배경 끄기
@@ -307,7 +320,7 @@ class PlayActivity : BaseActivity() {
             }
         })
 
-        tink.setOnClickListener{
+        tink.setOnClickListener {
             this.dialog.setTitle("팅커벨")
             val rand = Random()
             this.dialog.tink_script.text = this.tinkScript[rand.nextInt(this.tinkScript.size)]
@@ -353,7 +366,7 @@ class PlayActivity : BaseActivity() {
         this.stageInfo = this.mMapSettingViewModel.mMapSettingModel.getStageInfo(this.stageNum)
         val drawableInfo = this.stageInfo.map.drawables!!
         this.mMapSettingViewModel.setStage(this.stageInfo, this)
-        this.mPrincessViewModel.setPrincessImage(drawableInfo,this)
+        this.mPrincessViewModel.setPrincessImage(drawableInfo, this)
         this.mCodeBlockViewModel.setSettingModel(drawableInfo)
         this.mCodeBlockViewModel.setOfferedBlock(this.mMapSettingViewModel.offeredBlock)
 
@@ -368,30 +381,40 @@ class PlayActivity : BaseActivity() {
         this.mRun.mCodeBlockViewModel = this.mCodeBlockViewModel
     }
 
-    fun tinkSaying() {
+    private fun tinkSaying() {
         this.tinkScript =
-        when (this.stageNum) {
-            11-> arrayOf ("포탈에 들어가면 통과할 수 있어!")
-            12-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "모든 것엔 순서가 있어")
-            13-> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "공주의 방향을 예측해야 해", "틀렸다면, 어디서 틀렸는지 확인해 보자!")
-            21-> arrayOf("마법서는 언젠가 요긴하게 쓰일 거야!", "책을 주우면 위의 변수가 증가해!", "변수는 계산할 때 쓰자!")
-            22-> arrayOf("몇몇 버섯은 독버섯이야!", "독버섯인지 아닌지 확인을 하자", "if 를 써봐!")
-            23-> arrayOf("가지가 부러졌는지 확인해야해", "호수를 건너야 해", "가지가 부러졌을 예외를 생각해보자")
-            31-> arrayOf("광석은 한번에 깨지지가 않을거야", "한번 2번 연속으로 해볼까?")
-            32-> arrayOf("광석을 모두 깨지 않으면 포탈이 열리지 않아!", "박쥐가 비켜야 포탈을 이용 할 수 있겠지?")
-            //...
+            when (this.stageNum) {
+                11 -> arrayOf("포탈에 들어가면 통과할 수 있어!")
+                12 -> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "모든 것엔 순서가 있어")
+                13 -> arrayOf("왼쪽 오른쪽 방향을 잘 보자!", "공주의 방향을 예측해야 해", "틀렸다면, 어디서 틀렸는지 확인해 보자!")
+                21 -> arrayOf("마법서는 언젠가 요긴하게 쓰일 거야!", "책을 주우면 위의 변수가 증가해!", "변수는 계산할 때 쓰자!")
+                22 -> arrayOf("몇몇 버섯은 독버섯이야!", "독버섯인지 아닌지 확인을 하자", "if 를 써봐!")
+                23 -> arrayOf("가지가 부러졌는지 확인해야해", "호수를 건너야 해", "가지가 부러졌을 예외를 생각해보자")
+                31 -> arrayOf("광석은 한번에 깨지지가 않을거야", "한번 2번 연속으로 해볼까?")
+                32 -> arrayOf("광석을 모두 깨지 않으면 포탈이 열리지 않아!", "박쥐가 비켜야 포탈을 이용 할 수 있겠지?")
+                33 -> arrayOf("박쥐와 만나려면 어떻게 해야할까?", "광석을 캐볼까?")
+                //...
 
-            41-> arrayOf("지금까지 배운 것을 활용해 봐", "순서에 맞게 해야 돼", "모든 것엔 순서가 있어")
-            42-> arrayOf("반복을 얼마나 할 지 잘 생각해 봐", "방향도 잘 계산해야 해", "코드는 거짓말을 하지 않아")
-            43-> arrayOf("물은 불로, 불은 물로 막아야 해", "그냥 공격은 안 돼. 보스를 물리칠 때까지야!")
-            // ...
+                41 -> arrayOf("지금까지 배운 것을 활용해 봐", "순서에 맞게 해야 돼", "모든 것엔 순서가 있어")
+                42 -> arrayOf("반복을 얼마나 할 지 잘 생각해 봐", "방향도 잘 계산해야 해", "코드는 거짓말을 하지 않아")
+                43 -> arrayOf("물은 불로, 불은 물로 막아야 해", "그냥 공격은 안 돼. 보스를 물리칠 때까지야!")
+                // ...
 
-            51-> arrayOf("조건을 잘 걸어야 해!", "if 를 잘 써야 해", "주먹을 든 후에, 내려치거나 펀치를 해", "보스가 점프하면 한 템포 기다렸다 점프해")
-            52-> arrayOf("모든 것엔 순서가 있어", "공격/수비 주문을 준비하고, 마법봉에 건 뒤 외치는 거야", "readySpell(); 을 클릭해 봐!", "블랙홀이 언제까지 지속될지 몰라. 꽉 잡아야 해!")
-            else->arrayOf("여기다가 설명을 넣으시오")
-        }
+                51 -> arrayOf(
+                    "조건을 잘 걸어야 해!",
+                    "if 를 잘 써야 해",
+                    "주먹을 든 후에, 내려치거나 펀치를 해",
+                    "보스가 점프하면 한 템포 기다렸다 점프해"
+                )
+                52 -> arrayOf(
+                    "모든 것엔 순서가 있어",
+                    "공격/수비 주문을 준비하고, 마법봉에 건 뒤 외치는 거야",
+                    "readySpell(); 을 클릭해 봐!",
+                    "블랙홀이 언제까지 지속될지 몰라. 꽉 잡아야 해!"
+                )
+                else -> arrayOf("여기다가 설명을 넣으시오")
+            }
     }
-
 
 
 }
