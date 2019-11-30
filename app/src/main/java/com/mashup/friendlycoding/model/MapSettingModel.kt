@@ -185,77 +185,48 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 defaultBattleCodeBlock.addAll(battleCodeBlock1)
                 when (stageNum % 10) {
-                    1 -> {
+                    1, 3 -> {
                         mapList = mapListAct3//테스트
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
 
                         val arr = arrayOf(//넣고싶은 위치선택
-                            arrayOf(9, 4),
-                            arrayOf(9, 3),
-                            arrayOf(9, 2),
-                            arrayOf(9, 1)
+                            arrayOf(0, 9),
+                            arrayOf(0, 8),
+                            arrayOf(1, 9),
+                            arrayOf(1, 8),
+                            arrayOf(3, 3)
                         )
                         setMapItem(arr, mapList, mDrawables)
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
-
                     }
 
                     2 -> {
                         mapList = mapListAct3
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_crystal_blue, ROCK),
-                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_bat, BAT),
-                            MapItem(R.drawable.ic_pick_axe, PICKAXE)
-                        )
-
-                        val arr = arrayOf(//넣고싶은 위치선택
-//                            arrayOf(0, 9),
-//                            arrayOf(4, 3),
-//                            arrayOf(3, 4),
-//                            arrayOf(3, 3),
-//                            arrayOf(9, 3)
-                            arrayOf(9, 5),
-                            arrayOf(9, 3),
-                            arrayOf(9, 2),
-                            arrayOf(9, 4),
-                            arrayOf(9, 1)
-
-                        )
-                        setMapItem(arr, mapList, mDrawables)
-
-                        defaultCodeBlock.addAll(stageCodeBlock3_2)
-                    }
-
-                    3 -> {
-                        mapList = mapListAct3
-                        mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.ic_circle, CLEAR),
-                            MapItem(R.drawable.ic_crystal_blue, ROCK),
-                            MapItem(R.drawable.ic_crystal_blue, ROCK),
+                            MapItem(R.drawable.ic_bat, BAT),
                             MapItem(R.drawable.ic_bat, BAT),
                             MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
 
                         val arr = arrayOf(//넣고싶은 위치선택
                             arrayOf(0, 9),
-                            arrayOf(4, 3),
-                            arrayOf(3, 4),
-                            arrayOf(3, 3),
-                            arrayOf(9, 3)
-
+                            arrayOf(0, 8),
+                            arrayOf(1, 9),
+                            arrayOf(1, 8),
+                            arrayOf(3, 3)
                         )
                         setMapItem(arr, mapList, mDrawables)
-                        defaultCodeBlock.addAll(stageCodeBlock3_3)
+                        defaultCodeBlock.addAll(stageCodeBlock3_2)
                     }
                 }
-
 
                 return Stage(
                     Map(mapList, mDrawables, startX, startY),
@@ -285,7 +256,9 @@ class MapSettingModel : MapSettingBaseModel() {
                         )
                         mDrawables.backgroundImg = R.drawable.bg_stage04_1
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.monster1, BOSS)
+                            MapItem(R.drawable.monster1, BOSS),
+                            MapItem(R.drawable.ic_circle, CLEAR)
+
                         )
                         mDrawables.item[0].X = 5
                         mDrawables.item[0].Y = 5
@@ -294,8 +267,9 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList[6][5] = mDrawables.item[0].item_id
                         mDrawables.monsterImg = R.drawable.monster1
                         mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
-                        defaultBattleCodeBlock.addAll(battleCodeBlock2)
+                        defaultBattleCodeBlock
                     }
+
                     2 -> {
                         mapList = mapListAct4_2
                         mDrawables.backgroundImg = R.drawable.bg_stage04_2
@@ -309,8 +283,26 @@ class MapSettingModel : MapSettingBaseModel() {
                         mDrawables.item[0].Y = 4
                         mapList[4][4] = mDrawables.item[0].item_id
                     }
-                }
 
+                    3 -> {
+                        mapList = mapListAct4_1
+                        defaultCodeBlock.add(
+                            CodeBlock("fightBoss();")
+                        )
+                        mDrawables.backgroundImg = R.drawable.bg_stage04_1
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.monster1, BOSS)
+                        )
+                        mDrawables.item[0].X = 5
+                        mDrawables.item[0].Y = 5
+                        mDrawables.princessX = 4
+                        mDrawables.princessY = 9
+                        mapList[6][5] = mDrawables.item[0].item_id
+                        mDrawables.monsterImg = R.drawable.monster1
+                        mDrawables.bossBattleBackgroundImg = R.drawable.bg_boss_demonic_castle
+                        defaultBattleCodeBlock.addAll(battleCodeBlock1)
+                    }
+                }
 
                 return Stage(
                     Map(mapList, mDrawables, startX, startY),
@@ -321,7 +313,6 @@ class MapSettingModel : MapSettingBaseModel() {
                     defaultBattleCodeBlock,
                     princessAction,
                     bossAction)
-
             }
 
             5 -> {
@@ -399,7 +390,7 @@ class MapSettingModel : MapSettingBaseModel() {
                     Princess(),
                     defaultCodeBlock,
                     conditionSelector(stageNum),
-                    Monster(type, 50, 0, 0),
+                    Monster(type, 100, 0, 0),
                     defaultBattleCodeBlock,
                     princessAction,
                     bossAction
