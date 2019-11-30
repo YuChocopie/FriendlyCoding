@@ -68,7 +68,8 @@ class MapSettingModel : MapSettingBaseModel() {
             1 -> {
                 val mapList = mapListAct1
                 // 드로어블
-                val mDrawables = MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
+                val mDrawables =
+                    MapDrawable(backgroundImg = R.drawable.bg_stage01, princessX = 0, princessY = 9)
 
                 battleCodeBlock1.addAll(defaultBattleCodeBlock)
 
@@ -122,11 +123,11 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 // 기본 제공되는 블록
                 return Stage(
-                        Map(mapList, mDrawables, startX, startY),
-                        Princess(),
-                        offeredBlock = defaultCodeBlock_tutorial,
-                        clearCondition = conditionSelector(stageNum)
-                        )
+                    Map(mapList, mDrawables, startX, startY),
+                    Princess(),
+                    offeredBlock = defaultCodeBlock_tutorial,
+                    clearCondition = conditionSelector(stageNum)
+                )
             }
 
             2 -> {
@@ -185,7 +186,7 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 defaultBattleCodeBlock.addAll(battleCodeBlock1)
                 when (stageNum % 10) {
-                    1, 3 -> {
+                    1 -> {
                         mapList = mapListAct3//테스트
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
@@ -197,10 +198,10 @@ class MapSettingModel : MapSettingBaseModel() {
 
                         val arr = arrayOf(//넣고싶은 위치선택
                             arrayOf(0, 9),
-                            arrayOf(0, 8),
-                            arrayOf(1, 9),
-                            arrayOf(1, 8),
-                            arrayOf(3, 3)
+                            arrayOf(4, 3),
+                            arrayOf(4, 5),
+                            arrayOf(4, 7),
+                            arrayOf(4, 0)
                         )
                         setMapItem(arr, mapList, mDrawables)
                         defaultCodeBlock.addAll(stageCodeBlock3_1)
@@ -210,22 +211,51 @@ class MapSettingModel : MapSettingBaseModel() {
                         mapList = mapListAct3
                         mDrawables.item = arrayListOf(
                             MapItem(R.drawable.ic_circle, CLEAR),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_bat, BAT),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_bat, BAT),
+                            MapItem(R.drawable.ic_pick_axe, PICKAXE)
+                        )
+
+                        val arr = arrayOf(//넣고싶은 위치선택
+//                            arrayOf(0, 9),
+//                            arrayOf(0, 8),
+//                            arrayOf(1, 9),
+//                            arrayOf(1, 8),
+//                            arrayOf(3, 3)
+                            arrayOf(0, 9),
+                            arrayOf(4, 1),
+                            arrayOf(4, 3),
+                            arrayOf(4, 5),
+                            arrayOf(4, 7),
+                            arrayOf(4, 0)
+
+                        )
+                        setMapItem(arr, mapList, mDrawables)
+                        defaultCodeBlock.addAll(stageCodeBlock3_2)
+                    }
+                    3 -> {
+                        mapList = mapListAct3
+                        mDrawables.item = arrayListOf(
+                            MapItem(R.drawable.ic_circle, CLEAR),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
+                            MapItem(R.drawable.ic_crystal_blue, ROCK),
                             MapItem(R.drawable.ic_bat, BAT),
                             MapItem(R.drawable.ic_pick_axe, PICKAXE)
                         )
 
                         val arr = arrayOf(//넣고싶은 위치선택
                             arrayOf(0, 9),
-                            arrayOf(0, 8),
-                            arrayOf(1, 9),
-                            arrayOf(1, 8),
-                            arrayOf(3, 3)
+                            arrayOf(3, 4),
+                            arrayOf(4, 3),
+                            arrayOf(3, 3),
+                            arrayOf(4, 0)
                         )
                         setMapItem(arr, mapList, mDrawables)
-                        defaultCodeBlock.addAll(stageCodeBlock3_2)
+                        defaultCodeBlock.addAll(stageCodeBlock3_1)
                     }
+
                 }
 
                 return Stage(
@@ -241,11 +271,13 @@ class MapSettingModel : MapSettingBaseModel() {
                 var mapList: Array<Array<Int>> = mapListActNull
                 var princessAction: ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire_shield,
-                    R.drawable.attack_ice_shield)
+                    R.drawable.attack_ice_shield
+                )
 
                 val bossAction: ArrayList<Int>? = arrayListOf(
                     R.drawable.attack_fire,
-                    R.drawable.attack_ice)
+                    R.drawable.attack_ice
+                )
 
                 when (stageNum % 10) {
                     // Stage 1
@@ -310,7 +342,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     Monster(1, 100, 0, 0),
                     defaultBattleCodeBlock,
                     princessAction,
-                    bossAction)
+                    bossAction
+                )
             }
 
             5 -> {
@@ -328,8 +361,9 @@ class MapSettingModel : MapSettingBaseModel() {
 
                 defaultCodeBlock.addAll(
                     arrayListOf(
-                    CodeBlock("fightBoss();"),
-                    CodeBlock("isNotBoss()", type = BOOLEAN, argument = IS_NOT_BOSS))
+                        CodeBlock("fightBoss();"),
+                        CodeBlock("isNotBoss()", type = BOOLEAN, argument = IS_NOT_BOSS)
+                    )
                 )
 
                 val bossAction: ArrayList<Int>? = arrayListOf(
@@ -400,7 +434,8 @@ class MapSettingModel : MapSettingBaseModel() {
                     Map(),
                     Princess(),
                     arrayListOf(),
-                    conditionSelector(stageNum))
+                    conditionSelector(stageNum)
+                )
             }
         }
     }
