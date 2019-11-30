@@ -256,9 +256,7 @@ class MapSettingModel : MapSettingBaseModel() {
                         )
                         mDrawables.backgroundImg = R.drawable.bg_stage04_1
                         mDrawables.item = arrayListOf(
-                            MapItem(R.drawable.monster1, BOSS),
-                            MapItem(R.drawable.ic_circle, CLEAR)
-
+                            MapItem(R.drawable.monster1, BOSS)
                         )
                         mDrawables.item[0].X = 5
                         mDrawables.item[0].Y = 5

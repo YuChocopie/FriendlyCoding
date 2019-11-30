@@ -90,7 +90,7 @@ open class MapSettingBaseModel {
     )
 
     var stageCodeBlock4_2 = arrayListOf(
-        CodeBlock("isRightLoad()", type = 3, argument = IS_RIGHT_LOAD),
+        CodeBlock("isRightRoad()", type = 3, argument = IS_RIGHT_ROAD),
         CodeBlock("isClear()", type = 3, argument = IS_CLEAR)
     )
 

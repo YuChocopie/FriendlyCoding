@@ -275,7 +275,7 @@ open class RunBaseModel {
         Log.e("123123", "num " + num)
 
         when (num) {
-            IS_RIGHT_LOAD -> {
+            IS_RIGHT_ROAD -> {
                 when (mPrincessViewModel.direction % 4) {
                     0 -> {
                         Log.e("123123", "0 " + mMap.mapList!![y][x + 1])
