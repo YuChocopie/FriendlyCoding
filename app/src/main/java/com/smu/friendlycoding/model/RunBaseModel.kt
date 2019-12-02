@@ -275,27 +275,25 @@ open class RunBaseModel {
         Log.e("123123", "num " + num)
 
         when (num) {
-            IS_RIGHT_ROAD -> {
+            IS_NOT_BLOCKED -> {
                 when (mPrincessViewModel.direction % 4) {
                     0 -> {
                         Log.e("123123", "0 " + mMap.mapList!![y][x + 1])
-                        return (mMap.mapList!![y][x + 1] == 0)
+                        return (mMap.mapList!![y][x + 1] != 0)
                     }
                     1 -> {
                         Log.e("123123","1"+ (mMap.mapList!![y + 1][x] == 0) )
-                        if (mMap.mapList!![y + 1][x] == 0) {
-                            return true
-                        }
+                        return (mMap.mapList!![y + 1][x] != 0)
                     }
                     2 -> {
                         Log.e("123123","2"+(mMap.mapList!![y][x - 1] == 0))
-                        if (mMap.mapList!![y][x - 1] == 0) {
+                        if (mMap.mapList!![y][x - 1] != 0) {
                             return true
                         }
                     }
                     3 -> {
                         Log.e("123123","3"+ (mMap.mapList!![y - 1][x] == 0) )
-                        if (mMap.mapList!![y - 1][x] == 0) {
+                        if (mMap.mapList!![y - 1][x] != 0) {
                             return true
                         }
                     }
