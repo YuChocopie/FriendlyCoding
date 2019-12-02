@@ -12,7 +12,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.smu.friendlycoding.R
-import com.smu.friendlycoding.databinding.ActivityPlayBinding
 import com.smu.friendlycoding.model.*
 import com.smu.friendlycoding.viewmodel.BattleViewModel
 import com.smu.friendlycoding.viewmodel.CodeBlockViewModel
@@ -20,6 +19,7 @@ import com.smu.friendlycoding.viewmodel.MapSettingViewModel
 import com.smu.friendlycoding.viewmodel.PrincessViewModel
 import kotlinx.android.synthetic.main.activity_play.*
 import android.app.Dialog
+import com.smu.friendlycoding.databinding.ActivityPlayBinding
 import kotlinx.android.synthetic.main.tinkerbell.*
 import java.util.*
 

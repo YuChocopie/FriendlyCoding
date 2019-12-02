@@ -15,9 +15,7 @@ class RunModel : RunBaseModel() {
                 return PLAYER_LOST
             } else if (mMap.mapList!![y][x] % BASE == CLEAR) {
                 // 이겼다면 이겼다는 시그널 전송
-                if (IR == mCodeBlock.value!!.size - 1) {
-                    return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
-                }
+                return (if (mClearCondition!!(mPrincess)) PLAYER_WIN else PLAYER_LOST)
             }
         }
         else {
@@ -100,6 +98,7 @@ class RunModel : RunBaseModel() {
                             if (coc[mMonster?.attackType!!] == -1) {   // 피하는 루틴이 없음
                                 moveView.postValue(PLAYER_LOST)   // 사망
                                 result = PLAYER_LOST
+                                metBoss.postValue(false)
                                 return
                             } else {
                                 IR = coc[mMonster?.attackType!!]  // 해당하는 것을 막으러 가자.
@@ -110,8 +109,8 @@ class RunModel : RunBaseModel() {
                         }
                     }
 
-                    if (iterator > 30) {
-                        // 이런 게임 깨는데 루프를 30번 넘게 돌진 않겠지?
+                    if (iterator > 10000) {
+                        // 이런 게임 깨는데 루프를 10000번 넘게 돌진 않겠지?
                         moveView.postValue(INFINITE_LOOP)
                         return
                     }
@@ -391,10 +390,12 @@ class RunModel : RunBaseModel() {
                                             if (coc[mMonster!!.attackType] <= -1) {
                                                 // 해당 하는 방어 수단 없음
                                                 moveView.postValue(PLAYER_LOST)
+                                                metBoss.postValue(false)
                                                 return
                                             } else if (coc[mMonster!!.attackType] < IR || coc[mMonster!!.attackType] > mCodeBlock.value!![IR].address) {
                                                 // 잘못된 if 접근
                                                 moveView.postValue(PLAYER_LOST)
+                                                metBoss.postValue(false)
                                                 return
                                             } else {
                                                 Log.e(
@@ -418,6 +419,7 @@ class RunModel : RunBaseModel() {
                                                     "${mCodeBlock.value!![jumpTo].argument} 공격"
                                                 )
                                                 moveView.postValue(PLAYER_LOST)
+                                                metBoss.postValue(false)
                                                 return
                                             }
                                         } else { // 해당하는 방어, 회피 수단 있으나 아직 공격 중이지 않음.
@@ -462,6 +464,13 @@ class RunModel : RunBaseModel() {
 
                                     IS_NOT_BOSS -> {
                                         if (mMap.mapList!![y][x] % BASE == BOSS) {
+                                            IR = jumpTo
+                                        }
+                                    }
+
+                                    else -> {
+                                        if (!type3Function(mCodeBlock.value!![IR].argument)) {
+                                            Log.e("분기", "${mCodeBlock.value!![IR].address}로!")
                                             IR = jumpTo
                                         }
                                     }
