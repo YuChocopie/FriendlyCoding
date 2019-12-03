@@ -120,6 +120,7 @@ class CodeBlockViewModel : ViewModel() {
         if (type == 2 || type == 4 || type == 5) {
             Log.e("스펠", "추가")
             mRun.insertBlockPosition = position
+            mRun.insertBlockAt.postValue(position)
         }
         else
             -1
