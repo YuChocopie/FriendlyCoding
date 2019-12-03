@@ -118,7 +118,12 @@ fun EditText.bindArgument (mCodeBlockViewModel: CodeBlockViewModel, position : I
             }
         }
         override fun afterTextChanged(arg0: Editable) {
-            codeBlock.argument = arg0.toString().toInt()
+            try {
+                codeBlock.argument = arg0.toString().toInt()
+            }
+            catch (e : java.lang.Exception) {
+                codeBlock.argument = 0
+            }
         }
         override fun beforeTextChanged(
             s: CharSequence,

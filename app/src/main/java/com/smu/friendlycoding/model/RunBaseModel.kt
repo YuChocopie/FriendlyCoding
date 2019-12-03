@@ -209,7 +209,7 @@ open class RunBaseModel {
 
         adding.funcName = tap + adding.funcName
 
-        if (adding.type != 0) {
+        if (adding.type != 0 && adding.type != 5) {
             bracketStack.push(1)
             blockLevel++
             openingBracket++

@@ -72,22 +72,27 @@ class PlayActivity : BaseActivity() {
                 binding.tvCount.text = "bookCnt = "
                 binding.tvState.text = "isBook = "
             }
+
             22 -> {
                 binding.tvState.text = "isMushroom = "
                 binding.tvCount.text = "mushroomCnt = "
             }
+
             23 -> {
                 binding.tvCount.text = "branchCnt = "
                 binding.tvState.text = "isBranch = "
             }
+
             31 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isRock = "
             }
+
             32 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isBat = "
             }
+
             33 -> {
                 binding.tvCount.text = "rockCnt = "
                 binding.tvState.text = "isRock = "
@@ -106,17 +111,25 @@ class PlayActivity : BaseActivity() {
             }
         })
 
+        mRun.insertBlockAt.observe(this, Observer {
+            if (it != -1) {
+                Toast.makeText(this, "삽입할 조건 블록을 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         // 코드 실행 - 객체의 움직임 - View Model 호출
         mRun.moveView.observe(this, Observer<Int> { t ->
             when (t) {
                 START_RUN -> {
+
                     rc_code_block_list.smoothScrollToPosition(0)
                     Log.e("실행 중", "위로")
                 }
 
                 END_RUN -> {
-                    Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, "클리어 실패", Toast.LENGTH_SHORT).show()
                     Log.e("실행 끝", "위로")
+                    mRun.moveView.postValue(PLAYER_LOST)
                 }
 
                 INFINITE_LOOP -> {

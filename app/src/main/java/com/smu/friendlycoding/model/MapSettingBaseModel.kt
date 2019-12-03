@@ -22,6 +22,10 @@ open class MapSettingBaseModel {
                 return (mPrincess.mushroomCnt == 2)
             })
 
+            23 -> return (fun(mPrincess: Princess): Boolean {
+                return (mPrincess.branchCnt == 2)
+            })
+
             31, 33 -> return (fun(mPrincess: Princess): Boolean {
                 return (mPrincess.rockCnt==GET_ROCK_COUNT)
             })
