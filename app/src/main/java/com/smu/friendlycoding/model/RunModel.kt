@@ -109,7 +109,7 @@ class RunModel : RunBaseModel() {
                         }
                     }
 
-                    if (iterator > 10000) {
+                    if (iterator > 1000) {
                         // 이런 게임 깨는데 루프를 10000번 넘게 돌진 않겠지?
                         moveView.postValue(INFINITE_LOOP)
                         return
