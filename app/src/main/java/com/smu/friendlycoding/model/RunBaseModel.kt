@@ -171,7 +171,7 @@ open class RunBaseModel {
     }
 
     fun addNewBlock(codeBlock: CodeBlock) {
-        if (insertBlockPosition != -1) {
+        if (insertBlockAt.value != -1) {
             if (codeBlock.type == 3 || codeBlock.funcName == "attack" || codeBlock.funcName == "shield") {
                 Log.e("블록을 추가합니다", "${codeBlock.funcName}  ${codeBlock.type}  ${codeBlock.argument}")
                 mCodeBlock.value!![insertBlockPosition].argument = codeBlock.argument
@@ -183,6 +183,7 @@ open class RunBaseModel {
                     mCodeBlock.value!![insertBlockPosition].funcName += ";"
                 //insertBlockAt.postValue(insertBlockPosition)
                 insertBlockPosition = -1
+                insertBlockAt.postValue(-1)
                 Log.e("${codeBlock.funcName} ", "${insertBlockAt.value}에 추가됨")
                 return
             } else
@@ -255,7 +256,7 @@ open class RunBaseModel {
 
         ir++
         while (ir < mCodeBlock.value!!.size && ignoreBlanks(mCodeBlock.value!![ir].funcName) != "}") {
-            if (mCodeBlock.value!![ir].type != 0) {
+            if (mCodeBlock.value!![ir].type != 0 && mCodeBlock.value!![ir].type != 5) {
                 ir = compile(ir)
             }
             ir++
