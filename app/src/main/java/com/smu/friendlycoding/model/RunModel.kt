@@ -121,6 +121,19 @@ class RunModel : RunBaseModel() {
                     )
                     nowProcessing.postValue(IR)
                     turnOff = IR
+
+                    if (bossAttackIterator > 0 && (mCodeBlock.value!![turnOff].type == 0 || mCodeBlock.value!![turnOff].type == 5)&& mMonster != null) {
+                        if (ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "}" && (
+                                    (mMonster!!.attackType == BOSS_BLACKHOLE && ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "grabTight();") ||
+                                            (mMonster!!.attackType == BOSS_FIST_DOWN && ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "jump();"))
+                        ) {
+                            Log.e("블랙홀, 점프 파동", "진행 중")
+                            Log.e("근데 ", ignoreBlanks(mCodeBlock.value!![turnOff].funcName))
+                            moveView.postValue(PLAYER_LOST)
+                            return
+                        }
+                    }
+
                     when (ignoreBlanks(mCodeBlock.value!![IR].funcName)) {
                         // TODO : 0 유형 블록 (일반 함수)
                         /***
@@ -182,11 +195,12 @@ class RunModel : RunBaseModel() {
                             }
 
                             if (mMonster != null && mCodeBlock.value!![jumpTo].type == 2 && isAttacking && mCodeBlock.value!![jumpTo].argument == mMonster!!.attackType) {
-                                Log.e("몬스터", "공격 종료!, ${mCodeBlock.value!![jumpTo].funcName}")
-                                monsterAttack.postValue(-1)
-                                if ((mCodeBlock.value!![jumpTo].argument != BOSS_FIST_MOVED || mCodeBlock.value!![jumpTo].argument != BOSS_PUNCH || mCodeBlock.value!![jumpTo].argument != BOSS_BLACKHOLE) && bossAttackIterator <= 0)
+                                if ((mCodeBlock.value!![jumpTo].argument != BOSS_FIST_MOVED && mCodeBlock.value!![jumpTo].argument != BOSS_PUNCH && mCodeBlock.value!![jumpTo].argument != BOSS_BLACKHOLE && mCodeBlock.value!![jumpTo].argument != BOSS_FIST_DOWN) || bossAttackIterator <= 0) {
+                                    Log.e("몬스터", "공격 종료!, ${mCodeBlock.value!![jumpTo].funcName}")
+                                    monsterAttack.postValue(-1)
                                     Log.e("다시 공격 가능", "다시")
-                                isAttacking = false
+                                    isAttacking = false
+                                }
                             }
 
                             if (mCodeBlock.value!![jumpTo].type == 1) {
@@ -290,7 +304,7 @@ class RunModel : RunBaseModel() {
                             princessAction.postValue(6)
                             if (bossAttackIterator > 0) {
                                 bossAttackIterator--
-                            } else if (mMonster!!.attackType == BOSS_FIST_DOWN && bossAttackIterator <= 0) {
+                            } else if (mMonster!!.attackType == BOSS_FIST_DOWN && bossAttackIterator < 0) {
                                 moveView.postValue(PLAYER_LOST)
                                 return
 
@@ -307,6 +321,7 @@ class RunModel : RunBaseModel() {
                         // 보스 3 (악마왕)
                         "grabTight();" -> {
                             // TODO : 기둥 꽉 잡는 애니메이션
+                            bossAttackIterator--
                             Log.e("공주", "꽉 잡아!!!")
                         }
 
@@ -457,8 +472,6 @@ class RunModel : RunBaseModel() {
                                         if (bossAttackIterator <= 0) {
                                             IR = jumpTo
                                             Log.e("블랙홀 끝!!", "$jumpTo 로!")
-                                        } else {
-                                            bossAttackIterator--
                                         }
                                     }
 
@@ -477,20 +490,6 @@ class RunModel : RunBaseModel() {
                                 }
                                 iterator++
                             }
-                        }
-                    }
-
-                    if (bossAttackIterator > 0 && mCodeBlock.value!![turnOff].type == 0 && mMonster != null) {
-                        if (ignoreBlanks(mCodeBlock.value!![turnOff].funcName) != "}" && ((mMonster!!.attackType == BOSS_BLACKHOLE && ignoreBlanks(
-                                mCodeBlock.value!![turnOff].funcName
-                            ) != "grabTight();") || (mMonster!!.attackType == BOSS_FIST_DOWN && ignoreBlanks(
-                                mCodeBlock.value!![turnOff].funcName
-                            ) != "jump();"))
-                        ) {
-                            Log.e("블랙홀, 점프 파동", "진행 중")
-                            Log.e("근데 ", ignoreBlanks(mCodeBlock.value!![turnOff].funcName))
-                            moveView.postValue(PLAYER_LOST)
-                            return
                         }
                     }
 
